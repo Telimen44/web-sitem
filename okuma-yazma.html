@@ -1,36 +1,96 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>BaSaRa V21.0 - Okuma Yazma Oyunu</title>
+
+    <!-- React & Libraries -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
     <style>
-        * { box-sizing: border-box; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; }
-        body { font-family: 'Nunito', sans-serif; background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%); overflow: hidden; color: #000; }
-        .btn-3d { transition: transform 0.1s, border-bottom-width 0.1s; transform: translateY(0); border-bottom-width: 6px; }
-        .btn-3d:active { transform: translateY(4px); border-bottom-width: 2px; box-shadow: none !important; }
-        .card-white { background: #ffffff; border: 3px solid #e2e8f0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); border-radius: 1.5rem; }
-        .placeholder-dashed { background-color: rgba(255, 255, 255, 0.3); border: 4px dashed rgba(203, 213, 225, 0.8); border-radius: 1rem; color: rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 2rem; }
+        * {
+            box-sizing: border-box;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            /* Indigo -> Purple -> Pink */
+            overflow: hidden;
+            color: #000;
+        }
+
+        /* 3D Button Components */
+        .btn-3d {
+            transition: transform 0.1s, border-bottom-width 0.1s;
+            transform: translateY(0);
+            border-bottom-width: 6px;
+        }
+
+        .btn-3d:active {
+            transform: translateY(4px);
+            border-bottom-width: 2px;
+            box-shadow: none !important;
+        }
+
+        /* High Visibility Card */
+        .card-white {
+            background: #ffffff;
+            border: 3px solid #e2e8f0;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-radius: 1.5rem;
+        }
+
+        /* Dashed Placeholder */
+        .placeholder-dashed {
+            background-color: rgba(255, 255, 255, 0.3);
+            border: 4px dashed rgba(203, 213, 225, 0.8);
+            /* Slate-300 */
+            border-radius: 1rem;
+            color: rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 2rem;
+        }
     </style>
 </head>
+
 <body>
     <div id="root"></div>
+
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
         const { motion, AnimatePresence } = window.Motion;
 
+        // ==========================================
+        // 1. ICONS & ASSETS
+        // ==========================================
         const IconWrapper = ({ children, size = 120, className = "" }) => (
-            <svg width={size} height={size} viewBox="0 0 100 100" fill="none" className={`drop-shadow-md ${className}`}>{children}</svg>
+            <svg width={size} height={size} viewBox="0 0 100 100" fill="none" className={`drop-shadow-md ${className}`}>
+                {children}
+            </svg>
         );
+
         const IconSpeaker = ({ size = 32, color = "#1e293b" }) => (
-            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" /></svg>
+            <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+            </svg>
         );
 
         const Icons = {
@@ -58,6 +118,7 @@
             'FARE': (s) => <IconWrapper size={s}><path d="M30 60 Q50 40 70 60 Q70 80 50 80 Q30 80 30 60" fill="#9ca3af" /><circle cx="70" cy="65" r="2" fill="#000" /><path d="M70 60 Q85 50 90 60" stroke="#9ca3af" strokeWidth="2" fill="none" /><ellipse cx="35" cy="50" rx="8" ry="10" fill="#9ca3af" /></IconWrapper>,
             'GAGA': (s) => <IconWrapper size={s}><circle cx="45" cy="50" r="20" fill="#fbbf24" /><circle cx="50" cy="45" r="3" fill="#000" /><path d="M60 50 L90 55 L60 60" fill="#f59e0b" /></IconWrapper>,
             'JALE': (s) => <IconWrapper size={s}><circle cx="50" cy="40" r="25" fill="#fbcfe8" /><path d="M20 40 Q25 85 40 85" stroke="#f472b6" strokeWidth="3" fill="none" /><rect x="25" y="65" width="50" height="30" rx="15" fill="#ec4899" /></IconWrapper>,
+            // V16.0 GRID MATCH ICONS (PNG)
             'YARASA': (s) => <img src="img/yarasa.png" width={s} height={s} alt="YARASA" className="object-contain" />,
             'MAKARA': (s) => <img src="img/makara.png" width={s} height={s} alt="MAKARA" className="object-contain" />,
             'TAVA': (s) => <img src="img/tava.png" width={s} height={s} alt="TAVA" className="object-contain" />,
@@ -77,80 +138,463 @@
             return <div className="text-6xl font-black text-indigo-400">{w.charAt(0)}</div>;
         };
 
+        // ==========================================
+        // 2. CURRICULUM
+        // ==========================================
+
         const LEVELS = [
-            { id: 1, title: 'Sesli Harfler', teaching: ['A', 'E', 'I', 'İ', 'O', 'Ö', 'U', 'Ü'], questions: [{ type: 'audioFind', target: 'A', options: ['A', 'E', 'O'] }, { type: 'audioFind', target: 'E', options: ['E', 'A', 'İ'] }, { type: 'audioFind', target: 'I', options: ['I', 'İ', 'U'] }, { type: 'audioFind', target: 'İ', options: ['İ', 'I', 'E'] }, { type: 'audioFind', target: 'O', options: ['O', 'Ö', 'U'] }, { type: 'audioFind', target: 'Ö', options: ['Ö', 'O', 'Ü'] }, { type: 'audioFind', target: 'U', options: ['U', 'Ü', 'O'] }, { type: 'audioFind', target: 'Ü', options: ['Ü', 'U', 'Ö'] }, { type: 'audioFind', target: 'A', options: ['A', 'O', 'U'] }, { type: 'audioFind', target: 'E', options: ['E', 'İ', 'Ö'] }] },
-            { id: 2, title: 'BA Hecesi', teaching: [{ type: 'merge', left: 'B', right: 'A', result: 'BA' }, { type: 'word', word: 'BABA' }], questions: [{ type: 'audioFind', target: 'BA', options: ['BA', 'CA', 'DA'] }, { type: 'visualMatch', word: 'BABA', options: ['BABA', 'MASA', 'PARA'] }, { type: 'reverseMatch', word: 'BABA', options: ['BABA', 'MASA', 'PARA'] }, { type: 'sentenceBuild', target: 'BABA BAK', parts: ['BABA', 'BAK'] }, { type: 'audioFind', target: 'BA', options: ['BA', 'MA', 'KA'] }, { type: 'visualMatch', word: 'BABA', options: ['BABA', 'KASA', 'KAPI'] }, { type: 'reverseMatch', word: 'BABA', options: ['BABA', 'KAPI', 'KALE'] }, { type: 'sentenceBuild', target: 'BABA GEL', parts: ['BABA', 'GEL'] }, { type: 'sentenceBuild', target: 'BABA AL', parts: ['BABA', 'AL'] }, { type: 'visualMatch', word: 'BABA', options: ['BABA', 'DANA', 'KABA'] }] },
-            { id: 3, title: 'SA Hecesi', teaching: [{ type: 'merge', left: 'S', right: 'A', result: 'SA' }, { type: 'word', word: 'MASA' }], questions: [{ type: 'audioFind', target: 'SA', options: ['SA', 'BA', 'KA'] }, { type: 'visualMatch', word: 'MASA', options: ['MASA', 'KASA', 'YASA'] }, { type: 'reverseMatch', word: 'MASA', options: ['MASA', 'KASA', 'BABA'] }, { type: 'sentenceBuild', target: 'MASA AL', parts: ['MASA', 'AL'] }, { type: 'visualMatch', word: 'MASA', options: ['MASA', 'KAPI', 'PARA'] }, { type: 'reverseMatch', word: 'MASA', options: ['MASA', 'PARA', 'VAZO'] }, { type: 'sentenceBuild', target: 'O MASA', parts: ['O', 'MASA'] }, { type: 'sentenceBuild', target: 'MASA BAK', parts: ['MASA', 'BAK'] }, { type: 'audioFind', target: 'SA', options: ['SA', 'MA', 'LA'] }, { type: 'visualMatch', word: 'MASA', options: ['MASA', 'KISA', 'YASA'] }] },
-            { id: 4, title: 'RA Hecesi', teaching: [{ type: 'merge', left: 'R', right: 'A', result: 'RA' }, { type: 'word', word: 'PARA' }, { type: 'word', word: 'ARA' }], questions: [{ type: 'audioFind', target: 'RA', options: ['RA', 'LA', 'MA'] }, { type: 'visualMatch', word: 'PARA', options: ['PARA', 'ARA', 'KARA'] }, { type: 'reverseMatch', word: 'PARA', options: ['PARA', 'KASA', 'MASA'] }, { type: 'sentenceBuild', target: 'ELA ARA', parts: ['ELA', 'ARA'] }, { type: 'visualMatch', word: 'ARA', options: ['ARA', 'PARA', 'KARA'] }, { type: 'reverseMatch', word: 'ARA', options: ['ARA', 'PARA', 'BABA'] }, { type: 'sentenceBuild', target: 'PARA BUL', parts: ['PARA', 'BUL'] }, { type: 'visualMatch', word: 'PARA', options: ['PARA', 'YARA', 'SARA'] }, { type: 'reverseMatch', word: 'PARA', options: ['PARA', 'ÇANTA', 'KAPI'] }, { type: 'sentenceBuild', target: 'PARA AL', parts: ['PARA', 'AL'] }] },
-            { id: 5, title: 'MA Hecesi', teaching: [{ type: 'merge', left: 'M', right: 'A', result: 'MA' }, { type: 'word', word: 'MAMA' }, { type: 'word', word: 'ELMA' }], questions: [{ type: 'audioFind', target: 'MA', options: ['MA', 'NA', 'KA'] }, { type: 'visualMatch', word: 'ELMA', options: ['ELMA', 'MAMA', 'MASA'] }, { type: 'reverseMatch', word: 'ELMA', options: ['ELMA', 'MAMA', 'MASA'] }, { type: 'sentenceBuild', target: 'MAMA VER', parts: ['MAMA', 'VER'] }, { type: 'visualMatch', word: 'MAMA', options: ['MAMA', 'MASA', 'KASA'] }, { type: 'reverseMatch', word: 'MAMA', options: ['MAMA', 'ELMA', 'BABA'] }, { type: 'sentenceBuild', target: 'ELMA AL', parts: ['ELMA', 'AL'] }, { type: 'visualMatch', word: 'ELMA', options: ['ELMA', 'SELMA', 'ALMA'] }, { type: 'reverseMatch', word: 'ELMA', options: ['ELMA', 'PARA', 'LALE'] }, { type: 'sentenceBuild', target: 'MAMA AL', parts: ['MAMA', 'AL'] }] },
-            { id: 6, title: 'KA Hecesi', teaching: [{ type: 'merge', left: 'K', right: 'A', result: 'KA' }, { type: 'word', word: 'KAPI' }, { type: 'word', word: 'KALE' }], questions: [{ type: 'audioFind', target: 'KA', options: ['KA', 'LA', 'MA'] }, { type: 'visualMatch', word: 'KAPI', options: ['KAPI', 'KALE', 'KASA'] }, { type: 'reverseMatch', word: 'KAPI', options: ['KAPI', 'KALE', 'MASA'] }, { type: 'sentenceBuild', target: 'KAPI AÇ', parts: ['KAPI', 'AÇ'] }, { type: 'visualMatch', word: 'KALE', options: ['KALE', 'LALE', 'JALE'] }, { type: 'reverseMatch', word: 'KALE', options: ['KALE', 'KAPI', 'BACA'] }, { type: 'sentenceBuild', target: 'KALE BAK', parts: ['KALE', 'BAK'] }, { type: 'visualMatch', word: 'KAPI', options: ['KAPI', 'SAPI', 'YAPI'] }, { type: 'reverseMatch', word: 'KAPI', options: ['KAPI', 'DAĞ', 'KOVA'] }, { type: 'sentenceBuild', target: 'KAPI KAPAT', parts: ['KAPI', 'KAPAT'] }] },
-            { id: 7, title: 'ÇA Hecesi', teaching: [{ type: 'merge', left: 'Ç', right: 'A', result: 'ÇA' }, { type: 'word', word: 'ÇANTA' }], questions: [{ type: 'audioFind', target: 'ÇA', options: ['ÇA', 'KA', 'ŞA'] }, { type: 'visualMatch', word: 'ÇANTA', options: ['ÇANTA', 'ÇATI', 'ÇAPA'] }, { type: 'reverseMatch', word: 'ÇANTA', options: ['ÇANTA', 'KASA', 'KAPI'] }, { type: 'sentenceBuild', target: 'ÇANTA AL', parts: ['ÇANTA', 'AL'] }, { type: 'visualMatch', word: 'ÇANTA', options: ['ÇANTA', 'MANTA', 'KANTA'] }, { type: 'reverseMatch', word: 'ÇANTA', options: ['ÇANTA', 'PARA', 'MASA'] }, { type: 'sentenceBuild', target: 'O ÇANTA', parts: ['O', 'ÇANTA'] }, { type: 'audioFind', target: 'ÇA', options: ['ÇA', 'ÇE', 'ÇI'] }, { type: 'reverseMatch', word: 'ÇANTA', options: ['ÇANTA', 'AYNA', 'VAZO'] }, { type: 'sentenceBuild', target: 'ÇANTA BUL', parts: ['ÇANTA', 'BUL'] }] },
-            { id: 8, title: 'TA Hecesi', teaching: [{ type: 'merge', left: 'T', right: 'A', result: 'TA' }, { type: 'word', word: 'ATA' }], questions: [{ type: 'audioFind', target: 'TA', options: ['TA', 'DA', 'LA'] }, { type: 'visualMatch', word: 'ATA', options: ['ATA', 'ANA', 'KITA'] }, { type: 'reverseMatch', word: 'ATA', options: ['ATA', 'ANA', 'BABA'] }, { type: 'sentenceBuild', target: 'ATA BAK', parts: ['ATA', 'BAK'] }, { type: 'visualMatch', word: 'ATA', options: ['ATA', 'HATA', 'DATA'] }, { type: 'reverseMatch', word: 'ATA', options: ['ATA', 'DEDE', 'NANE'] }, { type: 'sentenceBuild', target: 'ATA GEL', parts: ['ATA', 'GEL'] }, { type: 'audioFind', target: 'TA', options: ['TA', 'KA', 'YA'] }, { type: 'reverseMatch', word: 'ATA', options: ['ATA', 'KALE', 'LALE'] }, { type: 'sentenceBuild', target: 'ATA AL', parts: ['ATA', 'AL'] }] },
-            { id: 9, title: 'NA Hecesi', teaching: [{ type: 'merge', left: 'N', right: 'A', result: 'NA' }, { type: 'word', word: 'NANE' }, { type: 'word', word: 'ANA' }], questions: [{ type: 'audioFind', target: 'NA', options: ['NA', 'MA', 'KA'] }, { type: 'visualMatch', word: 'NANE', options: ['NANE', 'ANNE', 'DANE'] }, { type: 'reverseMatch', word: 'NANE', options: ['NANE', 'LALE', 'JALE'] }, { type: 'sentenceBuild', target: 'ANA NANE AL', parts: ['ANA', 'NANE', 'AL'] }, { type: 'visualMatch', word: 'ANA', options: ['ANA', 'ATA', 'ARA'] }, { type: 'reverseMatch', word: 'ANA', options: ['ANA', 'ATA', 'BABA'] }, { type: 'sentenceBuild', target: 'NANE VER', parts: ['NANE', 'VER'] }, { type: 'visualMatch', word: 'NANE', options: ['NANE', 'TANE', 'HANE'] }, { type: 'reverseMatch', word: 'NANE', options: ['NANE', 'PARA', 'KASA'] }, { type: 'sentenceBuild', target: 'ANA AL', parts: ['ANA', 'AL'] }] },
-            { id: 10, title: 'YA Hecesi', teaching: [{ type: 'merge', left: 'Y', right: 'A', result: 'YA' }, { type: 'word', word: 'AYNA' }], questions: [{ type: 'audioFind', target: 'YA', options: ['YA', 'LA', 'RA'] }, { type: 'visualMatch', word: 'AYNA', options: ['AYNA', 'ANA', 'KINA'] }, { type: 'reverseMatch', word: 'AYNA', options: ['AYNA', 'ANA', 'BABA'] }, { type: 'sentenceBuild', target: 'AYNA BAK', parts: ['AYNA', 'BAK'] }, { type: 'visualMatch', word: 'AYNA', options: ['AYNA', 'KAYNA', 'YAYNA'] }, { type: 'reverseMatch', word: 'AYNA', options: ['AYNA', 'VAZO', 'KOVA'] }, { type: 'sentenceBuild', target: 'AYNA AL', parts: ['AYNA', 'AL'] }, { type: 'audioFind', target: 'YA', options: ['YA', 'KA', 'ŞA'] }, { type: 'reverseMatch', word: 'AYNA', options: ['AYNA', 'ÇANTA', 'KAPI'] }, { type: 'sentenceBuild', target: 'O AYNA', parts: ['O', 'AYNA'] }] },
-            { id: 11, title: 'HA Hecesi', teaching: [{ type: 'merge', left: 'H', right: 'A', result: 'HA' }, { type: 'word', word: 'HALA' }], questions: [{ type: 'audioFind', target: 'HA', options: ['HA', 'KA', 'LA'] }, { type: 'visualMatch', word: 'HALA', options: ['HALA', 'LALE', 'JALE'] }, { type: 'reverseMatch', word: 'HALA', options: ['HALA', 'LALE', 'JALE'] }, { type: 'sentenceBuild', target: 'HALA GEL', parts: ['HALA', 'GEL'] }, { type: 'visualMatch', word: 'HALA', options: ['HALA', 'PALA', 'KALA'] }, { type: 'reverseMatch', word: 'HALA', options: ['HALA', 'ANA', 'BABA'] }, { type: 'sentenceBuild', target: 'HALA BAK', parts: ['HALA', 'BAK'] }, { type: 'audioFind', target: 'HA', options: ['HA', 'HE', 'HI'] }, { type: 'reverseMatch', word: 'HALA', options: ['HALA', 'AYNA', 'ÇANTA'] }, { type: 'sentenceBuild', target: 'HALA AL', parts: ['HALA', 'AL'] }] },
-            { id: 12, title: 'PA Hecesi', teaching: [{ type: 'merge', left: 'P', right: 'A', result: 'PA' }, { type: 'word', word: 'PARA' }], questions: [{ type: 'audioFind', target: 'PA', options: ['PA', 'BA', 'MA'] }, { type: 'visualMatch', word: 'PARA', options: ['PARA', 'KARA', 'SARA'] }, { type: 'reverseMatch', word: 'PARA', options: ['PARA', 'KASA', 'ÇANTA'] }, { type: 'sentenceBuild', target: 'PARA BUL', parts: ['PARA', 'BUL'] }, { type: 'visualMatch', word: 'PARA', options: ['PARA', 'MASA', 'KASA'] }, { type: 'reverseMatch', word: 'PARA', options: ['PARA', 'ELMA', 'MAMA'] }, { type: 'sentenceBuild', target: 'PARA VER', parts: ['PARA', 'VER'] }, { type: 'audioFind', target: 'PA', options: ['PA', 'PE', 'PI'] }, { type: 'reverseMatch', word: 'PARA', options: ['PARA', 'KOVA', 'VAZO'] }, { type: 'sentenceBuild', target: 'ÇOK PARA', parts: ['ÇOK', 'PARA'] }] },
-            { id: 13, title: 'ŞA Hecesi', teaching: [{ type: 'merge', left: 'Ş', right: 'A', result: 'ŞA' }, { type: 'word', word: 'ŞAKA' }], questions: [{ type: 'audioFind', target: 'ŞA', options: ['ŞA', 'SA', 'KA'] }, { type: 'visualMatch', word: 'ŞAKA', options: ['ŞAKA', 'KAKA', 'YAKA'] }, { type: 'reverseMatch', word: 'ŞAKA', options: ['ŞAKA', 'KAS', 'MASA'] }, { type: 'sentenceBuild', target: 'ŞAKA YAP', parts: ['ŞAKA', 'YAP'] }, { type: 'visualMatch', word: 'ŞAKA', options: ['ŞAKA', 'TAKA', 'BAKA'] }, { type: 'reverseMatch', word: 'ŞAKA', options: ['ŞAKA', 'PARA', 'ELMA'] }, { type: 'sentenceBuild', target: 'O ŞAKA', parts: ['O', 'ŞAKA'] }, { type: 'audioFind', target: 'ŞA', options: ['ŞA', 'CA', 'ÇN'] }, { type: 'reverseMatch', word: 'ŞAKA', options: ['ŞAKA', 'KALE', 'LALE'] }, { type: 'sentenceBuild', target: 'ŞAKA ET', parts: ['ŞAKA', 'ET'] }] },
-            { id: 14, title: 'ZA Hecesi', teaching: [{ type: 'merge', left: 'Z', right: 'A', result: 'ZA' }, { type: 'word', word: 'VAZO' }], questions: [{ type: 'audioFind', target: 'ZA', options: ['ZA', 'SA', 'RA'] }, { type: 'visualMatch', word: 'VAZO', options: ['VAZO', 'SAZO', 'NAZO'] }, { type: 'reverseMatch', word: 'VAZO', options: ['VAZO', 'KOVA', 'BACA'] }, { type: 'sentenceBuild', target: 'O VAZO', parts: ['O', 'VAZO'] }, { type: 'visualMatch', word: 'VAZO', options: ['VAZO', 'KAZO', 'LAZO'] }, { type: 'reverseMatch', word: 'VAZO', options: ['VAZO', 'AYNA', 'MASA'] }, { type: 'sentenceBuild', target: 'VAZO AL', parts: ['VAZO', 'AL'] }, { type: 'audioFind', target: 'ZA', options: ['ZA', 'ZE', 'ZI'] }, { type: 'reverseMatch', word: 'VAZO', options: ['VAZO', 'PARA', 'KASA'] }, { type: 'sentenceBuild', target: 'VAZO KIR', parts: ['VAZO', 'KIR'] }] },
-            { id: 15, title: 'LA Hecesi', teaching: [{ type: 'merge', left: 'L', right: 'A', result: 'LA' }, { type: 'word', word: 'LALE' }], questions: [{ type: 'audioFind', target: 'LA', options: ['LA', 'KA', 'NA'] }, { type: 'visualMatch', word: 'LALE', options: ['LALE', 'KALE', 'JALE'] }, { type: 'reverseMatch', word: 'LALE', options: ['LALE', 'KALE', 'JALE'] }, { type: 'sentenceBuild', target: 'LALE AL', parts: ['LALE', 'AL'] }, { type: 'visualMatch', word: 'LALE', options: ['LALE', 'HALE', 'NALE'] }, { type: 'reverseMatch', word: 'LALE', options: ['LALE', 'HALL', 'NANE'] }, { type: 'sentenceBuild', target: 'LALE EK', parts: ['LALE', 'EK'] }, { type: 'audioFind', target: 'LA', options: ['LA', 'LE', 'LI'] }, { type: 'reverseMatch', word: 'LALE', options: ['LALE', 'VAZO', 'KOVA'] }, { type: 'sentenceBuild', target: 'LALE BAK', parts: ['LALE', 'BAK'] }] },
-            { id: 16, title: 'VA Hecesi', teaching: [{ type: 'merge', left: 'V', right: 'A', result: 'VA' }, { type: 'word', word: 'KOVA' }], questions: [{ type: 'audioFind', target: 'VA', options: ['VA', 'LA', 'RA'] }, { type: 'visualMatch', word: 'KOVA', options: ['KOVA', 'OVA', 'SIVA'] }, { type: 'reverseMatch', word: 'KOVA', options: ['KOVA', 'VAZO', 'KASA'] }, { type: 'sentenceBuild', target: 'KOVA BUL', parts: ['KOVA', 'BUL'] }, { type: 'visualMatch', word: 'KOVA', options: ['KOVA', 'TAVA', 'HAVA'] }, { type: 'reverseMatch', word: 'KOVA', options: ['KOVA', 'KAPI', 'ÇANTA'] }, { type: 'sentenceBuild', target: 'KOVA AL', parts: ['KOVA', 'AL'] }, { type: 'audioFind', target: 'VA', options: ['VA', 'VE', 'VI'] }, { type: 'reverseMatch', word: 'KOVA', options: ['KOVA', 'LALE', 'AYNA'] }, { type: 'sentenceBuild', target: 'SU KOVA', parts: ['SU', 'KOVA'] }] },
-            { id: 17, title: 'DA Hecesi', teaching: [{ type: 'merge', left: 'D', right: 'A', result: 'DA' }, { type: 'word', word: 'DANA' }], questions: [{ type: 'audioFind', target: 'DA', options: ['DA', 'LA', 'KA'] }, { type: 'visualMatch', word: 'DANA', options: ['DANA', 'BANA', 'KANA'] }, { type: 'reverseMatch', word: 'DANA', options: ['DANA', 'BABA', 'MAMA'] }, { type: 'sentenceBuild', target: 'DANA GEL', parts: ['DANA', 'GEL'] }, { type: 'visualMatch', word: 'DANA', options: ['DANA', 'MANA', 'SANA'] }, { type: 'reverseMatch', word: 'DANA', options: ['DANA', 'FARE', 'GAGA'] }, { type: 'sentenceBuild', target: 'DANA SEV', parts: ['DANA', 'SEV'] }, { type: 'audioFind', target: 'DA', options: ['DA', 'DE', 'DI'] }, { type: 'reverseMatch', word: 'DANA', options: ['DANA', 'KALE', 'JALE'] }, { type: 'sentenceBuild', target: 'DANA BAK', parts: ['DANA', 'BAK'] }] },
-            { id: 18, title: 'CA Hecesi', teaching: [{ type: 'merge', left: 'C', right: 'A', result: 'CA' }, { type: 'word', word: 'BACA' }], questions: [{ type: 'audioFind', target: 'CA', options: ['CA', 'KA', 'NA'] }, { type: 'visualMatch', word: 'BACA', options: ['BACA', 'MACA', 'KOCA'] }, { type: 'reverseMatch', word: 'BACA', options: ['BACA', 'AMCA', 'KAPI'] }, { type: 'sentenceBuild', target: 'BACA BAK', parts: ['BACA', 'BAK'] }, { type: 'visualMatch', word: 'BACA', options: ['BACA', 'HOCA', 'LOCA'] }, { type: 'reverseMatch', word: 'BACA', options: ['BACA', 'KALE', 'VAZO'] }, { type: 'sentenceBuild', target: 'BACA TEMİZLE', parts: ['BACA', 'TEMİZLE'] }, { type: 'audioFind', target: 'CA', options: ['CA', 'CE', 'CI'] }, { type: 'reverseMatch', word: 'BACA', options: ['BACA', 'DAĞ', 'KOVA'] }, { type: 'sentenceBuild', target: 'O BACA', parts: ['O', 'BACA'] }] },
-            { id: 19, title: 'FA Hecesi', teaching: [{ type: 'merge', left: 'F', right: 'A', result: 'FA' }, { type: 'word', word: 'FARE' }], questions: [{ type: 'audioFind', target: 'FA', options: ['FA', 'LA', 'SA'] }, { type: 'visualMatch', word: 'FARE', options: ['FARE', 'PARE', 'KARE'] }, { type: 'reverseMatch', word: 'FARE', options: ['FARE', 'DANA', 'GAGA'] }, { type: 'sentenceBuild', target: 'FARE TUT', parts: ['FARE', 'TUT'] }, { type: 'visualMatch', word: 'FARE', options: ['FARE', 'YARE', 'ÇARE'] }, { type: 'reverseMatch', word: 'FARE', options: ['FARE', 'MAMA', 'ELMA'] }, { type: 'sentenceBuild', target: 'FARE KAÇ', parts: ['FARE', 'KAÇ'] }, { type: 'audioFind', target: 'FA', options: ['FA', 'FE', 'FI'] }, { type: 'reverseMatch', word: 'FARE', options: ['FARE', 'LALE', 'NANE'] }, { type: 'sentenceBuild', target: 'FARE BAK', parts: ['FARE', 'BAK'] }] },
-            { id: 20, title: 'GA Hecesi', teaching: [{ type: 'merge', left: 'G', right: 'A', result: 'GA' }, { type: 'word', word: 'GAGA' }], questions: [{ type: 'audioFind', target: 'GA', options: ['GA', 'KA', 'LA'] }, { type: 'visualMatch', word: 'GAGA', options: ['GAGA', 'DAGA', 'SAGA'] }, { type: 'reverseMatch', word: 'GAGA', options: ['GAGA', 'DAĞ', 'KOVA'] }, { type: 'sentenceBuild', target: 'GAGA BAK', parts: ['GAGA', 'BAK'] }, { type: 'visualMatch', word: 'GAGA', options: ['GAGA', 'KAGA', 'MAGA'] }, { type: 'reverseMatch', word: 'GAGA', options: ['GAGA', 'FARE', 'DANA'] }, { type: 'sentenceBuild', target: 'UZUN GAGA', parts: ['UZUN', 'GAGA'] }, { type: 'audioFind', target: 'GA', options: ['GA', 'GE', 'GI'] }, { type: 'reverseMatch', word: 'GAGA', options: ['GAGA', 'BACA', 'VAZO'] }, { type: 'sentenceBuild', target: 'GAGA SİL', parts: ['GAGA', 'SİL'] }] },
-            { id: 21, title: 'JA Hecesi', teaching: [{ type: 'merge', left: 'J', right: 'A', result: 'JA' }, { type: 'word', word: 'JALE' }], questions: [{ type: 'audioFind', target: 'JA', options: ['JA', 'LA', 'KA'] }, { type: 'visualMatch', word: 'JALE', options: ['JALE', 'LALE', 'HALE'] }, { type: 'reverseMatch', word: 'JALE', options: ['JALE', 'LALE', 'HALA'] }, { type: 'sentenceBuild', target: 'JALE GEL', parts: ['JALE', 'GEL'] }, { type: 'visualMatch', word: 'JALE', options: ['JALE', 'KALE', 'PALE'] }, { type: 'reverseMatch', word: 'JALE', options: ['JALE', 'ANA', 'BABA'] }, { type: 'sentenceBuild', target: 'JALE BAK', parts: ['JALE', 'BAK'] }, { type: 'audioFind', target: 'JA', options: ['JA', 'JE', 'JI'] }, { type: 'reverseMatch', word: 'JALE', options: ['JALE', 'AYNA', 'ÇANTA'] }, { type: 'sentenceBuild', target: 'JALE AL', parts: ['JALE', 'AL'] }] },
-            { id: 22, title: 'ĞA Hecesi', teaching: [{ type: 'merge', left: 'Ğ', right: 'A', result: 'ĞA' }, { type: 'word', word: 'DAĞ' }], questions: [{ type: 'audioFind', target: 'ĞA', options: ['ĞA', 'GA', 'KA'] }, { type: 'visualMatch', word: 'DAĞ', options: ['DAĞ', 'BAĞ', 'SAĞ'] }, { type: 'reverseMatch', word: 'DAĞ', options: ['DAĞ', 'BACA', 'KOVA'] }, { type: 'sentenceBuild', target: 'DAĞA BAK', parts: ['DAĞA', 'BAK'] }, { type: 'visualMatch', word: 'DAĞ', options: ['DAĞ', 'YAĞ', 'ZAĞ'] }, { type: 'reverseMatch', word: 'DAĞ', options: ['DAĞ', 'GAGA', 'FARE'] }, { type: 'sentenceBuild', target: 'YÜCE DAĞ', parts: ['YÜCE', 'DAĞ'] }, { type: 'audioFind', target: 'ĞA', options: ['ĞA', 'ĞE', 'ĞI'] }, { type: 'reverseMatch', word: 'DAĞ', options: ['DAĞ', 'LALE', 'JALE'] }, { type: 'sentenceBuild', target: 'DAĞ GÖR', parts: ['DAĞ', 'GÖR'] }] },
+            // LEVEL 1: Sesli Harfler
+            {
+                id: 1, title: 'Sesli Harfler', teaching: ['A', 'E', 'I', 'İ', 'O', 'Ö', 'U', 'Ü'], questions: [
+                    { type: 'audioFind', target: 'A', options: ['A', 'E', 'O'] },
+                    { type: 'audioFind', target: 'E', options: ['E', 'A', 'İ'] },
+                    { type: 'audioFind', target: 'I', options: ['I', 'İ', 'U'] },
+                    { type: 'audioFind', target: 'İ', options: ['İ', 'I', 'E'] },
+                    { type: 'audioFind', target: 'O', options: ['O', 'Ö', 'U'] },
+                    { type: 'audioFind', target: 'Ö', options: ['Ö', 'O', 'Ü'] },
+                    { type: 'audioFind', target: 'U', options: ['U', 'Ü', 'O'] },
+                    { type: 'audioFind', target: 'Ü', options: ['Ü', 'U', 'Ö'] },
+                    { type: 'audioFind', target: 'A', options: ['A', 'O', 'U'] },
+                    { type: 'audioFind', target: 'E', options: ['E', 'İ', 'Ö'] }
+                ]
+            },
+            // LEVEL 2: BA
+            {
+                id: 2, title: 'BA Hecesi', teaching: [{ type: 'merge', left: 'B', right: 'A', result: 'BA' }, { type: 'word', word: 'BABA' }], questions: [
+                    { type: 'audioFind', target: 'BA', options: ['BA', 'CA', 'DA'] },
+                    { type: 'visualMatch', word: 'BABA', options: ['BABA', 'MASA', 'PARA'] },
+                    { type: 'reverseMatch', word: 'BABA', options: ['BABA', 'MASA', 'PARA'] },
+                    { type: 'sentenceBuild', target: 'BABA BAK', parts: ['BABA', 'BAK'] },
+                    { type: 'audioFind', target: 'BA', options: ['BA', 'MA', 'KA'] },
+                    { type: 'visualMatch', word: 'BABA', options: ['BABA', 'KASA', 'KAPI'] },
+                    { type: 'reverseMatch', word: 'BABA', options: ['BABA', 'KAPI', 'KALE'] },
+                    { type: 'sentenceBuild', target: 'BABA GEL', parts: ['BABA', 'GEL'] },
+                    { type: 'sentenceBuild', target: 'BABA AL', parts: ['BABA', 'AL'] },
+                    { type: 'visualMatch', word: 'BABA', options: ['BABA', 'DANA', 'KABA'] }
+                ]
+            },
+            // LEVEL 3: SA
+            {
+                id: 3, title: 'SA Hecesi', teaching: [{ type: 'merge', left: 'S', right: 'A', result: 'SA' }, { type: 'word', word: 'MASA' }], questions: [
+                    { type: 'audioFind', target: 'SA', options: ['SA', 'BA', 'KA'] },
+                    { type: 'visualMatch', word: 'MASA', options: ['MASA', 'KASA', 'YASA'] },
+                    { type: 'reverseMatch', word: 'MASA', options: ['MASA', 'KASA', 'BABA'] },
+                    { type: 'sentenceBuild', target: 'MASA AL', parts: ['MASA', 'AL'] },
+                    { type: 'visualMatch', word: 'MASA', options: ['MASA', 'KAPI', 'PARA'] },
+                    { type: 'reverseMatch', word: 'MASA', options: ['MASA', 'PARA', 'VAZO'] },
+                    { type: 'sentenceBuild', target: 'O MASA', parts: ['O', 'MASA'] },
+                    { type: 'sentenceBuild', target: 'MASA BAK', parts: ['MASA', 'BAK'] },
+                    { type: 'audioFind', target: 'SA', options: ['SA', 'MA', 'LA'] },
+                    { type: 'visualMatch', word: 'MASA', options: ['MASA', 'KISA', 'YASA'] }
+                ]
+            },
+            // LEVEL 4: RA
+            {
+                id: 4, title: 'RA Hecesi', teaching: [{ type: 'merge', left: 'R', right: 'A', result: 'RA' }, { type: 'word', word: 'PARA' }, { type: 'word', word: 'ARA' }], questions: [
+                    { type: 'audioFind', target: 'RA', options: ['RA', 'LA', 'MA'] },
+                    { type: 'visualMatch', word: 'PARA', options: ['PARA', 'ARA', 'KARA'] },
+                    { type: 'reverseMatch', word: 'PARA', options: ['PARA', 'KASA', 'MASA'] },
+                    { type: 'sentenceBuild', target: 'ELA ARA', parts: ['ELA', 'ARA'] },
+                    { type: 'visualMatch', word: 'ARA', options: ['ARA', 'PARA', 'KARA'] },
+                    { type: 'reverseMatch', word: 'ARA', options: ['ARA', 'PARA', 'BABA'] },
+                    { type: 'sentenceBuild', target: 'PARA BUL', parts: ['PARA', 'BUL'] },
+                    { type: 'visualMatch', word: 'PARA', options: ['PARA', 'YARA', 'SARA'] },
+                    { type: 'reverseMatch', word: 'PARA', options: ['PARA', 'ÇANTA', 'KAPI'] },
+                    { type: 'sentenceBuild', target: 'PARA AL', parts: ['PARA', 'AL'] }
+                ]
+            },
+            // LEVEL 5: MA
+            {
+                id: 5, title: 'MA Hecesi', teaching: [{ type: 'merge', left: 'M', right: 'A', result: 'MA' }, { type: 'word', word: 'MAMA' }, { type: 'word', word: 'ELMA' }], questions: [
+                    { type: 'audioFind', target: 'MA', options: ['MA', 'NA', 'KA'] },
+                    { type: 'visualMatch', word: 'ELMA', options: ['ELMA', 'MAMA', 'MASA'] },
+                    { type: 'reverseMatch', word: 'ELMA', options: ['ELMA', 'MAMA', 'MASA'] },
+                    { type: 'sentenceBuild', target: 'MAMA VER', parts: ['MAMA', 'VER'] },
+                    { type: 'visualMatch', word: 'MAMA', options: ['MAMA', 'MASA', 'KASA'] },
+                    { type: 'reverseMatch', word: 'MAMA', options: ['MAMA', 'ELMA', 'BABA'] },
+                    { type: 'sentenceBuild', target: 'ELMA AL', parts: ['ELMA', 'AL'] },
+                    { type: 'visualMatch', word: 'ELMA', options: ['ELMA', 'SELMA', 'ALMA'] },
+                    { type: 'reverseMatch', word: 'ELMA', options: ['ELMA', 'PARA', 'LALE'] },
+                    { type: 'sentenceBuild', target: 'MAMA AL', parts: ['MAMA', 'AL'] }
+                ]
+            },
+            // LEVEL 6: KA
+            {
+                id: 6, title: 'KA Hecesi', teaching: [{ type: 'merge', left: 'K', right: 'A', result: 'KA' }, { type: 'word', word: 'KAPI' }, { type: 'word', word: 'KALE' }], questions: [
+                    { type: 'audioFind', target: 'KA', options: ['KA', 'LA', 'MA'] },
+                    { type: 'visualMatch', word: 'KAPI', options: ['KAPI', 'KALE', 'KASA'] },
+                    { type: 'reverseMatch', word: 'KAPI', options: ['KAPI', 'KALE', 'MASA'] },
+                    { type: 'sentenceBuild', target: 'KAPI AÇ', parts: ['KAPI', 'AÇ'] },
+                    { type: 'visualMatch', word: 'KALE', options: ['KALE', 'LALE', 'JALE'] },
+                    { type: 'reverseMatch', word: 'KALE', options: ['KALE', 'KAPI', 'BACA'] },
+                    { type: 'sentenceBuild', target: 'KALE BAK', parts: ['KALE', 'BAK'] },
+                    { type: 'visualMatch', word: 'KAPI', options: ['KAPI', 'SAPI', 'YAPI'] },
+                    { type: 'reverseMatch', word: 'KAPI', options: ['KAPI', 'DAĞ', 'KOVA'] },
+                    { type: 'sentenceBuild', target: 'KAPI KAPAT', parts: ['KAPI', 'KAPAT'] }
+                ]
+            },
+            // LEVEL 7: ÇA
+            {
+                id: 7, title: 'ÇA Hecesi', teaching: [{ type: 'merge', left: 'Ç', right: 'A', result: 'ÇA' }, { type: 'word', word: 'ÇANTA' }], questions: [
+                    { type: 'audioFind', target: 'ÇA', options: ['ÇA', 'KA', 'ŞA'] },
+                    { type: 'visualMatch', word: 'ÇANTA', options: ['ÇANTA', 'ÇATI', 'ÇAPA'] },
+                    { type: 'reverseMatch', word: 'ÇANTA', options: ['ÇANTA', 'KASA', 'KAPI'] },
+                    { type: 'sentenceBuild', target: 'ÇANTA AL', parts: ['ÇANTA', 'AL'] },
+                    { type: 'visualMatch', word: 'ÇANTA', options: ['ÇANTA', 'MANTA', 'KANTA'] },
+                    { type: 'reverseMatch', word: 'ÇANTA', options: ['ÇANTA', 'PARA', 'MASA'] },
+                    { type: 'sentenceBuild', target: 'O ÇANTA', parts: ['O', 'ÇANTA'] },
+                    { type: 'audioFind', target: 'ÇA', options: ['ÇA', 'ÇE', 'ÇI'] },
+                    { type: 'reverseMatch', word: 'ÇANTA', options: ['ÇANTA', 'AYNA', 'VAZO'] },
+                    { type: 'sentenceBuild', target: 'ÇANTA BUL', parts: ['ÇANTA', 'BUL'] }
+                ]
+            },
+            // LEVEL 8: TA
+            {
+                id: 8, title: 'TA Hecesi', teaching: [{ type: 'merge', left: 'T', right: 'A', result: 'TA' }, { type: 'word', word: 'ATA' }], questions: [
+                    { type: 'audioFind', target: 'TA', options: ['TA', 'DA', 'LA'] },
+                    { type: 'visualMatch', word: 'ATA', options: ['ATA', 'ANA', 'KITA'] },
+                    { type: 'reverseMatch', word: 'ATA', options: ['ATA', 'ANA', 'BABA'] },
+                    { type: 'sentenceBuild', target: 'ATA BAK', parts: ['ATA', 'BAK'] },
+                    { type: 'visualMatch', word: 'ATA', options: ['ATA', 'HATA', 'DATA'] },
+                    { type: 'reverseMatch', word: 'ATA', options: ['ATA', 'DEDE', 'NANE'] },
+                    { type: 'sentenceBuild', target: 'ATA GEL', parts: ['ATA', 'GEL'] },
+                    { type: 'audioFind', target: 'TA', options: ['TA', 'KA', 'YA'] },
+                    { type: 'reverseMatch', word: 'ATA', options: ['ATA', 'KALE', 'LALE'] },
+                    { type: 'sentenceBuild', target: 'ATA AL', parts: ['ATA', 'AL'] }
+                ]
+            },
+            // LEVEL 9: NA
+            {
+                id: 9, title: 'NA Hecesi', teaching: [{ type: 'merge', left: 'N', right: 'A', result: 'NA' }, { type: 'word', word: 'NANE' }, { type: 'word', word: 'ANA' }], questions: [
+                    { type: 'audioFind', target: 'NA', options: ['NA', 'MA', 'KA'] },
+                    { type: 'visualMatch', word: 'NANE', options: ['NANE', 'ANNE', 'DANE'] },
+                    { type: 'reverseMatch', word: 'NANE', options: ['NANE', 'LALE', 'JALE'] },
+                    { type: 'sentenceBuild', target: 'ANA NANE AL', parts: ['ANA', 'NANE', 'AL'] },
+                    { type: 'visualMatch', word: 'ANA', options: ['ANA', 'ATA', 'ARA'] },
+                    { type: 'reverseMatch', word: 'ANA', options: ['ANA', 'ATA', 'BABA'] },
+                    { type: 'sentenceBuild', target: 'NANE VER', parts: ['NANE', 'VER'] },
+                    { type: 'visualMatch', word: 'NANE', options: ['NANE', 'TANE', 'HANE'] },
+                    { type: 'reverseMatch', word: 'NANE', options: ['NANE', 'PARA', 'KASA'] },
+                    { type: 'sentenceBuild', target: 'ANA AL', parts: ['ANA', 'AL'] }
+                ]
+            },
+            // LEVEL 10: YA
+            {
+                id: 10, title: 'YA Hecesi', teaching: [{ type: 'merge', left: 'Y', right: 'A', result: 'YA' }, { type: 'word', word: 'AYNA' }], questions: [
+                    { type: 'audioFind', target: 'YA', options: ['YA', 'LA', 'RA'] },
+                    { type: 'visualMatch', word: 'AYNA', options: ['AYNA', 'ANA', 'KINA'] },
+                    { type: 'reverseMatch', word: 'AYNA', options: ['AYNA', 'ANA', 'BABA'] },
+                    { type: 'sentenceBuild', target: 'AYNA BAK', parts: ['AYNA', 'BAK'] },
+                    { type: 'visualMatch', word: 'AYNA', options: ['AYNA', 'KAYNA', 'YAYNA'] },
+                    { type: 'reverseMatch', word: 'AYNA', options: ['AYNA', 'VAZO', 'KOVA'] },
+                    { type: 'sentenceBuild', target: 'AYNA AL', parts: ['AYNA', 'AL'] },
+                    { type: 'audioFind', target: 'YA', options: ['YA', 'KA', 'ŞA'] },
+                    { type: 'reverseMatch', word: 'AYNA', options: ['AYNA', 'ÇANTA', 'KAPI'] },
+                    { type: 'sentenceBuild', target: 'O AYNA', parts: ['O', 'AYNA'] }
+                ]
+            },
+            // LEVEL 11: HA
+            {
+                id: 11, title: 'HA Hecesi', teaching: [{ type: 'merge', left: 'H', right: 'A', result: 'HA' }, { type: 'word', word: 'HALA' }], questions: [
+                    { type: 'audioFind', target: 'HA', options: ['HA', 'KA', 'LA'] },
+                    { type: 'visualMatch', word: 'HALA', options: ['HALA', 'LALE', 'JALE'] },
+                    { type: 'reverseMatch', word: 'HALA', options: ['HALA', 'LALE', 'JALE'] },
+                    { type: 'sentenceBuild', target: 'HALA GEL', parts: ['HALA', 'GEL'] },
+                    { type: 'visualMatch', word: 'HALA', options: ['HALA', 'PALA', 'KALA'] },
+                    { type: 'reverseMatch', word: 'HALA', options: ['HALA', 'ANA', 'BABA'] },
+                    { type: 'sentenceBuild', target: 'HALA BAK', parts: ['HALA', 'BAK'] },
+                    { type: 'audioFind', target: 'HA', options: ['HA', 'HE', 'HI'] },
+                    { type: 'reverseMatch', word: 'HALA', options: ['HALA', 'AYNA', 'ÇANTA'] },
+                    { type: 'sentenceBuild', target: 'HALA AL', parts: ['HALA', 'AL'] }
+                ]
+            },
+            // LEVEL 12: PA
+            {
+                id: 12, title: 'PA Hecesi', teaching: [{ type: 'merge', left: 'P', right: 'A', result: 'PA' }, { type: 'word', word: 'PARA' }], questions: [
+                    { type: 'audioFind', target: 'PA', options: ['PA', 'BA', 'MA'] },
+                    { type: 'visualMatch', word: 'PARA', options: ['PARA', 'KARA', 'SARA'] },
+                    { type: 'reverseMatch', word: 'PARA', options: ['PARA', 'KASA', 'ÇANTA'] },
+                    { type: 'sentenceBuild', target: 'PARA BUL', parts: ['PARA', 'BUL'] },
+                    { type: 'visualMatch', word: 'PARA', options: ['PARA', 'MASA', 'KASA'] },
+                    { type: 'reverseMatch', word: 'PARA', options: ['PARA', 'ELMA', 'MAMA'] },
+                    { type: 'sentenceBuild', target: 'PARA VER', parts: ['PARA', 'VER'] },
+                    { type: 'audioFind', target: 'PA', options: ['PA', 'PE', 'PI'] },
+                    { type: 'reverseMatch', word: 'PARA', options: ['PARA', 'KOVA', 'VAZO'] },
+                    { type: 'sentenceBuild', target: 'ÇOK PARA', parts: ['ÇOK', 'PARA'] }
+                ]
+            },
+            // LEVEL 13: ŞA
+            {
+                id: 13, title: 'ŞA Hecesi', teaching: [{ type: 'merge', left: 'Ş', right: 'A', result: 'ŞA' }, { type: 'word', word: 'ŞAKA' }], questions: [
+                    { type: 'audioFind', target: 'ŞA', options: ['ŞA', 'SA', 'KA'] },
+                    { type: 'visualMatch', word: 'ŞAKA', options: ['ŞAKA', 'KAKA', 'YAKA'] },
+                    { type: 'reverseMatch', word: 'ŞAKA', options: ['ŞAKA', 'KAS', 'MASA'] },
+                    { type: 'sentenceBuild', target: 'ŞAKA YAP', parts: ['ŞAKA', 'YAP'] },
+                    { type: 'visualMatch', word: 'ŞAKA', options: ['ŞAKA', 'TAKA', 'BAKA'] },
+                    { type: 'reverseMatch', word: 'ŞAKA', options: ['ŞAKA', 'PARA', 'ELMA'] },
+                    { type: 'sentenceBuild', target: 'O ŞAKA', parts: ['O', 'ŞAKA'] },
+                    { type: 'audioFind', target: 'ŞA', options: ['ŞA', 'CA', 'ÇN'] },
+                    { type: 'reverseMatch', word: 'ŞAKA', options: ['ŞAKA', 'KALE', 'LALE'] },
+                    { type: 'sentenceBuild', target: 'ŞAKA ET', parts: ['ŞAKA', 'ET'] }
+                ]
+            },
+            // LEVEL 14: ZA
+            {
+                id: 14, title: 'ZA Hecesi', teaching: [{ type: 'merge', left: 'Z', right: 'A', result: 'ZA' }, { type: 'word', word: 'VAZO' }], questions: [
+                    { type: 'audioFind', target: 'ZA', options: ['ZA', 'SA', 'RA'] },
+                    { type: 'visualMatch', word: 'VAZO', options: ['VAZO', 'SAZO', 'NAZO'] },
+                    { type: 'reverseMatch', word: 'VAZO', options: ['VAZO', 'KOVA', 'BACA'] },
+                    { type: 'sentenceBuild', target: 'O VAZO', parts: ['O', 'VAZO'] },
+                    { type: 'visualMatch', word: 'VAZO', options: ['VAZO', 'KAZO', 'LAZO'] },
+                    { type: 'reverseMatch', word: 'VAZO', options: ['VAZO', 'AYNA', 'MASA'] },
+                    { type: 'sentenceBuild', target: 'VAZO AL', parts: ['VAZO', 'AL'] },
+                    { type: 'audioFind', target: 'ZA', options: ['ZA', 'ZE', 'ZI'] },
+                    { type: 'reverseMatch', word: 'VAZO', options: ['VAZO', 'PARA', 'KASA'] },
+                    { type: 'sentenceBuild', target: 'VAZO KIR', parts: ['VAZO', 'KIR'] }
+                ]
+            },
+            // LEVEL 15: LA
+            {
+                id: 15, title: 'LA Hecesi', teaching: [{ type: 'merge', left: 'L', right: 'A', result: 'LA' }, { type: 'word', word: 'LALE' }], questions: [
+                    { type: 'audioFind', target: 'LA', options: ['LA', 'KA', 'NA'] },
+                    { type: 'visualMatch', word: 'LALE', options: ['LALE', 'KALE', 'JALE'] },
+                    { type: 'reverseMatch', word: 'LALE', options: ['LALE', 'KALE', 'JALE'] },
+                    { type: 'sentenceBuild', target: 'LALE AL', parts: ['LALE', 'AL'] },
+                    { type: 'visualMatch', word: 'LALE', options: ['LALE', 'HALE', 'NALE'] },
+                    { type: 'reverseMatch', word: 'LALE', options: ['LALE', 'HALL', 'NANE'] },
+                    { type: 'sentenceBuild', target: 'LALE EK', parts: ['LALE', 'EK'] },
+                    { type: 'audioFind', target: 'LA', options: ['LA', 'LE', 'LI'] },
+                    { type: 'reverseMatch', word: 'LALE', options: ['LALE', 'VAZO', 'KOVA'] },
+                    { type: 'sentenceBuild', target: 'LALE BAK', parts: ['LALE', 'BAK'] }
+                ]
+            },
+            // LEVEL 16: VA
+            {
+                id: 16, title: 'VA Hecesi', teaching: [{ type: 'merge', left: 'V', right: 'A', result: 'VA' }, { type: 'word', word: 'KOVA' }], questions: [
+                    { type: 'audioFind', target: 'VA', options: ['VA', 'LA', 'RA'] },
+                    { type: 'visualMatch', word: 'KOVA', options: ['KOVA', 'OVA', 'SIVA'] },
+                    { type: 'reverseMatch', word: 'KOVA', options: ['KOVA', 'VAZO', 'KASA'] },
+                    { type: 'sentenceBuild', target: 'KOVA BUL', parts: ['KOVA', 'BUL'] },
+                    { type: 'visualMatch', word: 'KOVA', options: ['KOVA', 'TAVA', 'HAVA'] },
+                    { type: 'reverseMatch', word: 'KOVA', options: ['KOVA', 'KAPI', 'ÇANTA'] },
+                    { type: 'sentenceBuild', target: 'KOVA AL', parts: ['KOVA', 'AL'] },
+                    { type: 'audioFind', target: 'VA', options: ['VA', 'VE', 'VI'] },
+                    { type: 'reverseMatch', word: 'KOVA', options: ['KOVA', 'LALE', 'AYNA'] },
+                    { type: 'sentenceBuild', target: 'SU KOVA', parts: ['SU', 'KOVA'] }
+                ]
+            },
+            // LEVEL 17: DA
+            {
+                id: 17, title: 'DA Hecesi', teaching: [{ type: 'merge', left: 'D', right: 'A', result: 'DA' }, { type: 'word', word: 'DANA' }], questions: [
+                    { type: 'audioFind', target: 'DA', options: ['DA', 'LA', 'KA'] },
+                    { type: 'visualMatch', word: 'DANA', options: ['DANA', 'BANA', 'KANA'] },
+                    { type: 'reverseMatch', word: 'DANA', options: ['DANA', 'BABA', 'MAMA'] },
+                    { type: 'sentenceBuild', target: 'DANA GEL', parts: ['DANA', 'GEL'] },
+                    { type: 'visualMatch', word: 'DANA', options: ['DANA', 'MANA', 'SANA'] },
+                    { type: 'reverseMatch', word: 'DANA', options: ['DANA', 'FARE', 'GAGA'] },
+                    { type: 'sentenceBuild', target: 'DANA SEV', parts: ['DANA', 'SEV'] },
+                    { type: 'audioFind', target: 'DA', options: ['DA', 'DE', 'DI'] },
+                    { type: 'reverseMatch', word: 'DANA', options: ['DANA', 'KALE', 'JALE'] },
+                    { type: 'sentenceBuild', target: 'DANA BAK', parts: ['DANA', 'BAK'] }
+                ]
+            },
+            // LEVEL 18: CA
+            {
+                id: 18, title: 'CA Hecesi', teaching: [{ type: 'merge', left: 'C', right: 'A', result: 'CA' }, { type: 'word', word: 'BACA' }], questions: [
+                    { type: 'audioFind', target: 'CA', options: ['CA', 'KA', 'NA'] },
+                    { type: 'visualMatch', word: 'BACA', options: ['BACA', 'MACA', 'KOCA'] },
+                    { type: 'reverseMatch', word: 'BACA', options: ['BACA', 'AMCA', 'KAPI'] },
+                    { type: 'sentenceBuild', target: 'BACA BAK', parts: ['BACA', 'BAK'] },
+                    { type: 'visualMatch', word: 'BACA', options: ['BACA', 'HOCA', 'LOCA'] },
+                    { type: 'reverseMatch', word: 'BACA', options: ['BACA', 'KALE', 'VAZO'] },
+                    { type: 'sentenceBuild', target: 'BACA TEMİZLE', parts: ['BACA', 'TEMİZLE'] },
+                    { type: 'audioFind', target: 'CA', options: ['CA', 'CE', 'CI'] },
+                    { type: 'reverseMatch', word: 'BACA', options: ['BACA', 'DAĞ', 'KOVA'] },
+                    { type: 'sentenceBuild', target: 'O BACA', parts: ['O', 'BACA'] }
+                ]
+            },
+            // LEVEL 19: FA
+            {
+                id: 19, title: 'FA Hecesi', teaching: [{ type: 'merge', left: 'F', right: 'A', result: 'FA' }, { type: 'word', word: 'FARE' }], questions: [
+                    { type: 'audioFind', target: 'FA', options: ['FA', 'LA', 'SA'] },
+                    { type: 'visualMatch', word: 'FARE', options: ['FARE', 'PARE', 'KARE'] },
+                    { type: 'reverseMatch', word: 'FARE', options: ['FARE', 'DANA', 'GAGA'] },
+                    { type: 'sentenceBuild', target: 'FARE TUT', parts: ['FARE', 'TUT'] },
+                    { type: 'visualMatch', word: 'FARE', options: ['FARE', 'YARE', 'ÇARE'] },
+                    { type: 'reverseMatch', word: 'FARE', options: ['FARE', 'MAMA', 'ELMA'] },
+                    { type: 'sentenceBuild', target: 'FARE KAÇ', parts: ['FARE', 'KAÇ'] },
+                    { type: 'audioFind', target: 'FA', options: ['FA', 'FE', 'FI'] },
+                    { type: 'reverseMatch', word: 'FARE', options: ['FARE', 'LALE', 'NANE'] },
+                    { type: 'sentenceBuild', target: 'FARE BAK', parts: ['FARE', 'BAK'] }
+                ]
+            },
+            // LEVEL 20: GA
+            {
+                id: 20, title: 'GA Hecesi', teaching: [{ type: 'merge', left: 'G', right: 'A', result: 'GA' }, { type: 'word', word: 'GAGA' }], questions: [
+                    { type: 'audioFind', target: 'GA', options: ['GA', 'KA', 'LA'] },
+                    { type: 'visualMatch', word: 'GAGA', options: ['GAGA', 'DAGA', 'SAGA'] },
+                    { type: 'reverseMatch', word: 'GAGA', options: ['GAGA', 'DAĞ', 'KOVA'] },
+                    { type: 'sentenceBuild', target: 'GAGA BAK', parts: ['GAGA', 'BAK'] },
+                    { type: 'visualMatch', word: 'GAGA', options: ['GAGA', 'KAGA', 'MAGA'] },
+                    { type: 'reverseMatch', word: 'GAGA', options: ['GAGA', 'FARE', 'DANA'] },
+                    { type: 'sentenceBuild', target: 'UZUN GAGA', parts: ['UZUN', 'GAGA'] },
+                    { type: 'audioFind', target: 'GA', options: ['GA', 'GE', 'GI'] },
+                    { type: 'reverseMatch', word: 'GAGA', options: ['GAGA', 'BACA', 'VAZO'] },
+                    { type: 'sentenceBuild', target: 'GAGA SİL', parts: ['GAGA', 'SİL'] }
+                ]
+            },
+            // LEVEL 21: JA
+            {
+                id: 21, title: 'JA Hecesi', teaching: [{ type: 'merge', left: 'J', right: 'A', result: 'JA' }, { type: 'word', word: 'JALE' }], questions: [
+                    { type: 'audioFind', target: 'JA', options: ['JA', 'LA', 'KA'] },
+                    { type: 'visualMatch', word: 'JALE', options: ['JALE', 'LALE', 'HALE'] },
+                    { type: 'reverseMatch', word: 'JALE', options: ['JALE', 'LALE', 'HALA'] },
+                    { type: 'sentenceBuild', target: 'JALE GEL', parts: ['JALE', 'GEL'] },
+                    { type: 'visualMatch', word: 'JALE', options: ['JALE', 'KALE', 'PALE'] },
+                    { type: 'reverseMatch', word: 'JALE', options: ['JALE', 'ANA', 'BABA'] },
+                    { type: 'sentenceBuild', target: 'JALE BAK', parts: ['JALE', 'BAK'] },
+                    { type: 'audioFind', target: 'JA', options: ['JA', 'JE', 'JI'] },
+                    { type: 'reverseMatch', word: 'JALE', options: ['JALE', 'AYNA', 'ÇANTA'] },
+                    { type: 'sentenceBuild', target: 'JALE AL', parts: ['JALE', 'AL'] }
+                ]
+            },
+            // LEVEL 22: ĞA
+            {
+                id: 22, title: 'ĞA Hecesi', teaching: [{ type: 'merge', left: 'Ğ', right: 'A', result: 'ĞA' }, { type: 'word', word: 'DAĞ' }], questions: [
+                    { type: 'audioFind', target: 'ĞA', options: ['ĞA', 'GA', 'KA'] },
+                    { type: 'visualMatch', word: 'DAĞ', options: ['DAĞ', 'BAĞ', 'SAĞ'] },
+                    { type: 'reverseMatch', word: 'DAĞ', options: ['DAĞ', 'BACA', 'KOVA'] },
+                    { type: 'sentenceBuild', target: 'DAĞA BAK', parts: ['DAĞA', 'BAK'] },
+                    { type: 'visualMatch', word: 'DAĞ', options: ['DAĞ', 'YAĞ', 'ZAĞ'] },
+                    { type: 'reverseMatch', word: 'DAĞ', options: ['DAĞ', 'GAGA', 'FARE'] },
+                    { type: 'sentenceBuild', target: 'YÜCE DAĞ', parts: ['YÜCE', 'DAĞ'] },
+                    { type: 'audioFind', target: 'ĞA', options: ['ĞA', 'ĞE', 'ĞI'] },
+                    { type: 'reverseMatch', word: 'DAĞ', options: ['DAĞ', 'LALE', 'JALE'] },
+                    { type: 'sentenceBuild', target: 'DAĞ GÖR', parts: ['DAĞ', 'GÖR'] }
+                ]
+            },
         ];
 
-        const pronunciationMap = { 'NA': 'Naa', 'JA': 'Jaa', 'ĞA': 'Gaa', 'LA': 'Laa', 'YA': 'Yaa', 'KA': 'Kaa', 'ÇA': 'Çaa', 'TA': 'Taa', 'I': 'ı' };
+        // ==========================================
+        // 3. AUDIO
+        // ==========================================
+        const pronunciationMap = {
+            'NA': 'Naa', 'JA': 'Jaa', 'ĞA': 'Gaa', 'LA': 'Laa', 'YA': 'Yaa', 'KA': 'Kaa', 'ÇA': 'Çaa', 'TA': 'Taa',
+            'I': 'ı',
+        };
+
+        const PAUSE_WORDS = ['HANGİSİ', 'BUL', 'NEREDE', 'YAZ', 'OKU', 'SEÇ'];
+
+        // V21.1 Google Natural Voice Selection (Chrome Fix)
         let selectedVoice = null;
         let voicesLoaded = false;
+
         const loadVoices = () => {
             const voices = window.speechSynthesis.getVoices();
             if (voices.length === 0) return;
+
+            // Filter Turkish voices (tr-TR or tr)
             const trVoices = voices.filter(v => v.lang === 'tr-TR' || v.lang.startsWith('tr'));
-            selectedVoice = trVoices.find(v => v.name.includes('Google')) || trVoices[0];
-            if (selectedVoice) voicesLoaded = true;
+
+            // Priority 1: Google Turkish Voice (most natural sounding)
+            const googleVoice = trVoices.find(v => v.name.includes('Google'));
+
+            // Priority 2: Any Turkish voice as fallback
+            const defaultTR = trVoices[0];
+
+            selectedVoice = googleVoice || defaultTR;
+
+            if (selectedVoice) {
+                voicesLoaded = true;
+                console.log('🗣️ Google Natural Voice:', selectedVoice.name, '| Lang:', selectedVoice.lang);
+            } else {
+                console.warn('⚠️ No Turkish voice found!');
+            }
         };
-        if (typeof window.speechSynthesis !== 'undefined') { window.speechSynthesis.onvoiceschanged = loadVoices; loadVoices(); }
+
+        // Chrome requires waiting for onvoiceschanged event
+        if (typeof window.speechSynthesis !== 'undefined') {
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+            loadVoices(); // Also try immediately (works in some browsers)
+        }
+
         const speak = (text) => {
             window.speechSynthesis.cancel();
-            if (!voicesLoaded) loadVoices();
+
+            // Ensure voices are loaded (Chrome async fix)
+            if (!voicesLoaded) {
+                loadVoices();
+            }
+
             let clean = text.trim();
+
             const COMMAND_WORDS = ['HANGİSİ', 'BUL', 'NEREDE', 'YAZ', 'OKU', 'SEÇ'];
+
+            // 1. Phonetic \u0026 Case Logic
+            // Split by space to handle each word:
+            // - If it's a command word -> Lowercase it + Prepend Comma (Pause).
+            // - If it's a known phonetic key -> Replace completely.
+            // - Else -> Keep transparent (don't force standard lowercase, let Google Voice handle Upper/Lower naturally).
+
             clean = clean.split(' ').map(rawWord => {
-                const upper = rawWord.toUpperCase('tr-TR').replace(/[^A-ZÇĞİÖŞÜ]/g, '');
+                const upper = rawWord.toUpperCase('tr-TR').replace(/[^A-ZÇĞİÖŞÜ]/g, ''); // strip punctuation for key check
+                // Clean up rawWord for preservation (keep punctuation potentially) - actually let's reconstruct.
+
+                // Phonetic Fix: "I" harfi -> "ı"
                 if (upper === 'I') return 'ı';
                 if (pronunciationMap[upper]) return pronunciationMap[upper];
-                if (COMMAND_WORDS.includes(upper)) return `, ${upper.toLocaleLowerCase('tr-TR')}`;
-                return rawWord;
+
+                // Check Commands
+                if (COMMAND_WORDS.includes(upper)) {
+                    return `, ${upper.toLocaleLowerCase('tr-TR')}`; // "HANGİSİ" -> ", hangisi"
+                }
+
+                return rawWord; // "BABA" stays "BABA"
             }).join(' ');
+
+            console.log('🗣️ TTS:', clean);
+
             const u = new SpeechSynthesisUtterance(clean);
             if (selectedVoice) u.voice = selectedVoice;
-            u.lang = 'tr-TR'; u.rate = 0.9; u.pitch = 1.1;
+            u.lang = 'tr-TR';
+            u.rate = 0.9;
+            u.pitch = 1.1;
             window.speechSynthesis.speak(u);
         };
+
         const playSound = (isCorrect) => {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator(); const gain = ctx.createGain();
-            osc.connect(gain); gain.connect(ctx.destination);
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
             if (isCorrect) {
                 const now = ctx.currentTime;
                 [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
-                    const o = ctx.createOscillator(); const g = ctx.createGain();
-                    o.connect(g); g.connect(ctx.destination);
-                    o.frequency.value = freq; o.type = 'triangle';
+                    const o = ctx.createOscillator();
+                    const g = ctx.createGain();
+                    o.connect(g);
+                    g.connect(ctx.destination);
+                    o.frequency.value = freq;
+                    o.type = 'triangle';
                     g.gain.setValueAtTime(0.1, now + i * 0.08);
                     g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.3);
-                    o.start(now + i * 0.08); o.stop(now + i * 0.08 + 0.3);
+                    o.start(now + i * 0.08);
+                    o.stop(now + i * 0.08 + 0.3);
                 });
             } else {
-                osc.frequency.setValueAtTime(150, ctx.currentTime); osc.type = 'sawtooth';
-                gain.gain.setValueAtTime(0.3, ctx.currentTime); gain.gain.linearRampToValueAtTime(0.01, 0.3);
+                osc.frequency.setValueAtTime(150, ctx.currentTime);
+                osc.type = 'sawtooth';
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, 0.3);
                 osc.start(); osc.stop(ctx.currentTime + 0.3);
             }
         };
 
+        // ==========================================
+        // 4. COMPONENTS
+        // ==========================================
         const shuffle = (array) => {
             let currentIndex = array.length, randomIndex;
             while (currentIndex !== 0) {
@@ -160,9 +604,16 @@
             }
             return array;
         };
+
         const ReplayBtn = ({ text }) => (
-            <button onClick={() => speak(text)} className="fixed top-6 right-6 w-14 h-14 btn-3d bg-white border-slate-200 rounded-full flex items-center justify-center text-slate-800 shadow-xl z-50 hover:bg-slate-50"><IconSpeaker size={28} /></button>
+            <button
+                onClick={() => speak(text)}
+                className="fixed top-6 right-6 w-14 h-14 btn-3d bg-white border-slate-200 rounded-full flex items-center justify-center text-slate-800 shadow-xl z-50 hover:bg-slate-50"
+            >
+                <IconSpeaker size={28} />
+            </button>
         );
+
         const TeachingPhase = ({ item, onNext }) => {
             useEffect(() => {
                 const timers = [];
@@ -172,12 +623,15 @@
                     timers.push(setTimeout(() => speak(item.result), 2500));
                     timers.push(setTimeout(onNext, 4500));
                 } else if (item.type === 'word') {
-                    speak(item.word); timers.push(setTimeout(onNext, 3000));
+                    speak(item.word);
+                    timers.push(setTimeout(onNext, 3000));
                 } else {
-                    speak(item); timers.push(setTimeout(onNext, 2500));
+                    speak(item);
+                    timers.push(setTimeout(onNext, 2500));
                 }
                 return () => timers.forEach(clearTimeout);
             }, [item]);
+
             return (
                 <div className="flex flex-col items-center justify-center h-full p-4">
                     <div className="card-white p-12 w-full max-w-4xl text-center shadow-xl">
@@ -187,62 +641,182 @@
                                 <span className="text-6xl text-gray-300 font-extrabold">+</span>
                                 <span className="text-8xl md:text-9xl font-black text-rose-600">{(item.right || '').toLocaleUpperCase('tr-TR')}</span>
                                 <span className="text-6xl text-gray-300 font-extrabold">=</span>
-                                <motion.div initial={{ scale: 0 }} animate={{ scale: 1.2 }} transition={{ delay: 2 }} className="bg-indigo-600 px-8 py-4 rounded-3xl text-white shadow-2xl"><span className="text-8xl font-black">{(item.result || '').toLocaleUpperCase('tr-TR')}</span></motion.div>
+                                <motion.div initial={{ scale: 0 }} animate={{ scale: 1.2 }} transition={{ delay: 2 }} className="bg-indigo-600 px-8 py-4 rounded-3xl text-white shadow-2xl">
+                                    <span className="text-8xl font-black">{(item.result || '').toLocaleUpperCase('tr-TR')}</span>
+                                </motion.div>
                             </div>
                         )}
                         {(item.type === 'word' || typeof item === 'string') && (
-                            <div className="flex flex-col items-center gap-8">{item.word && getIcon(item.word, 200)}<div className="text-8xl md:text-9xl font-black text-slate-900 tracking-wide">{(item.word || item).toLocaleUpperCase('tr-TR')}</div></div>
+                            <div className="flex flex-col items-center gap-8">
+                                {item.word && getIcon(item.word, 200)}
+                                <div className="text-8xl md:text-9xl font-black text-slate-900 tracking-wide">{(item.word || item).toLocaleUpperCase('tr-TR')}</div>
+                            </div>
                         )}
                     </div>
                 </div>
             );
         };
+
         const QuestionPhase = ({ data, onComplete }) => {
             const [completedParts, setCompletedParts] = useState([]);
             const [wrong, setWrong] = useState(null);
-            const [faded, setFaded] = useState([]);
+            const [faded, setFaded] = useState([]); // Errorless Learning
             const [showSuccess, setShowSuccess] = useState(false);
             const [finished, setFinished] = useState(false);
             const [shuffledOpts, setShuffledOpts] = useState([]);
-            useEffect(() => { if (data.type !== 'sentenceBuild') setShuffledOpts(shuffle([...data.options])); setFaded([]); }, [data]);
-            const prompt = data.type === 'audioFind' ? `${data.target} BUL` : data.type === 'visualMatch' || data.type === 'reverseMatch' ? `${data.word} hangisi?` : data.type === 'sentenceBuild' ? data.target : 'Bul';
+
+            // Shuffle Options on Load
+            useEffect(() => {
+                if (data.type !== 'sentenceBuild') {
+                    setShuffledOpts(shuffle([...data.options]));
+                }
+                setFaded([]); // Reset faded
+            }, [data]);
+
+            const prompt =
+                data.type === 'audioFind' ? `${data.target} BUL` :
+                    data.type === 'visualMatch' ? `${data.word} hangisi?` :
+                        data.type === 'reverseMatch' ? `${data.word} hangisi?` :
+                            data.type === 'sentenceBuild' ? data.target : 'Bul';
+
             useEffect(() => { speak(prompt); }, [data]);
-            useEffect(() => { if (showSuccess) { const timer = setTimeout(onComplete, 2000); return () => clearTimeout(timer); } }, [showSuccess]);
+
+            useEffect(() => {
+                if (showSuccess) {
+                    const timer = setTimeout(onComplete, 2000);
+                    return () => clearTimeout(timer);
+                }
+            }, [showSuccess]);
+
+            const handleSuccess = () => {
+                if (finished) return;
+                setFinished(true);
+                setShowSuccess(true);
+                playSound(true);
+                if (window.confetti) {
+                    window.confetti({ particleCount: 200, spread: 120, origin: { y: 0 }, zIndex: 2000, disableForReducedMotion: true });
+                }
+            };
+
             const handleCheck = (val) => {
                 if (finished) return;
+
                 let isCorrect = false;
-                if (data.type === 'sentenceBuild') { if (val === data.parts[completedParts.length]) isCorrect = true; }
-                else { if (val === (data.target || data.word)) isCorrect = true; }
+                if (data.type === 'sentenceBuild') {
+                    const needed = data.parts[completedParts.length];
+                    if (val === needed) isCorrect = true;
+                } else {
+                    const target = data.target || data.word;
+                    if (val === target) isCorrect = true;
+                }
+
                 if (isCorrect) {
                     if (data.type === 'sentenceBuild') {
-                        const newParts = [...completedParts, val]; setCompletedParts(newParts); setFaded([]);
-                        if (newParts.length === data.parts.length) { setFinished(true); setShowSuccess(true); playSound(true); if (window.confetti) window.confetti({ particleCount: 200, spread: 120, origin: { y: 0 }, zIndex: 2000 }); } else playSound(true);
-                    } else { setFinished(true); setShowSuccess(true); playSound(true); if (window.confetti) window.confetti({ particleCount: 200, spread: 120, origin: { y: 0 }, zIndex: 2000 }); }
-                } else { playSound(false); setWrong(val); setFaded(prev => [...prev, val]); setTimeout(() => setWrong(null), 400); }
+                        const newParts = [...completedParts, val];
+                        setCompletedParts(newParts);
+                        // Clear fades when proceeding to next part of sentence? 
+                        // Actually better to keep them if they were wrong for this specific word slot.
+                        // But usually sentence parts are distinct set. 
+                        // Let's reset faded for next slot or keep it? 
+                        // Simple: Keep faded. 
+                        setFaded([]); // Actually reset, new options might appear or existing ones reused?
+                        if (newParts.length === data.parts.length) {
+                            handleSuccess();
+                        } else {
+                            playSound(true);
+                        }
+                    } else {
+                        handleSuccess();
+                    }
+                } else {
+                    playSound(false);
+                    setWrong(val);
+                    setFaded(prev => [...prev, val]); // Fade out wrong answer
+                    setTimeout(() => setWrong(null), 400);
+                    // speak('Yanlış'); // Removed to be less annoying, just shake and fade
+                }
             };
+
             const renderPlaceholders = () => {
                 if (data.type !== 'sentenceBuild') return null;
                 return (
-                    <div className="flex flex-wrap justify-center gap-4">{data.parts.map((p, i) => (i < completedParts.length ? <motion.div layoutId={`part-${p}-${i}`} key={`filled-${i}`} className="px-8 py-6 bg-indigo-600 rounded-2xl text-white text-5xl font-black shadow-lg">{p}</motion.div> : <div key={`empty-${i}`} className="w-32 h-24 placeholder-dashed"></div>))}</div>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        {data.parts.map((p, i) => {
+                            if (i < completedParts.length) {
+                                return (
+                                    <motion.div layoutId={`part-${p}-${i}`} key={`filled-${i}`} className="px-8 py-6 bg-indigo-600 rounded-2xl text-white text-5xl font-black shadow-lg">
+                                        {p}
+                                    </motion.div>
+                                );
+                            } else {
+                                return <div key={`empty-${i}`} className="w-32 h-24 placeholder-dashed"></div>;
+                            }
+                        })}
+                    </div>
                 );
             };
-            const displayOptions = data.type === 'sentenceBuild' ? data.parts.filter(p => !completedParts.includes(p)) : shuffledOpts;
+
+            // Determine options to show
+            const displayOptions = data.type === 'sentenceBuild'
+                ? data.parts.filter(p => !completedParts.includes(p)) // Sentence build: show only remaining needed parts (simplification for now, or show all options?)
+                // Actually V14 logic showed filtered.
+                // If we show filtered, we don't need shuffle state, we can just shuffle on render?
+                // No, better to keep positions stable. 
+                // Let's just use filtered for now, simple. 
+                : shuffledOpts;
+
             return (
                 <div className="flex flex-col h-full relative">
                     <ReplayBtn text={prompt} />
+
                     <div className="flex-1 flex flex-col items-center justify-center p-4">
                         <div className="max-w-4xl w-full">
-                            {data.type === 'audioFind' && <div className="flex justify-center"><div className="bg-white p-10 rounded-[3rem] shadow-xl border-4 border-slate-100 placeholder-dashed flex items-center justify-center w-64 h-64"><IconSpeaker size={100} color="#6366f1" /></div></div>}
-                            {data.type === 'visualMatch' && <div className="flex flex-col items-center gap-6"><div className="card-white p-8">{getIcon(data.word, 160)}</div></div>}
-                            {data.type === 'reverseMatch' && <div className="flex flex-col items-center gap-6"><div className="card-white px-16 py-12 shadow-2xl"><span className="text-8xl md:text-9xl font-black text-slate-900">{data.word}</span></div></div>}
+                            {data.type === 'audioFind' && (
+                                <div className="flex justify-center">
+                                    <div className="bg-white p-10 rounded-[3rem] shadow-xl border-4 border-slate-100 placeholder-dashed flex items-center justify-center w-64 h-64">
+                                        <IconSpeaker size={100} color="#6366f1" />
+                                    </div>
+                                </div>
+                            )}
+
+                            {data.type === 'visualMatch' && (
+                                <div className="flex flex-col items-center gap-6">
+                                    <div className="card-white p-8">{getIcon(data.word, 160)}</div>
+                                </div>
+                            )}
+
+                            {data.type === 'reverseMatch' && (
+                                <div className="flex flex-col items-center gap-6">
+                                    <div className="card-white px-16 py-12 shadow-2xl">
+                                        <span className="text-8xl md:text-9xl font-black text-slate-900">{data.word}</span>
+                                    </div>
+                                </div>
+                            )}
+
                             {renderPlaceholders()}
                         </div>
                     </div>
+
                     <div className="pb-12 pt-4 bg-gradient-to-t from-black/5 to-transparent">
                         <div className="w-full flex justify-center gap-6 flex-wrap z-10 p-4">
                             {displayOptions.map((opt, i) => (
-                                <motion.button key={i} layoutId={data.type === 'sentenceBuild' ? `part-${opt}` : undefined} animate={wrong === opt ? { x: [-10, 10, -10, 10, 0], backgroundColor: '#fee2e2' } : {}} onClick={() => handleCheck(opt)} className={`btn-3d h-32 ${opt.length > 3 ? 'min-w-[180px]' : 'min-w-[140px]'} px-6 rounded-2xl bg-white border-slate-300 shadow-md flex items-center justify-center hover:bg-slate-50 transition-all duration-500 ${faded.includes(opt) ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-                                    {data.type === 'visualMatch' ? <span className="text-4xl font-black text-slate-800">{opt}</span> : data.type === 'reverseMatch' ? <div className="pointer-events-none transform scale-90">{getIcon(opt, 80)}</div> : <span className="text-6xl font-black text-indigo-900">{opt}</span>}
+                                <motion.button
+                                    key={i}
+                                    layoutId={data.type === 'sentenceBuild' ? `part-${opt}` : undefined}
+                                    animate={wrong === opt ? { x: [-10, 10, -10, 10, 0], backgroundColor: '#fee2e2' } : {}}
+                                    onClick={() => handleCheck(opt)}
+                                    // Errorless Learning Style: Fade out and disable
+                                    className={`btn-3d h-32 ${opt.length > 3 ? 'min-w-[180px]' : 'min-w-[140px]'} px-6 rounded-2xl bg-white border-slate-300 shadow-md flex items-center justify-center hover:bg-slate-50 transition-all duration-500
+                                        ${faded.includes(opt) ? 'opacity-0 pointer-events-none' : 'opacity-100'}
+                                    `}
+                                >
+                                    {data.type === 'visualMatch' ? (
+                                        <span className="text-4xl font-black text-slate-800">{opt}</span>
+                                    ) : data.type === 'reverseMatch' ? (
+                                        <div className="pointer-events-none transform scale-90">{getIcon(opt, 80)}</div>
+                                    ) : (
+                                        <span className="text-6xl font-black text-indigo-900">{opt}</span>
+                                    )}
                                 </motion.button>
                             ))}
                         </div>
@@ -251,63 +825,297 @@
             );
         };
 
+        // ==========================================
+        // 5. APP
+        // ==========================================
+        // ==========================================
+        // V16.0: VISUAL DICTATION GAME (GÖRSEL DİKTE)
+        // ==========================================
         const VisualDictationGame = ({ onBack }) => {
             const TARGETS = ['YARASA', 'MAKARA', 'TAVA', 'TABAK', 'CADI', 'CANAVAR', 'ARABA', 'PARA'];
-            const [pool, setPool] = useState([]); const [placements, setPlacements] = useState({}); const [selected, setSelected] = useState(null); const [feedback, setFeedback] = useState({}); const [checked, setChecked] = useState(false);
-            useEffect(() => { setPool(shuffle([...TARGETS])); setTimeout(() => speak('Kelimeleri seç, resmin altına yerleştir.'), 500); }, []);
-            const handlePoolClick = (word) => { if (checked && Object.keys(feedback).length > 0) { setFeedback({}); setChecked(false); } if (selected === word) setSelected(null); else { setSelected(word); speak(word); } };
-            const handleSlotClick = (idx) => { if (checked) { setFeedback({}); setChecked(false); } if (placements[idx]) { const newPlace = { ...placements }; delete newPlace[idx]; setPlacements(newPlace); return; } if (selected) { setPlacements(prev => ({ ...prev, [idx]: selected })); setSelected(null); playSound(true); } };
-            const handleCheck = () => {
-                const newFeedback = {}; let allCorrect = true; let anyWrong = false;
-                TARGETS.forEach((target, i) => { const placed = placements[i]; if (placed === target) newFeedback[i] = 'correct'; else { newFeedback[i] = 'wrong'; allCorrect = false; if (placed) anyWrong = true; } });
-                setFeedback(newFeedback); setChecked(true);
-                if (allCorrect) { speak('Muhteşem! Hepsi doğru.'); playSound(true); if (window.confetti) window.confetti({ particleCount: 500, spread: 160, zIndex: 4000 }); }
-                else { playSound(false); speak('Tekrar dene.'); if (anyWrong) setTimeout(() => { setPlacements(prev => { const next = { ...prev }; Object.keys(newFeedback).forEach(key => { if (newFeedback[key] === 'wrong') delete next[key]; }); return next; }); setFeedback({}); }, 1500); }
+            const [pool, setPool] = useState([]);
+            const [placements, setPlacements] = useState({}); // { slotIdx: 'WORD' }
+            const [selected, setSelected] = useState(null); // Currently selected Pool Word
+            const [feedback, setFeedback] = useState({}); // { slotIdx: 'correct' | 'wrong' }
+            const [checked, setChecked] = useState(false);
+
+            useEffect(() => {
+                setPool(shuffle([...TARGETS]));
+                setTimeout(() => speak('Kelimeleri seç, resmin altına yerleştir.'), 500);
+            }, []);
+
+            const handlePoolClick = (word) => {
+                if (checked && Object.keys(feedback).length > 0) {
+                    setFeedback({});
+                    setChecked(false);
+                }
+                if (selected === word) setSelected(null);
+                else setSelected(word);
+                speak(word);
             };
-            const placedValues = Object.values(placements); const availablePool = pool.filter(w => !placedValues.includes(w));
+
+            const handleSlotClick = (idx) => {
+                if (checked) { setFeedback({}); setChecked(false); }
+
+                if (placements[idx]) {
+                    const newPlace = { ...placements };
+                    delete newPlace[idx];
+                    setPlacements(newPlace);
+                    return;
+                }
+
+                if (selected) {
+                    setPlacements(prev => ({ ...prev, [idx]: selected }));
+                    setSelected(null);
+                    playSound(true);
+                }
+            };
+
+            const handleCheck = () => {
+                const newFeedback = {};
+                let allCorrect = true;
+                let anyWrong = false;
+
+                TARGETS.forEach((target, i) => {
+                    const placed = placements[i];
+                    if (placed === target) {
+                        newFeedback[i] = 'correct';
+                    } else {
+                        newFeedback[i] = 'wrong';
+                        allCorrect = false;
+                        if (placed) anyWrong = true;
+                    }
+                });
+
+                setFeedback(newFeedback);
+                setChecked(true);
+
+                if (allCorrect) {
+                    speak('Muhteşem! Hepsi doğru.');
+                    playSound(true);
+                    if (window.confetti) window.confetti({ particleCount: 500, spread: 160, zIndex: 4000 });
+                } else {
+                    playSound(false);
+                    speak('Tekrar dene.');
+                    if (anyWrong) {
+                        setTimeout(() => {
+                            setPlacements(prev => {
+                                const next = { ...prev };
+                                Object.keys(newFeedback).forEach(key => {
+                                    if (newFeedback[key] === 'wrong') delete next[key];
+                                });
+                                return next;
+                            });
+                            setFeedback({});
+                        }, 1500);
+                    }
+                }
+            };
+
+            const placedValues = Object.values(placements);
+            const availablePool = pool.filter(w => !placedValues.includes(w));
+
             return (
                 <div className="h-screen flex flex-col bg-slate-50 overflow-hidden relative">
+                    {/* TOP: POOL */}
                     <div className="bg-white p-4 shadow-md z-20 flex items-center gap-4 relative">
                         <button onClick={onBack} className="flex-shrink-0 w-12 h-12 rounded-xl btn-3d bg-indigo-100 text-indigo-800 font-bold">✕</button>
-                        <div className="flex-1 overflow-x-auto flex gap-3 p-2 no-scrollbar scroll-smooth"><AnimatePresence>{availablePool.map(word => (<motion.button layoutId={`word-${word}`} key={word} initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: selected === word ? 1.1 : 1, backgroundColor: selected === word ? '#fef08a' : '#fff' }} exit={{ opacity: 0, scale: 0 }} onClick={() => handlePoolClick(word)} className={`flex-shrink-0 px-6 py-3 rounded-xl border-2 shadow-sm font-black text-xl transition-colors ${selected === word ? 'border-yellow-400 text-yellow-700' : 'border-slate-200 text-slate-700 hover:bg-slate-50'}`}>{word}</motion.button>))}</AnimatePresence></div>
+
+                        <div className="flex-1 overflow-x-auto flex gap-3 p-2 no-scrollbar scroll-smooth">
+                            <AnimatePresence>
+                                {availablePool.map(word => (
+                                    <motion.button
+                                        layoutId={`word-${word}`}
+                                        key={word}
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        animate={{
+                                            opacity: 1,
+                                            scale: selected === word ? 1.1 : 1,
+                                            backgroundColor: selected === word ? '#fef08a' : '#fff'
+                                        }}
+                                        exit={{ opacity: 0, scale: 0 }}
+                                        onClick={() => handlePoolClick(word)}
+                                        className={`flex-shrink-0 px-6 py-3 rounded-xl border-2 shadow-sm font-black text-xl transition-colors
+                                           ${selected === word ? 'border-yellow-400 text-yellow-700' : 'border-slate-200 text-slate-700 hover:bg-slate-50'}
+                                       `}
+                                    >
+                                        {word}
+                                    </motion.button>
+                                ))}
+                            </AnimatePresence>
+                        </div>
                     </div>
-                    <div className="flex-1 overflow-y-auto p-4 bg-slate-100"><div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto pb-32">{TARGETS.map((target, i) => (<div key={i} className="bg-white rounded-2xl p-4 shadow-sm flex flex-col items-center gap-4 border border-slate-200"><div className="w-24 h-24 flex items-center justify-center">{getIcon(target, 80)}</div><motion.button onClick={() => handleSlotClick(i)} animate={feedback[i] === 'wrong' ? { x: [-5, 5, -5, 5, 0] } : {}} className={`w-full h-16 rounded-xl border-2 border-dashed flex items-center justify-center font-black text-xl transition-all relative overflow-hidden ${feedback[i] === 'correct' ? 'bg-green-100 border-green-500 text-green-700' : feedback[i] === 'wrong' ? 'bg-red-50 border-red-300 text-red-600' : placements[i] ? 'bg-indigo-50 border-indigo-300 text-indigo-900' : selected ? 'bg-yellow-50 border-yellow-400 cursor-pointer animate-pulse' : 'bg-slate-50 border-slate-300'}`}>{placements[i] && (<motion.span layoutId={`word-${placements[i]}`}>{placements[i]}</motion.span>)}</motion.button></div>))}</div></div>
-                    <div className="fixed bottom-0 left-0 w-full p-4 bg-white/80 backdrop-blur border-t border-slate-200 z-30 flex justify-center"><button onClick={handleCheck} className="btn-3d bg-indigo-600 text-white px-12 py-4 rounded-2xl text-2xl font-black shadow-xl hover:bg-indigo-500 w-full max-w-md">KONTROL ET</button></div>
+
+                    {/* BOTTOM: GRID */}
+                    <div className="flex-1 overflow-y-auto p-4 bg-slate-100">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-6xl mx-auto pb-32">
+                            {TARGETS.map((target, i) => (
+                                <div key={i} className="bg-white rounded-2xl p-4 shadow-sm flex flex-col items-center gap-4 border border-slate-200">
+                                    <div className="w-24 h-24 flex items-center justify-center">
+                                        {getIcon(target, 80)}
+                                    </div>
+
+                                    <motion.button
+                                        onClick={() => handleSlotClick(i)}
+                                        animate={feedback[i] === 'wrong' ? { x: [-5, 5, -5, 5, 0] } : {}}
+                                        className={`w-full h-16 rounded-xl border-2 border-dashed flex items-center justify-center font-black text-xl transition-all relative overflow-hidden
+                                            ${feedback[i] === 'correct' ? 'bg-green-100 border-green-500 text-green-700' :
+                                                feedback[i] === 'wrong' ? 'bg-red-50 border-red-300 text-red-600' :
+                                                    placements[i] ? 'bg-indigo-50 border-indigo-300 text-indigo-900' :
+                                                        selected ? 'bg-yellow-50 border-yellow-400 cursor-pointer animate-pulse' : 'bg-slate-50 border-slate-300'}
+                                        `}
+                                    >
+                                        {placements[i] && (
+                                            <motion.span layoutId={`word-${placements[i]}`}>
+                                                {placements[i]}
+                                            </motion.span>
+                                        )}
+                                    </motion.button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* CHECK BUTTON */}
+                    <div className="fixed bottom-0 left-0 w-full p-4 bg-white/80 backdrop-blur border-t border-slate-200 z-30 flex justify-center">
+                        <button
+                            onClick={handleCheck}
+                            className="btn-3d bg-indigo-600 text-white px-12 py-4 rounded-2xl text-2xl font-black shadow-xl hover:bg-indigo-500 w-full max-w-md"
+                        >
+                            KONTROL ET
+                        </button>
+                    </div>
                 </div>
             );
         };
 
+        // ==========================================
+        // 5. APP
+        // ==========================================
         const App = () => {
-            const [view, setView] = useState('map'); const [activeLevel, setActiveLevel] = useState(null); const [step, setStep] = useState(0);
-            const startLevel = (l) => { setActiveLevel(l); setStep(0); setView('play'); };
-            const nextStep = () => { const content = [...activeLevel.teaching, ...activeLevel.questions]; if (step + 1 < content.length) setStep(prev => prev + 1); else { setView('map'); speak('Tebrikler'); } };
+            const [view, setView] = useState('map');
+            const [activeLevel, setActiveLevel] = useState(null);
+            const [step, setStep] = useState(0);
+
+            const startLevel = (l) => {
+                setActiveLevel(l);
+                setStep(0);
+                setView('play');
+            };
+
+            const nextStep = () => {
+                const content = [...activeLevel.teaching, ...activeLevel.questions];
+                if (step + 1 < content.length) {
+                    setStep(prev => prev + 1);
+                } else {
+                    setView('map');
+                    speak('Tebrikler');
+                }
+            };
+
             if (view === 'map') {
                 return (
                     <div className="h-screen flex flex-col items-center">
                         <div className="p-8 text-center z-10 w-full bg-white/10 backdrop-blur-md border-b border-white/20 shadow-lg relative">
-                            <a href="index.html" className="absolute top-8 left-8 btn-3d bg-white w-12 h-12 rounded-xl flex items-center justify-center text-slate-800 font-bold shadow-md hover:scale-105 transition-transform z-50"><span className="text-xl">🏠</span></a>
-                            <h1 className="text-6xl font-black text-white drop-shadow-md tracking-tight">BaSaRa</h1><div className="text-white/80 font-bold tracking-widest mt-2">OKUMA-YAZMA</div>
+                            <a href="index.html" className="absolute top-8 left-8 btn-3d bg-white w-12 h-12 rounded-xl flex items-center justify-center text-slate-800 font-bold shadow-md hover:scale-105 transition-transform z-50">
+                                <span className="text-xl">🏠</span>
+                            </a>
+                            <h1 className="text-6xl font-black text-white drop-shadow-md tracking-tight">BaSaRa</h1>
+                            <div className="text-white/80 font-bold tracking-widest mt-2">OKUMA-YAZMA</div>
                         </div>
+
+                        {/* NEW GAME MODE BUTTON (MINIMAL) */}
                         <div className="w-full max-w-7xl mx-auto px-4 mt-6">
-                            <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} onClick={() => setView('visualDictation')} className="w-full bg-gradient-to-r from-teal-400 to-emerald-500 p-4 rounded-3xl shadow-lg flex items-center justify-between group">
-                                <div className="flex items-center gap-4"><div className="bg-white/20 p-3 rounded-2xl backdrop-blur-sm"><span className="text-3xl">🖼️</span></div><div className="text-left text-white"><div className="text-2xl font-black tracking-tight">GÖRSEL DİKTE</div><div className="text-sm opacity-90 font-medium">Yeni Oyun Modu</div></div></div>
+                            <motion.button
+                                whileHover={{ scale: 1.01 }}
+                                whileTap={{ scale: 0.99 }}
+                                onClick={() => setView('visualDictation')}
+                                className="w-full bg-gradient-to-r from-teal-400 to-emerald-500 p-4 rounded-3xl shadow-lg flex items-center justify-between group"
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div className="bg-white/20 p-3 rounded-2xl backdrop-blur-sm">
+                                        <span className="text-3xl">🖼️</span>
+                                    </div>
+                                    <div className="text-left text-white">
+                                        <div className="text-2xl font-black tracking-tight">GÖRSEL DİKTE</div>
+                                        <div className="text-sm opacity-90 font-medium">Yeni Oyun Modu</div>
+                                    </div>
+                                </div>
                                 <div className="bg-white text-emerald-600 px-6 py-2 rounded-xl font-black text-lg shadow-md group-hover:scale-105 transition-transform">OYNA ►</div>
                             </motion.button>
                         </div>
-                        <div className="flex-1 w-full overflow-y-auto px-4 py-8"><div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto pb-32">{LEVELS.map((l, idx) => (<motion.button key={l.id} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: idx * 0.05 }} onClick={() => startLevel(l)} className="btn-3d bg-white h-32 rounded-3xl border-slate-200 flex items-center px-6 gap-6 hover:bg-indigo-50"><div className="w-14 h-14 rounded-2xl bg-indigo-500 flex items-center justify-center text-2xl font-black text-white shadow-md">{l.id}</div><div className="text-left"><div className="text-xl font-black text-slate-800">{l.title}</div><div className="text-xs font-bold text-indigo-400 uppercase tracking-widest mt-1">BAŞLA</div></div></motion.button>))}</div></div>
+
+                        <div className="flex-1 w-full overflow-y-auto px-4 py-8">
+                            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto pb-32">
+                                {LEVELS.map((l, idx) => (
+                                    <motion.button
+                                        key={l.id}
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: idx * 0.05 }}
+                                        onClick={() => startLevel(l)}
+                                        className="btn-3d bg-white h-32 rounded-3xl border-slate-200 flex items-center px-6 gap-6 hover:bg-indigo-50"
+                                    >
+                                        <div className="w-14 h-14 rounded-2xl bg-indigo-500 flex items-center justify-center text-2xl font-black text-white shadow-md">
+                                            {l.id}
+                                        </div>
+                                        <div className="text-left">
+                                            <div className="text-xl font-black text-slate-800">{l.title}</div>
+                                            <div className="text-xs font-bold text-indigo-400 uppercase tracking-widest mt-1">BAŞLA</div>
+                                        </div>
+                                    </motion.button>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 );
             }
-            if (view === 'visualDictation') return <VisualDictationGame onBack={() => setView('map')} />;
-            const content = [...activeLevel.teaching, ...activeLevel.questions]; const currentItem = content[step]; const isTeaching = step < activeLevel.teaching.length; const progress = ((step + 1) / content.length) * 100;
+
+            if (view === 'visualDictation') {
+                return <VisualDictationGame onBack={() => setView('map')} />;
+            }
+
+            const content = [...activeLevel.teaching, ...activeLevel.questions];
+            const currentItem = content[step];
+            const isTeaching = step < activeLevel.teaching.length;
+            const progress = ((step + 1) / content.length) * 100;
+
             return (
                 <div className="h-screen flex flex-col relative overflow-hidden bg-white/5 backdrop-blur-3xl">
-                    <div className="w-full flex items-center justify-between p-6 z-20"><button onClick={() => setView('map')} className="w-12 h-12 rounded-xl btn-3d bg-white text-slate-800 font-bold hover:bg-rose-50 hover:text-rose-600">✕</button><div className="flex-1 mx-8 h-4 bg-black/10 rounded-full overflow-hidden"><motion.div className="h-full bg-yellow-400" animate={{ width: `${progress}%` }} transition={{ type: 'spring', stiffness: 50 }} /></div><div className="text-2xl font-black text-white drop-shadow-md">{step + 1}/{content.length}</div></div>
-                    <AnimatePresence mode="wait"><motion.div key={step} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="flex-1 w-full">{isTeaching ? <TeachingPhase item={currentItem} onNext={nextStep} /> : <QuestionPhase data={currentItem} onComplete={nextStep} />}</motion.div></AnimatePresence>
+                    <div className="w-full flex items-center justify-between p-6 z-20">
+                        <button onClick={() => setView('map')} className="w-12 h-12 rounded-xl btn-3d bg-white text-slate-800 font-bold hover:bg-rose-50 hover:text-rose-600">✕</button>
+                        <div className="flex-1 mx-8 h-4 bg-black/10 rounded-full overflow-hidden">
+                            <motion.div
+                                className="h-full bg-yellow-400"
+                                animate={{ width: `${progress}%` }}
+                                transition={{ type: 'spring', stiffness: 50 }}
+                            />
+                        </div>
+                        <div className="text-2xl font-black text-white drop-shadow-md">{step + 1}/{content.length}</div>
+                    </div>
+
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={step}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.5 }}
+                            className="flex-1 w-full"
+                        >
+                            {isTeaching
+                                ? <TeachingPhase item={currentItem} onNext={nextStep} />
+                                : <QuestionPhase data={currentItem} onComplete={nextStep} />
+                            }
+                        </motion.div>
+                    </AnimatePresence>
                 </div>
             );
         };
-        const root = ReactDOM.createRoot(document.getElementById('root')); root.render(<App />);
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
+
 </html>
