@@ -226,20 +226,247 @@
 
         .cards-grid {
             display: grid;
-            gap: 18px;
+            gap: 12px;
             perspective: 1500px;
             justify-content: center;
+            max-width: 100%;
+            padding: 10px;
         }
 
         /* --- 3D Kart Tasarımı (YÜKSEK KONTRAST) --- */
         .memory-card {
-            width: 130px;
-            height: 130px;
+            width: 110px;
+            height: 110px;
             position: relative;
             transform-style: preserve-3d;
             transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
-            border-radius: 20px;
+            border-radius: 16px;
+        }
+
+        /* Dinamik Kart Boyutları */
+        .cards-grid.size-12 .memory-card {
+            width: 120px;
+            height: 120px;
+        }
+
+        .cards-grid.size-16 .memory-card {
+            width: 110px;
+            height: 110px;
+        }
+
+        .cards-grid.size-20 .memory-card {
+            width: 100px;
+            height: 100px;
+        }
+
+        .cards-grid.size-24 .memory-card {
+            width: 95px;
+            height: 95px;
+        }
+
+        .cards-grid.size-28 .memory-card {
+            width: 90px;
+            height: 90px;
+        }
+
+        .cards-grid.size-32 .memory-card {
+            width: 85px;
+            height: 85px;
+        }
+
+        .cards-grid.size-36 .memory-card {
+            width: 80px;
+            height: 80px;
+        }
+
+        .cards-grid.size-40 .memory-card {
+            width: 75px;
+            height: 75px;
+        }
+
+        .cards-grid.size-12 {
+            gap: 14px;
+        }
+
+        .cards-grid.size-16 {
+            gap: 12px;
+        }
+
+        .cards-grid.size-20 {
+            gap: 10px;
+        }
+
+        .cards-grid.size-24 {
+            gap: 10px;
+        }
+
+        .cards-grid.size-28 {
+            gap: 8px;
+        }
+
+        .cards-grid.size-32 {
+            gap: 8px;
+        }
+
+        .cards-grid.size-36 {
+            gap: 6px;
+        }
+
+        .cards-grid.size-40 {
+            gap: 6px;
+        }
+
+        /* Emoji boyutları */
+        .cards-grid.size-12 .emoji {
+            font-size: 4.5rem;
+        }
+
+        .cards-grid.size-16 .emoji {
+            font-size: 4rem;
+        }
+
+        .cards-grid.size-20 .emoji {
+            font-size: 3.8rem;
+        }
+
+        .cards-grid.size-24 .emoji {
+            font-size: 3.5rem;
+        }
+
+        .cards-grid.size-28 .emoji {
+            font-size: 3.2rem;
+        }
+
+        .cards-grid.size-32 .emoji {
+            font-size: 3rem;
+        }
+
+        .cards-grid.size-36 .emoji {
+            font-size: 2.8rem;
+        }
+
+        .cards-grid.size-40 .emoji {
+            font-size: 2.6rem;
+        }
+
+        /* Soru işareti boyutları */
+        .cards-grid.size-12 .front-face {
+            font-size: 3.5rem;
+        }
+
+        .cards-grid.size-16 .front-face {
+            font-size: 3.2rem;
+        }
+
+        .cards-grid.size-20 .front-face {
+            font-size: 3rem;
+        }
+
+        .cards-grid.size-24 .front-face {
+            font-size: 2.8rem;
+        }
+
+        .cards-grid.size-28 .front-face {
+            font-size: 2.6rem;
+        }
+
+        .cards-grid.size-32 .front-face {
+            font-size: 2.4rem;
+        }
+
+        .cards-grid.size-36 .front-face {
+            font-size: 2.2rem;
+        }
+
+        .cards-grid.size-40 .front-face {
+            font-size: 2rem;
+        }
+
+        /* 44-60 Kart boyutları */
+        .cards-grid.size-44 .memory-card {
+            width: 70px;
+            height: 70px;
+        }
+
+        .cards-grid.size-48 .memory-card {
+            width: 65px;
+            height: 65px;
+        }
+
+        .cards-grid.size-52 .memory-card {
+            width: 62px;
+            height: 62px;
+        }
+
+        .cards-grid.size-56 .memory-card {
+            width: 58px;
+            height: 58px;
+        }
+
+        .cards-grid.size-60 .memory-card {
+            width: 55px;
+            height: 55px;
+        }
+
+        .cards-grid.size-44 {
+            gap: 5px;
+        }
+
+        .cards-grid.size-48 {
+            gap: 5px;
+        }
+
+        .cards-grid.size-52 {
+            gap: 4px;
+        }
+
+        .cards-grid.size-56 {
+            gap: 4px;
+        }
+
+        .cards-grid.size-60 {
+            gap: 4px;
+        }
+
+        .cards-grid.size-44 .emoji {
+            font-size: 2.4rem;
+        }
+
+        .cards-grid.size-48 .emoji {
+            font-size: 2.2rem;
+        }
+
+        .cards-grid.size-52 .emoji {
+            font-size: 2rem;
+        }
+
+        .cards-grid.size-56 .emoji {
+            font-size: 1.9rem;
+        }
+
+        .cards-grid.size-60 .emoji {
+            font-size: 1.8rem;
+        }
+
+        .cards-grid.size-44 .front-face {
+            font-size: 1.8rem;
+        }
+
+        .cards-grid.size-48 .front-face {
+            font-size: 1.6rem;
+        }
+
+        .cards-grid.size-52 .front-face {
+            font-size: 1.5rem;
+        }
+
+        .cards-grid.size-56 .front-face {
+            font-size: 1.4rem;
+        }
+
+        .cards-grid.size-60 .front-face {
+            font-size: 1.3rem;
         }
 
         .memory-card.flipped {
@@ -460,22 +687,351 @@
         }
 
         /* --- Responsive --- */
-        @media (max-width: 700px) {
-            .memory-card {
+        @media (max-width: 900px) {
+            .cards-grid.size-12 .memory-card {
+                width: 100px;
+                height: 100px;
+            }
+
+            .cards-grid.size-16 .memory-card {
                 width: 90px;
                 height: 90px;
             }
 
-            .back-face .emoji {
+            .cards-grid.size-20 .memory-card {
+                width: 85px;
+                height: 85px;
+            }
+
+            .cards-grid.size-24 .memory-card {
+                width: 80px;
+                height: 80px;
+            }
+
+            .cards-grid.size-28 .memory-card {
+                width: 75px;
+                height: 75px;
+            }
+
+            .cards-grid.size-32 .memory-card {
+                width: 70px;
+                height: 70px;
+            }
+
+            .cards-grid.size-36 .memory-card {
+                width: 65px;
+                height: 65px;
+            }
+
+            .cards-grid.size-40 .memory-card {
+                width: 60px;
+                height: 60px;
+            }
+
+            .cards-grid.size-12 .emoji {
+                font-size: 3.8rem;
+            }
+
+            .cards-grid.size-16 .emoji {
                 font-size: 3.5rem;
             }
 
-            .front-face {
+            .cards-grid.size-20 .emoji {
+                font-size: 3.2rem;
+            }
+
+            .cards-grid.size-24 .emoji {
+                font-size: 3rem;
+            }
+
+            .cards-grid.size-28 .emoji {
                 font-size: 2.8rem;
             }
 
+            .cards-grid.size-32 .emoji {
+                font-size: 2.6rem;
+            }
+
+            .cards-grid.size-36 .emoji {
+                font-size: 2.4rem;
+            }
+
+            .cards-grid.size-40 .emoji {
+                font-size: 2.2rem;
+            }
+
+            .cards-grid.size-12 .front-face {
+                font-size: 3rem;
+            }
+
+            .cards-grid.size-16 .front-face {
+                font-size: 2.8rem;
+            }
+
+            .cards-grid.size-20 .front-face {
+                font-size: 2.5rem;
+            }
+
+            .cards-grid.size-24 .front-face {
+                font-size: 2.3rem;
+            }
+
+            .cards-grid.size-28 .front-face {
+                font-size: 2.1rem;
+            }
+
+            .cards-grid.size-32 .front-face {
+                font-size: 2rem;
+            }
+
+            .cards-grid.size-36 .front-face {
+                font-size: 1.8rem;
+            }
+
+            .cards-grid.size-40 .front-face {
+                font-size: 1.6rem;
+            }
+
+            /* 44-60 için 900px responsive */
+            .cards-grid.size-44 .memory-card {
+                width: 55px;
+                height: 55px;
+            }
+
+            .cards-grid.size-48 .memory-card {
+                width: 52px;
+                height: 52px;
+            }
+
+            .cards-grid.size-52 .memory-card {
+                width: 48px;
+                height: 48px;
+            }
+
+            .cards-grid.size-56 .memory-card {
+                width: 45px;
+                height: 45px;
+            }
+
+            .cards-grid.size-60 .memory-card {
+                width: 42px;
+                height: 42px;
+            }
+
+            .cards-grid.size-44 .emoji {
+                font-size: 2rem;
+            }
+
+            .cards-grid.size-48 .emoji {
+                font-size: 1.9rem;
+            }
+
+            .cards-grid.size-52 .emoji {
+                font-size: 1.7rem;
+            }
+
+            .cards-grid.size-56 .emoji {
+                font-size: 1.6rem;
+            }
+
+            .cards-grid.size-60 .emoji {
+                font-size: 1.5rem;
+            }
+
+            .cards-grid.size-44 .front-face {
+                font-size: 1.5rem;
+            }
+
+            .cards-grid.size-48 .front-face {
+                font-size: 1.4rem;
+            }
+
+            .cards-grid.size-52 .front-face {
+                font-size: 1.3rem;
+            }
+
+            .cards-grid.size-56 .front-face {
+                font-size: 1.2rem;
+            }
+
+            .cards-grid.size-60 .front-face {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .cards-grid.size-12 .memory-card {
+                width: 80px;
+                height: 80px;
+            }
+
+            .cards-grid.size-16 .memory-card {
+                width: 72px;
+                height: 72px;
+            }
+
+            .cards-grid.size-20 .memory-card {
+                width: 65px;
+                height: 65px;
+            }
+
+            .cards-grid.size-24 .memory-card {
+                width: 60px;
+                height: 60px;
+            }
+
+            .cards-grid.size-28 .memory-card {
+                width: 55px;
+                height: 55px;
+            }
+
+            .cards-grid.size-32 .memory-card {
+                width: 50px;
+                height: 50px;
+            }
+
+            .cards-grid.size-36 .memory-card {
+                width: 48px;
+                height: 48px;
+            }
+
+            .cards-grid.size-40 .memory-card {
+                width: 45px;
+                height: 45px;
+            }
+
+            .cards-grid.size-12 .emoji {
+                font-size: 3rem;
+            }
+
+            .cards-grid.size-16 .emoji {
+                font-size: 2.8rem;
+            }
+
+            .cards-grid.size-20 .emoji {
+                font-size: 2.5rem;
+            }
+
+            .cards-grid.size-24 .emoji {
+                font-size: 2.2rem;
+            }
+
+            .cards-grid.size-28 .emoji {
+                font-size: 2rem;
+            }
+
+            .cards-grid.size-32 .emoji {
+                font-size: 1.8rem;
+            }
+
+            .cards-grid.size-36 .emoji {
+                font-size: 1.7rem;
+            }
+
+            .cards-grid.size-40 .emoji {
+                font-size: 1.6rem;
+            }
+
+            .cards-grid.size-12 .front-face {
+                font-size: 2.5rem;
+            }
+
+            .cards-grid.size-16 .front-face {
+                font-size: 2.2rem;
+            }
+
+            .cards-grid.size-20 .front-face {
+                font-size: 2rem;
+            }
+
+            .cards-grid.size-24 .front-face {
+                font-size: 1.8rem;
+            }
+
+            .cards-grid.size-28 .front-face {
+                font-size: 1.6rem;
+            }
+
+            .cards-grid.size-32 .front-face {
+                font-size: 1.5rem;
+            }
+
+            .cards-grid.size-36 .front-face {
+                font-size: 1.4rem;
+            }
+
+            .cards-grid.size-40 .front-face {
+                font-size: 1.3rem;
+            }
+
+            /* 44-60 için 700px responsive */
+            .cards-grid.size-44 .memory-card {
+                width: 42px;
+                height: 42px;
+            }
+
+            .cards-grid.size-48 .memory-card {
+                width: 40px;
+                height: 40px;
+            }
+
+            .cards-grid.size-52 .memory-card {
+                width: 38px;
+                height: 38px;
+            }
+
+            .cards-grid.size-56 .memory-card {
+                width: 35px;
+                height: 35px;
+            }
+
+            .cards-grid.size-60 .memory-card {
+                width: 33px;
+                height: 33px;
+            }
+
+            .cards-grid.size-44 .emoji {
+                font-size: 1.5rem;
+            }
+
+            .cards-grid.size-48 .emoji {
+                font-size: 1.4rem;
+            }
+
+            .cards-grid.size-52 .emoji {
+                font-size: 1.3rem;
+            }
+
+            .cards-grid.size-56 .emoji {
+                font-size: 1.2rem;
+            }
+
+            .cards-grid.size-60 .emoji {
+                font-size: 1.1rem;
+            }
+
+            .cards-grid.size-44 .front-face {
+                font-size: 1.2rem;
+            }
+
+            .cards-grid.size-48 .front-face {
+                font-size: 1.1rem;
+            }
+
+            .cards-grid.size-52 .front-face {
+                font-size: 1rem;
+            }
+
+            .cards-grid.size-56 .front-face {
+                font-size: 0.9rem;
+            }
+
+            .cards-grid.size-60 .front-face {
+                font-size: 0.8rem;
+            }
+
             .cards-grid {
-                gap: 12px;
+                gap: 6px !important;
             }
 
             header h1 {
@@ -511,21 +1067,178 @@
         }
 
         @media (max-width: 450px) {
-            .memory-card {
-                width: 72px;
-                height: 72px;
+            .cards-grid.size-12 .memory-card {
+                width: 65px;
+                height: 65px;
             }
 
-            .back-face .emoji {
-                font-size: 2.8rem;
+            .cards-grid.size-16 .memory-card {
+                width: 58px;
+                height: 58px;
             }
 
-            .front-face {
+            .cards-grid.size-20 .memory-card {
+                width: 52px;
+                height: 52px;
+            }
+
+            .cards-grid.size-24 .memory-card {
+                width: 48px;
+                height: 48px;
+            }
+
+            .cards-grid.size-28 .memory-card {
+                width: 44px;
+                height: 44px;
+            }
+
+            .cards-grid.size-32 .memory-card {
+                width: 40px;
+                height: 40px;
+            }
+
+            .cards-grid.size-36 .memory-card {
+                width: 38px;
+                height: 38px;
+            }
+
+            .cards-grid.size-40 .memory-card {
+                width: 35px;
+                height: 35px;
+            }
+
+            .cards-grid.size-12 .emoji {
+                font-size: 2.5rem;
+            }
+
+            .cards-grid.size-16 .emoji {
                 font-size: 2.2rem;
             }
 
+            .cards-grid.size-20 .emoji {
+                font-size: 2rem;
+            }
+
+            .cards-grid.size-24 .emoji {
+                font-size: 1.8rem;
+            }
+
+            .cards-grid.size-28 .emoji {
+                font-size: 1.6rem;
+            }
+
+            .cards-grid.size-32 .emoji {
+                font-size: 1.5rem;
+            }
+
+            .cards-grid.size-36 .emoji {
+                font-size: 1.4rem;
+            }
+
+            .cards-grid.size-40 .emoji {
+                font-size: 1.3rem;
+            }
+
+            .cards-grid.size-12 .front-face {
+                font-size: 2rem;
+            }
+
+            .cards-grid.size-16 .front-face {
+                font-size: 1.8rem;
+            }
+
+            .cards-grid.size-20 .front-face {
+                font-size: 1.6rem;
+            }
+
+            .cards-grid.size-24 .front-face {
+                font-size: 1.4rem;
+            }
+
+            .cards-grid.size-28 .front-face {
+                font-size: 1.3rem;
+            }
+
+            .cards-grid.size-32 .front-face {
+                font-size: 1.2rem;
+            }
+
+            .cards-grid.size-36 .front-face {
+                font-size: 1.1rem;
+            }
+
+            .cards-grid.size-40 .front-face {
+                font-size: 1rem;
+            }
+
+            /* 44-60 için 450px responsive */
+            .cards-grid.size-44 .memory-card {
+                width: 32px;
+                height: 32px;
+            }
+
+            .cards-grid.size-48 .memory-card {
+                width: 30px;
+                height: 30px;
+            }
+
+            .cards-grid.size-52 .memory-card {
+                width: 28px;
+                height: 28px;
+            }
+
+            .cards-grid.size-56 .memory-card {
+                width: 26px;
+                height: 26px;
+            }
+
+            .cards-grid.size-60 .memory-card {
+                width: 24px;
+                height: 24px;
+            }
+
+            .cards-grid.size-44 .emoji {
+                font-size: 1.1rem;
+            }
+
+            .cards-grid.size-48 .emoji {
+                font-size: 1rem;
+            }
+
+            .cards-grid.size-52 .emoji {
+                font-size: 0.9rem;
+            }
+
+            .cards-grid.size-56 .emoji {
+                font-size: 0.8rem;
+            }
+
+            .cards-grid.size-60 .emoji {
+                font-size: 0.75rem;
+            }
+
+            .cards-grid.size-44 .front-face {
+                font-size: 0.9rem;
+            }
+
+            .cards-grid.size-48 .front-face {
+                font-size: 0.85rem;
+            }
+
+            .cards-grid.size-52 .front-face {
+                font-size: 0.8rem;
+            }
+
+            .cards-grid.size-56 .front-face {
+                font-size: 0.75rem;
+            }
+
+            .cards-grid.size-60 .front-face {
+                font-size: 0.7rem;
+            }
+
             .cards-grid {
-                gap: 8px;
+                gap: 4px !important;
             }
         }
     </style>
@@ -565,6 +1278,16 @@
                     <button class="opt-btn selected" data-size="12">12 Kart</button>
                     <button class="opt-btn" data-size="16">16 Kart</button>
                     <button class="opt-btn" data-size="20">20 Kart</button>
+                    <button class="opt-btn" data-size="24">24 Kart</button>
+                    <button class="opt-btn" data-size="28">28 Kart</button>
+                    <button class="opt-btn" data-size="32">32 Kart</button>
+                    <button class="opt-btn" data-size="36">36 Kart</button>
+                    <button class="opt-btn" data-size="40">40 Kart</button>
+                    <button class="opt-btn" data-size="44">44 Kart</button>
+                    <button class="opt-btn" data-size="48">48 Kart</button>
+                    <button class="opt-btn" data-size="52">52 Kart</button>
+                    <button class="opt-btn" data-size="56">56 Kart</button>
+                    <button class="opt-btn" data-size="60">60 Kart</button>
                 </div>
             </div>
 
@@ -596,7 +1319,7 @@
 
     <script>
         // ============================================
-        // GÖRSEL VERİTABANI (Emoji Tabanlı)
+        // GÖRSEL VERİTABANI (Emoji Tabanlı - 30 öğe)
         // ============================================
         const categories = {
             animals: [
@@ -611,7 +1334,25 @@
                 { name: 'Ayı', emoji: '🐻' },
                 { name: 'Panda', emoji: '🐼' },
                 { name: 'Kaplan', emoji: '🐯' },
-                { name: 'Tilki', emoji: '🦊' }
+                { name: 'Tilki', emoji: '🦊' },
+                { name: 'Kurt', emoji: '🐺' },
+                { name: 'Domuz', emoji: '🐷' },
+                { name: 'İnek', emoji: '🐮' },
+                { name: 'Fare', emoji: '🐭' },
+                { name: 'Koala', emoji: '🐨' },
+                { name: 'Penguen', emoji: '🐧' },
+                { name: 'Civciv', emoji: '🐥' },
+                { name: 'Baykuş', emoji: '🦉' },
+                { name: 'Kurbağa', emoji: '🐸' },
+                { name: 'Yunus', emoji: '🐬' },
+                { name: 'Balina', emoji: '🐳' },
+                { name: 'Köpekbalığı', emoji: '🦈' },
+                { name: 'Ahtapot', emoji: '🐙' },
+                { name: 'Kaplumbağa', emoji: '🐢' },
+                { name: 'Yılan', emoji: '🐍' },
+                { name: 'Timsah', emoji: '🐊' },
+                { name: 'Kartal', emoji: '🦅' },
+                { name: 'Papağan', emoji: '🦜' }
             ],
             fruits: [
                 { name: 'Elma', emoji: '🍎' },
@@ -625,7 +1366,25 @@
                 { name: 'Armut', emoji: '🍐' },
                 { name: 'Limon', emoji: '🍋' },
                 { name: 'Ananas', emoji: '🍍' },
-                { name: 'Kavun', emoji: '🍈' }
+                { name: 'Kavun', emoji: '🍈' },
+                { name: 'Hindistan Cevizi', emoji: '🥥' },
+                { name: 'Avokado', emoji: '🥑' },
+                { name: 'Mango', emoji: '🥭' },
+                { name: 'Kivi', emoji: '🥝' },
+                { name: 'Yaban Mersini', emoji: '🫐' },
+                { name: 'Domates', emoji: '🍅' },
+                { name: 'Patlıcan', emoji: '🍆' },
+                { name: 'Havuç', emoji: '🥕' },
+                { name: 'Mısır', emoji: '🌽' },
+                { name: 'Biber', emoji: '🌶️' },
+                { name: 'Salatalık', emoji: '🥒' },
+                { name: 'Brokoli', emoji: '🥦' },
+                { name: 'Sarımsak', emoji: '🧄' },
+                { name: 'Soğan', emoji: '🧅' },
+                { name: 'Patates', emoji: '🥔' },
+                { name: 'Mantar', emoji: '🍄' },
+                { name: 'Fıstık', emoji: '🥜' },
+                { name: 'Kestane', emoji: '🌰' }
             ],
             vehicles: [
                 { name: 'Araba', emoji: '🚗' },
@@ -639,7 +1398,25 @@
                 { name: 'Roket', emoji: '🚀' },
                 { name: 'Taksi', emoji: '🚕' },
                 { name: 'Ambulans', emoji: '🚑' },
-                { name: 'İtfaiye', emoji: '🚒' }
+                { name: 'İtfaiye', emoji: '🚒' },
+                { name: 'Polis', emoji: '🚓' },
+                { name: 'Kamyon', emoji: '🚚' },
+                { name: 'Traktör', emoji: '🚜' },
+                { name: 'Metro', emoji: '🚇' },
+                { name: 'Tramvay', emoji: '🚊' },
+                { name: 'Kayak', emoji: '🛷' },
+                { name: 'Yelkenli', emoji: '⛵' },
+                { name: 'Scooter', emoji: '🛴' },
+                { name: 'Minibüs', emoji: '🚐' },
+                { name: 'Spor Araba', emoji: '🏎️' },
+                { name: 'Kano', emoji: '🛶' },
+                { name: 'Ufo', emoji: '🛸' },
+                { name: 'Paraşüt', emoji: '🪂' },
+                { name: 'Teleferik', emoji: '🚠' },
+                { name: 'Feribot', emoji: '⛴️' },
+                { name: 'Tekerlekli Sandalye', emoji: '🦽' },
+                { name: 'Sepetli Bisiklet', emoji: '🛺' },
+                { name: 'Hız Treni', emoji: '🚄' }
             ],
             objects: [
                 { name: 'Top', emoji: '⚽' },
@@ -653,7 +1430,25 @@
                 { name: 'Anahtar', emoji: '🔑' },
                 { name: 'Ampul', emoji: '💡' },
                 { name: 'Hediye', emoji: '🎁' },
-                { name: 'Kalem', emoji: '✏️' }
+                { name: 'Kalem', emoji: '✏️' },
+                { name: 'Gözlük', emoji: '👓' },
+                { name: 'Çanta', emoji: '👜' },
+                { name: 'Şapka', emoji: '🎩' },
+                { name: 'Müzik', emoji: '🎵' },
+                { name: 'Yıldız', emoji: '⭐' },
+                { name: 'Kalp', emoji: '❤️' },
+                { name: 'Gökkuşağı', emoji: '🌈' },
+                { name: 'Çiçek', emoji: '🌸' },
+                { name: 'Güneş', emoji: '☀️' },
+                { name: 'Ay', emoji: '🌙' },
+                { name: 'Bulut', emoji: '☁️' },
+                { name: 'Şimşek', emoji: '⚡' },
+                { name: 'Kar Tanesi', emoji: '❄️' },
+                { name: 'Ateş', emoji: '🔥' },
+                { name: 'Su Damlası', emoji: '💧' },
+                { name: 'Elmas', emoji: '💎' },
+                { name: 'Taç', emoji: '👑' },
+                { name: 'Balon', emoji: '🎈' }
             ]
         };
 
@@ -893,8 +1688,27 @@
             moveDisplay.textContent = '0';
             timerDisplay.textContent = '0:00';
 
+            // Eski boyut sınıflarını temizle
+            grid.className = 'cards-grid';
+
+            // Boyut sınıfını ekle
+            grid.classList.add(`size-${selectedSize}`);
+
+            // Sütun sayısını belirle
             let cols = 4;
-            if (selectedSize === 20) cols = 5;
+            if (selectedSize === 12) cols = 4;
+            else if (selectedSize === 16) cols = 4;
+            else if (selectedSize === 20) cols = 5;
+            else if (selectedSize === 24) cols = 6;
+            else if (selectedSize === 28) cols = 7;
+            else if (selectedSize === 32) cols = 8;
+            else if (selectedSize === 36) cols = 6;
+            else if (selectedSize === 40) cols = 8;
+            else if (selectedSize === 44) cols = 11;
+            else if (selectedSize === 48) cols = 8;
+            else if (selectedSize === 52) cols = 13;
+            else if (selectedSize === 56) cols = 8;
+            else if (selectedSize === 60) cols = 10;
             grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
             // === BENZERSİZ ÇİFT SEÇİMİ ===
