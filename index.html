@@ -128,7 +128,7 @@
         );
         const XIcon = ({ className }) => (
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-                <path d="M18 6 6 18" /><path d="m6 6 18 18" />
+                <path d="M18 6 6 18" /><path d="M6 6 18 18" />
             </svg>
         );
         const GamepadIcon = ({ className }) => (
@@ -583,8 +583,74 @@
             );
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        // Error Boundary Component
+        class ErrorBoundary extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { hasError: false, error: null };
+            }
+            static getDerivedStateFromError(error) {
+                return { hasError: true, error: error };
+            }
+            componentDidCatch(error, errorInfo) {
+                console.error('React Error:', error, errorInfo);
+            }
+            render() {
+                if (this.state.hasError) {
+                    return React.createElement('div', {
+                        style: {
+                            padding: '40px',
+                            textAlign: 'center',
+                            fontFamily: 'Nunito, sans-serif',
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            minHeight: '100vh',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: 'white'
+                        }
+                    }, [
+                        React.createElement('h1', { key: 'h1', style: { fontSize: '2rem', marginBottom: '20px' } }, '⚠️ Bir Hata Oluştu'),
+                        React.createElement('p', { key: 'p', style: { marginBottom: '20px' } }, 'Sayfa yüklenirken bir sorun oluştu.'),
+                        React.createElement('button', {
+                            key: 'btn',
+                            onClick: () => window.location.reload(),
+                            style: {
+                                padding: '12px 30px',
+                                fontSize: '1.1rem',
+                                background: 'white',
+                                color: '#764ba2',
+                                border: 'none',
+                                borderRadius: '50px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold'
+                            }
+                        }, '🔄 Sayfayı Yenile')
+                    ]);
+                }
+                return this.props.children;
+            }
+        }
+
+        // Safe render with try-catch
+        try {
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(
+                React.createElement(ErrorBoundary, null,
+                    React.createElement(App, null)
+                )
+            );
+        } catch (error) {
+            console.error('Render Error:', error);
+            document.getElementById('root').innerHTML = `
+                <div style="padding: 40px; text-align: center; font-family: Nunito, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white;">
+                    <h1 style="font-size: 2rem; margin-bottom: 20px;">⚠️ Sayfa Yüklenemedi</h1>
+                    <p style="margin-bottom: 20px;">Lütfen sayfayı yenileyin veya farklı bir tarayıcı deneyin.</p>
+                    <button onclick="window.location.reload()" style="padding: 12px 30px; font-size: 1.1rem; background: white; color: #764ba2; border: none; border-radius: 50px; cursor: pointer; font-weight: bold;">🔄 Sayfayı Yenile</button>
+                </div>
+            `;
+        }
     </script>
 </body>
 
