@@ -111,7 +111,14 @@
     <script type="text/babel">
         // --- Imports & Setup ---
         const { useState, useEffect } = React;
-        const { motion, AnimatePresence } = window.Motion;
+
+        // Framer Motion Fallback - Kütüphane yüklenmezse beyaz ekranı önler
+        const MotionLib = window.Motion || {};
+        const motion = MotionLib.motion || {
+            div: ({ children, className, style, onClick, ...props }) =>
+                React.createElement('div', { className, style, onClick }, children),
+        };
+        const AnimatePresence = MotionLib.AnimatePresence || (({ children }) => children);
 
         // --- UI Icons ---
         const MenuIcon = ({ className }) => (
