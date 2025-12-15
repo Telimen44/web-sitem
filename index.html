@@ -103,19 +103,21 @@
 </head>
 
 <body>
-    <div id="root"></div>
+    <div id="root">
+        <!-- Fallback Loading - Babel veya React yüklenemezse görünür -->
+        <div
+            style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-family: Nunito, sans-serif; text-align: center; padding: 20px;">
+            <div style="font-size: 3rem; margin-bottom: 20px;">🎮</div>
+            <h1 style="font-size: 2rem; margin-bottom: 10px;">Telimen Eğitim</h1>
+            <p style="font-size: 1.1rem; opacity: 0.9;">Yükleniyor...</p>
+            <p style="font-size: 0.9rem; opacity: 0.7; margin-top: 15px;">Sayfa yüklenmezse tarayıcınızı yenileyin veya
+                farklı bir tarayıcı deneyin.</p>
+        </div>
+    </div>
 
     <script type="text/babel">
         // --- Imports & Setup ---
         const { useState, useEffect } = React;
-
-        // Framer Motion Fallback - Kütüphane yüklenmezse beyaz ekranı önler
-        const MotionLib = window.Motion || {};
-        const motion = MotionLib.motion || {
-            div: ({ children, className, style, onClick, ...props }) =>
-                React.createElement('div', { className, style, onClick }, children),
-        };
-        const AnimatePresence = MotionLib.AnimatePresence || (({ children }) => children);
 
         // --- UI Icons ---
         const MenuIcon = ({ className }) => (
