@@ -593,6 +593,170 @@
                 font-size: 2.5rem;
             }
         }
+
+        /* Materials Section Styles */
+        .materials-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+
+        .category-tab {
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            color: #6b7280;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .category-tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            color: white;
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 20px;
+        }
+
+        @media (min-width: 640px) {
+            .materials-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .materials-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .material-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .material-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .material-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+            font-size: 2rem;
+        }
+
+        .material-icon.pdf {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .material-icon.ppt {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+        }
+
+        .material-icon.activity {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .material-icon.doc {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
+        .material-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .material-card p {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .material-card .material-tag {
+            font-size: 0.75rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: #f3f4f6;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(147, 51, 234, 0.4);
+        }
+
+        .download-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+        }
+
+        .empty-state .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+        }
     </style>
 </head>
 
@@ -661,6 +825,16 @@
                     <path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path>
                 </svg>
                 <span>Yasal Haklar</span>
+            </a>
+            <a href="#materials">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z">
+                    </path>
+                    <path d="M12 10v6"></path>
+                    <path d="m9 13 3-3 3 3"></path>
+                </svg>
+                <span>Materyaller</span>
             </a>
         </div>
         <div class="profile-card">
@@ -1046,6 +1220,48 @@
         </div>
     </section>
 
+    <!-- Content Section: Materyaller -->
+    <section id="materials" class="content-section">
+        <button class="back-btn" onclick="showGames()">
+            ← Oyunlara Dön
+        </button>
+        <div class="content-header">
+            <h1>📂 Materyaller</h1>
+            <p>PDF'ler, sunular ve eğitim etkinlikleri</p>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="materials-categories">
+            <button class="category-tab active" onclick="filterMaterials('all')">📚 Tümü</button>
+            <button class="category-tab" onclick="filterMaterials('pdf')">📄 PDF</button>
+            <button class="category-tab" onclick="filterMaterials('ppt')">📊 Sunu</button>
+            <button class="category-tab" onclick="filterMaterials('activity')">🎯 Etkinlik</button>
+            <button class="category-tab" onclick="filterMaterials('doc')">📝 Döküman</button>
+        </div>
+
+        <!-- Materials Grid -->
+        <div class="materials-grid" id="materialsGrid">
+            <!-- Özel Eğitim Yönetmeliği -->
+            <div class="material-card" data-category="pdf">
+                <div class="material-icon pdf">📄</div>
+                <span class="material-tag">PDF</span>
+                <h3>Özel Eğitim Yönetmeliği</h3>
+                <p>Özel eğitim hizmetleri hakkında resmi yönetmelik</p>
+                <a href="https://res.cloudinary.com/dkatvu9m4/image/upload/v1766351791/chdbcwwtxijznubekwf1.pdf"
+                    target="_blank" class="download-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" x2="12" y1="15" y2="3"></line>
+                    </svg>
+                    İndir
+                </a>
+            </div>
+
+            <!-- Daha fazla materyal eklemek için buraya yeni kartlar eklenecek -->
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <p>👨‍🏫 Ahmet Öğretmen - Özel Eğitim Materyalleri © 2025</p>
@@ -1136,6 +1352,29 @@
                 showSection(hash);
             }
         });
+
+        // Filter materials by category
+        function filterMaterials(category) {
+            const cards = document.querySelectorAll('.material-card');
+            const tabs = document.querySelectorAll('.category-tab');
+
+            // Update active tab
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.onclick.toString().includes(`'${category}'`)) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 
