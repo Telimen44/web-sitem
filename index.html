@@ -475,6 +475,124 @@
             font-size: 0.65rem;
             font-style: italic;
         }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 16px 48px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .content-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .content-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #9333ea, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .content-header p {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #9333ea;
+        }
+
+        .content-card h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-card h2 .icon {
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .content-card p,
+        .content-card li {
+            color: #4b5563;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .content-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 12px;
+        }
+
+        .content-card li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+        }
+
+        .content-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #9333ea, #ec4899);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-bottom: 24px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(147, 51, 234, 0.3);
+        }
+
+        @media (min-width: 1024px) {
+            .content-header h1 {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 
@@ -744,6 +862,190 @@
         </div>
     </main>
 
+    <!-- Content Section: Özel Eğitim Nedir -->
+    <section id="special-ed" class="content-section">
+        <button class="back-btn" onclick="showGames()">
+            ← Oyunlara Dön
+        </button>
+        <div class="content-header">
+            <h1>📚 Özel Eğitim Nedir?</h1>
+            <p>Özel gereksinimli bireyler için tasarlanmış eğitim yaklaşımları</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">📖</span>Tanım</h2>
+            <p>Özel eğitim, yaşıtlarından farklı ve özel gereksinimli bireylere sunulan, bireysel farklılıkları ve
+                ihtiyaçları doğrultusunda hazırlanan eğitim programlarıdır. Bu eğitim, bireyin gelişimini en üst düzeye
+                çıkarmayı ve topluma uyumunu sağlamayı amaçlar.</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">🎯</span>Amaçları</h2>
+            <ul>
+                <li>Bireyin bağımsız yaşam becerilerini geliştirmek</li>
+                <li>Akademik başarıyı desteklemek</li>
+                <li>Sosyal uyum becerilerini kazandırmak</li>
+                <li>İletişim becerilerini güçlendirmek</li>
+                <li>Mesleki becerilere hazırlamak</li>
+            </ul>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">👥</span>Kimler Yararlanır?</h2>
+            <ul>
+                <li>Zihinsel yetersizliği olan bireyler</li>
+                <li>İşitme yetersizliği olan bireyler</li>
+                <li>Görme yetersizliği olan bireyler</li>
+                <li>Ortopedik yetersizliği olan bireyler</li>
+                <li>Dil ve konuşma güçlüğü olan bireyler</li>
+                <li>Otizm spektrum bozukluğu olan bireyler</li>
+                <li>Dikkat eksikliği ve hiperaktivite bozukluğu olan bireyler</li>
+                <li>Özel öğrenme güçlüğü olan bireyler</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Content Section: Yetersizlik Türleri -->
+    <section id="disabilities" class="content-section">
+        <button class="back-btn" onclick="showGames()">
+            ← Oyunlara Dön
+        </button>
+        <div class="content-header">
+            <h1>🧩 Yetersizlik Türleri</h1>
+            <p>Özel eğitim kapsamındaki yetersizlik grupları</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">🧠</span>Zihinsel Yetersizlik</h2>
+            <p>Genel zihinsel işlevlerde ve uyumsal davranışlarda sınırlılık gösteren, bu sınırlılığın 18 yaş öncesinde
+                ortaya çıktığı bir durumdur. Hafif, orta, ağır ve çok ağır düzeylerde görülebilir.</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">👂</span>İşitme Yetersizliği</h2>
+            <p>İşitme duyusunun kısmen veya tamamen kaybedilmesi durumudur. İşitme cihazı veya koklear implant ile
+                desteklenebilir. İşaret dili ve dudak okuma önemli iletişim araçlarıdır.</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">👁</span>Görme Yetersizliği</h2>
+            <p>Görme duyusunun kısmen (az gören) veya tamamen (kör) kaybedilmesi durumudur. Braille alfabesi, beyaz
+                baston ve yardımcı teknolojiler kullanılır.</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">🦽</span>Ortopedik Yetersizlik</h2>
+            <p>Kas, iskelet ve eklem sistemlerinin yetersizliği sonucu hareket ve koordinasyonda güçlük yaşanan
+                durumlardır. Fizik tedavi ve ergonomi önemlidir.</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">💬</span>Dil ve Konuşma Güçlüğü</h2>
+            <p>Konuşma akıcılığı, ses üretimi, dil kullanımı veya anlama becerilerinde yaşanan güçlüklerdir. Kekemelik,
+                artikülasyon bozuklukları bu kategoridedir.</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">🌈</span>Otizm Spektrum Bozukluğu</h2>
+            <p>Sosyal iletişim ve etkileşimde güçlük, sınırlı ilgi alanları ve tekrarlayan davranışlarla karakterize
+                nörogelişimsel bir farklılıktır.</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">📝</span>Özel Öğrenme Güçlüğü</h2>
+            <p>Normal zeka düzeyine sahip olunmasına rağmen okuma (disleksi), yazma (disgrafi) veya matematik
+                (diskalkuli) alanlarında yaşanan güçlüklerdir.</p>
+        </div>
+    </section>
+
+    <!-- Content Section: BEP Nedir -->
+    <section id="bep" class="content-section">
+        <button class="back-btn" onclick="showGames()">
+            ← Oyunlara Dön
+        </button>
+        <div class="content-header">
+            <h1>📋 BEP Nedir?</h1>
+            <p>Bireyselleştirilmiş Eğitim Programı hakkında bilgiler</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">📄</span>BEP Tanımı</h2>
+            <p>Bireyselleştirilmiş Eğitim Programı (BEP), özel eğitim gerektiren her birey için gelişimsel özellikleri,
+                eğitim performansı ve ihtiyaçları doğrultusunda hazırlanan özel bir eğitim programıdır.</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">📝</span>BEP'te Neler Bulunur?</h2>
+            <ul>
+                <li>Bireyin mevcut performans düzeyi</li>
+                <li>Uzun dönemli amaçlar</li>
+                <li>Kısa dönemli hedefler</li>
+                <li>Verilecek destek eğitim hizmetleri</li>
+                <li>Başlangıç ve bitiş tarihleri</li>
+                <li>Değerlendirme ölçütleri</li>
+                <li>Sorumlular ve görevleri</li>
+            </ul>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">👨‍👩‍👧</span>BEP Hazırlama Süreci</h2>
+            <ul>
+                <li>BEP Geliştirme Birimi toplantısı yapılır</li>
+                <li>Aile bilgi verir ve sürece katılır</li>
+                <li>Öğretmenler ve uzmanlar değerlendirme yapar</li>
+                <li>Program aile ile paylaşılır ve onay alınır</li>
+                <li>Dönemsel olarak gözden geçirilir</li>
+            </ul>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">⏰</span>BEP Ne Zaman Güncellenir?</h2>
+            <p>BEP en az yılda bir kez, gerektiğinde daha sık güncellenir. Bireyin gelişimi, değişen ihtiyaçları ve
+                ailenin talepleri doğrultusunda revize edilir.</p>
+        </div>
+    </section>
+
+    <!-- Content Section: Yasal Haklar -->
+    <section id="rights" class="content-section">
+        <button class="back-btn" onclick="showGames()">
+            ← Oyunlara Dön
+        </button>
+        <div class="content-header">
+            <h1>⚖️ Yasal Haklar</h1>
+            <p>Özel gereksinimli bireylerin eğitim hakları</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">📜</span>Anayasal Güvence</h2>
+            <p>T.C. Anayasası'nın 42. maddesi gereği eğitim hakkı temel haklardan biridir. Devlet, özel eğitime muhtaç
+                kişileri topluma kazandırmak için gerekli tedbirleri almakla yükümlüdür.</p>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">📚</span>573 Sayılı KHK</h2>
+            <ul>
+                <li>Özel eğitim hizmetleri ücretsizdir</li>
+                <li>Eğitim, bireyin yaşına uygun ortamda verilir</li>
+                <li>Tanılama, izleme, değerlendirme yapılır</li>
+                <li>Kaynaştırma/bütünleştirme öncelikli tercihtir</li>
+                <li>Aile eğitime katılır</li>
+            </ul>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">🏫</span>Eğitim Ortamları</h2>
+            <ul>
+                <li>Kaynaştırma/Bütünleştirme (tam/yarı zamanlı)</li>
+                <li>Özel eğitim sınıfları</li>
+                <li>Özel eğitim okulları</li>
+                <li>Evde eğitim hizmeti</li>
+                <li>Hastanede eğitim hizmeti</li>
+            </ul>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">🎓</span>Destek Eğitim Hakları</h2>
+            <ul>
+                <li>RAM tarafından yönlendirme</li>
+                <li>Ücretsiz destek eğitim odası hizmeti</li>
+                <li>Özel eğitim ve rehabilitasyon merkezi desteği</li>
+                <li>Ücretsiz ulaşım hizmeti</li>
+                <li>Yatılı eğitim imkanı (gerektiğinde)</li>
+            </ul>
+        </div>
+        <div class="content-card">
+            <h2><span class="icon">⏳</span>Önemli Süreler</h2>
+            <ul>
+                <li>0-36 ay: Erken çocukluk dönemi eğitimi</li>
+                <li>36-72 ay: Okul öncesi eğitimi</li>
+                <li>Zorunlu eğitim: 6-18 yaş arası</li>
+                <li>Mesleki eğitim: 21 yaşına kadar uzatılabilir</li>
+            </ul>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer>
         <p>👨‍🏫 Ahmet Öğretmen - Özel Eğitim Materyalleri © 2025</p>
@@ -754,6 +1056,86 @@
             document.querySelector('.sidebar').classList.toggle('open');
             document.querySelector('.sidebar-overlay').classList.toggle('open');
         }
+
+        function showSection(sectionId) {
+            // Hide games section
+            document.querySelector('.header').style.display = 'none';
+            document.querySelector('.games-container').style.display = 'none';
+
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show targeted section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            // Close sidebar
+            document.querySelector('.sidebar').classList.remove('open');
+            document.querySelector('.sidebar-overlay').classList.remove('open');
+
+            // Update active menu item
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + sectionId ||
+                    (sectionId === 'games' && link.getAttribute('href') === '#')) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function showGames() {
+            // Show games section
+            document.querySelector('.header').style.display = 'block';
+            document.querySelector('.games-container').style.display = 'block';
+
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Update active menu item
+            document.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector('.sidebar-nav a[href="#"]').classList.add('active');
+
+            // Update URL
+            history.pushState(null, '', window.location.pathname);
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Handle menu clicks
+        document.querySelectorAll('.sidebar-nav a').forEach(link => {
+            link.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+
+                if (href === '#') {
+                    e.preventDefault();
+                    showGames();
+                } else if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const sectionId = href.substring(1);
+                    showSection(sectionId);
+                }
+            });
+        });
+
+        // Handle hash on page load
+        window.addEventListener('DOMContentLoaded', function () {
+            const hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(hash)) {
+                showSection(hash);
+            }
+        });
     </script>
 </body>
 
