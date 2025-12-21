@@ -27,7 +27,6 @@
             max-width: 500px;
         }
 
-        /* Login Panel Styles */
         .login-panel,
         .upload-panel {
             background: rgba(255, 255, 255, 0.1);
@@ -130,14 +129,10 @@
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
 
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .error-message {
@@ -151,7 +146,6 @@
             display: none;
         }
 
-        /* Upload Panel Styles */
         .upload-panel {
             display: none;
         }
@@ -232,7 +226,6 @@
             word-break: break-all;
         }
 
-        /* Progress Bar */
         .progress-container {
             display: none;
             margin-bottom: 20px;
@@ -262,7 +255,6 @@
             transition: width 0.3s ease;
         }
 
-        /* Result Area */
         .result-area {
             display: none;
             background: rgba(34, 197, 94, 0.15);
@@ -340,6 +332,7 @@
             font-weight: 500;
             opacity: 0;
             transition: all 0.3s ease;
+            z-index: 1000;
         }
 
         .copy-feedback.show {
@@ -347,7 +340,23 @@
             opacity: 1;
         }
 
-        /* Responsive */
+        .service-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 10px;
+        }
+
+        .service-badge img {
+            width: 16px;
+            height: 16px;
+        }
+
         @media (max-width: 480px) {
 
             .login-panel,
@@ -361,6 +370,29 @@
 
             .upload-area {
                 padding: 30px 15px;
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translateX(-5px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translateX(5px);
             }
         }
     </style>
@@ -408,7 +440,10 @@
         <div class="upload-panel" id="uploadPanel">
             <div class="panel-header">
                 <h1>📁 Dosya Yükleme</h1>
-                <p>Firebase Storage'a dosya yükleyin</p>
+                <p>Cloudinary'ye dosya yükleyin</p>
+                <div class="service-badge">
+                    ☁️ Cloudinary Free Tier
+                </div>
             </div>
 
             <div class="upload-area" id="uploadArea" onclick="document.getElementById('fileInput').click()">
@@ -474,31 +509,47 @@
 
     <div class="copy-feedback" id="copyFeedback">✓ Link kopyalandı!</div>
 
-    <!-- Firebase SDK (V9 Modular) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+    <script>
+        // ╔═══════════════════════════════════════════════════════════════════╗
+        // ║  CLOUDINARY AYARLARI                                              ║
+        // ║  https://cloudinary.com adresinden ücretsiz hesap aç              ║
+        // ║  Dashboard'dan Cloud Name'i al ve aşağıya yaz                     ║
+        // ║  Settings > Upload > Upload Presets > Add upload preset           ║
+        // ║  Signing Mode: Unsigned olarak ayarla, preset adını aşağıya yaz   ║
+        // ╚═══════════════════════════════════════════════════════════════════╝
+        const CLOUDINARY_CLOUD_NAME = "dkatvu9m4";
+        const CLOUDINARY_UPLOAD_PRESET = "telimen_site";
 
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyDFv_0m6kRKSnOUMBK2zbuUYN1Iu7xtH7s",
-            authDomain: "telimen-depo-db3dd.firebaseapp.com",
-            projectId: "telimen-depo-db3dd",
-            storageBucket: "telimen-depo-db3dd.firebasestorage.app",
-            messagingSenderId: "379150738342",
-            appId: "1:379150738342:web:897a825657dacac2776567",
-            measurementId: "G-60JV9K1EB3"
-        };
-
-        // Firebase'i başlat
-        const app = initializeApp(firebaseConfig);
-        const storage = getStorage(app);
-
-        // Global değişkenler
         let selectedFile = null;
 
+        // Giriş kontrolü
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (username === 'patron' && password === 'fatah4412') {
+                document.getElementById('loginPanel').style.display = 'none';
+                document.getElementById('uploadPanel').style.display = 'block';
+                errorMessage.style.display = 'none';
+            } else {
+                errorMessage.style.display = 'block';
+                document.getElementById('loginPanel').style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    document.getElementById('loginPanel').style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Enter tuşu ile giriş
+        document.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter' && document.getElementById('loginPanel').style.display !== 'none') {
+                login();
+            }
+        });
+
         // Dosya seçimi
-        window.handleFileSelect = function (event) {
+        function handleFileSelect(event) {
             const file = event.target.files[0];
             if (file) {
                 selectedFile = file;
@@ -507,7 +558,7 @@
                 document.getElementById('uploadBtn').disabled = false;
                 document.getElementById('resultArea').style.display = 'none';
             }
-        };
+        }
 
         // Drag & Drop
         const uploadArea = document.getElementById('uploadArea');
@@ -534,8 +585,8 @@
             }
         });
 
-        // Dosya yükleme
-        window.uploadFile = function () {
+        // Cloudinary'ye yükleme
+        function uploadFile() {
             if (!selectedFile) return;
 
             const uploadBtn = document.getElementById('uploadBtn');
@@ -551,60 +602,65 @@
             progressContainer.style.display = 'block';
             resultArea.style.display = 'none';
 
-            // Firebase Storage referansı
-            const timestamp = Date.now();
-            const fileName = `uploads/${timestamp}_${selectedFile.name}`;
-            const storageRef = ref(storage, fileName);
+            // FormData oluştur
+            const formData = new FormData();
+            formData.append('file', selectedFile);
+            formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
 
-            // Yükleme görevi
-            const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+            // XMLHttpRequest ile yükleme (progress için)
+            const xhr = new XMLHttpRequest();
 
-            uploadTask.on('state_changed',
-                (snapshot) => {
-                    // İlerleme durumu
-                    const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
-                    progressFill.style.width = progress + '%';
-                    progressPercent.textContent = progress + '%';
-                },
-                (error) => {
-                    // Hata durumu
-                    console.error('Yükleme hatası:', error);
-                    alert('Yükleme sırasında bir hata oluştu: ' + error.message);
-                    uploadBtn.disabled = false;
-                    uploadBtn.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
-                        </svg>
-                        Yükle
-                    `;
-                    progressContainer.style.display = 'none';
-                },
-                async () => {
-                    // Başarılı yükleme
-                    const url = await getDownloadURL(uploadTask.snapshot.ref);
-                    downloadUrl.value = url;
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const percent = Math.round((e.loaded / e.total) * 100);
+                    progressFill.style.width = percent + '%';
+                    progressPercent.textContent = percent + '%';
+                }
+            });
+
+            xhr.addEventListener('load', () => {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    downloadUrl.value = response.secure_url;
                     resultArea.style.display = 'block';
                     progressContainer.style.display = 'none';
-
-                    uploadBtn.disabled = false;
-                    uploadBtn.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
-                        </svg>
-                        Yükle
-                    `;
 
                     // Formu sıfırla
                     selectedFile = null;
                     document.getElementById('fileInput').value = '';
                     document.getElementById('selectedFile').style.display = 'none';
-                    uploadBtn.disabled = true;
+                } else {
+                    alert('Yükleme hatası! Cloudinary ayarlarını kontrol edin.');
+                    console.error('Upload error:', xhr.responseText);
                 }
-            );
-        };
+
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                    </svg>
+                    Yükle
+                `;
+            });
+
+            xhr.addEventListener('error', () => {
+                alert('Bağlantı hatası! İnternet bağlantınızı kontrol edin.');
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                    </svg>
+                    Yükle
+                `;
+                progressContainer.style.display = 'none';
+            });
+
+            xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`);
+            xhr.send(formData);
+        }
 
         // URL kopyalama
-        window.copyUrl = function () {
+        function copyUrl() {
             const urlInput = document.getElementById('downloadUrl');
             urlInput.select();
             urlInput.setSelectionRange(0, 99999);
@@ -615,63 +671,8 @@
             setTimeout(() => {
                 feedback.classList.remove('show');
             }, 2000);
-        };
-    </script>
-
-    <!-- Login Script -->
-    <script>
-        // Giriş kontrolü
-        function login() {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMessage = document.getElementById('errorMessage');
-
-            if (username === 'patron' && password === 'fatah4412') {
-                document.getElementById('loginPanel').style.display = 'none';
-                document.getElementById('uploadPanel').style.display = 'block';
-                errorMessage.style.display = 'none';
-            } else {
-                errorMessage.style.display = 'block';
-                // Titreme efekti
-                document.getElementById('loginPanel').style.animation = 'shake 0.5s';
-                setTimeout(() => {
-                    document.getElementById('loginPanel').style.animation = '';
-                }, 500);
-            }
         }
-
-        // Enter tuşu ile giriş
-        document.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter' && document.getElementById('loginPanel').style.display !== 'none') {
-                login();
-            }
-        });
     </script>
-
-    <style>
-        @keyframes shake {
-
-            0%,
-            100% {
-                transform: translateX(0);
-            }
-
-            10%,
-            30%,
-            50%,
-            70%,
-            90% {
-                transform: translateX(-5px);
-            }
-
-            20%,
-            40%,
-            60%,
-            80% {
-                transform: translateX(5px);
-            }
-        }
-    </style>
 </body>
 
 </html>
