@@ -16,25 +16,29 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .login-panel,
-        .upload-panel {
+        .main-panel {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             border-radius: 24px;
             padding: 40px 30px;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .login-panel {
+            max-width: 500px;
+            margin: 100px auto;
         }
 
         .panel-header {
@@ -135,6 +139,15 @@
             transform: none;
         }
 
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+        }
+
         .error-message {
             background: rgba(239, 68, 68, 0.2);
             border: 1px solid rgba(239, 68, 68, 0.5);
@@ -146,7 +159,7 @@
             display: none;
         }
 
-        .upload-panel {
+        .main-panel {
             display: none;
         }
 
@@ -352,15 +365,145 @@
             margin-top: 10px;
         }
 
-        .service-badge img {
-            width: 16px;
-            height: 16px;
+        /* Files List Section */
+        .section-title {
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .files-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .file-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .file-item .file-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .file-icon.pdf {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .file-icon.image {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .file-icon.video {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .file-icon.other {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+        }
+
+        .file-info {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .file-info h4 {
+            color: #fff;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+
+        .file-info p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .file-actions button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small-copy {
+            background: rgba(102, 126, 234, 0.3);
+            color: #a5b4fc;
+        }
+
+        .btn-small-copy:hover {
+            background: rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-small-delete {
+            background: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .btn-small-delete:hover {
+            background: rgba(239, 68, 68, 0.5);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .empty-state .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 12px;
+        }
+
+        .info-box {
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+            color: #93c5fd;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .info-box a {
+            color: #60a5fa;
+            text-decoration: underline;
         }
 
         @media (max-width: 480px) {
 
             .login-panel,
-            .upload-panel {
+            .main-panel {
                 padding: 30px 20px;
             }
 
@@ -370,6 +513,20 @@
 
             .upload-area {
                 padding: 30px 15px;
+            }
+
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .file-actions {
+                width: 100%;
+            }
+
+            .file-actions button {
+                flex: 1;
+                justify-content: center;
             }
         }
 
@@ -436,8 +593,9 @@
             </button>
         </div>
 
-        <!-- Upload Panel -->
-        <div class="upload-panel" id="uploadPanel">
+        <!-- Main Panel -->
+        <div class="main-panel" id="mainPanel">
+            <!-- Upload Section -->
             <div class="panel-header">
                 <h1>📁 Dosya Yükleme</h1>
                 <p>Cloudinary'ye dosya yükleyin</p>
@@ -505,22 +663,33 @@
                 </div>
             </div>
         </div>
+
+        <!-- Files Management Section -->
+        <div class="main-panel" id="filesPanel" style="display: none;">
+            <h2 class="section-title">📂 Yüklenen Dosyalar</h2>
+
+            <div class="files-list" id="filesList">
+                <!-- Files will be dynamically added here -->
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Bilgi:</strong><br>
+                • PDF dosyaları için link otomatik olarak düzeltilir.<br>
+                • Cloudinary'den kalıcı silmek için: <a href="https://console.cloudinary.com/console/media_library"
+                    target="_blank">Media Library</a><br>
+                • "Listeden Sil" sadece bu listeden kaldırır, Cloudinary'den silmez.
+            </div>
+        </div>
     </div>
 
     <div class="copy-feedback" id="copyFeedback">✓ Link kopyalandı!</div>
 
     <script>
-        // ╔═══════════════════════════════════════════════════════════════════╗
-        // ║  CLOUDINARY AYARLARI                                              ║
-        // ║  https://cloudinary.com adresinden ücretsiz hesap aç              ║
-        // ║  Dashboard'dan Cloud Name'i al ve aşağıya yaz                     ║
-        // ║  Settings > Upload > Upload Presets > Add upload preset           ║
-        // ║  Signing Mode: Unsigned olarak ayarla, preset adını aşağıya yaz   ║
-        // ╚═══════════════════════════════════════════════════════════════════╝
         const CLOUDINARY_CLOUD_NAME = "dkatvu9m4";
         const CLOUDINARY_UPLOAD_PRESET = "telimen_site";
 
         let selectedFile = null;
+        let uploadedFiles = JSON.parse(localStorage.getItem('uploadedFiles') || '[]');
 
         // Giriş kontrolü
         function login() {
@@ -530,8 +699,10 @@
 
             if (username === 'patron' && password === 'fatah4412') {
                 document.getElementById('loginPanel').style.display = 'none';
-                document.getElementById('uploadPanel').style.display = 'block';
+                document.getElementById('mainPanel').style.display = 'block';
+                document.getElementById('filesPanel').style.display = 'block';
                 errorMessage.style.display = 'none';
+                renderFilesList();
             } else {
                 errorMessage.style.display = 'block';
                 document.getElementById('loginPanel').style.animation = 'shake 0.5s';
@@ -585,6 +756,35 @@
             }
         });
 
+        // Dosya türünü belirle
+        function getFileType(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            if (['pdf'].includes(ext)) return 'pdf';
+            if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext)) return 'image';
+            if (['mp4', 'webm', 'mov', 'avi'].includes(ext)) return 'video';
+            return 'other';
+        }
+
+        // Dosya ikonu
+        function getFileIcon(type) {
+            switch (type) {
+                case 'pdf': return '📄';
+                case 'image': return '🖼️';
+                case 'video': return '🎬';
+                default: return '📁';
+            }
+        }
+
+        // URL'yi düzelt (PDF için raw kullan)
+        function fixUrl(url, filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            // PDF ve diğer raw dosyalar için /image/upload/ yerine /raw/upload/ kullan
+            if (['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'zip', 'rar'].includes(ext)) {
+                return url.replace('/image/upload/', '/raw/upload/');
+            }
+            return url;
+        }
+
         // Cloudinary'ye yükleme
         function uploadFile() {
             if (!selectedFile) return;
@@ -596,18 +796,16 @@
             const resultArea = document.getElementById('resultArea');
             const downloadUrl = document.getElementById('downloadUrl');
 
-            // UI güncelle
             uploadBtn.disabled = true;
             uploadBtn.innerHTML = '⏳ Yükleniyor...';
             progressContainer.style.display = 'block';
             resultArea.style.display = 'none';
 
-            // FormData oluştur
             const formData = new FormData();
             formData.append('file', selectedFile);
             formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
 
-            // XMLHttpRequest ile yükleme (progress için)
+            const fileName = selectedFile.name;
             const xhr = new XMLHttpRequest();
 
             xhr.upload.addEventListener('progress', (e) => {
@@ -621,9 +819,26 @@
             xhr.addEventListener('load', () => {
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
-                    downloadUrl.value = response.secure_url;
+                    let url = response.secure_url;
+
+                    // URL'yi düzelt
+                    url = fixUrl(url, fileName);
+
+                    downloadUrl.value = url;
                     resultArea.style.display = 'block';
                     progressContainer.style.display = 'none';
+
+                    // Dosyayı listeye ekle
+                    const fileData = {
+                        id: Date.now(),
+                        name: fileName,
+                        url: url,
+                        type: getFileType(fileName),
+                        date: new Date().toLocaleDateString('tr-TR')
+                    };
+                    uploadedFiles.unshift(fileData);
+                    localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+                    renderFilesList();
 
                     // Formu sıfırla
                     selectedFile = null;
@@ -659,13 +874,64 @@
             xhr.send(formData);
         }
 
+        // Dosyalar listesini render et
+        function renderFilesList() {
+            const container = document.getElementById('filesList');
+
+            if (uploadedFiles.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <p>Henüz dosya yüklenmemiş</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = uploadedFiles.map(file => `
+                <div class="file-item" data-id="${file.id}">
+                    <div class="file-icon ${file.type}">${getFileIcon(file.type)}</div>
+                    <div class="file-info">
+                        <h4>${file.name}</h4>
+                        <p>${file.date}</p>
+                    </div>
+                    <div class="file-actions">
+                        <button class="btn-small-copy" onclick="copyFileUrl('${file.url}')">
+                            📋 Kopyala
+                        </button>
+                        <button class="btn-small-delete" onclick="deleteFile(${file.id})">
+                            🗑️ Listeden Sil
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Dosya URL'sini kopyala
+        function copyFileUrl(url) {
+            navigator.clipboard.writeText(url);
+            showFeedback();
+        }
+
+        // Dosyayı listeden sil
+        function deleteFile(id) {
+            if (confirm('Bu dosyayı listeden silmek istediğinize emin misiniz?\n\n(Not: Cloudinary\'den silinmez, sadece bu listeden kaldırılır)')) {
+                uploadedFiles = uploadedFiles.filter(f => f.id !== id);
+                localStorage.setItem('uploadedFiles', JSON.stringify(uploadedFiles));
+                renderFilesList();
+            }
+        }
+
         // URL kopyalama
         function copyUrl() {
             const urlInput = document.getElementById('downloadUrl');
             urlInput.select();
             urlInput.setSelectionRange(0, 99999);
             navigator.clipboard.writeText(urlInput.value);
+            showFeedback();
+        }
 
+        function showFeedback() {
             const feedback = document.getElementById('copyFeedback');
             feedback.classList.add('show');
             setTimeout(() => {
