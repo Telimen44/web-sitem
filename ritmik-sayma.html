@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ritmik Uzay Yolu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+
+        :root {
+            --warp-speed: 1;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #0f172a;
+            overflow: hidden;
+            touch-action: manipulation;
+            user-select: none;
+        }
+
+        /* Yıldızlar - Warp hızı değişkenine bağlı */
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle calc(var(--duration) / var(--warp-speed)) infinite ease-in-out;
+            opacity: var(--opacity);
+            transition: transform 0.5s;
+        }
+
+        /* Warp efekti sırasında yıldızlar uzar */
+        .warping .star {
+            height: 2px !important;
+            width: 50px !important;
+            opacity: 0.8;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.2;
+                transform: translateX(0);
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0.2;
+                transform: translateX(-100px);
+            }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .game-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .game-btn:active {
+            transform: scale(0.95);
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-8px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(8px, 0, 0);
+            }
+        }
+
+        .pop-in {
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Karakter Seçimi Stilleri */
+        .char-select.selected {
+            background-color: rgba(251, 191, 36, 0.4);
+            border-color: #fcd34d;
+            transform: scale(1.1);
+        }
+
+        /* Seri (Streak) Animasyonu */
+        .streak-pop {
+            animation: streakAnim 0.8s ease-out forwards;
+        }
+
+        @keyframes streakAnim {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+
+            20% {
+                opacity: 1;
+                transform: scale(1.5) rotate(10deg);
+            }
+
+            80% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: scale(1.5) translateY(-50px);
+            }
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        /* AI Loading Animation */
+        .typing-dot {
+            animation: typing 1.4s infinite ease-in-out both;
+            background-color: #fbbf24;
+            border-radius: 50%;
+            display: inline-block;
+            height: 6px;
+            margin-right: 3px;
+            width: 6px;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes typing {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body class="h-screen w-screen flex items-center justify-center text-white relative overflow-hidden">
+
+    <!-- Arkaplan Yıldızları -->
+    <div id="stars-container" class="absolute inset-0 z-0 transition-all duration-1000"></div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- ANA MENÜ -->
+    <div id="menu-screen"
+        class="z-10 w-full max-w-5xl p-4 flex flex-col items-center justify-center h-full overflow-y-auto">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 text-center text-yellow-400 drop-shadow-lg floating">
+            🚀 Ritmik Uzay Yolu
+        </h1>
+
+        <!-- KARAKTER SEÇİMİ -->
+        <div class="glass-panel p-4 rounded-2xl mb-6 w-full max-w-2xl">
+            <h3 class="text-xl text-center text-blue-200 mb-3">Pilotunu Seç:</h3>
+            <div class="flex justify-center gap-4 md:gap-8">
+                <button onclick="selectChar('👨‍🚀')"
+                    class="char-select selected w-20 h-20 text-4xl bg-white/5 rounded-full border-2 border-transparent transition-all hover:scale-105">👨‍🚀</button>
+                <button onclick="selectChar('👩‍🚀')"
+                    class="char-select w-20 h-20 text-4xl bg-white/5 rounded-full border-2 border-transparent transition-all hover:scale-105">👩‍🚀</button>
+                <button onclick="selectChar('👽')"
+                    class="char-select w-20 h-20 text-4xl bg-white/5 rounded-full border-2 border-transparent transition-all hover:scale-105">👽</button>
+                <button onclick="selectChar('🤖')"
+                    class="char-select w-20 h-20 text-4xl bg-white/5 rounded-full border-2 border-transparent transition-all hover:scale-105">🤖</button>
+                <button onclick="selectChar('🐱‍🚀')"
+                    class="char-select w-20 h-20 text-4xl bg-white/5 rounded-full border-2 border-transparent transition-all hover:scale-105">🐱‍🚀</button>
+            </div>
+        </div>
+
+        <p class="text-xl mb-4 text-blue-200 text-center">Hangi sayılarla oynamak istersin?</p>
+
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 w-full">
+            <!-- Butonlar JS ile oluşturulacak -->
+        </div>
+    </div>
+
+    <!-- OYUN EKRANI -->
+    <div id="game-screen"
+        class="hidden z-10 w-full max-w-4xl p-4 flex-col items-center h-full justify-between py-4 relative">
+
+        <!-- SERİ SAYACI (Animasyonlu Popup) -->
+        <div id="streak-container"
+            class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-50">
+        </div>
+
+        <!-- Üst Bilgi -->
+        <div class="w-full flex justify-between items-center glass-panel p-3 rounded-2xl mb-2 relative">
+            <button onclick="goToMenu()"
+                class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl shadow-lg active:scale-95 transition text-sm md:text-base z-20">
+                ← Çıkış
+            </button>
+
+            <!-- Seçilen Karakter Avatarı -->
+            <div class="absolute left-1/2 transform -translate-x-1/2 -top-6 md:-top-8">
+                <div class="w-16 h-16 md:w-20 md:h-20 bg-indigo-600 rounded-full border-4 border-yellow-400 flex items-center justify-center text-4xl md:text-5xl shadow-xl floating"
+                    id="current-pilot">
+                    👨‍🚀
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <div class="text-xl md:text-2xl font-bold text-yellow-300 flex flex-col items-end">
+                    <span>Puan</span>
+                    <span id="score" class="text-white">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hedef Göstergesi -->
+        <div class="w-full flex justify-center mb-2">
+            <div class="text-lg font-bold text-blue-200 bg-blue-900/50 px-4 py-1 rounded-full">
+                Gezegen: <span id="target-counter">1/10</span>
+            </div>
+        </div>
+
+        <!-- ✨ GEMINI AI GÖREV METNİ -->
+        <div id="mission-panel"
+            class="w-full glass-panel bg-indigo-900/40 p-3 rounded-2xl mb-4 text-center min-h-[60px] flex items-center justify-center border-yellow-400/30">
+            <div id="mission-text" class="text-yellow-100 text-lg md:text-xl font-medium italic">
+                <!-- AI Metni buraya gelecek -->
+            </div>
+        </div>
+
+        <!-- Soru Alanı (Tren Vagonları) -->
+        <div class="flex-1 flex flex-col items-center justify-center w-full">
+            <div id="sequence-container" class="flex flex-wrap items-center justify-center gap-2 md:gap-4 mb-6 md:mb-8">
+                <!-- Sayı kutuları buraya gelecek -->
+            </div>
+
+            <div
+                class="text-2xl mb-4 md:mb-6 text-purple-200 font-semibold animate-pulse bg-purple-900/50 px-6 py-2 rounded-full border border-purple-500/30">
+                Sıradaki sayı hangisi?
+            </div>
+
+            <!-- Cevap Seçenekleri -->
+            <div id="options-container" class="grid grid-cols-3 gap-3 md:gap-8 w-full max-w-2xl">
+                <!-- Seçenekler buraya gelecek -->
+            </div>
+        </div>
+
+        <!-- İlerleme Çubuğu -->
+        <div class="w-full bg-gray-700 rounded-full h-3 md:h-4 mt-2 glass-panel border-none">
+            <div id="progress-bar"
+                class="bg-gradient-to-r from-green-400 to-blue-500 h-3 md:h-4 rounded-full transition-all duration-500"
+                style="width: 0%"></div>
+        </div>
+    </div>
+
+    <!-- BİTİŞ EKRANI -->
+    <div id="end-screen"
+        class="hidden z-20 absolute inset-0 bg-black/80 flex flex-col items-center justify-center p-4 backdrop-blur-sm">
+        <div
+            class="glass-panel p-6 md:p-8 rounded-3xl text-center max-w-lg w-full pop-in border-yellow-400/30 relative overflow-hidden">
+            <div class="text-6xl mb-4" id="end-pilot-display">👨‍🚀</div>
+            <h2 class="text-3xl md:text-4xl font-bold text-yellow-400 mb-2">Harika İş Pilot!</h2>
+            <p class="text-xl text-white mb-4">Uzay yolculuğunu tamamladın!</p>
+
+            <!-- ✨ GEMINI AI ÖDÜL METNİ -->
+            <div class="bg-white/10 rounded-xl p-4 mb-6 border border-white/20">
+                <div class="text-xs text-yellow-300 font-bold mb-1 uppercase tracking-wider">✨ Uzaydan Gelen Mesaj</div>
+                <div id="ai-reward-text"
+                    class="text-white text-lg font-medium italic min-h-[50px] flex items-center justify-center">
+                    <!-- AI Şaka/Bilgi buraya gelecek -->
+                </div>
+            </div>
+
+            <div class="text-3xl font-bold text-green-400 mb-6">
+                Toplam Puan: <span id="final-score">0</span>
+            </div>
+            <button onclick="goToMenu()"
+                class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white text-2xl font-bold py-3 md:py-4 px-8 rounded-2xl shadow-xl transform transition hover:scale-105">
+                Tekrar Oyna 🔄
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- API KEY ---
+        const apiKey = "";
+
+        // --- GEMINI API ENTEGRASYONU ---
+        async function generateGeminiContent(prompt) {
+            if (!apiKey) {
+                console.warn("API Key eksik, varsayılan metin kullanılıyor.");
+                return null;
+            }
+
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{ text: prompt }]
+                        }]
+                    })
+                });
+
+                const data = await response.json();
+                if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
+                    return data.candidates[0].content.parts[0].text;
+                }
+            } catch (error) {
+                console.error("Gemini API hatası:", error);
+            }
+            return null;
+        }
+
+        async function updateMissionText(interval) {
+            const missionEl = document.getElementById('mission-text');
+            missionEl.innerHTML = `<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span> <span class="text-sm text-yellow-200 ml-2">Görev alınıyor...</span>`;
+
+            // Seçilen karakteri prompta ekle
+            const pilotName = selectedCharacter === '👨‍🚀' || selectedCharacter === '👩‍🚀' ? 'Kaptan' :
+                selectedCharacter === '👽' ? 'Uzaylı Dostum' :
+                    selectedCharacter === '🤖' ? 'Robot Birimi' : 'Süper Kedi';
+
+            const prompt = `Sen bir çocuk oyunu yöneticisisin. 6-10 yaş arası bir çocuğa (${pilotName} olarak hitap et), uzay gemisiyle ${interval}'şer ${interval}'şer ritmik sayarak ilerlemesi gereken bir görev veriyorsun. Tek bir cümlelik, çok kısa, heyecanlı, emojili bir görev cümlesi yaz. Türkçe olsun.`;
+
+            const text = await generateGeminiContent(prompt);
+
+            if (text) {
+                missionEl.innerText = text;
+            } else {
+                missionEl.innerText = `${pilotName}! ${interval}'şer ritmik sayarak galakside ilerlemeye hazır mısın? 🚀`;
+            }
+        }
+
+        async function updateRewardText() {
+            const rewardEl = document.getElementById('ai-reward-text');
+            rewardEl.innerHTML = `<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>`;
+
+            const prompt = `6-10 yaş arası çocuklar için uzayla ilgili tek cümlelik, çok ilginç bir bilgi (Biliyor muydun?) veya komik bir uzay şakası yaz. Türkçe olsun, kısa olsun ve sonunda emoji olsun.`;
+
+            const text = await generateGeminiContent(prompt);
+
+            if (text) {
+                rewardEl.innerText = text;
+            } else {
+                rewardEl.innerText = "Harika bir pilotsun! Yıldızlar seninle gurur duyuyor! ⭐";
+            }
+        }
+
+        // --- SES EFEKTLERİ ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'correct') {
+                // Daha mutlu bir ses
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.exponentialRampToValueAtTime(880, now + 0.1);
+                gainNode.gain.setValueAtTime(0.3, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'warp') {
+                // Warp sesi (Swoosh)
+                const noiseBuffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 1, audioCtx.sampleRate);
+                const output = noiseBuffer.getChannelData(0);
+                for (let i = 0; i < audioCtx.sampleRate; i++) {
+                    output[i] = Math.random() * 2 - 1;
+                }
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = noiseBuffer;
+                const noiseFilter = audioCtx.createBiquadFilter();
+                noiseFilter.type = 'lowpass';
+                noiseFilter.frequency.setValueAtTime(100, now);
+                noiseFilter.frequency.linearRampToValueAtTime(2000, now + 0.5);
+
+                noise.connect(noiseFilter);
+                noiseFilter.connect(gainNode);
+
+                gainNode.gain.setValueAtTime(0.2, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 1);
+
+                noise.start(now);
+            } else if (type === 'streak') {
+                // Seri sesi (Power up)
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(200, now);
+                osc.frequency.linearRampToValueAtTime(600, now + 0.2);
+                gainNode.gain.setValueAtTime(0.3, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(100, now + 0.3);
+                gainNode.gain.setValueAtTime(0.3, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'win') {
+                [523, 659, 784, 1046].forEach((freq, i) => {
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'triangle';
+                    o.frequency.value = freq;
+                    g.gain.setValueAtTime(0.2, now + i * 0.15);
+                    g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.15 + 0.5);
+                    o.start(now + i * 0.15);
+                    o.stop(now + i * 0.15 + 0.5);
+                });
+            } else if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, now);
+                gainNode.gain.setValueAtTime(0.1, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            }
+        }
+
+        // --- OYUN DEĞİŞKENLERİ ---
+        let currentInterval = 1;
+        let currentLevel = 1;
+        const totalLevels = 10;
+        let score = 0;
+        let streak = 0; // Seri sayacı
+        let currentSequence = [];
+        let correctAnswer = 0;
+        let selectedCharacter = '👨‍🚀'; // Varsayılan karakter
+
+        // --- BAŞLANGIÇ AYARLARI ---
+        function init() {
+            createStars();
+            createMenuButtons();
+        }
+
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            container.innerHTML = ''; // Temizle ve yeniden oluştur
+            for (let i = 0; i < 60; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                // Animasyon süresi (Warp için önemli)
+                star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
+                star.style.setProperty('--opacity', `${Math.random()}`);
+                container.appendChild(star);
+            }
+        }
+
+        // Karakter seçimi fonksiyonu
+        function selectChar(char) {
+            playSound('click');
+            selectedCharacter = char;
+
+            // Görsel güncelleme
+            document.querySelectorAll('.char-select').forEach(btn => {
+                if (btn.innerText === char) btn.classList.add('selected');
+                else btn.classList.remove('selected');
+            });
+        }
+
+        function createMenuButtons() {
+            const grid = document.querySelector('#menu-screen .grid');
+            grid.innerHTML = '';
+            const colors = [
+                'from-red-400 to-red-600', 'from-orange-400 to-orange-600',
+                'from-amber-400 to-amber-600', 'from-green-400 to-green-600',
+                'from-emerald-400 to-emerald-600', 'from-teal-400 to-teal-600',
+                'from-cyan-400 to-cyan-600', 'from-blue-400 to-blue-600',
+                'from-indigo-400 to-indigo-600', 'from-purple-400 to-purple-600'
+            ];
+
+            for (let i = 1; i <= 10; i++) {
+                const btn = document.createElement('button');
+                btn.className = `game-btn bg-gradient-to-br ${colors[i - 1]} text-white text-3xl md:text-4xl font-bold p-6 rounded-2xl shadow-lg border-b-4 border-black/20 hover:brightness-110 flex flex-col items-center justify-center gap-2`;
+                btn.innerHTML = `<span>${i}'er</span><span class="text-sm opacity-80 font-normal">Sayma</span>`;
+                btn.onclick = () => startGame(i);
+                grid.appendChild(btn);
+            }
+        }
+
+        // --- OYUN MANTIĞI ---
+        function startGame(interval) {
+            playSound('click');
+            currentInterval = interval;
+            currentLevel = 1;
+            score = 0;
+            streak = 0;
+
+            // UI Güncellemeleri
+            document.getElementById('current-pilot').innerText = selectedCharacter;
+            document.getElementById('menu-screen').classList.add('hidden');
+            document.getElementById('end-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden');
+            document.getElementById('game-screen').classList.add('flex');
+
+            updateScoreUI();
+            nextQuestion();
+            updateMissionText(interval);
+        }
+
+        function goToMenu() {
+            playSound('click');
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('flex');
+            document.getElementById('end-screen').classList.add('hidden');
+            document.getElementById('menu-screen').classList.remove('hidden');
+
+            // Warp hızını sıfırla
+            document.documentElement.style.setProperty('--warp-speed', 1);
+            document.getElementById('stars-container').classList.remove('warping');
+        }
+
+        function nextQuestion() {
+            if (currentLevel > totalLevels) {
+                endGame();
+                return;
+            }
+
+            document.getElementById('target-counter').innerText = `${currentLevel}/${totalLevels}`;
+            document.getElementById('progress-bar').style.width = `${((currentLevel - 1) / totalLevels) * 100}%`;
+
+            const startMult = Math.floor(Math.random() * 5) + 1;
+            const startNum = startMult * currentInterval;
+
+            currentSequence = [
+                startNum,
+                startNum + currentInterval,
+                startNum + (currentInterval * 2)
+            ];
+            correctAnswer = startNum + (currentInterval * 3);
+
+            renderSequence();
+            renderOptions();
+        }
+
+        function renderSequence() {
+            const container = document.getElementById('sequence-container');
+            container.innerHTML = '';
+
+            currentSequence.forEach((num, index) => {
+                const box = document.createElement('div');
+                box.className = 'w-20 h-20 md:w-24 md:h-24 flex items-center justify-center bg-white/10 backdrop-blur rounded-2xl border-2 border-white/30 text-3xl md:text-4xl font-bold pop-in';
+                box.style.animationDelay = `${index * 0.1}s`;
+                box.innerText = num;
+                container.appendChild(box);
+
+                if (index < 2) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'text-white/50 text-2xl font-bold';
+                    arrow.innerText = '→';
+                    container.appendChild(arrow);
+                }
+            });
+
+            const arrow = document.createElement('div');
+            arrow.className = 'text-white/50 text-2xl font-bold';
+            arrow.innerText = '→';
+            container.appendChild(arrow);
+
+            const questionBox = document.createElement('div');
+            questionBox.className = 'w-20 h-20 md:w-24 md:h-24 flex items-center justify-center bg-yellow-400/20 backdrop-blur rounded-2xl border-4 border-dashed border-yellow-400 text-3xl md:text-4xl font-bold text-yellow-300 animate-pulse';
+            questionBox.innerText = '?';
+            questionBox.id = 'target-box';
+            container.appendChild(questionBox);
+        }
+
+        function renderOptions() {
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+
+            let options = [correctAnswer];
+            while (options.length < 3) {
+                let wrong;
+                const r = Math.random();
+                if (r < 0.33) wrong = correctAnswer + currentInterval;
+                else if (r < 0.66) wrong = correctAnswer - currentInterval;
+                else wrong = correctAnswer + (Math.floor(Math.random() * 3) + 1);
+
+                if (wrong > 0 && !options.includes(wrong)) {
+                    options.push(wrong);
+                }
+            }
+            options.sort(() => Math.random() - 0.5);
+
+            options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'game-btn bg-white/10 hover:bg-white/20 border-2 border-white/30 text-white text-3xl md:text-4xl font-bold py-6 rounded-2xl shadow-lg transition pop-in';
+                btn.style.animationDelay = `${0.3 + (index * 0.1)}s`;
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(opt, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, btnElement) {
+            if (selected === correctAnswer) {
+                // DOĞRU CEVAP
+                playSound('correct');
+                fireConfetti(btnElement);
+                activateWarpSpeed(); // Işık hızı efekti!
+
+                streak++; // Seriyi artır
+
+                // Seri görseli
+                if (streak > 1) {
+                    playSound('streak');
+                    showStreakEffect(streak);
+                    score += 5; // Ekstra puan
+                }
+
+                btnElement.classList.remove('bg-white/10');
+                btnElement.classList.add('bg-green-500', 'border-green-400');
+
+                const targetBox = document.getElementById('target-box');
+                targetBox.innerText = correctAnswer;
+                targetBox.classList.remove('text-yellow-300', 'border-dashed', 'animate-pulse');
+                targetBox.classList.add('bg-green-500', 'text-white', 'border-solid');
+
+                score += 10;
+                updateScoreUI();
+
+                // Butonları kilitle
+                const opts = document.getElementById('options-container').children;
+                for (let b of opts) b.disabled = true;
+
+                setTimeout(() => {
+                    currentLevel++;
+                    nextQuestion();
+                }, 1500);
+
+            } else {
+                // YANLIŞ CEVAP
+                playSound('wrong');
+                streak = 0; // Seriyi sıfırla
+                btnElement.classList.add('shake', 'bg-red-500/50', 'border-red-400');
+                setTimeout(() => {
+                    btnElement.classList.remove('shake', 'bg-red-500/50', 'border-red-400');
+                }, 500);
+            }
+        }
+
+        // --- YENİ ÖZELLİKLER ---
+
+        // Warp (Işık Hızı) Efekti
+        function activateWarpSpeed() {
+            playSound('warp');
+            const container = document.getElementById('stars-container');
+            container.classList.add('warping');
+            document.documentElement.style.setProperty('--warp-speed', '20'); // Çok hızlandır
+
+            setTimeout(() => {
+                container.classList.remove('warping');
+                document.documentElement.style.setProperty('--warp-speed', '1'); // Normale dön
+            }, 1200);
+        }
+
+        // Seri (Streak) Popup Gösterimi
+        function showStreakEffect(streakCount) {
+            const container = document.getElementById('streak-container');
+            const el = document.createElement('div');
+            el.className = 'text-4xl md:text-6xl font-black text-yellow-400 drop-shadow-lg streak-pop bg-orange-600/80 px-6 py-2 rounded-2xl transform rotate-12 border-4 border-yellow-300';
+            el.innerHTML = `${streakCount}x SERİ! 🔥`;
+
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+
+        function updateScoreUI() {
+            document.getElementById('score').innerText = score;
+        }
+
+        function endGame() {
+            playSound('win');
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('end-pilot-display').innerText = selectedCharacter; // Bitiş ekranına pilotu koy
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('flex');
+            document.getElementById('end-screen').classList.remove('hidden');
+            fireMassiveConfetti();
+            updateRewardText();
+        }
+
+        // --- KONFETİ EFEKTİ ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function fireConfetti(element) {
+            const rect = element.getBoundingClientRect();
+            const x = rect.left + rect.width / 2;
+            const y = rect.top + rect.height / 2;
+
+            for (let i = 0; i < 30; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 1) * 10 - 5,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    size: Math.random() * 8 + 4,
+                    life: 1
+                });
+            }
+        }
+
+        function fireMassiveConfetti() {
+            const x = window.innerWidth / 2;
+            const y = window.innerHeight / 2;
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 20,
+                    vy: (Math.random() - 1) * 20 - 5,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                    size: Math.random() * 10 + 5,
+                    life: 1.5
+                });
+            }
+        }
+
+        function updateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.5;
+                p.life -= 0.02;
+                p.size *= 0.96;
+
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (p.life <= 0) particles.splice(i, 1);
+            });
+            requestAnimationFrame(updateConfetti);
+        }
+        updateConfetti();
+
+        init();
+
+    </script>
+</body>
+
+</html>
