@@ -899,18 +899,28 @@
                     });
 
                     const btnEraserTool = document.getElementById('btnEraserTool');
-                    btnEraserTool.addEventListener('click', e => {
+                    // Reset tool state on init
+                    tool = 'pen';
+                    btnEraserTool.style.background = '';
+                    btnEraserTool.innerHTML = '🧼';
+                    btnEraserTool.title = "Silgi";
+
+                    // Remove existing listeners to prevent duplicates (simple cloning trick)
+                    const newBtn = btnEraserTool.cloneNode(true);
+                    btnEraserTool.parentNode.replaceChild(newBtn, btnEraserTool);
+
+                    newBtn.addEventListener('click', e => {
                         e.stopPropagation();
                         if (tool === 'pen') {
                             tool = 'eraser';
-                            btnEraserTool.style.background = '#eab308'; // Active color
-                            btnEraserTool.innerHTML = '✏️'; // Show pen icon
-                            btnEraserTool.title = "Kalem Moduna Geç";
+                            newBtn.style.background = '#eab308'; // Active color
+                            newBtn.innerHTML = '✏️'; // Show pen icon
+                            newBtn.title = "Kalem Moduna Geç";
                         } else {
                             tool = 'pen';
-                            btnEraserTool.style.background = '';
-                            btnEraserTool.innerHTML = '🧼';
-                            btnEraserTool.title = "Silgi";
+                            newBtn.style.background = '';
+                            newBtn.innerHTML = '🧼';
+                            newBtn.title = "Silgi";
                         }
                     });
 
