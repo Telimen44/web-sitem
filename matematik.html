@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Matematik Defteri | Özel Eğitim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Nunito', sans-serif;
+            background: #0f0c29;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none
+        }
+
+        #app {
+            width: 100%;
+            height: 100%;
+            position: relative
+        }
+
+        /* ========== ENTRY SCREEN ========== */
+        #entryScreen {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+            padding: 20px 16px 40px
+        }
+
+        #entryScreen.hidden {
+            display: none
+        }
+
+        .entry-title {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: white;
+            text-align: center;
+            margin: 20px 0 6px;
+            text-shadow: 0 2px 20px rgba(139, 92, 246, 0.5)
+        }
+
+        .entry-subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 24px;
+            text-align: center
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 18px 0 10px;
+            text-align: center
+        }
+
+        .cards-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 500px;
+            width: 100%
+        }
+
+        .sel-card {
+            position: relative;
+            border-radius: 20px;
+            padding: 18px 14px;
+            cursor: pointer;
+            transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            min-width: 90px;
+            flex: 1;
+            max-width: 160px;
+            border: 2.5px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px)
+        }
+
+        .sel-card:hover {
+            transform: translateY(-4px) scale(1.03);
+            border-color: rgba(255, 255, 255, 0.15)
+        }
+
+        .sel-card.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 30px var(--glow);
+            background: var(--bg-sel);
+            transform: scale(1.04)
+        }
+
+        .sel-card .icon {
+            font-size: 2.2rem;
+            line-height: 1
+        }
+
+        .sel-card .label {
+            font-weight: 800;
+            font-size: .9rem;
+            color: white;
+            text-align: center
+        }
+
+        .sel-card .desc {
+            font-size: .7rem;
+            color: rgba(255, 255, 255, 0.45);
+            text-align: center;
+            line-height: 1.3
+        }
+
+        .sel-card[data-op="+"] {
+            --accent: #4ade80;
+            --glow: rgba(74, 222, 128, .3);
+            --bg-sel: rgba(74, 222, 128, .12)
+        }
+
+        .sel-card[data-op="-"] {
+            --accent: #f87171;
+            --glow: rgba(248, 113, 113, .3);
+            --bg-sel: rgba(248, 113, 113, .12)
+        }
+
+        .sel-card[data-op="x"] {
+            --accent: #60a5fa;
+            --glow: rgba(96, 165, 250, .3);
+            --bg-sel: rgba(96, 165, 250, .12)
+        }
+
+        .digit-card {
+            --accent: #a78bfa;
+            --glow: rgba(167, 139, 250, .25);
+            --bg-sel: rgba(167, 139, 250, .12)
+        }
+
+        .opt-card {
+            --accent: #fbbf24;
+            --glow: rgba(251, 191, 36, .25);
+            --bg-sel: rgba(251, 191, 36, .12)
+        }
+
+        .sub-options {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s ease, opacity .3s;
+            opacity: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center
+        }
+
+        .sub-options.open {
+            max-height: 500px;
+            opacity: 1;
+            overflow: visible;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .start-btn {
+            margin-top: 28px;
+            padding: 16px 56px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: 900;
+            font-family: 'Nunito', sans-serif;
+            color: white;
+            background: linear-gradient(135deg, #a855f7, #6d28d9);
+            box-shadow: 0 6px 30px rgba(139, 92, 246, .5);
+            cursor: pointer;
+            transition: all .3s;
+            letter-spacing: 1px
+        }
+
+        .start-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 8px 40px rgba(139, 92, 246, .6)
+        }
+
+        .start-btn:active {
+            transform: scale(.97)
+        }
+
+        .start-btn:disabled {
+            opacity: .4;
+            cursor: not-allowed;
+            transform: none
+        }
+
+        .home-link {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, .08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all .25s
+        }
+
+        .home-link:hover {
+            background: rgba(255, 255, 255, .15);
+            transform: scale(1.08)
+        }
+
+        .home-link svg {
+            width: 22px;
+            height: 22px;
+            stroke: rgba(255, 255, 255, .6);
+            fill: none;
+            stroke-width: 2
+        }
+
+        /* ========== GAME SCREEN ========== */
+        #gameScreen {
+            display: none;
+            width: 100%;
+            height: 100%
+        }
+
+        #gameScreen.active {
+            display: block
+        }
+
+        canvas#mainCanvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+            touch-action: none
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 16px;
+            padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+            background: rgba(255, 255, 255, .94);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(0, 0, 0, .06);
+            z-index: 10
+        }
+
+        .action-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            transition: all .25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1)
+        }
+
+        .erase-btn {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            color: white;
+            box-shadow: 0 3px 12px rgba(239, 68, 68, .3)
+        }
+
+        .next-btn {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+            box-shadow: 0 3px 12px rgba(59, 130, 246, .3)
+        }
+
+        .check-btn {
+            height: 52px;
+            padding: 0 22px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            transition: all .25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: white;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, .4)
+        }
+
+        .check-btn:hover {
+            transform: scale(1.06)
+        }
+
+        .check-btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none
+        }
+
+        .divider {
+            width: 2px;
+            height: 36px;
+            background: #e0d6cc;
+            border-radius: 2px
+        }
+
+        .score-bar {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 10px;
+            z-index: 10
+        }
+
+        .score-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(8px);
+            padding: 8px 14px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .1)
+        }
+
+        .score-correct {
+            color: #16a34a
+        }
+
+        .score-wrong {
+            color: #dc2626
+        }
+
+        .game-home-btn {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(8px);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, .1);
+            transition: all .25s;
+            z-index: 10;
+            text-decoration: none
+        }
+
+        .game-home-btn:hover {
+            transform: scale(1.08)
+        }
+
+        .game-home-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: #6b5b4f;
+            fill: none;
+            stroke-width: 2
+        }
+
+        .feedback-overlay {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .3s
+        }
+
+        .feedback-overlay.show {
+            opacity: 1
+        }
+
+        .feedback-icon {
+            font-size: 120px;
+            animation: feedbackPop .6s cubic-bezier(.34, 1.56, .64, 1)
+        }
+
+        @keyframes feedbackPop {
+            0% {
+                transform: scale(0) rotate(-20deg);
+                opacity: 0
+            }
+
+            60% {
+                transform: scale(1.2) rotate(5deg);
+                opacity: 1
+            }
+
+            100% {
+                transform: scale(1) rotate(0);
+                opacity: 1
+            }
+        }
+
+        .status-indicator {
+            position: fixed;
+            bottom: 86px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: .95rem;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity .3s;
+            pointer-events: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .15);
+            white-space: nowrap
+        }
+
+        .status-indicator.show {
+            opacity: 1
+        }
+
+        .status-indicator.info {
+            background: rgba(99, 102, 241, .92);
+            color: white
+        }
+
+        .status-indicator.error {
+            background: rgba(239, 68, 68, .92);
+            color: white
+        }
+
+        .particle {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99;
+            animation: particleFly 1s ease-out forwards
+        }
+
+        @keyframes particleFly {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1)
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0)
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            10%,
+            50%,
+            90% {
+                transform: translateX(-5px)
+            }
+
+            30%,
+            70% {
+                transform: translateX(5px)
+            }
+        }
+
+        .config-badge {
+            display: none;
+            position: fixed;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, .92);
+            backdrop-filter: blur(8px);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: .8rem;
+            color: #6b5b4f;
+            z-index: 10;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .1)
+        }
+
+        @media(max-width:480px) {
+            .entry-title {
+                font-size: 1.6rem
+            }
+
+            .sel-card {
+                padding: 14px 10px;
+                min-width: 80px
+            }
+
+            .sel-card .icon {
+                font-size: 1.8rem
+            }
+
+            .sel-card .label {
+                font-size: .8rem
+            }
+
+            .action-btn {
+                width: 42px;
+                height: 42px;
+                font-size: 1.15rem
+            }
+
+            .check-btn {
+                height: 44px;
+                padding: 0 16px;
+                font-size: .95rem
+            }
+
+            .controls {
+                gap: 6px;
+                padding: 10px 10px
+            }
+
+            .feedback-icon {
+                font-size: 90px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+
+        <!-- ===== ENTRY SCREEN ===== -->
+        <div id="entryScreen">
+            <a href="index.html" class="home-link"><svg viewBox="0 0 24 24" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" />
+                </svg></a>
+            <div style="font-size:3rem;margin-top:10px">📐</div>
+            <div class="entry-title">Matematik Defteri</div>
+            <div class="entry-subtitle">İşlem türünü ve ayarları seç</div>
+
+            <div class="section-label">İşlem Türü</div>
+            <div class="cards-row" id="opCards">
+                <div class="sel-card" data-op="+" onclick="selectOp(this)">
+                    <div class="icon">➕</div>
+                    <div class="label">Toplama</div>
+                    <div class="desc">Sayıları topla</div>
+                </div>
+                <div class="sel-card" data-op="-" onclick="selectOp(this)">
+                    <div class="icon">➖</div>
+                    <div class="label">Çıkarma</div>
+                    <div class="desc">Farkı bul</div>
+                </div>
+                <div class="sel-card" data-op="x" onclick="selectOp(this)">
+                    <div class="icon">✖️</div>
+                    <div class="label">Çarpma</div>
+                    <div class="desc">Çarpım hesapla</div>
+                </div>
+            </div>
+
+            <!-- Addition sub-options -->
+            <div class="sub-options" id="addOptions">
+                <div class="section-label">Elde Seçeneği</div>
+                <div class="cards-row">
+                    <div class="sel-card opt-card selected" data-val="nocarry" onclick="selectOpt('carry',this)">
+                        <div class="icon">✨</div>
+                        <div class="label">Eldesiz</div>
+                        <div class="desc">Elde yok</div>
+                    </div>
+                    <div class="sel-card opt-card" data-val="carry" onclick="selectOpt('carry',this)">
+                        <div class="icon">🔢</div>
+                        <div class="label">Eldeli</div>
+                        <div class="desc">Elde var</div>
+                    </div>
+                    <div class="sel-card opt-card" data-val="mixed" onclick="selectOpt('carry',this)">
+                        <div class="icon">🎲</div>
+                        <div class="label">Karışık</div>
+                        <div class="desc">Her ikisi de</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subtraction sub-options -->
+            <div class="sub-options" id="subOptions">
+                <div class="section-label">Onluk Bozma</div>
+                <div class="cards-row">
+                    <div class="sel-card opt-card selected" data-val="noborrow" onclick="selectOpt('borrow',this)">
+                        <div class="icon">✨</div>
+                        <div class="label">Bozmasız</div>
+                        <div class="desc">Onluk bozma yok</div>
+                    </div>
+                    <div class="sel-card opt-card" data-val="borrow" onclick="selectOpt('borrow',this)">
+                        <div class="icon">🔄</div>
+                        <div class="label">Bozmalı</div>
+                        <div class="desc">Onluk bozma var</div>
+                    </div>
+                    <div class="sel-card opt-card" data-val="mixed" onclick="selectOpt('borrow',this)">
+                        <div class="icon">🎲</div>
+                        <div class="label">Karışık</div>
+                        <div class="desc">Her ikisi de</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-label" style="margin-top:20px">Basamak Sayısı</div>
+            <div class="cards-row" id="digitCards">
+                <div class="sel-card digit-card selected" data-val="1" onclick="selectDigit(this)">
+                    <div class="icon">1️⃣</div>
+                    <div class="label">Tek</div>
+                    <div class="desc">1 – 9</div>
+                </div>
+                <div class="sel-card digit-card" data-val="2" onclick="selectDigit(this)">
+                    <div class="icon">2️⃣</div>
+                    <div class="label">İki</div>
+                    <div class="desc">10 – 99</div>
+                </div>
+                <div class="sel-card digit-card" data-val="3" onclick="selectDigit(this)">
+                    <div class="icon">3️⃣</div>
+                    <div class="label">Üç</div>
+                    <div class="desc">100 – 999</div>
+                </div>
+            </div>
+
+            <button class="start-btn" id="startBtn" onclick="startGame()">🚀 BAŞLA</button>
+        </div>
+
+        <!-- ===== GAME SCREEN ===== -->
+        <div id="gameScreen">
+            <canvas id="mainCanvas"></canvas>
+            <button class="game-home-btn" id="gameBackBtn" title="Geri Dön"><svg viewBox="0 0 24 24"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 19l-7-7 7-7" />
+                </svg></button>
+            <div class="config-badge" id="configBadge"></div>
+            <div class="score-bar">
+                <div class="score-item score-correct"><span>✅</span><span id="correctCount">0</span></div>
+                <div class="score-item score-wrong"><span>❌</span><span id="wrongCount">0</span></div>
+            </div>
+            <div class="status-indicator" id="statusIndicator"></div>
+            <div class="feedback-overlay" id="feedbackOverlay">
+                <div class="feedback-icon" id="feedbackIcon"></div>
+            </div>
+            <div class="controls" id="controlsBar">
+                <button class="check-btn" id="btnCheck">✓ Kontrol</button>
+                <div class="divider"></div>
+                <!-- Eraser Button -->
+                <button class="action-btn" id="btnEraserTool" title="Silgi">🧼</button>
+                <!-- Clear All Button -->
+                <button class="action-btn erase-btn" id="btnClear" title="Temizle">🗑️</button>
+                <button class="action-btn next-btn" id="btnNext" title="Sonraki Soru">➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Handwriting.js inline -->
+    <script>
+        (function () { var r = typeof self === 'object' && self.self === self && self || this; var h = function (o) { if (o instanceof h) return o; if (!(this instanceof h)) return new h(o); this._wrapped = o }; r.handwriting = h; h.recognize = function (t, o, cb) { if (!o) o = {}; var d = JSON.stringify({ options: "enable_pre_space", requests: [{ writing_guide: { writing_area_width: o.width || undefined, writing_area_height: o.height || undefined }, ink: t, language: o.language || "zh_TW" }] }); var x = new XMLHttpRequest(); x.timeout = 6000; x.addEventListener("readystatechange", function () { if (this.readyState === 4) { if (this.status === 200) { try { var r = JSON.parse(this.responseText); if (r.length === 1) cb(undefined, new Error(r[0])); else { var res = r[1][0][1]; if (o.numOfReturn) res = res.slice(0, o.numOfReturn); cb(res, undefined) } } catch (e) { cb(undefined, new Error("parse")) } } else if (this.status > 0) cb(undefined, new Error("HTTP " + this.status)) } }); x.addEventListener("error", function () { cb(undefined, new Error("network")) }); x.addEventListener("timeout", function () { cb(undefined, new Error("timeout")) }); x.open("POST", "https://www.google.com.tw/inputtools/request?ime=handwriting&app=mobilesearch&cs=1&oe=UTF-8"); x.setRequestHeader("content-type", "application/json"); x.send(d) } })();
+    </script>
+
+    <script>
+        // ===== ENTRY SCREEN LOGIC =====
+        let config = { op: null, digits: 1, carry: 'nocarry', borrow: 'noborrow' }; // diff removed
+
+        function selectOp(el) {
+            document.querySelectorAll('#opCards .sel-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            config.op = el.dataset.op;
+            document.getElementById('addOptions').classList.toggle('open', config.op === '+');
+            document.getElementById('subOptions').classList.toggle('open', config.op === '-');
+            document.getElementById('startBtn').disabled = false;
+        }
+
+        function selectOpt(type, el) {
+            el.parentElement.querySelectorAll('.sel-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            config[type] = el.dataset.val;
+        }
+
+        function selectDigit(el) {
+            document.querySelectorAll('#digitCards .sel-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
+            config.digits = parseInt(el.dataset.val);
+        }
+
+        function startGame() {
+            if (!config.op) return;
+            document.getElementById('entryScreen').classList.add('hidden');
+            document.getElementById('gameScreen').classList.add('active');
+            const opNames = { '+': 'Toplama', '-': 'Çıkarma', 'x': 'Çarpma' };
+            const badge = opNames[config.op] + ' · ' + config.digits + ' Basamak';
+            document.getElementById('configBadge').textContent = badge;
+            Game.init(config);
+        }
+
+        document.getElementById('startBtn').disabled = true;
+
+        // ===== GAME LOGIC =====
+        const Game = (function () {
+            const GRID = 28, GRID_C = '#c8dbe6', GRID_BG = '#f5f0e8', PEN_C = '#1e3a5f', PEN_W = 5, GAP = 40;
+            let canvas, ctx, cfg, num1, num2, ans, cntOk = 0, cntBad = 0, drawing = false, strokes = [], curStroke = null, qBottom = 0, dpr = 1, busy = false, audioCtx = null;
+            let tool = 'pen';
+
+            function checkErase(p) {
+                if (!strokes.length) return false;
+                const r = 30;
+                let hit = false;
+                const ns = strokes.filter(s => {
+                    const touch = s.x.some((sx, i) => Math.hypot(sx - p.x, s.y[i] - p.y) < r);
+                    if (touch) hit = true;
+                    return !touch;
+                });
+                if (hit) { strokes = ns; scene(); return true; }
+                return false;
+            }
+
+            function aCtx() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === 'suspended') audioCtx.resume(); return audioCtx }
+            function playOk() { try { const c = aCtx(), n = c.currentTime;[523.25, 659.25, 783.99, 1046.5].forEach((f, i) => { const o = c.createOscillator(), g = c.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(.25, n + i * .12); g.gain.exponentialRampToValueAtTime(.001, n + i * .12 + .45); o.connect(g); g.connect(c.destination); o.start(n + i * .12); o.stop(n + i * .12 + .45) }) } catch (e) { } }
+            function playBad() { try { const c = aCtx(), n = c.currentTime;[350, 250].forEach((f, i) => { const o = c.createOscillator(), g = c.createGain(); o.type = 'sawtooth'; o.frequency.value = f; g.gain.setValueAtTime(.12, n + i * .2); g.gain.exponentialRampToValueAtTime(.001, n + i * .2 + .35); o.connect(g); g.connect(c.destination); o.start(n + i * .2); o.stop(n + i * .2 + .35) }) } catch (e) { } }
+
+            function resize() { dpr = window.devicePixelRatio || 1; const w = window.innerWidth, h = window.innerHeight; canvas.width = w * dpr; canvas.height = h * dpr; canvas.style.width = w + 'px'; canvas.style.height = h + 'px'; ctx.setTransform(dpr, 0, 0, dpr, 0, 0) }
+
+            function drawGrid() { const w = innerWidth, h = innerHeight; ctx.fillStyle = GRID_BG; ctx.fillRect(0, 0, w, h); ctx.strokeStyle = GRID_C; ctx.lineWidth = .5; for (let x = 0; x <= w; x += GRID) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke() } for (let y = 0; y <= h; y += GRID) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke() } ctx.strokeStyle = '#e8a0a0'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(60, 0); ctx.lineTo(60, h); ctx.stroke() }
+
+            function drawQ() { const w = innerWidth, mob = w < 500, fs = mob ? 44 : 60, lh = mob ? 56 : 72; ctx.font = `800 ${fs}px 'Nunito',sans-serif`; ctx.textBaseline = 'top'; const s1 = num1 + '', s2 = num2 + '', op = cfg.op === '+' ? '+' : cfg.op === '-' ? '−' : '×'; const mw = ctx.measureText('0'.repeat(Math.max(s1.length, s2.length))).width, ow = ctx.measureText(op + ' ').width, tw = ow + mw; const cx = w / 2, re = cx + tw / 2, sy = mob ? 120 : 100; ctx.textAlign = 'right'; ctx.fillStyle = '#2c3e7a'; ctx.fillText(s1, re, sy); ctx.fillStyle = '#c0392b'; ctx.textAlign = 'left'; ctx.fillText(op, re - tw, sy + lh); ctx.fillStyle = '#2c3e7a'; ctx.textAlign = 'right'; ctx.fillText(s2, re, sy + lh); const ly = sy + lh * 2 + 8; ctx.strokeStyle = '#4a4a4a'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(re - tw - 16, ly); ctx.lineTo(re + 16, ly); ctx.stroke(); const hy = ly + 22; ctx.font = `600 ${mob ? 13 : 15}px 'Nunito',sans-serif`; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(0,0,0,.18)'; ctx.fillText('✍️ Cevabını yaz, sonra "✓ Kontrol" bas', cx, hy); qBottom = hy + 30 }
+
+            function drawS() { ctx.strokeStyle = PEN_C; ctx.lineWidth = PEN_W; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; strokes.forEach(s => { if (s.x.length < 2) return; ctx.beginPath(); ctx.moveTo(s.x[0], s.y[0]); for (let i = 1; i < s.x.length; i++) { const mx = (s.x[i - 1] + s.x[i]) / 2, my = (s.y[i - 1] + s.y[i]) / 2; ctx.quadraticCurveTo(s.x[i - 1], s.y[i - 1], mx, my) } ctx.lineTo(s.x[s.x.length - 1], s.y[s.y.length - 1]); ctx.stroke() }) }
+
+            function scene() { ctx.clearRect(0, 0, innerWidth, innerHeight); drawGrid(); drawQ(); drawS() }
+
+            function randInt(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a }
+
+            function genQ() {
+                const d = cfg.digits;
+                const lo = d === 1 ? 1 : d === 2 ? 10 : 100;
+                const hi = d === 1 ? 9 : d === 2 ? 99 : 999;
+
+                if (cfg.op === '+') {
+                    for (let tries = 0; tries < 200; tries++) {
+                        num1 = randInt(lo, hi); num2 = randInt(lo, hi);
+                        ans = num1 + num2;
+                        if (cfg.carry === 'nocarry' && !hasCarry(num1, num2)) break;
+                        if (cfg.carry === 'carry' && hasCarry(num1, num2)) break;
+                        if (cfg.carry === 'mixed') break;
+                    }
+                } else if (cfg.op === '-') {
+                    for (let tries = 0; tries < 200; tries++) {
+                        num1 = randInt(lo, hi); num2 = randInt(lo, num1);
+                        ans = num1 - num2;
+                        if (cfg.borrow === 'noborrow' && !hasBorrow(num1, num2)) break;
+                        if (cfg.borrow === 'borrow' && hasBorrow(num1, num2)) break;
+                        if (cfg.borrow === 'mixed') break;
+                    }
+                } else {
+                    // Multiplication: N-digit x N-digit
+                    const min = d === 1 ? 1 : (d === 2 ? 10 : 100);
+                    const max = d === 1 ? 9 : (d === 2 ? 99 : 999);
+
+                    num1 = randInt(min, max);
+                    num2 = randInt(min, max);
+
+                    ans = num1 * num2;
+                }
+                strokes = []; busy = false; hideS(); scene();
+            }
+
+            function hasCarry(a, b) { const s1 = a + '', s2 = b + ''; const m = Math.max(s1.length, s2.length); for (let i = 0; i < m; i++) { const d1 = parseInt(s1[s1.length - 1 - i] || '0'); const d2 = parseInt(s2[s2.length - 1 - i] || '0'); if (d1 + d2 >= 10) return true } return false }
+            function hasBorrow(a, b) { const s1 = a + '', s2 = b + ''; const m = Math.max(s1.length, s2.length); for (let i = 0; i < m; i++) { const d1 = parseInt(s1[s1.length - 1 - i] || '0'); const d2 = parseInt(s2[s2.length - 1 - i] || '0'); if (d1 < d2) return true } return false }
+
+            function gPos(e) { const r = canvas.getBoundingClientRect(); let cx, cy; if (e.touches && e.touches.length > 0) { cx = e.touches[0].clientX; cy = e.touches[0].clientY } else if (e.changedTouches && e.changedTouches.length > 0) { cx = e.changedTouches[0].clientX; cy = e.changedTouches[0].clientY } else { cx = e.clientX; cy = e.clientY } return { x: cx - r.left, y: cy - r.top } }
+            function pDown(e) { if (busy) return; e.preventDefault(); aCtx(); drawing = true; const p = gPos(e); if (tool === 'eraser') { checkErase(p); } else { curStroke = { x: [p.x], y: [p.y] }; hideS(); } }
+            function pMove(e) { if (busy) return; e.preventDefault(); if (!drawing) return; const p = gPos(e); if (tool === 'eraser') { checkErase(p); return; } if (!curStroke) return; curStroke.x.push(p.x); curStroke.y.push(p.y); const l = curStroke.x.length; if (l >= 2) { ctx.strokeStyle = PEN_C; ctx.lineWidth = PEN_W; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.beginPath(); ctx.moveTo(curStroke.x[l - 2], curStroke.y[l - 2]); ctx.lineTo(curStroke.x[l - 1], curStroke.y[l - 1]); ctx.stroke() } }
+            function pUp(e) { if (busy) return; e.preventDefault(); if (!drawing) return; drawing = false; if (tool === 'pen' && curStroke && curStroke.x.length > 1) strokes.push(curStroke); curStroke = null }
+
+            function getBottomStrokes() {
+                if (!strokes.length) return [];
+
+                // Filter out horizontal separator lines (width >> height)
+                const validStrokes = strokes.filter(s => {
+                    const minX = Math.min(...s.x), maxX = Math.max(...s.x);
+                    const minY = Math.min(...s.y), maxY = Math.max(...s.y);
+                    const w = maxX - minX, h = maxY - minY;
+                    // If stroke is wide (>50px) and flat (width > 2.5x height), ignore it
+                    if (w > 50 && w > h * 2.5) return false;
+                    return true;
+                });
+
+                if (!validStrokes.length) return [];
+
+                const bs = validStrokes.map(s => ({ s, y: s.y.reduce((a, b) => a + b, 0) / s.y.length, min: Math.min(...s.y), max: Math.max(...s.y) }));
+                bs.sort((a, b) => a.y - b.y);
+                const rows = [];
+                let cur = [bs[0]];
+                for (let i = 1; i < bs.length; i++) {
+                    const p = bs[i - 1], c = bs[i];
+                    // New row if vertical gap > 30px OR centers are far apart > 90px
+                    if (c.min > p.max + 30 || c.y - p.y > 90) {
+                        rows.push(cur);
+                        cur = [bs[i]];
+                    } else {
+                        cur.push(bs[i]);
+                    }
+                }
+                rows.push(cur);
+                return rows[rows.length - 1].map(i => i.s);
+            }
+
+            function clusterStrokes(list) { if (!list || !list.length) return []; const idx = list.map((s, i) => ({ s, cx: s.x.reduce((a, b) => a + b, 0) / s.x.length, i })); idx.sort((a, b) => a.cx - b.cx); const cls = []; let cur = [idx[0]]; for (let i = 1; i < idx.length; i++) { if (idx[i].cx - idx[i - 1].cx > GAP) { cls.push(cur); cur = [idx[i]] } else cur.push(idx[i]) } cls.push(cur); return cls }
+
+            function recCluster(cl) { return new Promise(res => { const t = cl.map(i => [i.s.x.map(Math.round), i.s.y.map(Math.round)]); let mnX = 1e9, mxX = -1e9, mnY = 1e9, mxY = -1e9; cl.forEach(i => { i.s.x.forEach(x => { mnX = Math.min(mnX, x); mxX = Math.max(mxX, x) }); i.s.y.forEach(y => { mnY = Math.min(mnY, y); mxY = Math.max(mxY, y) }) }); try { handwriting.recognize(t, { width: Math.max(mxX - mnX + 40, 80), height: Math.max(mxY - mnY + 40, 80), language: 'en', numOfReturn: 5 }, function (r, e) { if (e || !r || !r.length) { res(null); return } for (let x of r) { const d = x.replace(/[^0-9]/g, ''); if (d.length > 0) { res(d); return } } res(null) }) } catch (e) { res(null) } }) }
+
+            async function doCheck() {
+                if (!strokes.length) { showS('✏️ Önce cevabını yaz!', 'error'); setTimeout(() => hideS(), 1500); return }
+                if (busy) return; busy = true;
+                document.getElementById('btnCheck').disabled = true;
+                showS('✍️ Tanınıyor...', 'info');
+
+                // Use only bottom-most strokes for recognition
+                const relevantStrokes = getBottomStrokes();
+                const cls = clusterStrokes(relevantStrokes);
+
+                const results = await Promise.all(cls.map(c => recCluster(c)));
+                let num = ''; let ok = true;
+                for (const d of results) { if (d === null) { ok = false; break } num += d }
+                document.getElementById('btnCheck').disabled = false;
+                if (!ok || num === '') { busy = false; showS('🤔 Tanınamadı, tekrar yaz', 'error'); setTimeout(() => hideS(), 2000); return }
+                const rec = parseInt(num, 10);
+                showS('Yazdığın: ' + rec, 'info');
+                setTimeout(() => { hideS(); if (rec === ans) onOk(); else onBad(rec) }, 800);
+            }
+
+            function showS(t, c) { const e = document.getElementById('statusIndicator'); e.textContent = t; e.className = 'status-indicator show ' + (c || 'info') }
+            function hideS() { document.getElementById('statusIndicator').classList.remove('show') }
+
+            function onOk() { busy = true; cntOk++; document.getElementById('correctCount').textContent = cntOk; showFB('✅', '#22c55e'); playOk(); particles(); setTimeout(() => { hideFB(); genQ() }, 2000) }
+            function onBad(v) { busy = true; cntBad++; document.getElementById('wrongCount').textContent = cntBad; showFB('❌', '#ef4444'); playBad(); showS(v + ' değil, tekrar dene!', 'error'); canvas.style.animation = 'none'; void canvas.offsetHeight; canvas.style.animation = 'shake .5s ease'; setTimeout(() => { hideFB(); hideS(); busy = false; strokes = []; scene(); canvas.style.animation = 'none' }, 1800) }
+
+            function showFB(e, c) { const o = document.getElementById('feedbackOverlay'), i = document.getElementById('feedbackIcon'); i.textContent = e; o.style.backgroundColor = c + '12'; o.classList.add('show'); i.style.animation = 'none'; void i.offsetHeight; i.style.animation = 'feedbackPop .6s cubic-bezier(.34,1.56,.64,1)' }
+            function hideFB() { document.getElementById('feedbackOverlay').classList.remove('show') }
+
+            function particles() { const cols = ['#22c55e', '#facc15', '#3b82f6', '#ec4899', '#f97316', '#a855f7'], cx = innerWidth / 2, cy = innerHeight / 3; for (let i = 0; i < 24; i++) { const p = document.createElement('div'); p.className = 'particle'; p.style.left = cx + 'px'; p.style.top = cy + 'px'; p.style.background = cols[Math.floor(Math.random() * cols.length)]; const s = 6 + Math.random() * 12; p.style.width = s + 'px'; p.style.height = s + 'px'; const a = Math.random() * Math.PI * 2, d = 60 + Math.random() * 180; p.style.setProperty('--tx', Math.cos(a) * d + 'px'); p.style.setProperty('--ty', Math.sin(a) * d + 'px'); document.body.appendChild(p); setTimeout(() => p.remove(), 1100) } }
+
+            return {
+                init: function (c) {
+                    cfg = c; canvas = document.getElementById('mainCanvas'); ctx = canvas.getContext('2d'); resize();
+                    window.addEventListener('resize', () => { resize(); scene() });
+                    if (window.PointerEvent) { canvas.addEventListener('pointerdown', pDown); canvas.addEventListener('pointermove', pMove); canvas.addEventListener('pointerup', pUp); canvas.addEventListener('pointerleave', pUp); canvas.addEventListener('pointercancel', pUp) } else { canvas.addEventListener('mousedown', pDown); canvas.addEventListener('mousemove', pMove); canvas.addEventListener('mouseup', pUp); canvas.addEventListener('mouseleave', pUp); canvas.addEventListener('touchstart', pDown, { passive: false }); canvas.addEventListener('touchmove', pMove, { passive: false }); canvas.addEventListener('touchend', pUp, { passive: false }); canvas.addEventListener('touchcancel', pUp, { passive: false }) }
+
+                    document.getElementById('btnCheck').addEventListener('click', e => { e.stopPropagation(); doCheck() });
+
+                    document.getElementById('btnClear').addEventListener('click', e => {
+                        e.stopPropagation(); if (busy) return;
+                        strokes = []; hideS(); scene();
+                    });
+
+                    const btnEraserTool = document.getElementById('btnEraserTool');
+                    btnEraserTool.addEventListener('click', e => {
+                        e.stopPropagation();
+                        if (tool === 'pen') {
+                            tool = 'eraser';
+                            btnEraserTool.style.background = '#eab308'; // Active color
+                            btnEraserTool.innerHTML = '✏️'; // Show pen icon
+                            btnEraserTool.title = "Kalem Moduna Geç";
+                        } else {
+                            tool = 'pen';
+                            btnEraserTool.style.background = '';
+                            btnEraserTool.innerHTML = '🧼';
+                            btnEraserTool.title = "Silgi";
+                        }
+                    });
+
+                    document.getElementById('btnNext').addEventListener('click', e => { e.stopPropagation(); if (busy) return; genQ() });
+                    document.getElementById('gameBackBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('gameScreen').classList.remove('active'); document.getElementById('entryScreen').classList.remove('hidden'); cntOk = 0; cntBad = 0; document.getElementById('correctCount').textContent = '0'; document.getElementById('wrongCount').textContent = '0' });
+                    const cb = document.getElementById('controlsBar');['touchstart', 'touchmove', 'touchend', 'touchcancel'].forEach(ev => cb.addEventListener(ev, e => e.stopPropagation(), { passive: false }));
+                    genQ();
+                }
+            };
+        })();
+    </script>
+</body>
+
+</html>
