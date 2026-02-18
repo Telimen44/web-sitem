@@ -927,6 +927,9 @@
                     document.getElementById('btnNext').addEventListener('click', e => { e.stopPropagation(); if (busy) return; genQ() });
                     document.getElementById('gameBackBtn').addEventListener('click', e => { e.stopPropagation(); document.getElementById('gameScreen').classList.remove('active'); document.getElementById('entryScreen').classList.remove('hidden'); cntOk = 0; cntBad = 0; document.getElementById('correctCount').textContent = '0'; document.getElementById('wrongCount').textContent = '0' });
                     const cb = document.getElementById('controlsBar');['touchstart', 'touchmove', 'touchend', 'touchcancel'].forEach(ev => cb.addEventListener(ev, e => e.stopPropagation(), { passive: false }));
+                    // Prevent long-press context menu on smart boards
+                    canvas.addEventListener('contextmenu', e => e.preventDefault());
+                    document.getElementById('gameScreen').addEventListener('contextmenu', e => e.preventDefault());
                     genQ();
                 }
             };
