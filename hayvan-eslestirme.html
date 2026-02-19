@@ -1583,32 +1583,36 @@
         // ============================================
         // KONUŞMA SİSTEMİ (TTS - Kontrollü)
         // ============================================
-        function speakName(name) {
-            // Sadece TTS aktifse çalış
-            if (!ttsEnabled) return;
-
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel();
-
-                const utterance = new SpeechSynthesisUtterance(name);
-                utterance.lang = 'tr-TR';
-                utterance.rate = 0.9;
-                utterance.pitch = 1.1;
-                utterance.volume = 1;
-
-                const voices = window.speechSynthesis.getVoices();
-                const turkishVoice = voices.find(v => v.lang.includes('tr'));
-                if (turkishVoice) {
-                    utterance.voice = turkishVoice;
-                }
-
-                window.speechSynthesis.speak(utterance);
-            }
+        let _ttsVoice = null;
+        let _ttsVoicesLoaded = false;
+        function _loadTTSVoice() {
+            const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+            if (voices.length === 0) return;
+            const trVoices = voices.filter(v => v.lang === 'tr-TR' || v.lang.startsWith('tr'));
+            const googleVoice = trVoices.find(v => v.name.includes('Google'));
+            _ttsVoice = googleVoice || trVoices[0] || null;
+            _ttsVoicesLoaded = true;
+            if (_ttsVoice) console.log('🗣️ Voice:', _ttsVoice.name);
         }
 
-        // Sesleri hazırla
-        if ('speechSynthesis' in window) {
-            window.speechSynthesis.getVoices();
+        function speakName(name) {
+            if (!ttsEnabled) return;
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            if (!_ttsVoicesLoaded) _loadTTSVoice();
+            const utterance = new SpeechSynthesisUtterance(name);
+            if (_ttsVoice) utterance.voice = _ttsVoice;
+            utterance.lang = 'tr-TR';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.0;
+            utterance.volume = 1;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Sesleri hazırla (Chrome async fix)
+        if (window.speechSynthesis) {
+            window.speechSynthesis.onvoiceschanged = _loadTTSVoice;
+            _loadTTSVoice();
         }
 
         // ============================================

@@ -719,13 +719,29 @@
                 } catch (e) { }
             },
 
+            _ttsVoice: null,
+            _ttsVoicesLoaded: false,
+
+            _loadTTSVoice() {
+                const voices = window.speechSynthesis.getVoices();
+                if (voices.length === 0) return;
+                const trVoices = voices.filter(v => v.lang === 'tr-TR' || v.lang.startsWith('tr'));
+                const googleVoice = trVoices.find(v => v.name.includes('Google'));
+                this._ttsVoice = googleVoice || trVoices[0] || null;
+                this._ttsVoicesLoaded = true;
+                if (this._ttsVoice) console.log('🗣️ Voice:', this._ttsVoice.name);
+            },
+
             speak(text) {
-                speechSynthesis.cancel();
+                if (!window.speechSynthesis) return;
+                window.speechSynthesis.cancel();
+                if (!this._ttsVoicesLoaded) this._loadTTSVoice();
                 const u = new SpeechSynthesisUtterance(text);
+                if (this._ttsVoice) u.voice = this._ttsVoice;
                 u.lang = 'tr-TR';
                 u.rate = 0.85;
-                u.pitch = 1.1;
-                speechSynthesis.speak(u);
+                u.pitch = 1.0;
+                window.speechSynthesis.speak(u);
             },
 
             setupEvents() {
@@ -829,7 +845,14 @@
             }
         };
 
-        window.onload = () => game.init();
+        window.onload = () => {
+            if (window.speechSynthesis) {
+                window.speechSynthesis.onvoiceschanged = () => game._loadTTSVoice();
+                game._loadTTSVoice();
+            }
+            game.init();
+        };
+
     </script>
 </body>
 

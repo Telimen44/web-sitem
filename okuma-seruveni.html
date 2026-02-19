@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Okuma Serüveni - Telimen Eğitim</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        :root {
+            --green: #22c55e;
+            --red: #ef4444;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --yellow: #f59e0b;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --card2: #334155;
+            --text: #f1f5f9;
+            --muted: #94a3b8
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden
+        }
+
+        /* SCREENS */
+        .screen {
+            display: none;
+            min-height: 100vh;
+            padding: 20px
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column
+        }
+
+        /* INTRO SCREEN */
+        #introScreen {
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)
+        }
+
+        .logo {
+            font-size: 52px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            text-shadow: none
+        }
+
+        .logo-sub {
+            font-size: 22px;
+            color: var(--muted);
+            text-align: center;
+            margin-top: -10px
+        }
+
+        .level-cards {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px
+        }
+
+        .level-card {
+            background: var(--card);
+            border: 3px solid transparent;
+            border-radius: 24px;
+            padding: 40px 50px;
+            cursor: pointer;
+            text-align: center;
+            transition: all .3s;
+            min-width: 260px
+        }
+
+        .level-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .4)
+        }
+
+        .level-card.easy {
+            border-color: #22c55e
+        }
+
+        .level-card.easy:hover {
+            background: rgba(34, 197, 94, .1)
+        }
+
+        .level-card.medium {
+            border-color: #f59e0b
+        }
+
+        .level-card.medium:hover {
+            background: rgba(245, 158, 11, .1)
+        }
+
+        .level-icon {
+            font-size: 64px;
+            margin-bottom: 15px
+        }
+
+        .level-title {
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 8px
+        }
+
+        .easy .level-title {
+            color: #22c55e
+        }
+
+        .medium .level-title {
+            color: #f59e0b
+        }
+
+        .level-desc {
+            font-size: 18px;
+            color: var(--muted)
+        }
+
+        .level-count {
+            margin-top: 12px;
+            font-size: 22px;
+            font-weight: 700;
+            background: var(--card2);
+            padding: 8px 20px;
+            border-radius: 50px
+        }
+
+        /* GAME SCREEN */
+        #gameScreen {
+            flex-direction: column;
+            padding: 16px;
+            gap: 16px;
+            background: var(--bg)
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card);
+            border-radius: 16px;
+            padding: 14px 24px;
+            gap: 16px
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px
+        }
+
+        #btnBack {
+            background: var(--card2);
+            border: none;
+            color: var(--text);
+            font-size: 22px;
+            padding: 10px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: .2s
+        }
+
+        #btnBack:hover {
+            background: #475569
+        }
+
+        .module-info {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--muted)
+        }
+
+        .module-title {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text)
+        }
+
+        .progress-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .progress-bar {
+            flex: 1;
+            height: 14px;
+            background: var(--card2);
+            border-radius: 99px;
+            overflow: hidden
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 99px;
+            transition: width .5s
+        }
+
+        .progress-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--muted);
+            white-space: nowrap
+        }
+
+        .score-badge {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            padding: 10px 22px;
+            border-radius: 12px;
+            font-size: 22px;
+            font-weight: 800
+        }
+
+        /* GAME BODY */
+        .game-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            flex: 1
+        }
+
+        /* TEXT CARD */
+        .text-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            overflow-y: auto
+        }
+
+        .text-card h2 {
+            font-size: 26px;
+            font-weight: 800;
+            color: #60a5fa;
+            border-bottom: 3px solid #334155;
+            padding-bottom: 12px
+        }
+
+        .text-card p {
+            font-size: 26px;
+            line-height: 1.8;
+            color: var(--text)
+        }
+
+        /* QUESTION CARD */
+        .question-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto
+        }
+
+        .q-phase {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px
+        }
+
+        .q-text {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.5
+        }
+
+        /* MCQ */
+        .mcq-options {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 8px
+        }
+
+        .mcq-btn {
+            background: var(--card2);
+            border: 3px solid transparent;
+            border-radius: 16px;
+            padding: 18px 24px;
+            font-size: 24px;
+            color: var(--text);
+            cursor: pointer;
+            text-align: left;
+            transition: .2s;
+            font-weight: 600
+        }
+
+        .mcq-btn:hover:not(:disabled) {
+            background: #475569;
+            border-color: #60a5fa;
+            transform: translateX(4px)
+        }
+
+        .mcq-btn.correct {
+            background: rgba(34, 197, 94, .2);
+            border-color: #22c55e;
+            color: #22c55e
+        }
+
+        .mcq-btn.wrong {
+            background: rgba(239, 68, 68, .2);
+            border-color: #ef4444;
+            color: #ef4444
+        }
+
+        .mcq-btn:disabled {
+            cursor: not-allowed;
+            opacity: .8
+        }
+
+        /* FILL BLANK */
+        .blank-sentence {
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.8;
+            background: var(--card2);
+            padding: 20px 24px;
+            border-radius: 16px
+        }
+
+        .blank-slot {
+            display: inline-block;
+            min-width: 120px;
+            border-bottom: 3px solid #60a5fa;
+            padding: 2px 10px;
+            color: #60a5fa;
+            font-weight: 800
+        }
+
+        .word-bank {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 8px
+        }
+
+        .word-chip {
+            background: var(--card2);
+            border: 3px solid #334155;
+            border-radius: 50px;
+            padding: 12px 24px;
+            font-size: 22px;
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--text);
+            transition: .2s
+        }
+
+        .word-chip:hover:not(:disabled) {
+            background: #475569;
+            border-color: #60a5fa
+        }
+
+        .word-chip:disabled {
+            opacity: .5;
+            cursor: not-allowed
+        }
+
+        .word-chip.selected {
+            background: rgba(96, 165, 250, .2);
+            border-color: #60a5fa;
+            color: #60a5fa
+        }
+
+        /* FEEDBACK */
+        .feedback {
+            padding: 18px 24px;
+            border-radius: 16px;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            display: none
+        }
+
+        .feedback.correct {
+            background: rgba(34, 197, 94, .2);
+            border: 3px solid #22c55e;
+            color: #22c55e;
+            display: block
+        }
+
+        .feedback.wrong {
+            background: rgba(239, 68, 68, .2);
+            border: 3px solid #ef4444;
+            color: #ef4444;
+            display: block
+        }
+
+        /* NAV BTNS */
+        .nav-btns {
+            display: flex;
+            gap: 14px;
+            justify-content: flex-end;
+            margin-top: auto
+        }
+
+        .nav-btn {
+            font-size: 24px;
+            font-weight: 800;
+            padding: 18px 40px;
+            border-radius: 16px;
+            cursor: pointer;
+            border: none;
+            transition: .2s
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: #fff
+        }
+
+        .btn-next:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, .4)
+        }
+
+        .btn-retry {
+            background: var(--card2);
+            color: var(--yellow)
+        }
+
+        .btn-retry:hover {
+            background: #475569
+        }
+
+        /* RESULT SCREEN */
+        #resultScreen {
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            text-align: center;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b)
+        }
+
+        .result-icon {
+            font-size: 100px
+        }
+
+        .result-title {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .result-score {
+            font-size: 32px;
+            color: var(--muted)
+        }
+
+        .result-score span {
+            color: #f59e0b;
+            font-weight: 800;
+            font-size: 38px
+        }
+
+        .result-btns {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 10px
+        }
+
+        .result-btn {
+            font-size: 24px;
+            font-weight: 800;
+            padding: 20px 44px;
+            border-radius: 16px;
+            cursor: pointer;
+            border: none;
+            transition: .2s
+        }
+
+        .btn-again {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #fff
+        }
+
+        .btn-menu {
+            background: var(--card2);
+            color: var(--text)
+        }
+
+        .btn-again:hover,
+        .btn-menu:hover {
+            transform: scale(1.04)
+        }
+
+        /* CONFETTI */
+        .confetti-piece {
+            position: fixed;
+            width: 12px;
+            height: 12px;
+            top: -20px;
+            animation: confettiFall 2s ease-in forwards;
+            pointer-events: none;
+            z-index: 9999;
+            border-radius: 2px
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1
+            }
+
+            100% {
+                transform: translateY(105vh) rotate(720deg);
+                opacity: 0
+            }
+        }
+
+        /* SHAKE */
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            20% {
+                transform: translateX(-10px)
+            }
+
+            40% {
+                transform: translateX(10px)
+            }
+
+            60% {
+                transform: translateX(-6px)
+            }
+
+            80% {
+                transform: translateX(6px)
+            }
+        }
+
+        .shake {
+            animation: shake .5s ease
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:900px) {
+            .game-body {
+                grid-template-columns: 1fr;
+                max-height: none
+            }
+
+            .text-card {
+                max-height: 35vh
+            }
+
+            .level-cards {
+                flex-direction: column
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- INTRO SCREEN -->
+    <div id="introScreen" class="screen active">
+        <div class="logo">📖 Okuma Serüveni</div>
+        <div class="logo-sub">telimenegitim.com</div>
+        <div class="level-cards">
+            <div class="level-card easy" onclick="startGame('easy')">
+                <div class="level-icon">⭐</div>
+                <div class="level-title">Kolay Seviye</div>
+                <div class="level-desc">Kısa ve basit metinler</div>
+                <div class="level-count">20 Modül</div>
+            </div>
+            <div class="level-card medium" onclick="startGame('medium')">
+                <div class="level-icon">🌟</div>
+                <div class="level-title">Orta Seviye</div>
+                <div class="level-desc">Detaylı hikâyeli metinler</div>
+                <div class="level-count">50 Modül</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAME SCREEN -->
+    <div id="gameScreen" class="screen">
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <button id="btnBack" onclick="goMenu()">← Menü</button>
+                <div>
+                    <div class="module-info" id="moduleInfo">Modül 1 / 20</div>
+                    <div class="module-title" id="moduleTitle">Başlık</div>
+                </div>
+            </div>
+            <div class="progress-wrap">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width:0%"></div>
+                </div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+            <div class="score-badge">⭐ <span id="scoreDisplay">0</span></div>
+        </div>
+        <div class="game-body">
+            <div class="text-card">
+                <h2 id="textTitle">Başlık</h2>
+                <p id="textBody">Metin buraya gelecek.</p>
+            </div>
+            <div class="question-card" id="questionCard">
+                <div class="q-phase" id="qPhase">Çoktan Seçmeli · Soru 1/3</div>
+                <div class="q-text" id="qText"></div>
+                <div id="qContent"></div>
+                <div class="feedback" id="feedback"></div>
+                <div class="nav-btns" id="navBtns"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div id="resultScreen" class="screen">
+        <div class="result-icon">🏆</div>
+        <div class="result-title">Tebrikler!</div>
+        <div class="result-score">Toplam Puan: <span id="finalScore">0</span></div>
+        <div class="result-btns">
+            <button class="result-btn btn-again" onclick="restartLevel()">Tekrar Oyna</button>
+            <button class="result-btn btn-menu" onclick="goMenu()">Ana Menü</button>
+        </div>
+    </div>
+
+    <script>
+        // ===================== DATA =====================
+        const MODULES = [
+            // ---- KOLAY SEVİYE (level: 'easy') ----
+            { id: 31, level: 'easy', baslik: "⚽ Topum Var", metin: "Benim bir topum var. Topu kırmızıdır. Top yuvarlaktır. Topu bahçede atarım. Annem de benimle oynar. Top çok güzeldir. Topu çok severim.", coktan_secmeli: [{ soru: "Topun rengi nedir?", secenekler: ["A) Mavi", "B) Kırmızı", "C) Sarı"], cevap: "B) Kırmızı" }, { soru: "Top nasıl bir şekildir?", secenekler: ["A) Kare", "B) Üçgen", "C) Yuvarlak"], cevap: "C) Yuvarlak" }, { soru: "Top nerede atılır?", secenekler: ["A) Odada", "B) Bahçede", "C) Mutfakta"], cevap: "B) Bahçede" }], bosluk_doldurma: [{ cumle: "Topu ........ dir.", kelime_havuzu: ["kırmızı", "mavi", "sarı"], cevap: "kırmızı" }, { cumle: "Annem de benimle .........", kelime_havuzu: ["oynar", "uyur", "gider"], cevap: "oynar" }] },
+            { id: 32, level: 'easy', baslik: "🐕 Köpeğim", metin: "Benim bir köpeğim var. Adı Duman'dır. Duman küçük ve tüylüdür. Duman her gün benimle oynar. Ona mama veririm. Duman çok mutludur. Onu çok severim.", coktan_secmeli: [{ soru: "Köpeğin adı nedir?", secenekler: ["A) Pamuk", "B) Karabaş", "C) Duman"], cevap: "C) Duman" }, { soru: "Köpek nasıldır?", secenekler: ["A) Büyük ve tüysüz", "B) Küçük ve tüylü", "C) Uzun ve sarı"], cevap: "B) Küçük ve tüylü" }, { soru: "Köpeğe ne verilir?", secenekler: ["A) Meyve", "B) Mama", "C) Ekmek"], cevap: "B) Mama" }], bosluk_doldurma: [{ cumle: "Duman her gün benimle .........", kelime_havuzu: ["oynar", "uyur", "koşar"], cevap: "oynar" }, { cumle: "Onu çok .........", kelime_havuzu: ["severim", "görürüm", "bilirim"], cevap: "severim" }] },
+            { id: 33, level: 'easy', baslik: "🍎 Elma Yiyorum", metin: "Elmayı çok severim. Elma kırmızıdır. Elma tatlıdır. Her gün bir elma yerim. Annem elmayı yıkar. Ben de yerim. Elma sağlıklıdır.", coktan_secmeli: [{ soru: "Elmanın rengi nedir?", secenekler: ["A) Sarı", "B) Kırmızı", "C) Yeşil"], cevap: "B) Kırmızı" }, { soru: "Elmayı kim yıkar?", secenekler: ["A) Baba", "B) Kardeş", "C) Anne"], cevap: "C) Anne" }, { soru: "Elma nasıl bir meyvedir?", secenekler: ["A) Acı", "B) Ekşi", "C) Tatlı"], cevap: "C) Tatlı" }], bosluk_doldurma: [{ cumle: "Her gün bir ........ yerim.", kelime_havuzu: ["elma", "ekmek", "balık"], cevap: "elma" }, { cumle: "Elma ........ dır.", kelime_havuzu: ["sağlıklı", "zararlı", "tatsız"], cevap: "sağlıklı" }] },
+            { id: 34, level: 'easy', baslik: "🏫 Okulum", metin: "Okuluma giderim. Okulumun adı Atatürk İlkokuludur. Okulumda sınıflar var. Öğretmenim çok iyidir. Ben öğretmenimi severim. Okulda arkadaşlarım var. Okulu severim.", coktan_secmeli: [{ soru: "Nereye gidilir?", secenekler: ["A) Parka", "B) Okula", "C) Markete"], cevap: "B) Okula" }, { soru: "Öğretmen nasıldır?", secenekler: ["A) Kötü", "B) Sert", "C) Çok iyi"], cevap: "C) Çok iyi" }, { soru: "Okulda ne var?", secenekler: ["A) Araba", "B) Arkadaşlar", "C) Hayvan"], cevap: "B) Arkadaşlar" }], bosluk_doldurma: [{ cumle: "Ben öğretmenimi .........", kelime_havuzu: ["severim", "görmem", "bilmem"], cevap: "severim" }, { cumle: "Okulumda ........ var.", kelime_havuzu: ["sınıflar", "arabalar", "hayvanlar"], cevap: "sınıflar" }] },
+            { id: 35, level: 'easy', baslik: "🌅 Sabah Kalktım", metin: "Sabah erken kalktım. Yüzümü yıkadım. Dişlerimi fırçaladım. Kıyafetlerimi giydim. Kahvaltı yedim. Okula gittim. Çok mutluydum.", coktan_secmeli: [{ soru: "Sabah ne zaman kalkıldı?", secenekler: ["A) Geç", "B) Öğle", "C) Erken"], cevap: "C) Erken" }, { soru: "Yüz yıkandıktan sonra ne yapıldı?", secenekler: ["A) Yatıldı", "B) Dişler fırçalandı", "C) Yemek yendi"], cevap: "B) Dişler fırçalandı" }, { soru: "Kahvaltıdan sonra nereye gidildi?", secenekler: ["A) Parka", "B) Eve", "C) Okula"], cevap: "C) Okula" }], bosluk_doldurma: [{ cumle: "Sabah erken .........", kelime_havuzu: ["kalktım", "uyudum", "oturdum"], cevap: "kalktım" }, { cumle: "Kahvaltı .........", kelime_havuzu: ["yedim", "yaptım", "aldım"], cevap: "yedim" }] },
+            { id: 36, level: 'easy', baslik: "👩 Annem", metin: "Annem çok iyidir. Annem beni sever. Annem yemek yapar. Annem bana hikâye anlatır. Annem beni okula bırakır. Ben de annemi çok severim. Annem en güzel insandır.", coktan_secmeli: [{ soru: "Annem ne yapar?", secenekler: ["A) Yemek yapar", "B) Araba tamir eder", "C) Balık tutar"], cevap: "A) Yemek yapar" }, { soru: "Annem beni nereye bırakır?", secenekler: ["A) Parka", "B) Okula", "C) Markete"], cevap: "B) Okula" }, { soru: "Annem nasıl biridir?", secenekler: ["A) Kötü", "B) Sert", "C) Çok iyi"], cevap: "C) Çok iyi" }], bosluk_doldurma: [{ cumle: "Annem bana hikâye .........", kelime_havuzu: ["anlatır", "okur", "yazar"], cevap: "anlatır" }, { cumle: "Ben de annemi çok .........", kelime_havuzu: ["severim", "görürüm", "çağırırım"], cevap: "severim" }] },
+            { id: 37, level: 'easy', baslik: "☀️ Güneş Çıktı", metin: "Bugün hava güzel. Güneş çıktı. Gökyüzü mavidir. Dışarısı sıcaktır. Ben dışarı çıktım. Bahçede oynadım. Çok eğlendim.", coktan_secmeli: [{ soru: "Bugün hava nasıl?", secenekler: ["A) Yağmurlu", "B) Güzel", "C) Karlı"], cevap: "B) Güzel" }, { soru: "Gökyüzü ne renktir?", secenekler: ["A) Gri", "B) Sarı", "C) Mavi"], cevap: "C) Mavi" }, { soru: "Çocuk nerede oynadı?", secenekler: ["A) Odada", "B) Bahçede", "C) Okulda"], cevap: "B) Bahçede" }], bosluk_doldurma: [{ cumle: "Güneş .........", kelime_havuzu: ["çıktı", "battı", "yağdı"], cevap: "çıktı" }, { cumle: "Bahçede oynadım ve çok .........", kelime_havuzu: ["eğlendim", "üzüldüm", "korktum"], cevap: "eğlendim" }] },
+            { id: 38, level: 'easy', baslik: "🚗 Kırmızı Araba", metin: "Babamın arabası var. Araba kırmızıdır. Araba büyüktür. Babam arabayla işe gider. Ben de bazen arabayla giderim. Arabada müzik dinleriz. Araba çok güzeldir.", coktan_secmeli: [{ soru: "Arabanın rengi nedir?", secenekler: ["A) Mavi", "B) Siyah", "C) Kırmızı"], cevap: "C) Kırmızı" }, { soru: "Baba arabayla nereye gider?", secenekler: ["A) Okula", "B) İşe", "C) Parka"], cevap: "B) İşe" }, { soru: "Arabada ne yapılır?", secenekler: ["A) Uyunur", "B) Müzik dinlenir", "C) Yemek yenir"], cevap: "B) Müzik dinlenir" }], bosluk_doldurma: [{ cumle: "Araba ........ dır.", kelime_havuzu: ["kırmızı", "sarı", "mavi"], cevap: "kırmızı" }, { cumle: "Babam arabayla ........ gider.", kelime_havuzu: ["işe", "okula", "parka"], cevap: "işe" }] },
+            { id: 39, level: 'easy', baslik: "🐟 Balık", metin: "Evimizde bir akvaryum var. Akvaryumda balıklar var. Balıklar renklidir. Balıklar suda yüzer. Her gün onlara yem veririm. Balıkları izlemek güzeldir. Balıkları severim.", coktan_secmeli: [{ soru: "Evde ne var?", secenekler: ["A) Köpek", "B) Kedi", "C) Akvaryum"], cevap: "C) Akvaryum" }, { soru: "Balıklar nasıldır?", secenekler: ["A) Beyaz", "B) Renkli", "C) Siyah"], cevap: "B) Renkli" }, { soru: "Balıklara her gün ne verilir?", secenekler: ["A) Su", "B) Yem", "C) Ekmek"], cevap: "B) Yem" }], bosluk_doldurma: [{ cumle: "Balıklar suda .........", kelime_havuzu: ["yüzer", "koşar", "uçar"], cevap: "yüzer" }, { cumle: "Balıkları ........ severim.", kelime_havuzu: ["çok", "hiç", "az"], cevap: "çok" }] },
+            { id: 40, level: 'easy', baslik: "🧸 Oyuncak Ayım", metin: "Benim bir oyuncak ayım var. Ayım sarıdır. Ayım yumuşaktır. Her gece yanımda uyur. Ona Minnoş derim. Minnoş'u çok severim. Minnoş en iyi arkadaşımdır.", coktan_secmeli: [{ soru: "Oyuncak ayının rengi nedir?", secenekler: ["A) Mavi", "B) Sarı", "C) Kırmızı"], cevap: "B) Sarı" }, { soru: "Oyuncak ayının adı nedir?", secenekler: ["A) Pamuk", "B) Karabaş", "C) Minnoş"], cevap: "C) Minnoş" }, { soru: "Oyuncak ay her gece nerede uyur?", secenekler: ["A) Dolabında", "B) Masada", "C) Yanımda"], cevap: "C) Yanımda" }], bosluk_doldurma: [{ cumle: "Ayım ........ dır.", kelime_havuzu: ["yumuşak", "sert", "ağır"], cevap: "yumuşak" }, { cumle: "Minnoş en iyi ........'ımdır.", kelime_havuzu: ["arkadaşım", "öğretmenim", "komşum"], cevap: "arkadaşım" }] },
+            { id: 41, level: 'easy', baslik: "👧 Kardeşim", metin: "Benim bir kardeşim var. Adı Elif'tir. Elif küçüktür. Elif güler yüzlüdür. Birlikte oynarız. Bazen kavga ederiz. Ama birbirimizi çok severiz.", coktan_secmeli: [{ soru: "Kardeşinin adı nedir?", secenekler: ["A) Ayşe", "B) Fatma", "C) Elif"], cevap: "C) Elif" }, { soru: "Elif nasıldır?", secenekler: ["A) Büyük", "B) Küçük", "C) Uzun"], cevap: "B) Küçük" }, { soru: "Birlikte ne yapılır?", secenekler: ["A) Uyunur", "B) Oynanır", "C) Çalışılır"], cevap: "B) Oynanır" }], bosluk_doldurma: [{ cumle: "Elif ........ yüzlüdür.", kelime_havuzu: ["güler", "ağlar", "somurtur"], cevap: "güler" }, { cumle: "Birbirimizi çok .........", kelime_havuzu: ["severiz", "görmeyiz", "biliriz"], cevap: "severiz" }] },
+            { id: 42, level: 'easy', baslik: "🍌 Muz", metin: "Muz sarı bir meyvedir. Muz uzundur. Muz tatlıdır. Ben muzu çok severim. Her gün bir muz yerim. Annem marketten muz alır. Muz beni güçlü yapar.", coktan_secmeli: [{ soru: "Muz ne renktir?", secenekler: ["A) Kırmızı", "B) Sarı", "C) Yeşil"], cevap: "B) Sarı" }, { soru: "Muz nasıl bir meyvedir?", secenekler: ["A) Ekşi", "B) Acı", "C) Tatlı"], cevap: "C) Tatlı" }, { soru: "Annem muzu nereden alır?", secenekler: ["A) Bahçeden", "B) Marketten", "C) Komşudan"], cevap: "B) Marketten" }], bosluk_doldurma: [{ cumle: "Muz ........ bir meyvedir.", kelime_havuzu: ["sarı", "mavi", "beyaz"], cevap: "sarı" }, { cumle: "Muz beni ........ yapar.", kelime_havuzu: ["güçlü", "hasta", "yorgun"], cevap: "güçlü" }] },
+            { id: 43, level: 'easy', baslik: "🌧️ Yağmur Yağıyor", metin: "Bugün yağmur yağıyor. Gökyüzü griydi. Dışarısı ıslaktır. Şemsiyemi aldım. Yağmurluk giydim. Okula gittim. Ayaklarım ıslanmadı.", coktan_secmeli: [{ soru: "Bugün hava nasıl?", secenekler: ["A) Güneşli", "B) Yağmurlu", "C) Karlı"], cevap: "B) Yağmurlu" }, { soru: "Ne alındı?", secenekler: ["A) Çanta", "B) Şemsiye", "C) Eldiven"], cevap: "B) Şemsiye" }, { soru: "Ayaklar ne oldu?", secenekler: ["A) Islandı", "B) Üşüdü", "C) Islanmadı"], cevap: "C) Islanmadı" }], bosluk_doldurma: [{ cumle: "Yağmurluk .........", kelime_havuzu: ["giydim", "koydum", "aldım"], cevap: "giydim" }, { cumle: "Gökyüzü ........ dı.", kelime_havuzu: ["gri", "mavi", "sarı"], cevap: "gri" }] },
+            { id: 44, level: 'easy', baslik: "📋 Karne Günü", metin: "Bugün karne günüdür. Okula gittim. Öğretmenim karnemi verdi. Karneme baktım. Notlarım iyiydi. Çok sevindim. Annem de çok mutlu oldu.", coktan_secmeli: [{ soru: "Bugün ne günüdür?", secenekler: ["A) Tatil günü", "B) Bayram günü", "C) Karne günü"], cevap: "C) Karne günü" }, { soru: "Karneyi kim verdi?", secenekler: ["A) Anne", "B) Öğretmen", "C) Müdür"], cevap: "B) Öğretmen" }, { soru: "Notlar nasıldı?", secenekler: ["A) Kötüydü", "B) İyiydi", "C) Orta"], cevap: "B) İyiydi" }], bosluk_doldurma: [{ cumle: "Karneme baktım ve çok .........", kelime_havuzu: ["sevindim", "üzüldüm", "korktum"], cevap: "sevindim" }, { cumle: "Annem de çok ........ oldu.", kelime_havuzu: ["mutlu", "kızgın", "üzgün"], cevap: "mutlu" }] },
+            { id: 45, level: 'easy', baslik: "🐔 Tavuk", metin: "Büyükannemin evinde tavuklar var. Tavuklar beyazdır. Tavuklar yumurtlar. Biz yumurtaları yeriz. Tavuklar çok gürültülüdür. Ama onları severim. Tavuklar güzel hayvanlardır.", coktan_secmeli: [{ soru: "Kimin evinde tavuklar var?", secenekler: ["A) Komşunun", "B) Büyükannenin", "C) Amcanın"], cevap: "B) Büyükannenin" }, { soru: "Tavuklar ne renktir?", secenekler: ["A) Sarı", "B) Siyah", "C) Beyaz"], cevap: "C) Beyaz" }, { soru: "Tavuklardan ne elde edilir?", secenekler: ["A) Süt", "B) Yumurta", "C) Et"], cevap: "B) Yumurta" }], bosluk_doldurma: [{ cumle: "Tavuklar ........ dır.", kelime_havuzu: ["beyaz", "sarı", "mavi"], cevap: "beyaz" }, { cumle: "Biz yumurtaları .........", kelime_havuzu: ["yeriz", "atarız", "saklarız"], cevap: "yeriz" }] },
+            { id: 46, level: 'easy', baslik: "✏️ Kalem Kutum", metin: "Benim bir kalem kutum var. Kutum mavi renklidir. İçinde kalemler var. Kırmızı, sarı ve yeşil kalemlerim var. Onlarla resim çizerim. Kalemlerimi çok severim. Her gün kullanırım.", coktan_secmeli: [{ soru: "Kalem kutusunun rengi nedir?", secenekler: ["A) Kırmızı", "B) Mavi", "C) Sarı"], cevap: "B) Mavi" }, { soru: "Kalemlerle ne yapılır?", secenekler: ["A) Yemek yenir", "B) Resim çizilir", "C) Oyun oynanır"], cevap: "B) Resim çizilir" }, { soru: "Kutunun içinde ne var?", secenekler: ["A) Oyuncak", "B) Silgi", "C) Kalemler"], cevap: "C) Kalemler" }], bosluk_doldurma: [{ cumle: "Kutum ........ renklidir.", kelime_havuzu: ["mavi", "kırmızı", "yeşil"], cevap: "mavi" }, { cumle: "Kalemlerimi çok .........", kelime_havuzu: ["severim", "atarım", "unuturum"], cevap: "severim" }] },
+            { id: 47, level: 'easy', baslik: "👨 Babam", metin: "Babam çok iyidir. Babam her gün işe gider. Akşam eve gelir. Benimle oynar. Bana hikâye okur. Babamı çok severim. Babam en iyi babadır.", coktan_secmeli: [{ soru: "Babam her gün nereye gider?", secenekler: ["A) Okula", "B) Parka", "C) İşe"], cevap: "C) İşe" }, { soru: "Baba akşam eve gelince ne yapar?", secenekler: ["A) Uyur", "B) Benimle oynar", "C) Gider"], cevap: "B) Benimle oynar" }, { soru: "Baba nasıl biridir?", secenekler: ["A) Kötü", "B) Sert", "C) Çok iyi"], cevap: "C) Çok iyi" }], bosluk_doldurma: [{ cumle: "Babam bana hikâye .........", kelime_havuzu: ["okur", "yazar", "anlatır"], cevap: "okur" }, { cumle: "Babamı çok .........", kelime_havuzu: ["severim", "görürüm", "çağırırım"], cevap: "severim" }] },
+            { id: 48, level: 'easy', baslik: "🎂 Pasta", metin: "Bugün doğum günümdür. Annem pasta yaptı. Pasta çikolatalıdır. Pastanın üstünde mumlar var. Mumları üfledim. Dileklerim oldu. Pastayı hep birlikte yedik.", coktan_secmeli: [{ soru: "Bugün ne günüdür?", secenekler: ["A) Bayram", "B) Doğum günü", "C) Tatil"], cevap: "B) Doğum günü" }, { soru: "Pastayı kim yaptı?", secenekler: ["A) Baba", "B) Komşu", "C) Anne"], cevap: "C) Anne" }, { soru: "Pasta nasıldır?", secenekler: ["A) Meyveli", "B) Çikolatalı", "C) Vanilyalı"], cevap: "B) Çikolatalı" }], bosluk_doldurma: [{ cumle: "Pastanın üstünde ........ var.", kelime_havuzu: ["mumlar", "çiçekler", "oyuncaklar"], cevap: "mumlar" }, { cumle: "Pastayı hep birlikte .........", kelime_havuzu: ["yedik", "yaptık", "baktık"], cevap: "yedik" }] },
+            { id: 49, level: 'easy', baslik: "😴 Uyku Vakti", metin: "Akşam oldu. Uyku vakti geldi. Pijamamı giydim. Dişlerimi fırçaladım. Yatağıma girdim. Annem beni örttü. İyi geceler dedi.", coktan_secmeli: [{ soru: "Ne vakti geldi?", secenekler: ["A) Kahvaltı", "B) Oyun", "C) Uyku"], cevap: "C) Uyku" }, { soru: "Yatmadan önce ne yapıldı?", secenekler: ["A) Dişler fırçalandı", "B) Yemek yendi", "C) Kitap okundu"], cevap: "A) Dişler fırçalandı" }, { soru: "Anne ne yaptı?", secenekler: ["A) Gitti", "B) Uyudu", "C) Örttü ve iyi geceler dedi"], cevap: "C) Örttü ve iyi geceler dedi" }], bosluk_doldurma: [{ cumle: "Pijamamı .........", kelime_havuzu: ["giydim", "yıkadım", "koydum"], cevap: "giydim" }, { cumle: "Yatağıma .........", kelime_havuzu: ["girdim", "oturdum", "attım"], cevap: "girdim" }] },
+            { id: 50, level: 'easy', baslik: "🍓 Çilek", metin: "Çilek kırmızı bir meyvedir. Çilek küçüktür. Çilek çok tatlıdır. Ben çileği çok severim. Annemle birlikte bahçeden çilek topladık. Çilekleri yıkadık ve yedik. Nefis bir meyvedir.", coktan_secmeli: [{ soru: "Çilek ne renktir?", secenekler: ["A) Sarı", "B) Kırmızı", "C) Mor"], cevap: "B) Kırmızı" }, { soru: "Çilek nasıl bir meyvedir?", secenekler: ["A) Acı", "B) Ekşi", "C) Tatlı"], cevap: "C) Tatlı" }, { soru: "Çilekler nereden toplandı?", secenekler: ["A) Marketten", "B) Bahçeden", "C) Komşudan"], cevap: "B) Bahçeden" }], bosluk_doldurma: [{ cumle: "Çilekleri ........ ve yedik.", kelime_havuzu: ["yıkadık", "sattık", "sakladık"], cevap: "yıkadık" }, { cumle: "Çilek ........ bir meyvedir.", kelime_havuzu: ["nefis", "kötü", "tatsız"], cevap: "nefis" }] },
+            // ---- ORTA SEVİYE (level: 'medium') ----
+            { id: 1, level: 'medium', baslik: "👨‍👩‍👧‍👦 Benim Ailem", metin: "Biz dört kişilik bir aileyiz. Babam mühendistir ve her gün işe gider. Annem ise ilkokul öğretmenidir. Ben üçüncü sınıfa, kardeşim ise birinci sınıfa gidiyorum. Akşamları hep birlikte yemek yeriz ve sohbet ederiz. Hafta sonları parka ya da sinemaya gideriz. Bazen büyükanne ve büyükbabamızı ziyaret ederiz. Ailemizin en büyük özelliği birbirimizi çok sevmemizdir.", coktan_secmeli: [{ soru: "Ailede kaç kişi vardır?", secenekler: ["A) İki", "B) Üç", "C) Dört"], cevap: "C) Dört" }, { soru: "Anne ne iş yapar?", secenekler: ["A) Doktor", "B) İlkokul öğretmeni", "C) Mühendis"], cevap: "B) İlkokul öğretmeni" }, { soru: "Akşamları aile birlikte ne yapar?", secenekler: ["A) Sinemaya gider", "B) Yemek yer ve sohbet eder", "C) Parka gider"], cevap: "B) Yemek yer ve sohbet eder" }], bosluk_doldurma: [{ cumle: "Babam ........ tir ve her gün işe gider.", kelime_havuzu: ["mühendis", "doktor", "öğretmen"], cevap: "mühendis" }, { cumle: "Ailemizin en büyük özelliği birbirimizi çok ........'mızdir.", kelime_havuzu: ["sevme", "görme", "bilme"], cevap: "sevme" }] },
+            { id: 2, level: 'medium', baslik: "🎒 Okul Çantası", metin: "Her sabah okula gitmeden önce çantamı hazırlarım. Önce ders kitaplarımı koyarım. Sonra defterlerimi ve kalemlerimi eklerim. Teneffüste yiyeceğim sandviçi de unutmam. Çantam bazen çok ağır olur. Ama okula gitmek için her şeye değer. Öğretmenim her zaman düzenli olmamızı söyler. Düzenli bir çanta düzenli bir öğrenciyi gösterir.", coktan_secmeli: [{ soru: "Çantaya ilk ne konur?", secenekler: ["A) Sandviç", "B) Kalemler", "C) Ders kitapları"], cevap: "C) Ders kitapları" }, { soru: "Teneffüste ne yenir?", secenekler: ["A) Meyve", "B) Sandviç", "C) Çikolata"], cevap: "B) Sandviç" }, { soru: "Öğretmen ne söyler?", secenekler: ["A) Erken gelin", "B) Düzenli olun", "C) Çok çalışın"], cevap: "B) Düzenli olun" }], bosluk_doldurma: [{ cumle: "Çantam bazen çok ........ olur.", kelime_havuzu: ["ağır", "hafif", "güzel"], cevap: "ağır" }, { cumle: "Düzenli bir çanta düzenli bir ........ gösterir.", kelime_havuzu: ["öğrenci", "aileyi", "okulu"], cevap: "öğrenci" }] },
+            { id: 3, level: 'medium', baslik: "🐱 Sevimli Kedi", metin: "Evimizde turuncu renkli bir kedimiz var. Adı Portakal'dır. Portakal çok oyuncu ve meraklı bir kedidir. Her sabah beni uyandırmak için yüzüme basar. Süt içmeyi ve balık yemeyi çok sever. Akşamları benim dizlerimde uyur. Onu her gün tarar ve temiz tutarım. Portakal benim en iyi dostum ve en sevimli arkadaşımdır.", coktan_secmeli: [{ soru: "Kedinin adı nedir?", secenekler: ["A) Karabaş", "B) Portakal", "C) Pamuk"], cevap: "B) Portakal" }, { soru: "Kedi her sabah ne yapar?", secenekler: ["A) Dışarı çıkar", "B) Süt içer", "C) Yüze basar ve uyandırır"], cevap: "C) Yüze basar ve uyandırır" }, { soru: "Kedi akşamları nerede uyur?", secenekler: ["A) Yatakta", "B) Dizlerde", "C) Kanepede"], cevap: "B) Dizlerde" }], bosluk_doldurma: [{ cumle: "Portakal çok oyuncu ve ........ bir kedidir.", kelime_havuzu: ["meraklı", "tembel", "korkak"], cevap: "meraklı" }, { cumle: "Portakal benim en iyi ........ ve en sevimli arkadaşımdır.", kelime_havuzu: ["dostum", "öğretmenim", "komşum"], cevap: "dostum" }] },
+            { id: 4, level: 'medium', baslik: "🎠 Parkta Oyun", metin: "Her Cumartesi öğleden sonra babamla parka gideriz. Parkta salıncaklar, kaydıraklar ve tahterevalliler var. Ben en çok salıncakta sallanmayı severim. Babam beni iter ve çok yükseğe çıkarım. Parkta başka çocuklar da olur ve onlarla oynarım. Akşama kadar oynarım ve çok yorulurum. Eve dönerken babam bana dondurma alır. O anlar hayatımın en güzel anlarından biridir.", coktan_secmeli: [{ soru: "Parka ne zaman gidilir?", secenekler: ["A) Pazar sabahı", "B) Cumartesi öğleden sonra", "C) Her akşam"], cevap: "B) Cumartesi öğleden sonra" }, { soru: "En çok ne yapmak sevilir?", secenekler: ["A) Kaydırak", "B) Tahterevalliyi", "C) Salıncakta sallanmayı"], cevap: "C) Salıncakta sallanmayı" }, { soru: "Eve dönerken ne alınır?", secenekler: ["A) Oyuncak", "B) Dondurma", "C) Çikolata"], cevap: "B) Dondurma" }], bosluk_doldurma: [{ cumle: "Akşama kadar oynarım ve çok .........", kelime_havuzu: ["yorulurum", "üzülürüm", "Sıkılırım"], cevap: "yorulurum" }, { cumle: "Babam beni iter ve çok ........ çıkarım.", kelime_havuzu: ["yükseğe", "aşağıya", "ileriye"], cevap: "yükseğe" }] },
+            { id: 5, level: 'medium', baslik: "🍒 Meyve Bahçesi", metin: "Büyükbabamın köyde güzel bir bahçesi var. Bahçede elma, armut, kiraz ve vişne ağaçları var. Her yaz tatilinde büyükbabamı ziyaret ederiz. Sabahları bahçede meyve toplarız. Büyükannem topladığımız meyvelerden reçel yapar. Ben en çok vişne reçelini severim. Bahçede çalışmak hem eğlenceli hem de yorucu olur. O tatiller benim için çok değerli anılardır.", coktan_secmeli: [{ soru: "Büyükbabanın bahçesi nerededir?", secenekler: ["A) Şehirde", "B) Köyde", "C) Kasabada"], cevap: "B) Köyde" }, { soru: "Büyükannem meyvelerden ne yapar?", secenekler: ["A) Meyve suyu", "B) Pasta", "C) Reçel"], cevap: "C) Reçel" }, { soru: "En çok hangi reçel sevilir?", secenekler: ["A) Elma reçeli", "B) Vişne reçeli", "C) Çilek reçeli"], cevap: "B) Vişne reçeli" }], bosluk_doldurma: [{ cumle: "Bahçede çalışmak hem eğlenceli hem de ........ olur.", kelime_havuzu: ["yorucu", "sıkıcı", "tehlikeli"], cevap: "yorucu" }, { cumle: "O tatiller benim için çok değerli ........ dır.", kelime_havuzu: ["anılar", "günler", "kitaplar"], cevap: "anılar" }] },
+            { id: 6, level: 'medium', baslik: "☔ Yağmurlu Gün", metin: "Dün sabah uyandığımda dışarıda yağmur yağıyordu. Gökyüzü karanlık ve bulutluydu. Annem bana yağmurluk ve şemsiye hazırladı. Okula giderken su birikintilerinin üstünden atladım. Okulda arkadaşlarım yağmuru sevmiyorlardu ama ben çok seviyorum. Teneffüste pencerenin önünde yağmuru izledim. Akşam eve dönünce annem sıcak çorba yaptı. Yağmurlu günlerin kendine has güzelliği vardır.", coktan_secmeli: [{ soru: "Dün sabah hava nasıldı?", secenekler: ["A) Güneşli ve sıcak", "B) Karlı ve soğuk", "C) Yağmurlu ve bulutlu"], cevap: "C) Yağmurlu ve bulutlu" }, { soru: "Teneffüste ne yapıldı?", secenekler: ["A) Dışarı çıkıldı", "B) Pencerede yağmur izlendi", "C) Kitap okundu"], cevap: "B) Pencerede yağmur izlendi" }, { soru: "Akşam eve dönünce ne yapıldı?", secenekler: ["A) TV izlendi", "B) Sıcak çorba yendi", "C) Oyun oynandı"], cevap: "B) Sıcak çorba yendi" }], bosluk_doldurma: [{ cumle: "Annem bana yağmurluk ve ........ hazırladı.", kelime_havuzu: ["şemsiye", "çanta", "eldiven"], cevap: "şemsiye" }, { cumle: "Yağmurlu günlerin kendine has ........ vardır.", kelime_havuzu: ["güzelliği", "tehlikesi", "sıkıcılığı"], cevap: "güzelliği" }] },
+            { id: 7, level: 'medium', baslik: "🍞 Fırıncı Amca", metin: "Mahallemizde küçük ama çok güzel bir fırın var. Fırıncı amcanın adı Hüseyin'dir. Her sabah gün doğmadan önce fırına gelir ve ekmeği hazırlamaya başlar. Hamuru yoğurur, şekillendirir ve büyük fırında pişirir. Sıcak ekmeklerin kokusu sabahları tüm mahalleye yayılır. Annem beni her sabah fırına ekmek almaya gönderir. Hüseyin Amca bana her zaman küçük bir simit verir. Taze ekmek gibi güzel kokulu bir şey yoktur.", coktan_secmeli: [{ soru: "Fırıncı amcanın adı nedir?", secenekler: ["A) Ahmet", "B) Hüseyin", "C) Mehmet"], cevap: "B) Hüseyin" }, { soru: "Fırıncı amca ne zaman fırına gelir?", secenekler: ["A) Öğleden sonra", "B) Akşam", "C) Gün doğmadan önce"], cevap: "C) Gün doğmadan önce" }, { soru: "Hüseyin Amca çocuğa ne verir?", secenekler: ["A) Para", "B) Ekmek", "C) Simit"], cevap: "C) Simit" }], bosluk_doldurma: [{ cumle: "Sıcak ekmeklerin kokusu sabahları tüm mahalleye .........", kelime_havuzu: ["yayılır", "gider", "gelir"], cevap: "yayılır" }, { cumle: "Taze ekmek gibi güzel ........ bir şey yoktur.", kelime_havuzu: ["kokulu", "renkli", "büyük"], cevap: "kokulu" }] },
+            { id: 8, level: 'medium', baslik: "🐶 Mutlu Köpek", metin: "Komşumuzun bahçesinde çok sevimli bir köpek var. Adı Karabaş'tır. Karabaş siyah ve beyaz benekli, büyük bir köpektir. Her gün bahçede koşar, oynar ve havlar. Ben onun yanından geçerken kuyruğunu sallayarak bana koşar. Elimdeki ekmek parçalarını yer ve mutlu olur. Karabaş çok zeki bir köpektir. Onunla arkadaş olmak beni çok mutlu ediyor.", coktan_secmeli: [{ soru: "Köpeğin adı nedir?", secenekler: ["A) Pamuk", "B) Sarı", "C) Karabaş"], cevap: "C) Karabaş" }, { soru: "Karabaş nasıl bir köpektir?", secenekler: ["A) Küçük ve sarı", "B) Siyah beyaz benekli, büyük", "C) Kahverengi ve tüylü"], cevap: "B) Siyah beyaz benekli, büyük" }, { soru: "Karabaş yanına koşunca ne yapar?", secenekler: ["A) Havlar", "B) Kuyruğunu sallayarak koşar", "C) Kaçar"], cevap: "B) Kuyruğunu sallayarak koşar" }], bosluk_doldurma: [{ cumle: "Karabaş çok ........ bir köpektir.", kelime_havuzu: ["zeki", "korkak", "sinirli"], cevap: "zeki" }, { cumle: "Onunla arkadaş olmak beni çok ........ ediyor.", kelime_havuzu: ["mutlu", "üzgün", "yorgun"], cevap: "mutlu" }] },
+            { id: 9, level: 'medium', baslik: "🥐 Kahvaltı Zamanı", metin: "Sabah kahvaltısı günün en önemli öğünüdür. Bizim evde kahvaltı masası çok zengin olur. Annem peynir, zeytin, domates ve salatalık keser. Babam çay demler ve yumurta pişirir. Ben de meyve suyu hazırlarım. Hep birlikte masaya oturur ve yavaşça yeriz. Kahvaltı ederken o günün planlarını konuşuruz. Güzel bir kahvaltı, güzel bir güne kapı açar.", coktan_secmeli: [{ soru: "En önemli öğün hangisidir?", secenekler: ["A) Akşam yemeği", "B) Öğle yemeği", "C) Kahvaltı"], cevap: "C) Kahvaltı" }, { soru: "Baba kahvaltıda ne yapar?", secenekler: ["A) Peynir keser", "B) Çay demler ve yumurta pişirir", "C) Meyve suyu yapar"], cevap: "B) Çay demler ve yumurta pişirir" }, { soru: "Kahvaltıda ne konuşulur?", secenekler: ["A) Ders konuları", "B) O günün planları", "C) Hava durumu"], cevap: "B) O günün planları" }], bosluk_doldurma: [{ cumle: "Ben de ........ suyu hazırlarım.", kelime_havuzu: ["meyve", "portakal", "elma"], cevap: "meyve" }, { cumle: "Güzel bir kahvaltı, güzel bir güne ........ açar.", kelime_havuzu: ["kapı", "yol", "pencere"], cevap: "kapı" }] },
+            { id: 10, level: 'medium', baslik: "🏥 Doktor Ziyareti", metin: "Mehmet birkaç gündür hasta hissediyordu. Boğazı ağrıyor ve ateşi vardı. Annesi onu doktora götürmeye karar verdi. Doktor muayenehanesinde Mehmet'i muayene etti. Boğazına baktı ve kulak burun boğazını kontrol etti. Grip olduğunu söyledi ve ilaç yazdı. Mehmet ilacını düzenli kullandı ve iki gün sonra iyileşti. Bu deneyim ona sağlığını korumanın önemini öğretti.", coktan_secmeli: [{ soru: "Mehmet ne şikâyetiyle doktora gitti?", secenekler: ["A) Baş ağrısı", "B) Boğaz ağrısı ve ateş", "C) Karın ağrısı"], cevap: "B) Boğaz ağrısı ve ateş" }, { soru: "Doktor ne teşhisi koydu?", secenekler: ["A) Soğuk algınlığı", "B) Grip", "C) Alerji"], cevap: "B) Grip" }, { soru: "Mehmet kaç günde iyileşti?", secenekler: ["A) Bir günde", "B) Üç günde", "C) İki günde"], cevap: "C) İki günde" }], bosluk_doldurma: [{ cumle: "Doktor muayenehanesinde Mehmet'i ........ etti.", kelime_havuzu: ["muayene", "tedavi", "görmezden"], cevap: "muayene" }, { cumle: "Bu deneyim ona sağlığını korumanın ........ öğretti.", kelime_havuzu: ["önemini", "zorluğunu", "kolaylığını"], cevap: "önemini" }] },
+            { id: 11, level: 'medium', baslik: "📚 Kütüphanede Bir Gün", metin: "Geçen Pazar günü annemle birlikte şehir kütüphanesine gittik. Kütüphane çok büyük ve sessizdi. Binlerce kitabın sıralandığı raflar vardı. Bir kütüphaneci bana kitap seçmeme yardım etti. Hayvanlara dair renkli resimli bir kitap seçtim. Sessiz bir köşeye oturarak kitabı okumaya başladım. Okurken o kadar daldım ki vaktin nasıl geçtiğini anlamadım. Kütüphane benim için sihirli bir dünya kapısına dönüştü.", coktan_secmeli: [{ soru: "Kütüphane nasıl bir yerdi?", secenekler: ["A) Küçük ve gürültülü", "B) Büyük ve sessiz", "C) Orta ve karanlık"], cevap: "B) Büyük ve sessiz" }, { soru: "Kim kitap seçmeye yardım etti?", secenekler: ["A) Anne", "B) Bir kütüphaneci", "C) Bir öğretmen"], cevap: "B) Bir kütüphaneci" }, { soru: "Hangi konuda kitap seçildi?", secenekler: ["A) Uzay", "B) Tarih", "C) Hayvanlar"], cevap: "C) Hayvanlar" }], bosluk_doldurma: [{ cumle: "Okurken o kadar daldım ki vaktin nasıl geçtiğini .........", kelime_havuzu: ["anlamadım", "bildim", "düşündüm"], cevap: "anlamadım" }, { cumle: "Kütüphane benim için sihirli bir dünya ........ dönüştü.", kelime_havuzu: ["kapısına", "odasına", "penceresine"], cevap: "kapısına" }] },
+            { id: 12, level: 'medium', baslik: "🐄 Çiftlikte Bir Sabah", metin: "Amcam şehrin dışında küçük bir çiftlik işletmektedir. Geçen hafta sonu bizi çiftliğe davet etti. Sabah ezanıyla birlikte horoz bağırdı ve uyandım. Tavuklar yumurtlamış, inekler süt vermişti. Amcamla birlikte hayvanları besledik ve ahırı temizledik. Taze sütten yapılmış yoğurt ve peynir yedik. Şehirde hiç göremediğim şeyler gördüm. Çiftlik hayatı hem zor hem de çok anlamlıydı.", coktan_secmeli: [{ soru: "Çiftlik nerededir?", secenekler: ["A) Şehrin içinde", "B) Şehrin dışında", "C) Deniz kenarında"], cevap: "B) Şehrin dışında" }, { soru: "Sabah ne sesi geldi?", secenekler: ["A) Müzik", "B) Araba", "C) Horoz sesi"], cevap: "C) Horoz sesi" }, { soru: "Sabah yemekte ne yendi?", secenekler: ["A) Sandviç", "B) Taze yoğurt ve peynir", "C) Yulaf ezmesi"], cevap: "B) Taze yoğurt ve peynir" }], bosluk_doldurma: [{ cumle: "Amcamla birlikte hayvanları besledik ve ahırı .........", kelime_havuzu: ["temizledik", "boyattık", "yıkadık"], cevap: "temizledik" }, { cumle: "Çiftlik hayatı hem zor hem de çok ........ dı.", kelime_havuzu: ["anlamlı", "sıradan", "kolay"], cevap: "anlamlı" }] },
+            { id: 13, level: 'medium', baslik: "🏖️ Deniz Kenarında", metin: "Bu yaz tatilinde ailemizle birlikte denize gittik. Otel denize sıfırdı ve odamızdan dalgaları görebiliyorduk. Sabahları erkenden kalkar, kumda yürüyüş yapardık. Denize girdiğimizde suyun berraklığı bizi büyüledi. Balık tutmayı da denedim ama hiç balık çıkmadı. Akşamları sahilde oturup günbatımını izledik. O iki hafta hayatımızın en güzel tatiliydi. Denizin sesi hâlâ kulaklarımda çınlıyor.", coktan_secmeli: [{ soru: "Otel neredeydi?", secenekler: ["A) Denize çok uzak", "B) Denize sıfır", "C) Dağın eteğinde"], cevap: "B) Denize sıfır" }, { soru: "Sabahları ne yapıldı?", secenekler: ["A) Yüzüldü", "B) Balık tutuldu", "C) Kumda yürüyüş yapıldı"], cevap: "C) Kumda yürüyüş yapıldı" }, { soru: "Balık tutmak nasıl geçti?", secenekler: ["A) Çok balık tutuldu", "B) Hiç balık çıkmadı", "C) Küçük balıklar tutuldu"], cevap: "B) Hiç balık çıkmadı" }], bosluk_doldurma: [{ cumle: "Denize girdiğimizde suyun ........ bizi büyüledi.", kelime_havuzu: ["berraklığı", "sıcaklığı", "soğukluğu"], cevap: "berraklığı" }, { cumle: "Denizin sesi hâlâ kulaklarımda .........", kelime_havuzu: ["çınlıyor", "dinliyor", "kayboluyor"], cevap: "çınlıyor" }] },
+            { id: 14, level: 'medium', baslik: "🚒 İtfaiyeci Olmak", metin: "Amcam İstanbul'da itfaiyeci olarak çalışmaktadır. Geçen hafta bizi itfaiye istasyonuna götürdü. Kocaman kırmızı itfaiye arabalarını gördüm. Amcam bize yangınla nasıl mücadele edildiğini anlattı. İtfaiye eri olabilmek için çok sağlıklı ve güçlü olmak gerekiyormuş. Amcam her gün insanları kurtarmak için hayatını tehlikeye atıyor. Onu çok cesur buluyorum. Ben de büyüyünce itfaiyeci olmak istiyorum.", coktan_secmeli: [{ soru: "Amcam nerede çalışır?", secenekler: ["A) Hastanede", "B) İtfaiyede", "C) Okulda"], cevap: "B) İtfaiyede" }, { soru: "İtfaiyeci olmak için ne gereklidir?", secenekler: ["A) Çok para", "B) İyi bir araba", "C) Sağlıklı ve güçlü olmak"], cevap: "C) Sağlıklı ve güçlü olmak" }, { soru: "Amcam nasıl tanımlanır?", secenekler: ["A) Korkak", "B) Çok cesur", "C) Tembel"], cevap: "B) Çok cesur" }], bosluk_doldurma: [{ cumle: "Amcam her gün insanları kurtarmak için hayatını ........ atıyor.", kelime_havuzu: ["tehlikeye", "ortaya", "riske"], cevap: "tehlikeye" }, { cumle: "Ben de büyüyünce itfaiyeci olmak .........", kelime_havuzu: ["istiyorum", "istemiyorum", "bilmiyorum"], cevap: "istiyorum" }] },
+            { id: 15, level: 'medium', baslik: "❄️ Kar Tatili", metin: "Geçen kış çok yoğun kar yağdı ve okullar tatil edildi. Sabah uyandığımda her yer bembeyazdı. Kardeşimle hemen dışarı çıktık. Bahçede kardan adam yaptık; havuçtan burnu ve düğmelerden gözleri vardı. Kar topu savaşı yaptık ve ikimiz de çok üşüdük. Annem bizi içeri çağırdı ve sıcak kakao hazırladı. Pencereden yağmaya devam eden karı izledik. Kar tatili, kışın en güzel hediyesidir.", coktan_secmeli: [{ soru: "Okullar neden tatil edildi?", secenekler: ["A) Bayram olduğu için", "B) Yoğun kar yağdığı için", "C) Hastalık nedeniyle"], cevap: "B) Yoğun kar yağdığı için" }, { soru: "Kardan adamın burnu neden yapıldı?", secenekler: ["A) Düğmeden", "B) Taştan", "C) Havuçtan"], cevap: "C) Havuçtan" }, { soru: "Içeri girince ne yapıldı?", secenekler: ["A) Uyku uyundu", "B) TV izlendi", "C) Sıcak kakao içildi"], cevap: "C) Sıcak kakao içildi" }], bosluk_doldurma: [{ cumle: "Sabah uyandığımda her yer ........ dı.", kelime_havuzu: ["bembeyaz", "simsiyah", "kupkuru"], cevap: "bembeyaz" }, { cumle: "Kar tatili, kışın en güzel ........ dır.", kelime_havuzu: ["hediyesi", "acısı", "zorlukları"], cevap: "hediyesi" }] },
+            { id: 16, level: 'medium', baslik: "🥬 Sebze Pazarı", metin: "Her Cuma sabahı annemle birlikte mahallemizin pazar yerine gideriz. Pazar yeri çok kalabalık ve renklidir. Tezgâhlar taze sebze ve meyvelerle doludur. Annem her tezgâhta fiyatları sorar ve karşılaştırır. Ben de alışveriş sepetini tutarım. Pazardan taze domates, biber, patlıcan ve maydanoz aldık. Eve dönerken annem bu sebzelerle güveç yapacağını söyledi. Pazar yeri, sağlıklı beslenmenin en renkli adresidir.", coktan_secmeli: [{ soru: "Pazar yeri ne zaman kurulur?", secenekler: ["A) Salı", "B) Perşembe", "C) Cuma"], cevap: "C) Cuma" }, { soru: "Annem ne alır?", secenekler: ["A) Et ve balık", "B) Taze sebze ve meyve", "C) Ekmek ve süt"], cevap: "B) Taze sebze ve meyve" }, { soru: "Eve dönerken ne yapılacak?", secenekler: ["A) Turşu kurulacak", "B) Güveç yapılacak", "C) Salata hazırlanacak"], cevap: "B) Güveç yapılacak" }], bosluk_doldurma: [{ cumle: "Tezgâhlar taze sebze ve meyvelerle ........ dur.", kelime_havuzu: ["dolu", "boş", "az"], cevap: "dolu" }, { cumle: "Pazar yeri, sağlıklı beslenmenin en renkli ........ dır.", kelime_havuzu: ["adresi", "yeri", "dükkanı"], cevap: "adresi" }] },
+            { id: 17, level: 'medium', baslik: "👮 Polis Memuru Baba", metin: "Babam emniyet müdürlüğünde polis memuru olarak görev yapmaktadır. Her sabah üniformasını giyer ve işe gider. Üzerindeki rozet ve unvan bana çok etkileyici gelir. Babam, insanların güvenliğini sağlamak için çalışıyor. Bazen gece vardiyasına kalır ve sabah yorgun gelir. Ama hiçbir zaman şikâyet etmez. Onu çok seviyorum ve onunla gurur duyuyorum. Büyüyünce babam gibi topluma faydalı biri olmak istiyorum.", coktan_secmeli: [{ soru: "Baba nerede çalışır?", secenekler: ["A) Hastanede", "B) Okulda", "C) Emniyet müdürlüğünde"], cevap: "C) Emniyet müdürlüğünde" }, { soru: "Gece vardiyasından sonra baba nasıl gelir?", secenekler: ["A) Enerjik", "B) Yorgun", "C) Neşeli"], cevap: "B) Yorgun" }, { soru: "Büyüyünce ne olmak isteniyor?", secenekler: ["A) Doktor", "B) Öğretmen", "C) Topluma faydalı biri"], cevap: "C) Topluma faydalı biri" }], bosluk_doldurma: [{ cumle: "Babam insanların güvenliğini ........ için çalışıyor.", kelime_havuzu: ["sağlamak", "bozmak", "görmek"], cevap: "sağlamak" }, { cumle: "Onu çok seviyorum ve onunla ........ duyuyorum.", kelime_havuzu: ["gurur", "utanç", "hayret"], cevap: "gurur" }] },
+            { id: 18, level: 'medium', baslik: "🐦 Kuş Sesi", metin: "Sabahları erken uyandığımda önce kuş seslerini duyarım. Pencereyi açtığımda bülbülün sesi tüm bahçeye yayılır. Bülbüller çok güzel ve melodili ötüşleriyle tanınır. Babam bana farklı kuşları ve seslerini öğretti. Serçeler ve güvercinler de mahallemizde çok severim. Bazen balkona ekmek kırıntısı bırakırım ve kuşlar gelip yer. Onları izlemek beni her zaman huzurlandırır. Kuşlar doğanın en güzel şarkıcılarıdır.", coktan_secmeli: [{ soru: "Sabah pencere açılınca ne duyulur?", secenekler: ["A) Araba sesi", "B) Bülbül sesi", "C) Komşu sesi"], cevap: "B) Bülbül sesi" }, { soru: "Bülbüller ne ile tanınır?", secenekler: ["A) Renkleriyle", "B) Boyutlarıyla", "C) Melodili ötüşleriyle"], cevap: "C) Melodili ötüşleriyle" }, { soru: "Balkona ne bırakılır?", secenekler: ["A) Su", "B) Tohum", "C) Ekmek kırıntısı"], cevap: "C) Ekmek kırıntısı" }], bosluk_doldurma: [{ cumle: "Onları izlemek beni her zaman ........ dırır.", kelime_havuzu: ["huzurlan", "üzün", "yorun"], cevap: "huzurlan" }, { cumle: "Kuşlar doğanın en güzel ........ larıdır.", kelime_havuzu: ["şarkıcı", "ressamları", "yazarları"], cevap: "şarkıcı" }] },
+            { id: 19, level: 'medium', baslik: "🚲 Bisiklet Öğrenmek", metin: "Geçen yaz babam bana bisiklet sürmeyi öğretti. İlk başta çok korkuyordum ve birkaç kez düştüm. Babam yanımdan hiç ayrılmadı ve beni cesaretlendirdi. Yavaş yavaş denge kurmayı öğrendim. Önce yavaş sürdüm, sonra hızlandım. Beş günde bisiklet sürmeyi öğrendim ve çok mutlu oldum. Şimdi her akşam parkta bisiklete biniyorum. Bir şeyi öğrenmenin verdiği gurur, düşmenin acısını unutturur.", coktan_secmeli: [{ soru: "Bisiklet öğrenme ne zaman oldu?", secenekler: ["A) Kışın", "B) Güz mevsiminde", "C) Geçen yaz"], cevap: "C) Geçen yaz" }, { soru: "Başlangıçta nasıl hissedildi?", secenekler: ["A) Çok rahat", "B) Çok korkarak", "C) Çok mutlu"], cevap: "B) Çok korkarak" }, { soru: "Kaç günde bisiklet öğrenildi?", secenekler: ["A) İki günde", "B) On günde", "C) Beş günde"], cevap: "C) Beş günde" }], bosluk_doldurma: [{ cumle: "Babam yanımdan hiç ayrılmadı ve beni ........ dirdi.", kelime_havuzu: ["cesaret", "kork", "üz"], cevap: "cesaret" }, { cumle: "Bir şeyi öğrenmenin verdiği gurur, düşmenin acısını .........", kelime_havuzu: ["unutturur", "hatırlatır", "artırır"], cevap: "unutturur" }] },
+            { id: 20, level: 'medium', baslik: "🎭 Duyguları Tanıyorum", metin: "İnsanlar bazen mutlu, bazen üzgün, bazen de kızgın olur. Ben de her gün farklı duygular yaşarım. Arkadaşlarımla oynadığımda çok mutlu olurum. Sınav sonuçlarım iyi olunca sevinç duyarım. Ama bazen arkadaşlarımla tartışırım ve üzülürüm. Öğretmenim bize duygularımızı söz ve resimle ifade etmeyi öğretiyor. Duygularımı bilmek hem kendimi hem de başkalarını anlamama yardımcı oluyor. Duygular hayatı renklendiren görünmez şeylerdir.", coktan_secmeli: [{ soru: "Sınav sonuçları iyi olunca ne hissedilir?", secenekler: ["A) Üzüntü", "B) Sevinç", "C) Kızgınlık"], cevap: "B) Sevinç" }, { soru: "Öğretmen ne öğretiyor?", secenekler: ["A) Matematik", "B) Duyguları söz ve resimle ifade etmeyi", "C) Okuma yazmayı"], cevap: "B) Duyguları söz ve resimle ifade etmeyi" }, { soru: "Duygular ne için önemlidir?", secenekler: ["A) Kendini ve başkalarını anlamak için", "B) Sınav için", "C) Oyun için"], cevap: "A) Kendini ve başkalarını anlamak için" }], bosluk_doldurma: [{ cumle: "Duygularımı bilmek hem kendimi hem de başkalarını ........ ma yardımcı oluyor.", kelime_havuzu: ["anlaya", "görme", "duyma"], cevap: "anlaya" }, { cumle: "Duygular hayatı renklendiren ........ şeylerdir.", kelime_havuzu: ["görünmez", "büyük", "küçük"], cevap: "görünmez" }] },
+            { id: 21, level: 'medium', baslik: "🌺 Çiçek Bahçesi", metin: "Annemin balkonda küçük ama güzel bir çiçek bahçesi vardır. Kırmızı güller, sarı papatyalar ve mor lavantalar yetiştirir. Her sabah çiçekleri sular ve yapraklarını siler. Bazen bana tohumların nasıl ekildiğini gösterir. Ben de küçük bir saksıya fesleğen ektim. Annem çiçeklerin canlı şeyler olduğunu ve sevgiyle büyüdüğünü söylüyor. Balkonumuzdaki çiçekler komşularımızın da çok dikkatini çeker. Güzel bir bahçe insanı hem huzurlandırır hem de mutlu eder.", coktan_secmeli: [{ soru: "Balkon bahçesinde hangi çiçek yetişmez?", secenekler: ["A) Gül", "B) Papatya", "C) Lale"], cevap: "C) Lale" }, { soru: "Çocuk saksıya ne ekti?", secenekler: ["A) Gül", "B) Fesleğen", "C) Lavanta"], cevap: "B) Fesleğen" }, { soru: "Anneye göre çiçekler nasıl büyür?", secenekler: ["A) Su ile", "B) Güneşle", "C) Sevgiyle"], cevap: "C) Sevgiyle" }], bosluk_doldurma: [{ cumle: "Her sabah çiçekleri sular ve yapraklarını .........", kelime_havuzu: ["siler", "koparır", "boyar"], cevap: "siler" }, { cumle: "Güzel bir bahçe insanı hem huzurlandırır hem de ........ eder.", kelime_havuzu: ["mutlu", "üzgün", "yorgun"], cevap: "mutlu" }] },
+            { id: 22, level: 'medium', baslik: "👩‍⚕️ Hemşire Teyze", metin: "Halamın adı Zeynep'tir ve bir devlet hastanesinde hemşire olarak çalışmaktadır. Her gün kıyafeti olan beyaz önlüğünü giyer ve uzun vardiyalarda çalışır. Hastaları ilaç verir, tansiyon ölçer ve doktorlara yardımcı olur. Bazen geceleri de vardiyası olur. İnsan hayatını kurtarmak için çok emek verir. Onu çok severim ve ona saygı duyarım. Hemşireler olmadan hastaneler işleyemez. Onlar sağlık sisteminin sessiz kahramanlarıdır.", coktan_secmeli: [{ soru: "Hala nerede çalışır?", secenekler: ["A) Okulda", "B) Devlet hastanesinde", "C) Eczanede"], cevap: "B) Devlet hastanesinde" }, { soru: "Hemşire ne işler yapar?", secenekler: ["A) Sadece ilaç verir", "B) İlaç verir, tansiyon ölçer, doktora yardım eder", "C) Sadece kayıt tutar"], cevap: "B) İlaç verir, tansiyon ölçer, doktora yardım eder" }, { soru: "Hemşireler için ne deniyor?", secenekler: ["A) Gürültülü kahramanlar", "B) Sessiz kahramanlar", "C) Yorgun kahramanlar"], cevap: "B) Sessiz kahramanlar" }], bosluk_doldurma: [{ cumle: "Her gün kıyafeti olan beyaz ........ ni giyer.", kelime_havuzu: ["önlüğü", "şapkası", "çantası"], cevap: "önlüğü" }, { cumle: "İnsan hayatını kurtarmak için çok ........ verir.", kelime_havuzu: ["emek", "para", "zaman"], cevap: "emek" }] },
+            { id: 23, level: 'medium', baslik: "🦁 Hayvanat Bahçesinde", metin: "Geçen ay okul olarak hayvanat bahçesine gezi düzenlendi. Otobüsle gittik ve çok heyecanlıydım. Aslanlar, zürafalar, filler ve timsahlar gördük. En çok zürafayı beğendim çünkü boynu çok uzundu. Rehber hayvanların yaşam ortamları ve beslenme biçimleri hakkında bilgi verdi. Bazı hayvanlar bize çok yakın geldi. Eve dönerken öğretmenimiz hayvanları korumanın önemini anlattı. O gün hem öğrendim hem de çok eğlendim.", coktan_secmeli: [{ soru: "Gezi nasıl yapıldı?", secenekler: ["A) Yürüyerek", "B) Trenle", "C) Otobüsle"], cevap: "C) Otobüsle" }, { soru: "En çok hangi hayvan beğenildi?", secenekler: ["A) Aslan", "B) Zürafa", "C) Fil"], cevap: "B) Zürafa" }, { soru: "Neden zürafa beğenildi?", secenekler: ["A) Çok büyük olduğu için", "B) Boynu çok uzun olduğu için", "C) Çok hızlı koştuğu için"], cevap: "B) Boynu çok uzun olduğu için" }], bosluk_doldurma: [{ cumle: "Rehber hayvanların yaşam ortamları hakkında ........ verdi.", kelime_havuzu: ["bilgi", "para", "hediye"], cevap: "bilgi" }, { cumle: "O gün hem öğrendim hem de çok .........", kelime_havuzu: ["eğlendim", "üzüldüm", "yoruldum"], cevap: "eğlendim" }] },
+            { id: 24, level: 'medium', baslik: "🎨 Resim Yapıyorum", metin: "Resim yapmayı çok seviyorum. Her hafta sonu büyük bir kâğıt alır ve boyalarımı hazırlarım. Önce kurşun kalemle taslak çizerim, sonra suluboyayla renklendiririm. Geçen hafta deniz manzarası çizdim. Mavi ve turkuaz renkler kullandım. Annem resmimi çok beğendi ve duvarımıza astı. Öğretmenim de resim derslerinde beni hep ön sıraya kaldırır. Resim yaparken düşünmeden akıp giden zaman beni çok mutlu eder.", coktan_secmeli: [{ soru: "Resim ne zaman yapılır?", secenekler: ["A) Hafta içi her sabah", "B) Her hafta sonu", "C) Sadece okul dersinde"], cevap: "B) Her hafta sonu" }, { soru: "Geçen hafta ne çizildi?", secenekler: ["A) Orman manzarası", "B) Deniz manzarası", "C) Şehir manzarası"], cevap: "B) Deniz manzarası" }, { soru: "Annem resimle ne yaptı?", secenekler: ["A) Attı", "B) Sattı", "C) Duvarına astı"], cevap: "C) Duvarına astı" }], bosluk_doldurma: [{ cumle: "Önce kurşun kalemle ........ çizerim, sonra suluboyayla renklendiririm.", kelime_havuzu: ["taslak", "kare", "çizgi"], cevap: "taslak" }, { cumle: "Resim yaparken ........ akıp giden zaman beni çok mutlu eder.", kelime_havuzu: ["düşünmeden", "koşarak", "uğraşarak"], cevap: "düşünmeden" }] },
+            { id: 25, level: 'medium', baslik: "🤝 Arkadaşlık", metin: "Arkadaşlık hayatın en güzel hediyelerinden biridir. Benim de çok iyi bir arkadaşım var; adı Kerem'dir. Kerem dürüst, yardımsever ve eğlenceli bir çocuktur. Teneffüslerde hep birlikte futbol oynarız. Bir gün ben hasta oldum ve okula gidemedim. Kerem o gün notlarını bana getirdi ve ödevlerimi anlattı. O zaman anladım ki gerçek arkadaş zor günde belli olur. Kerem gibi bir arkadaşa sahip olmak çok büyük bir şanstır.", coktan_secmeli: [{ soru: "Arkadaşın adı nedir?", secenekler: ["A) Mert", "B) Kerem", "C) Ali"], cevap: "B) Kerem" }, { soru: "Kerem hasta olan arkadaşa ne yaptı?", secenekler: ["A) Hiçbir şey yapmadı", "B) Notlarını getirip ödevleri anlattı", "C) Ziyarete geldi"], cevap: "B) Notlarını getirip ödevleri anlattı" }, { soru: "Gerçek arkadaş ne zaman belli olur?", secenekler: ["A) Eğlenceli anlarda", "B) Zor günde", "C) Tatilde"], cevap: "B) Zor günde" }], bosluk_doldurma: [{ cumle: "Kerem dürüst, yardımsever ve ........ bir çocuktur.", kelime_havuzu: ["eğlenceli", "kıskanç", "tembel"], cevap: "eğlenceli" }, { cumle: "Kerem gibi bir arkadaşa sahip olmak çok büyük bir ........ tır.", kelime_havuzu: ["şans", "sorun", "zorluk"], cevap: "şans" }] },
+            { id: 26, level: 'medium', baslik: "🎣 Balık Tutmak", metin: "Dedem her hafta sonu ırmak kenarına balık tutmaya gider. Geçen Pazar beni de yanında götürdü. Sabah erkenden uyandık ve oltaları hazırladık. Suyun kenarında sessizce oturarak bekledik. Ben ilk kez olta attım ama başlangıçta balık gelmedi. Sonra dedem bana nasıl tutulacağını gösterdi. Akşama doğru küçük bir balık yakaladım ve çok sevindim. Balık tutmak sabır gerektiren ama çok keyifli bir etkinliktir.", coktan_secmeli: [{ soru: "Dedem nereye gider?", secenekler: ["A) Göl kenarına", "B) Irmak kenarına", "C) Deniz kenarına"], cevap: "B) Irmak kenarına" }, { soru: "İlk kez olta atılınca ne oldu?", secenekler: ["A) Büyük balık geldi", "B) Balık gelmedi", "C) Olta koptu"], cevap: "B) Balık gelmedi" }, { soru: "Balık tutmak ne gerektirir?", secenekler: ["A) Güç", "B) Hız", "C) Sabır"], cevap: "C) Sabır" }], bosluk_doldurma: [{ cumle: "Suyun kenarında ........ oturarak bekledik.", kelime_havuzu: ["sessizce", "neşeyle", "koşarak"], cevap: "sessizce" }, { cumle: "Akşama doğru küçük bir balık ........ ve çok sevindim.", kelime_havuzu: ["yakaladım", "gördüm", "kaçırdım"], cevap: "yakaladım" }] },
+            { id: 27, level: 'medium', baslik: "🦸 Kahraman Ağabeyim", metin: "Ağabeyim Emre üniversitede öğrenci olup aynı zamanda gönüllü itfaiyecidir. Her hafta sonu eğitimlere katılır ve yangın tatbikatları yapar. Bir gün mahallemizdeki bir evde yangın çıktı. Ağabeyim hemen olay yerine koştu ve içerde mahsur kalan yaşlı komşuyu kurtardı. O gün mahallemizin kahramanı oldu. Gazeteler bile haberini yaptı. Ben ağabeyimle çok gurur duyuyorum. O benim için gerçek bir kahraman ve ilham kaynağıdır.", coktan_secmeli: [{ soru: "Ağabeyim ne okur?", secenekler: ["A) Lise", "B) Üniversite", "C) İlkokul"], cevap: "B) Üniversite" }, { soru: "Yangında kimي kurtardı?", secenekler: ["A) Genç bir çocuğu", "B) Bir köpeği", "C) Mahsur kalan yaşlı komşuyu"], cevap: "C) Mahsur kalan yaşlı komşuyu" }, { soru: "Ağabeyim için ne deniyor?", secenekler: ["A) Tembel biri", "B) Gerçek bir kahraman", "C) Sıradan biri"], cevap: "B) Gerçek bir kahraman" }], bosluk_doldurma: [{ cumle: "Ağabeyim hemen olay yerine ........ ve içerde mahsur kalan komşuyu kurtardı.", kelime_havuzu: ["koştu", "yürüdü", "gitmedi"], cevap: "koştu" }, { cumle: "O benim için gerçek bir kahraman ve ........ kaynağıdır.", kelime_havuzu: ["ilham", "para", "korku"], cevap: "ilham" }] },
+            { id: 28, level: 'medium', baslik: "🌸 İlkbahar Geldi", metin: "Kış bitti ve ilkbahar geldi. Her şey yeniden canlandı. Ağaçlar çiçek açtı; pembe, beyaz ve sarı renkler her yere yayıldı. Arılar ve kelebekler uçuşmaya başladı. Kuşlar geri döndü ve şarkıları bahçelere doldu. Annem balkon saksılarını çıkardı ve yeni fideler dikti. Ben de bahçeye çıkıp çimenlerin üzerinde koştum. İlkbaharda doğa bir tablo gibi güzelleşir ve insanı sevinçle doldurur.", coktan_secmeli: [{ soru: "Ağaçlar hangi renklerde çiçek açtı?", secenekler: ["A) Mavi ve yeşil", "B) Pembe, beyaz ve sarı", "C) Mor ve turuncu"], cevap: "B) Pembe, beyaz ve sarı" }, { soru: "Kuşlar gelince ne oldu?", secenekler: ["A) Her şey sessizleşti", "B) Şarkıları bahçelere doldu", "C) Ağaçlara kondular"], cevap: "B) Şarkıları bahçelere doldu" }, { soru: "Annem ne yaptı?", secenekler: ["A) Balkon saksılarını çıkardı ve fideler dikti", "B) Pencere boyadı", "C) Bahçe düzenledi"], cevap: "A) Balkon saksılarını çıkardı ve fideler dikti" }], bosluk_doldurma: [{ cumle: "Kış bitti ve ilkbahar ........ dı.", kelime_havuzu: ["geldi", "gitti", "bitti"], cevap: "geldi" }, { cumle: "İlkbaharda doğa bir ........ gibi güzelleşir.", kelime_havuzu: ["tablo", "ev", "çiçek"], cevap: "tablo" }] },
+            { id: 29, level: 'medium', baslik: "🍲 Yemek Yapmak", metin: "Annem bana yemek yapmayı öğretiyor. Geçen hafta birlikte mercimek çorbası yaptık. Önce mercimekleri yıkadık ve tencereye koyduk. Su, soğan ve baharat ekledik. Ocakta pişirirken defalarca karıştırdık. Sonunda çorba hazır oldu ve üstüne tereyağı gezdirdik. Babam çorbayı çok beğendi. Kendi ellerimizle bir şey yapmak gerçekten çok güzel bir duygu. Yemek yapmak hem eğlenceli hem de hayat becerisidir.", coktan_secmeli: [{ soru: "Annem ne öğretiyor?", secenekler: ["A) Resim yapmayı", "B) Yemek yapmayı", "C) Dikiş dikmeyi"], cevap: "B) Yemek yapmayı" }, { soru: "Geçen hafta ne yapıldı?", secenekler: ["A) Pilav", "B) Menemen", "C) Mercimek çorbası"], cevap: "C) Mercimek çorbası" }, { soru: "Çorbayı kim beğendi?", secenekler: ["A) Komşu", "B) Baba", "C) Kardeş"], cevap: "B) Baba" }], bosluk_doldurma: [{ cumle: "Çorba hazır olunca üstüne ........ gezdirdik.", kelime_havuzu: ["tereyağı", "limon", "su"], cevap: "tereyağı" }, { cumle: "Yemek yapmak hem eğlenceli hem de hayat ........ dir.", kelime_havuzu: ["becerisi", "oyunu", "ödevi"], cevap: "becerisi" }] },
+            { id: 30, level: 'medium', baslik: "🫂 Arkadaşlık", metin: "İyi bir arkadaş bulduğumuzda hayat çok daha güzel olur. Sınıfımızda yeni bir öğrenci vardı; adı Selin'di. İlk gün kimseyle konuşamadı ve üzgün görünüyordu. Ben yanına gittim ve kendimi tanıttım. Birlikte teneffüste oturup konuştuk. Sonraki günlerde hep birlikte oynadık. Selin çok zeki ve yaratıcı bir çocuktu. Ona yardım etmek hem onu hem de beni mutlu etti. Yabancı bir insana el uzatmak, onu arkadaş yapar.", coktan_secmeli: [{ soru: "Yeni öğrencinin adı nedir?", secenekler: ["A) Zeynep", "B) Ayşe", "C) Selin"], cevap: "C) Selin" }, { soru: "Selin ilk gün nasıl görünüyordu?", secenekler: ["A) Mutlu ve neşeli", "B) Üzgün", "C) Heyecanlı"], cevap: "B) Üzgün" }, { soru: "Selin nasıl bir çocuktu?", secenekler: ["A) Tembel ve sıradan", "B) Kıskanç ve sinirli", "C) Zeki ve yaratıcı"], cevap: "C) Zeki ve yaratıcı" }], bosluk_doldurma: [{ cumle: "Ben yanına gittim ve kendimi .........", kelime_havuzu: ["tanıttım", "gösterdim", "çağırdım"], cevap: "tanıttım" }, { cumle: "Yabancı bir insana el uzatmak, onu ........ yapar.", kelime_havuzu: ["arkadaş", "düşman", "tanıdık"], cevap: "arkadaş" }] },
+            { id: 51, level: 'medium', baslik: "📖 Kütüphaneci Olmak", metin: "Sınıfımızda küçük bir sınıf kütüphanesi var. Her hafta bir öğrenci kütüphaneci olur. Bu hafta kütüphaneci ben oldum. Kitapları raftaki sıralarına göre dizdim. Arkadaşlarım kitap almak isteyince onlara yardım ettim. Hangi kitabın nerede olduğunu öğrendim. Öğretmenim benim çok düzenli çalıştığımı söyledi. Kütüphaneci olmak bana sorumluluk duygusunu öğretti.", coktan_secmeli: [{ soru: "Bu hafta kütüphaneci kim oldu?", secenekler: ["A) Öğretmen", "B) Ben", "C) Arkadaşım"], cevap: "B) Ben" }, { soru: "Kitaplar neye göre dizildi?", secenekler: ["A) Renklerine göre", "B) Büyüklüklerine göre", "C) Raftaki sıralarına göre"], cevap: "C) Raftaki sıralarına göre" }, { soru: "Kütüphaneci olmak ne öğretti?", secenekler: ["A) Okumayı", "B) Sorumluluk duygusunu", "C) Yazmayı"], cevap: "B) Sorumluluk duygusunu" }], bosluk_doldurma: [{ cumle: "Arkadaşlarım kitap almak isteyince onlara ........ ettim.", kelime_havuzu: ["yardım", "engel", "itiraz"], cevap: "yardım" }, { cumle: "Öğretmenim benim çok ........ çalıştığımı söyledi.", kelime_havuzu: ["düzenli", "yavaş", "dağınık"], cevap: "düzenli" }] },
+            { id: 52, level: 'medium', baslik: "👵 Yaşlı Komşumuz", metin: "Komşumuz Hatice Teyze çok yaşlıdır. Yalnız yaşar ve yürümekte zorlanır. Annem her akşam ona yemek götürür. Ben de zaman zaman marketten alışveriş yaparım. Hatice Teyze bize çok teşekkür eder. Bana her zaman tatlı ikram eder ve masallar anlatır. Büyüklere yardım etmek çok önemlidir. Komşularımıza iyi davranmak bizi mutlu eder.", coktan_secmeli: [{ soru: "Hatice Teyze nasıl yaşar?", secenekler: ["A) Ailesiyle", "B) Yalnız", "C) Arkadaşlarıyla"], cevap: "B) Yalnız" }, { soru: "Annem her akşam ne yapar?", secenekler: ["A) Hatice Teyzeyi ziyaret eder", "B) Hatice Teyzeye yemek götürür", "C) Hatice Teyzeyi hastaneye götürür"], cevap: "B) Hatice Teyzeye yemek götürür" }, { soru: "Hatice Teyze çocuğa ne ikram eder?", secenekler: ["A) Meyve", "B) Tatlı", "C) Çay"], cevap: "B) Tatlı" }], bosluk_doldurma: [{ cumle: "Ben de zaman zaman marketten ........ yaparım.", kelime_havuzu: ["alışveriş", "temizlik", "ödeme"], cevap: "alışveriş" }, { cumle: "Komşularımıza iyi davranmak bizi ........ eder.", kelime_havuzu: ["mutlu", "yorgun", "üzgün"], cevap: "mutlu" }] },
+            { id: 53, level: 'medium', baslik: "🎵 Müzik Dersi", metin: "Okulumuzda haftada bir müzik dersimiz var. Müzik öğretmenimizin adı Elif Hanım'dır. Bize şarkı söylemeyi ve ritim tutmayı öğretiyor. Bu hafta trambolinle ritim çalıştık. Ben ritmi tutmakta çok iyi olduğumu fark ettim. Sınıfımızdaki herkes koro halinde şarkı söyledi. Müzik dersi beni her zaman neşelendiriyor. Müziğin insanı mutlu ettiğine inanıyorum.", coktan_secmeli: [{ soru: "Müzik dersi haftada kaç kez var?", secenekler: ["A) İki kez", "B) Her gün", "C) Bir kez"], cevap: "C) Bir kez" }, { soru: "Bu hafta ne çalışıldı?", secenekler: ["A) Flüt", "B) Trambolinle ritim", "C) Piyano"], cevap: "B) Trambolinle ritim" }, { soru: "Sınıf şarkıyı nasıl söyledi?", secenekler: ["A) Tek tek", "B) Sessizce", "C) Koro halinde"], cevap: "C) Koro halinde" }], bosluk_doldurma: [{ cumle: "Müzik dersi beni her zaman .........", kelime_havuzu: ["neşelendiriyor", "üzüyor", "sıkıyor"], cevap: "neşelendiriyor" }, { cumle: "Müziğin insanı ........ ettiğine inanıyorum.", kelime_havuzu: ["mutlu", "yorgun", "hasta"], cevap: "mutlu" }] },
+            { id: 54, level: 'medium', baslik: "♻️ Çöp Toplamak", metin: "Okul bahçemiz bazen çöp doluyor. Geçen hafta öğretmenimiz bize bahçeyi temizlememizi söyledi. Eldivenler giydik ve çöp torbası aldık. Sınıfça bahçedeki kağıt ve plastikleri topladık. Yarım saatte bahçe bembeyaz oldu. Öğretmenimiz çok memnun oldu ve bizi tebrik etti. Çevreyi temiz tutmak herkesin görevidir. O gün hem çalıştık hem de çok eğlendik.", coktan_secmeli: [{ soru: "Bahçe neden temizlendi?", secenekler: ["A) Müdür istedi", "B) Öğretmen söyledi", "C) Veli istedi"], cevap: "B) Öğretmen söyledi" }, { soru: "Bahçe ne kadar sürede temizlendi?", secenekler: ["A) Bir saatte", "B) Yarım saatte", "C) Bir günde"], cevap: "B) Yarım saatte" }, { soru: "Çevreyi temiz tutmak kimin görevidir?", secenekler: ["A) Sadece temizlikçilerin", "B) Herkesin", "C) Öğretmenlerin"], cevap: "B) Herkesin" }], bosluk_doldurma: [{ cumle: "Eldivenler giydik ve çöp ........ aldık.", kelime_havuzu: ["torbası", "kutusu", "sepeti"], cevap: "torbası" }, { cumle: "O gün hem çalıştık hem de çok .........", kelime_havuzu: ["eğlendik", "üzüldük", "yorulduk"], cevap: "eğlendik" }] },
+            { id: 55, level: 'medium', baslik: "🚂 Tren Yolculuğu", metin: "Geçen ay ailemizle birlikte trene bindik. İlk kez tren yolculuğu yapıyordum. Tren çok büyük ve temizdi. Pencereden dışarıyı izledim; dağlar, tarlalar ve nehirler geçti. Annem sandviç getirmişti, yolda yedik. Dört saat sonra büyükşehire ulaştık. Tren yolculuğu benim için çok heyecanlı bir deneyimdi. Bir gün daha uzun bir yolculuk yapmak istiyorum.", coktan_secmeli: [{ soru: "Bu tren yolculuğu kaçıncı kez?", secenekler: ["A) İkinci kez", "B) İlk kez", "C) Üçüncü kez"], cevap: "B) İlk kez" }, { soru: "Yolda ne yendi?", secenekler: ["A) Çorba", "B) Pizza", "C) Sandviç"], cevap: "C) Sandviç" }, { soru: "Kaç saat sonra büyükşehire ulaşıldı?", secenekler: ["A) İki saat", "B) Altı saat", "C) Dört saat"], cevap: "C) Dört saat" }], bosluk_doldurma: [{ cumle: "Pencereden dışarıyı ........; dağlar, tarlalar ve nehirler geçti.", kelime_havuzu: ["izledim", "çizdim", "fotoğrafladım"], cevap: "izledim" }, { cumle: "Tren yolculuğu benim için çok ........ bir deneyimdi.", kelime_havuzu: ["heyecanlı", "sıkıcı", "korkunç"], cevap: "heyecanlı" }] },
+            { id: 56, level: 'medium', baslik: "🍜 Büyükannemin Çorbası", metin: "Büyükannem çok güzel yemek yapar. Özellikle mercimek çorbası çok meşhurdur. Her ziyaretimizde bize büyük bir tencere çorba yapar. Çorbanın içine havuç, soğan ve baharat koyar. Çorba piştikten sonra üstüne tereyağı döker. Masaya oturduğumuzda çorbanın kokusu odayı doldurur. Ben her zaman iki kase içerim. Büyükannemin çorbası dünyanın en lezzetli yemeğidir.", coktan_secmeli: [{ soru: "Büyükannem hangi çorbayı yapar?", secenekler: ["A) Domates çorbası", "B) Tavuk çorbası", "C) Mercimek çorbası"], cevap: "C) Mercimek çorbası" }, { soru: "Çorbanın içine ne konulur?", secenekler: ["A) Patates ve bezelye", "B) Havuç, soğan ve baharat", "C) Biber ve domates"], cevap: "B) Havuç, soğan ve baharat" }, { soru: "Çorba piştikten sonra üstüne ne dökülür?", secenekler: ["A) Zeytinyağı", "B) Tereyağı", "C) Limon"], cevap: "B) Tereyağı" }], bosluk_doldurma: [{ cumle: "Masaya oturduğumuzda çorbanın kokusu odayı .........", kelime_havuzu: ["doldurur", "terkeder", "karıştırır"], cevap: "doldurur" }, { cumle: "Ben her zaman iki ........ içerim.", kelime_havuzu: ["kase", "tabak", "bardak"], cevap: "kase" }] },
+            { id: 57, level: 'medium', baslik: "🏫 Yeni Okul", metin: "Bu yıl yeni bir okula başladım. İlk gün çok heyecanlı ve biraz endişeliydim. Sınıfa girince öğretmenim beni herkese tanıttı. Yanımda oturan Mert hemen konuşmaya başladı. Teneffüste birlikte koşup oynadık. Öğleden sonra ders bitince Mert bana telefon numarasını verdi. İlk gün korktuğum kadar zor olmadı. Yeni okulum ve yeni arkadaşlarım beni çok mutlu etti.", coktan_secmeli: [{ soru: "İlk gün nasıl bir duygu yaşandı?", secenekler: ["A) Sadece mutlu", "B) Heyecanlı ve biraz endişeli", "C) Çok üzgün"], cevap: "B) Heyecanlı ve biraz endişeli" }, { soru: "Yanında kim oturdu?", secenekler: ["A) Ahmet", "B) Zeynep", "C) Mert"], cevap: "C) Mert" }, { soru: "Mert ders bitince ne yaptı?", secenekler: ["A) Eve gitti", "B) Telefon numarasını verdi", "C) Kitap ödünç verdi"], cevap: "B) Telefon numarasını verdi" }], bosluk_doldurma: [{ cumle: "Öğretmenim beni herkese .........", kelime_havuzu: ["tanıttı", "sordu", "gönderdi"], cevap: "tanıttı" }, { cumle: "İlk gün korktuğum kadar ........ olmadı.", kelime_havuzu: ["zor", "kolay", "güzel"], cevap: "zor" }] },
+            { id: 58, level: 'medium', baslik: "🪁 Uçurtma", metin: "Babam bana renkli bir uçurtma aldı. Uçurtmam mavi, kırmızı ve sarı renklerdedir. Pazar günü babamla parka gittik. Rüzgar çok güzel esiyordu. Babam önce uçurtmayı havaya kaldırdı. Sonra ipi bana verdi. Uçurtma gökyüzünde süzülerek yükseldi. Ben o an dünyanın en mutlu çocuğuydum.", coktan_secmeli: [{ soru: "Uçurtmayı kim aldı?", secenekler: ["A) Anne", "B) Dede", "C) Baba"], cevap: "C) Baba" }, { soru: "Uçurtma hangi renklerdedir?", secenekler: ["A) Yeşil, mor ve turuncu", "B) Mavi, kırmızı ve sarı", "C) Beyaz ve siyah"], cevap: "B) Mavi, kırmızı ve sarı" }, { soru: "Uçurtmayı önce kim havaya kaldırdı?", secenekler: ["A) Çocuk", "B) Baba", "C) Anne"], cevap: "B) Baba" }], bosluk_doldurma: [{ cumle: "Rüzgar çok güzel .........", kelime_havuzu: ["esiyordu", "yağıyordu", "donuyordu"], cevap: "esiyordu" }, { cumle: "Uçurtma gökyüzünde süzülerek .........", kelime_havuzu: ["yükseldi", "düştü", "durdu"], cevap: "yükseldi" }] },
+            { id: 59, level: 'medium', baslik: "🤒 Hasta Oldum", metin: "Dün gece üşüdüm ve sabah ateşim çıktı. Annem termometreyle ateşimi ölçtü. Otuz sekiz buçuk derece ateşim vardı. Annem bana ılık çorba yaptı ve ilaç verdi. Gün boyu yatakta dinlendim. Akşama kadar çok kitap okudum. Ertesi sabah ateşim düştü ve kendimi daha iyi hissettim. Hasta olmak zordur ama annemin ilgisi beni çok iyi hissettirdi.", coktan_secmeli: [{ soru: "Annem ateşi nasıl ölçtü?", secenekler: ["A) Eliyle yokladı", "B) Termometreyle", "C) Doktora götürdü"], cevap: "B) Termometreyle" }, { soru: "Ateş kaç dereceydi?", secenekler: ["A) Otuz yedi", "B) Otuz sekiz buçuk", "C) Kırk derece"], cevap: "B) Otuz sekiz buçuk" }, { soru: "Gün boyu ne yapıldı?", secenekler: ["A) Televizyon izlendi", "B) Oyun oynandı", "C) Yatakta dinlenildi"], cevap: "C) Yatakta dinlenildi" }], bosluk_doldurma: [{ cumle: "Annem bana ılık çorba yaptı ve ........ verdi.", kelime_havuzu: ["ilaç", "su", "meyve"], cevap: "ilaç" }, { cumle: "Hasta olmak zordur ama annemin ........ beni çok iyi hissettirdi.", kelime_havuzu: ["ilgisi", "yemeği", "sesi"], cevap: "ilgisi" }] },
+            { id: 60, level: 'medium', baslik: "🖼️ Sergi Günü", metin: "Okulumuzda her yıl resim sergisi düzenlenir. Bu yıl ben de sergiye katıldım. Üç haftadır üzerinde çalıştığım tablomu getirdim. Tablom ormandaki bir geyiği gösteriyordu. Öğretmenim tablomu çok beğendi ve en iyi yere astı. Veliler okula geldi ve resimlere baktı. Annem benim tablomun önünde fotoğraf çektirdi. O gün hayatımın en gurur dolu günüydü.", coktan_secmeli: [{ soru: "Sergi ne zaman düzenlenir?", secenekler: ["A) Her ay", "B) Her yıl", "C) Her dönem"], cevap: "B) Her yıl" }, { soru: "Tablo ne gösteriyor?", secenekler: ["A) Ormandaki bir geyik", "B) Deniz manzarası", "C) Şehir görüntüsü"], cevap: "A) Ormandaki bir geyik" }, { soru: "Öğretmen tabloyu nereye astı?", secenekler: ["A) Kapının yanına", "B) En iyi yere", "C) Köşeye"], cevap: "B) En iyi yere" }], bosluk_doldurma: [{ cumle: "Üç haftadır üzerinde çalıştığım tablumu .........", kelime_havuzu: ["getirdim", "sattım", "unuttum"], cevap: "getirdim" }, { cumle: "O gün hayatımın en ........ dolu günüydü.", kelime_havuzu: ["gurur", "korku", "üzüntü"], cevap: "gurur" }] },
+            { id: 61, level: 'medium', baslik: "🏃 Spor Yapmak", metin: "Her gün spor yapmak sağlıklıdır. Ben sabahları yirmi dakika yürüyüş yaparım. Babam bana bisiklet sürmeyi de öğretti. Hafta sonları futbol oynarım. Spor yapmak hem vücudu güçlendirir hem de zihnimizi açar. Öğretmenim bize en az haftada üç gün spor yapmamızı söyledi. Ben bu kurala hep uyarım. Sağlıklı bir vücut için spor şarttır.", coktan_secmeli: [{ soru: "Sabahları kaç dakika yürüyüş yapılır?", secenekler: ["A) On dakika", "B) Yirmi dakika", "C) Otuz dakika"], cevap: "B) Yirmi dakika" }, { soru: "Öğretmen haftada en az kaç gün spor yapılmasını söyledi?", secenekler: ["A) İki gün", "B) Beş gün", "C) Üç gün"], cevap: "C) Üç gün" }, { soru: "Spor yapmanın faydası nedir?", secenekler: ["A) Sadece eğlenceli", "B) Hem vücudu güçlendirir hem zihni açar", "C) Sadece kilo verilir"], cevap: "B) Hem vücudu güçlendirir hem zihni açar" }], bosluk_doldurma: [{ cumle: "Babam bana ........ sürmeyi de öğretti.", kelime_havuzu: ["bisiklet", "araba", "motosiklet"], cevap: "bisiklet" }, { cumle: "Sağlıklı bir vücut için spor .........", kelime_havuzu: ["şarttır", "gereksizdir", "zordur"], cevap: "şarttır" }] },
+            { id: 62, level: 'medium', baslik: "🗳️ Sınıf Başkanı Seçimi", metin: "Bugün sınıfımızda başkan seçimi vardı. Öğretmenimiz adayların kendini tanıtmasını istedi. Üç arkadaşım aday oldu. Her biri sınıf için neler yapacağını anlattı. Ardından oy kullandık. Ben de oy kullandım ve çok heyecanlandım. Oyların sayımı bittikten sonra Selin başkan seçildi. Selin çok sevindi ve teşekkür konuşması yaptı. Seçim süreci bana demokrasiyi öğretti.", coktan_secmeli: [{ soru: "Kaç kişi aday oldu?", secenekler: ["A) İki", "B) Dört", "C) Üç"], cevap: "C) Üç" }, { soru: "Başkan kim seçildi?", secenekler: ["A) Ahmet", "B) Selin", "C) Mert"], cevap: "B) Selin" }, { soru: "Seçim ne öğretti?", secenekler: ["A) Matematik", "B) Demokrasi", "C) Coğrafya"], cevap: "B) Demokrasi" }], bosluk_doldurma: [{ cumle: "Her biri sınıf için neler yapacağını .........", kelime_havuzu: ["anlattı", "yazdı", "okudu"], cevap: "anlattı" }, { cumle: "Selin çok sevindi ve teşekkür ........ yaptı.", kelime_havuzu: ["konuşması", "yarışması", "toplantısı"], cevap: "konuşması" }] },
+            { id: 63, level: 'medium', baslik: "🌲 Ormanda Piknik", metin: "Amcamlar bizi ormana pikniğe davet etti. Sabah erkenden yola çıktık. Ormanda temiz bir alan bulduk ve örtüyü serdik. Annem sandviç ve meyve getirmişti. Biz çocuklar orman içinde koşup oynadık. Akşama doğru ateş yaktık ve mısır pişirdik. Dönüşte hepimiz yorgun ama mutluyduk. Orman piknikleri şehir hayatının stresini atar.", coktan_secmeli: [{ soru: "Pikniğe kim davet etti?", secenekler: ["A) Komşular", "B) Amcamlar", "C) Öğretmen"], cevap: "B) Amcamlar" }, { soru: "Akşama doğru ne yapıldı?", secenekler: ["A) Eve dönüldü", "B) Uyundu", "C) Ateş yakılıp mısır pişirildi"], cevap: "C) Ateş yakılıp mısır pişirildi" }, { soru: "Dönüşte herkes nasıldı?", secenekler: ["A) Üzgün ve bitkin", "B) Yorgun ama mutlu", "C) Hasta ve üşümüş"], cevap: "B) Yorgun ama mutlu" }], bosluk_doldurma: [{ cumle: "Ormanda temiz bir alan bulduk ve ........ serdik.", kelime_havuzu: ["örtüyü", "çadırı", "halıyı"], cevap: "örtüyü" }, { cumle: "Orman piknikleri şehir hayatının stresini .........", kelime_havuzu: ["atar", "artırır", "saklar"], cevap: "atar" }] },
+            { id: 64, level: 'medium', baslik: "🍂 Güz Mevsimi", metin: "Sonbahar gelince yapraklar renk değiştirir. Yeşil yapraklar sarı, turuncu ve kırmızıya döner. Ağaçlar yapraklarını yavaş yavaş döker. Ben sonbaharı çok severim. Yerde biriken yaprakların üstünde zıplamak çok eğlencelidir. Annem güz mevsiminde balkabağı çorbası yapar. Hava serinlediği için kazak giymeye başlarız. Sonbahar hem güzel hem melankoli dolu bir mevsimdir.", coktan_secmeli: [{ soru: "Sonbaharda yapraklar nasıl değişir?", secenekler: ["A) Mavi ve mora döner", "B) Sarı, turuncu ve kırmızıya döner", "C) Beyaza döner"], cevap: "B) Sarı, turuncu ve kırmızıya döner" }, { soru: "Annem güz mevsiminde ne yapar?", secenekler: ["A) Reçel yapar", "B) Balkabağı çorbası yapar", "C) Meyve toplar"], cevap: "B) Balkabağı çorbası yapar" }, { soru: "Hava serinleyince ne giyilir?", secenekler: ["A) Tişört", "B) Şort", "C) Kazak"], cevap: "C) Kazak" }], bosluk_doldurma: [{ cumle: "Yerde biriken yaprakların üstünde ........ çok eğlencelidir.", kelime_havuzu: ["zıplamak", "uyumak", "oturmak"], cevap: "zıplamak" }, { cumle: "Ağaçlar yapraklarını yavaş yavaş .........", kelime_havuzu: ["döker", "toplar", "büyütür"], cevap: "döker" }] },
+            { id: 65, level: 'medium', baslik: "😤 Uyumak İstemiyorum", metin: "Akşam olunca annem yatma vakti geldi dedi. Ama ben uyumak istemiyordum çünkü çizgi film izliyordum. Annem televizyonu kapattı ve beni odama götürdü. Biraz surat astım ama annem öylece yanıma oturdu. Bana sevimli bir masal anlattı. Masalın ortasında gözlerim ağırlaşmaya başladı. Ne zaman uyuduğumu bile anlamadım. Sabah uyandığımda annemin haklı olduğunu anladım.", coktan_secmeli: [{ soru: "Çocuk neden uyumak istemiyordu?", secenekler: ["A) Korkuyordu", "B) Çizgi film izliyordu", "C) Arkadaşıyla oynuyordu"], cevap: "B) Çizgi film izliyordu" }, { soru: "Annem ne yaptı?", secenekler: ["A) Bağırdı", "B) Masalı kitaptan okudu", "C) Masal anlattı"], cevap: "C) Masal anlattı" }, { soru: "Sabah uyandığında ne anlaşıldı?", secenekler: ["A) Annemin haklı olduğu", "B) Masalın çok güzel olduğu", "C) Geç kalındığı"], cevap: "A) Annemin haklı olduğu" }], bosluk_doldurma: [{ cumle: "Biraz surat astım ama annem öylece yanıma .........", kelime_havuzu: ["oturdu", "gitti", "bağırdı"], cevap: "oturdu" }, { cumle: "Masalın ortasında gözlerim ağırlaşmaya .........", kelime_havuzu: ["başladı", "durdu", "kapandı"], cevap: "başladı" }] },
+            { id: 66, level: 'medium', baslik: "🥕 Manav Dede", metin: "Sokak başında küçük bir manav var. Manav dedesinin adı Ramazan'dır. Her sabah seyyar arabasını çıkarır ve sebze meyve dizer. Çok taze ve güzel ürünleri vardır. Sesini yükseltip 'taze domates, taze salatalık' diye bağırır. Mahalle kadınları ondan alışveriş etmeyi çok sever. Ben de annemle gidince bana bazen armut ya da elma verir. Ramazan Dede mahallenin en renkli ve neşeli insanıdır.", coktan_secmeli: [{ soru: "Manav dedesinin adı nedir?", secenekler: ["A) Hasan", "B) Ramazan", "C) Mehmet"], cevap: "B) Ramazan" }, { soru: "Ramazan Dede ne satar?", secenekler: ["A) Ekmek ve simit", "B) Sebze ve meyve", "C) Çiçek ve fide"], cevap: "B) Sebze ve meyve" }, { soru: "Çocuğa ne verilir?", secenekler: ["A) Para", "B) Armut ya da elma", "C) Çikolata"], cevap: "B) Armut ya da elma" }], bosluk_doldurma: [{ cumle: "Her sabah seyyar arabasını çıkarır ve sebze meyve .........", kelime_havuzu: ["dizer", "atar", "satar"], cevap: "dizer" }, { cumle: "Ramazan Dede mahallenin en renkli ve ........ insanıdır.", kelime_havuzu: ["neşeli", "sinirli", "sert"], cevap: "neşeli" }] },
+            { id: 67, level: 'medium', baslik: "🧣 Kış Hazırlığı", metin: "Hava soğumaya başlayınca annem kışa hazırlık yapar. Dolapta kalın kazakları ve montları ön sıraya alır. Battaniyeler havada silkelenir ve güneşe serilir. Babam pencerelerin fitillerini kontrol eder. Ben de atkı ve eldivenlerimi çıkarırım. Her yıl bu hazırlıkları yapmak bize kışın rahatça geçeceğini hissettirir. Kış soğuk olabilir ama ailecek evde olmak çok sıcak bir his verir.", coktan_secmeli: [{ soru: "Annem kış hazırlığında ne yapar?", secenekler: ["A) Çiçek eker", "B) Kalın kıyafetleri ön sıraya alır", "C) Pencere açar"], cevap: "B) Kalın kıyafetleri ön sıraya alır" }, { soru: "Baba ne kontrol eder?", secenekler: ["A) Arabanın tekerleri", "B) Pencerelerin fitilleri", "C) Kapı kilitleri"], cevap: "B) Pencerelerin fitilleri" }, { soru: "Bu hazırlıklar ne hissettirir?", secenekler: ["A) Kışın rahatça geçeceğini", "B) Kışın zor olacağını", "C) İlkbaharın geleceğini"], cevap: "A) Kışın rahatça geçeceğini" }], bosluk_doldurma: [{ cumle: "Battaniyeler havada silkelenir ve güneşe .........", kelime_havuzu: ["serilir", "yıkanır", "katlanır"], cevap: "serilir" }, { cumle: "Ben de atkı ve ........ çıkarırım.", kelime_havuzu: ["eldivenlerimi", "şapkamı", "çizmelerimi"], cevap: "eldivenlerimi" }] },
+            { id: 68, level: 'medium', baslik: "💐 Çiçek Topladım", metin: "Bahar gelince ormanın kenarında çiçekler açar. Annemle birlikte yürüyüşe çıktık. Yolda papatyalar, gelincikler ve leylaklar gördük. Onlardan küçük bir demet topladık. Eve gelince çiçekleri bir vazo içine koydum. Çiçekler odayı güzel kokulara boğdu. Annem çok sevindi ve bana sarıldı. Doğayı gezmek hem eğlenceli hem de huzur vericidir.", coktan_secmeli: [{ soru: "Hangi mevsimde çiçekler açar?", secenekler: ["A) Kış", "B) Sonbahar", "C) Bahar"], cevap: "C) Bahar" }, { soru: "Hangi çiçek görülmedi?", secenekler: ["A) Gül", "B) Papatya", "C) Gelincik"], cevap: "A) Gül" }, { soru: "Çiçekler eve gelince nereye kondu?", secenekler: ["A) Bahçeye", "B) Vazonun içine", "C) Yatağın yanına"], cevap: "B) Vazonun içine" }], bosluk_doldurma: [{ cumle: "Çiçekler odayı güzel kokulara .........", kelime_havuzu: ["boğdu", "doldurdu", "kattı"], cevap: "boğdu" }, { cumle: "Doğayı gezmek hem eğlenceli hem de ........ vericidir.", kelime_havuzu: ["huzur", "korku", "uyku"], cevap: "huzur" }] },
+            { id: 69, level: 'medium', baslik: "🦷 Dişçi Korkusu", metin: "Diş fırçalamak çok önemlidir. Her sabah ve her akşam dişlerimi fırçalarım. Ama bir gün dişim çok ağrıdı ve dişçiye gitmek zorunda kaldım. Dişçi koltuğuna oturdum ve çok korktum. Dişçi hanım çok kibar davrandı ve beni sakinleştirdi. Dişimi tedavi etti ve artık ağrım geçti. Bana düzenli fırçalamazsan tekrar gelirsin dedi. O günden beri hiç ihmal etmiyorum. Dişçiden korkmak yerine düzenli bakım yapmak daha iyidir.", coktan_secmeli: [{ soru: "Neden dişçiye gidildi?", secenekler: ["A) Kontrol için", "B) Dişi çok ağrıdığı için", "C) Anne istedi"], cevap: "B) Dişi çok ağrıdığı için" }, { soru: "Dişçi hanım nasıl davrandı?", secenekler: ["A) Sert ve korkutucu", "B) Kibar ve sakinleştirici", "C) Hızlı ve dikkatiz"], cevap: "B) Kibar ve sakinleştirici" }, { soru: "Dişçi ne uyardı?", secenekler: ["A) Az şeker ye", "B) Düzenli fırçalamazsan tekrar gelirsin", "C) Her ay gel"], cevap: "B) Düzenli fırçalamazsan tekrar gelirsin" }], bosluk_doldurma: [{ cumle: "Dişçi koltuğuna oturdum ve çok .........", kelime_havuzu: ["korktum", "sevindim", "eğlendim"], cevap: "korktum" }, { cumle: "O günden beri hiç ........ etmiyorum.", kelime_havuzu: ["ihmal", "unutma", "erteleme"], cevap: "ihmal" }] },
+            { id: 70, level: 'medium', baslik: "⏰ Pazartesi Sabahı", metin: "Pazartesi sabahları kalkması zordur. Alarm çaldı ama yataktan çıkmak istemedim. Annem üç kez seslendi. Sonunda kalktım ve acele ettim. Çantamı hazırlamıştım, bu yüzden zaman kazandım. Okula tam zamanında yetiştim. Öğretmenim bugün yeni bir konu anlatacağını söyledi. Pazartesi sabahları zor olsa da okula gitmek güzeldir.", coktan_secmeli: [{ soru: "Neden yataktan çıkmak istenmedi?", secenekler: ["A) Hasta olduğu için", "B) Pazartesi sabahı kalkması zor", "C) Okul yoktu"], cevap: "B) Pazartesi sabahı kalkması zor" }, { soru: "Anne kaç kez seslendi?", secenekler: ["A) Bir kez", "B) İki kez", "C) Üç kez"], cevap: "C) Üç kez" }, { soru: "Okula nasıl yetişildi?", secenekler: ["A) Geç kalındı", "B) Tam zamanında", "C) Çok erken"], cevap: "B) Tam zamanında" }], bosluk_doldurma: [{ cumle: "Çantamı hazırlamıştım, bu yüzden zaman .........", kelime_havuzu: ["kazandım", "kaybettim", "harcadım"], cevap: "kazandım" }, { cumle: "Pazartesi sabahları zor olsa da okula gitmek .........", kelime_havuzu: ["güzeldir", "zordur", "sıkıcıdır"], cevap: "güzeldir" }] },
+        ];
+        // ===================== GAME STATE =====================
+        let currentLevel = 'easy', levelModules = [], moduleIndex = 0, qPhase = 0, qIndex = 0, score = 0, answered = false, selectedWord = null;
+        let shuffledMCQ = [], shuffledBlank = [];
+        let wrongAttempts = 0; // consecutive wrong attempts on current question
+        let mcqCorrectCount = 0, blankCorrectCount = 0; // track correct answers in current module
+        const totalMCQ = 3, totalBlank = 2;
+
+        // Fisher-Yates shuffle
+        function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+        function showScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+        function startGame(level) {
+            currentLevel = level;
+            levelModules = shuffle(MODULES.filter(m => m.level === level));
+            moduleIndex = 0; score = 0;
+            document.getElementById('scoreDisplay').textContent = 0;
+            showScreen('gameScreen'); loadModule();
+        }
+        function goMenu() { showScreen('introScreen'); }
+        function restartLevel() { startGame(currentLevel); }
+
+        function goNextModule() {
+            moduleIndex++;
+            const pct = Math.round((moduleIndex / levelModules.length) * 100);
+            document.getElementById('progressFill').style.width = pct + '%';
+            document.getElementById('progressText').textContent = pct + '%';
+            loadModule();
+        }
+
+        function loadModule() {
+            if (moduleIndex >= levelModules.length) { endGame(); return; }
+            const m = levelModules[moduleIndex];
+            document.getElementById('moduleInfo').textContent = 'Modül ' + (moduleIndex + 1) + ' / ' + levelModules.length;
+            document.getElementById('moduleTitle').textContent = m.baslik;
+            document.getElementById('textTitle').textContent = m.baslik;
+            document.getElementById('textBody').textContent = m.metin;
+            const pct = Math.round((moduleIndex / levelModules.length) * 100);
+            document.getElementById('progressFill').style.width = pct + '%';
+            document.getElementById('progressText').textContent = pct + '%';
+            shuffledMCQ = shuffle(m.coktan_secmeli);
+            shuffledBlank = shuffle(m.bosluk_doldurma);
+            qPhase = 0; qIndex = 0; wrongAttempts = 0;
+            mcqCorrectCount = 0; blankCorrectCount = 0;
+            showQuestion();
+        }
+
+        // Show module-complete celebration with skip button
+        function showModuleComplete() {
+            document.getElementById('feedback').className = 'feedback correct';
+            document.getElementById('feedback').textContent = '🎉 Tebrikler! Bu modülü başarıyla tamamladın!';
+            document.getElementById('qPhase').textContent = 'Modül Tamamlandı!';
+            document.getElementById('qText').textContent = '';
+            document.getElementById('qContent').innerHTML = '<div style="text-align:center;font-size:48px;padding:20px">🏆</div>';
+            document.getElementById('navBtns').innerHTML = `<button class="nav-btn btn-next" style="background:#10b981;font-size:24px;padding:16px 32px" onclick="goNextModule()">Sonraki Metne Geç ⏩</button>`;
+            spawnConfetti();
+        }
+
+        function showQuestion() {
+            document.getElementById('feedback').className = 'feedback'; answered = false; selectedWord = null; wrongAttempts = 0;
+            if (qPhase === 0) {
+                const q = shuffledMCQ[qIndex];
+                document.getElementById('qPhase').textContent = `Çoktan Seçmeli · Soru ${qIndex + 1}/${shuffledMCQ.length}`;
+                document.getElementById('qText').textContent = q.soru;
+                const shuffOpts = shuffle(q.secenekler);
+                const c = document.getElementById('qContent');
+                c.innerHTML = '<div class="mcq-options">' + shuffOpts.map(s => `<button class="mcq-btn" onclick="checkMCQ(this,'${s.replace(/'/g, "\\'")}','${q.cevap.replace(/'/g, "\\'")}')">${s}</button>`).join('') + '</div>';
+                document.getElementById('navBtns').innerHTML = '';
+            } else {
+                const q = shuffledBlank[qIndex];
+                document.getElementById('qPhase').textContent = `Boşluk Doldurma · Soru ${qIndex + 1}/${shuffledBlank.length}`;
+                const parts = q.cumle.split('........');
+                document.getElementById('qText').textContent = '';
+                const shuffWords = shuffle(q.kelime_havuzu);
+                const c = document.getElementById('qContent');
+                c.innerHTML = `<div class="blank-sentence">${parts[0]}<span class="blank-slot" id="blankSlot">________</span>${parts[1] || ''}</div><div class="word-bank">${shuffWords.map(w => `<button class="word-chip" onclick="selectWord(this,'${w.replace(/'/g, "\\'")}','${q.cevap.replace(/'/g, "\\'")}')">${w}</button>`).join('')}</div>`;
+                document.getElementById('navBtns').innerHTML = `<button class="nav-btn btn-next" onclick="checkBlank()">✓ Kontrol Et</button>`;
+            }
+        }
+
+        function getWrongMsg() {
+            const msgs1 = [
+                'Üzgünüm, bu doğru değil. Metni tekrar dikkatli okuyup cevabı bulmaya çalış! 🧐',
+                'Hımm, bu sefer olmadı. Metne bir daha göz at ve tekrar dene! 📖',
+                'Doğru cevaba çok yakınsın! Metni dikkatlice oku ve tekrar düşün. 💪',
+                'Bu cevap doğru değil. Ama sorun değil, tekrar deneyebilirsin! 🌟'
+            ];
+            const msgs2 = [
+                '💡 İpucu: Cevap metnin içinde gizli! Metni satır satır oku, mutlaka bulacaksın! 🔍',
+                '💡 İpucu: Metindeki anahtar kelimelere dikkat et. Doğru cevabı bulabilirsin! 🎯',
+                '💡 İpucu: Soruyu bir kez daha oku, sonra metne dön. Cevap orada seni bekliyor! 📝'
+            ];
+            if (wrongAttempts >= 2) {
+                return msgs2[Math.floor(Math.random() * msgs2.length)];
+            }
+            return msgs1[Math.floor(Math.random() * msgs1.length)];
+        }
+
+        function checkMCQ(btn, chosen, correct) {
+            if (answered) return; answered = true;
+            const allBtns = document.querySelectorAll('.mcq-btn');
+            allBtns.forEach(b => b.disabled = true);
+            if (chosen === correct) {
+                btn.classList.add('correct');
+                showFeedback(true);
+                score += 10;
+                document.getElementById('scoreDisplay').textContent = score;
+                mcqCorrectCount++;
+                spawnConfetti();
+                setTimeout(nextQuestion, 1500);
+            } else {
+                wrongAttempts++;
+                btn.classList.add('wrong');
+                allBtns.forEach(b => { if (b.textContent.trim() === correct) b.classList.add('correct'); });
+                showFeedback(false, getWrongMsg());
+                document.getElementById('navBtns').innerHTML = `<button class="nav-btn btn-retry" onclick="retryQuestion()">🔄 Tekrar Dene</button><button class="nav-btn btn-next" onclick="nextQuestion()">İleri →</button>`;
+            }
+        }
+
+        function selectWord(chip, word) { selectedWord = word; document.querySelectorAll('.word-chip').forEach(c => { c.classList.remove('selected'); }); chip.classList.add('selected'); document.getElementById('blankSlot').textContent = word; }
+
+        function checkBlank() {
+            if (!selectedWord) { showFeedback(false, 'Lütfen bir kelime seçin!'); return; }
+            const q = shuffledBlank[qIndex];
+            if (selectedWord === q.cevap) {
+                showFeedback(true);
+                score += 10;
+                document.getElementById('scoreDisplay').textContent = score;
+                blankCorrectCount++;
+                spawnConfetti();
+                document.querySelectorAll('.word-chip').forEach(c => c.disabled = true);
+                document.getElementById('navBtns').innerHTML = `<button class="nav-btn btn-next" onclick="nextQuestion()">İleri →</button>`;
+            } else {
+                wrongAttempts++;
+                showFeedback(false, getWrongMsg());
+                document.getElementById('blankSlot').textContent = '________';
+                selectedWord = null;
+                document.querySelectorAll('.word-chip').forEach(c => { c.classList.remove('selected'); });
+            }
+        }
+
+        function retryQuestion() { showQuestion(); }
+
+        function showFeedback(correct, msg) {
+            const fb = document.getElementById('feedback');
+            fb.textContent = correct ? '✅ Harika! Doğru cevap!' : (msg || getWrongMsg());
+            fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+            if (correct) { const card = document.getElementById('questionCard'); card.classList.add('shake'); setTimeout(() => card.classList.remove('shake'), 600); }
+        }
+
+        function nextQuestion() {
+            if (qPhase === 0) {
+                qIndex++;
+                if (qIndex >= shuffledMCQ.length) { qPhase = 1; qIndex = 0; wrongAttempts = 0; showQuestion(); }
+                else { wrongAttempts = 0; showQuestion(); }
+            } else {
+                qIndex++;
+                if (qIndex >= shuffledBlank.length) {
+                    // Module complete — check if all correct
+                    if (mcqCorrectCount >= totalMCQ && blankCorrectCount >= totalBlank) {
+                        showModuleComplete();
+                    } else {
+                        showModuleComplete(); // still allow progression
+                    }
+                } else { wrongAttempts = 0; showQuestion(); }
+            }
+        }
+
+        function endGame() { document.getElementById('finalScore').textContent = score; showScreen('resultScreen'); }
+        function spawnConfetti() { const colors = ['#60a5fa', '#a78bfa', '#f472b6', '#34d399', '#fbbf24', '#f87171']; for (let i = 0; i < 28; i++) { const p = document.createElement('div'); p.className = 'confetti-piece'; p.style.left = Math.random() * 100 + 'vw'; p.style.background = colors[Math.floor(Math.random() * colors.length)]; p.style.animationDelay = Math.random() * 0.6 + 's'; p.style.animationDuration = (1.2 + Math.random() * 0.8) + 's'; p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px'; document.body.appendChild(p); setTimeout(() => p.remove(), 2500); } }
+    </script>
+</body>
+
+</html>
