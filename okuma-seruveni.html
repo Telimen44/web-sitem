@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Okuma Serüveni - Telimen Eğitim</title>
+    <!-- Google Fonts - Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,31 +15,35 @@
         }
 
         :root {
-            --green: #22c55e;
+            --green: #10b981;
             --red: #ef4444;
             --blue: #3b82f6;
             --purple: #8b5cf6;
             --yellow: #f59e0b;
-            --bg: #0f172a;
-            --card: #1e293b;
-            --card2: #334155;
-            --text: #f1f5f9;
-            --muted: #94a3b8
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --card2: #f1f5f9;
+            --text: #1e293b;
+            --muted: #64748b;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.1);
         }
 
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Nunito', sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
-            overflow-x: hidden
+            overflow-x: hidden;
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
         /* SCREENS */
         .screen {
             display: none;
             min-height: 100vh;
-            padding: 20px
+            padding: 24px
         }
 
         .screen.active {
@@ -49,106 +55,114 @@
         #introScreen {
             align-items: center;
             justify-content: center;
-            gap: 30px;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)
+            gap: 40px;
+            background: radial-gradient(circle at top right, #eff6ff, #f8fafc);
         }
 
         .logo {
-            font-size: 52px;
+            font-size: 64px;
             font-weight: 900;
-            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
             text-align: center;
-            text-shadow: none
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
         }
 
         .logo-sub {
-            font-size: 22px;
+            font-size: 24px;
             color: var(--muted);
             text-align: center;
-            margin-top: -10px
+            margin-top: -20px;
+            font-weight: 600;
         }
 
         .level-cards {
             display: flex;
-            gap: 30px;
+            gap: 32px;
             flex-wrap: wrap;
             justify-content: center;
-            margin-top: 10px
+            margin-top: 20px
         }
 
         .level-card {
             background: var(--card);
-            border: 3px solid transparent;
-            border-radius: 24px;
-            padding: 40px 50px;
+            border: 4px solid transparent;
+            border-radius: 32px;
+            padding: 50px 60px;
             cursor: pointer;
             text-align: center;
-            transition: all .3s;
-            min-width: 260px
+            transition: all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-width: 280px;
+            box-shadow: var(--shadow);
         }
 
         .level-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, .4)
+            transform: translateY(-12px);
+            box-shadow: var(--shadow-lg);
         }
 
         .level-card.easy {
-            border-color: #22c55e
+            border-color: #dcfce7;
+            background: linear-gradient(to bottom, #ffffff, #f0fdf4);
         }
 
         .level-card.easy:hover {
-            background: rgba(34, 197, 94, .1)
+            border-color: var(--green);
         }
 
         .level-card.medium {
-            border-color: #f59e0b
+            border-color: #fef3c7;
+            background: linear-gradient(to bottom, #ffffff, #fffbeb);
         }
 
         .level-card.medium:hover {
-            background: rgba(245, 158, 11, .1)
+            border-color: var(--yellow);
         }
 
         .level-icon {
-            font-size: 64px;
-            margin-bottom: 15px
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: block;
         }
 
         .level-title {
-            font-size: 30px;
-            font-weight: 800;
-            margin-bottom: 8px
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 12px
         }
 
         .easy .level-title {
-            color: #22c55e
+            color: var(--green)
         }
 
         .medium .level-title {
-            color: #f59e0b
+            color: var(--yellow)
         }
 
         .level-desc {
-            font-size: 18px;
-            color: var(--muted)
+            font-size: 20px;
+            color: var(--muted);
+            font-weight: 600;
         }
 
         .level-count {
-            margin-top: 12px;
-            font-size: 22px;
-            font-weight: 700;
-            background: var(--card2);
-            padding: 8px 20px;
-            border-radius: 50px
+            margin-top: 15px;
+            font-size: 24px;
+            font-weight: 800;
+            background: #fff;
+            color: var(--text);
+            padding: 10px 28px;
+            border-radius: 50px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: inline-block;
         }
 
         /* GAME SCREEN */
         #gameScreen {
             flex-direction: column;
-            padding: 16px;
-            gap: 16px;
-            background: var(--bg)
+            padding: 20px;
+            gap: 20px;
         }
 
         .top-bar {
@@ -156,9 +170,10 @@
             align-items: center;
             justify-content: space-between;
             background: var(--card);
-            border-radius: 16px;
-            padding: 14px 24px;
-            gap: 16px
+            border-radius: 24px;
+            padding: 16px 28px;
+            gap: 20px;
+            box-shadow: var(--shadow);
         }
 
         .top-bar-left {
@@ -171,27 +186,34 @@
             background: var(--card2);
             border: none;
             color: var(--text);
-            font-size: 22px;
-            padding: 10px 20px;
-            border-radius: 12px;
+            font-size: 24px;
+            padding: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
             cursor: pointer;
-            font-weight: 700;
-            transition: .2s
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #btnBack:hover {
-            background: #475569
+            background: #e2e8f0;
+            transform: scale(1.05);
         }
 
         .module-info {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--muted)
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .module-title {
-            font-size: 24px;
-            font-weight: 800;
+            font-size: 28px;
+            font-weight: 900;
             color: var(--text)
         }
 
@@ -199,237 +221,265 @@
             flex: 1;
             display: flex;
             align-items: center;
-            gap: 12px
+            gap: 16px
         }
 
         .progress-bar {
             flex: 1;
-            height: 14px;
+            height: 18px;
             background: var(--card2);
             border-radius: 99px;
-            overflow: hidden
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #3b82f6, #8b5cf6);
             border-radius: 99px;
-            transition: width .5s
+            transition: width .6s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .progress-text {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--muted);
-            white-space: nowrap
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--blue);
+            white-space: nowrap;
+            min-width: 50px;
         }
 
         .score-badge {
-            background: linear-gradient(135deg, #f59e0b, #ef4444);
-            padding: 10px 22px;
-            border-radius: 12px;
-            font-size: 22px;
-            font-weight: 800
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            padding: 12px 24px;
+            border-radius: 18px;
+            font-size: 24px;
+            font-weight: 900;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
         }
 
         /* GAME BODY */
         .game-body {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 20px;
             flex: 1
         }
 
         /* TEXT CARD */
         .text-card {
             background: var(--card);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 28px;
+            padding: 36px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
-            overflow-y: auto
+            gap: 20px;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            border: 1px solid #f1f5f9;
         }
 
         .text-card h2 {
-            font-size: 26px;
-            font-weight: 800;
-            color: #60a5fa;
-            border-bottom: 3px solid #334155;
-            padding-bottom: 12px
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--blue);
+            padding-bottom: 16px;
+            border-bottom: 4px solid #f1f5f9;
+            text-align: center;
         }
 
         .text-card p {
-            font-size: 26px;
+            font-size: 28px;
             line-height: 1.8;
-            color: var(--text)
+            color: #334155;
+            font-weight: 600;
         }
 
         /* QUESTION CARD */
         .question-card {
             background: var(--card);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 28px;
+            padding: 36px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            overflow-y: auto
+            gap: 24px;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+            border: 1px solid #f1f5f9;
         }
 
         .q-phase {
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--muted);
             text-transform: uppercase;
-            letter-spacing: 1px
+            letter-spacing: 1.5px;
+            background: var(--card2);
+            padding: 6px 16px;
+            border-radius: 50px;
+            width: fit-content;
         }
 
         .q-text {
-            font-size: 26px;
-            font-weight: 700;
+            font-size: 30px;
+            font-weight: 800;
             color: var(--text);
-            line-height: 1.5
+            line-height: 1.4;
         }
 
         /* MCQ */
         .mcq-options {
             display: flex;
             flex-direction: column;
-            gap: 14px;
-            margin-top: 8px
+            gap: 16px;
+            margin-top: 10px
         }
 
         .mcq-btn {
-            background: var(--card2);
-            border: 3px solid transparent;
-            border-radius: 16px;
-            padding: 18px 24px;
-            font-size: 24px;
+            background: #fff;
+            border: 3px solid #f1f5f9;
+            border-radius: 20px;
+            padding: 20px 28px;
+            font-size: 26px;
             color: var(--text);
             cursor: pointer;
             text-align: left;
-            transition: .2s;
-            font-weight: 600
+            transition: all .2s;
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
         }
 
         .mcq-btn:hover:not(:disabled) {
-            background: #475569;
-            border-color: #60a5fa;
-            transform: translateX(4px)
+            background: #f8fafc;
+            border-color: var(--blue);
+            transform: scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
         }
 
         .mcq-btn.correct {
-            background: rgba(34, 197, 94, .2);
-            border-color: #22c55e;
-            color: #22c55e
+            background: #f0fdf4;
+            border-color: var(--green);
+            color: var(--green);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
         }
 
         .mcq-btn.wrong {
-            background: rgba(239, 68, 68, .2);
-            border-color: #ef4444;
-            color: #ef4444
+            background: #fef2f2;
+            border-color: var(--red);
+            color: var(--red);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
         }
 
         .mcq-btn:disabled {
             cursor: not-allowed;
-            opacity: .8
         }
 
         /* FILL BLANK */
         .blank-sentence {
-            font-size: 26px;
-            font-weight: 600;
+            font-size: 30px;
+            font-weight: 700;
             color: var(--text);
             line-height: 1.8;
             background: var(--card2);
-            padding: 20px 24px;
-            border-radius: 16px
+            padding: 24px 28px;
+            border-radius: 24px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
         }
 
         .blank-slot {
             display: inline-block;
-            min-width: 120px;
-            border-bottom: 3px solid #60a5fa;
-            padding: 2px 10px;
-            color: #60a5fa;
-            font-weight: 800
+            min-width: 140px;
+            border-bottom: 4px solid var(--blue);
+            padding: 2px 12px;
+            color: var(--blue);
+            font-weight: 900;
+            text-align: center;
         }
 
         .word-bank {
             display: flex;
-            gap: 12px;
+            gap: 14px;
             flex-wrap: wrap;
-            margin-top: 8px
+            margin-top: 12px
         }
 
         .word-chip {
-            background: var(--card2);
-            border: 3px solid #334155;
-            border-radius: 50px;
-            padding: 12px 24px;
-            font-size: 22px;
-            font-weight: 700;
+            background: #fff;
+            border: 3px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 14px 28px;
+            font-size: 24px;
+            font-weight: 800;
             cursor: pointer;
             color: var(--text);
-            transition: .2s
+            transition: all .2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .word-chip:hover:not(:disabled) {
-            background: #475569;
-            border-color: #60a5fa
+            background: var(--blue);
+            border-color: var(--blue);
+            color: #fff;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
         }
 
         .word-chip:disabled {
-            opacity: .5;
-            cursor: not-allowed
+            opacity: .4;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
         }
 
         .word-chip.selected {
-            background: rgba(96, 165, 250, .2);
-            border-color: #60a5fa;
-            color: #60a5fa
+            background: var(--blue) !important;
+            border-color: var(--blue) !important;
+            color: #fff !important;
+            box-shadow: 0 6px 15px rgba(59, 130, 246, 0.2) !important;
         }
 
         /* FEEDBACK */
         .feedback {
-            padding: 18px 24px;
-            border-radius: 16px;
-            font-size: 24px;
-            font-weight: 700;
+            padding: 20px 28px;
+            border-radius: 20px;
+            font-size: 26px;
+            font-weight: 900;
             text-align: center;
-            display: none
+            display: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
 
         .feedback.correct {
-            background: rgba(34, 197, 94, .2);
-            border: 3px solid #22c55e;
-            color: #22c55e;
+            background: #f0fdf4;
+            border: 4px solid var(--green);
+            color: var(--green);
             display: block
         }
 
         .feedback.wrong {
-            background: rgba(239, 68, 68, .2);
-            border: 3px solid #ef4444;
-            color: #ef4444;
+            background: #fffbeb;
+            border: 4px solid var(--yellow);
+            color: #b45309;
             display: block
         }
 
         /* NAV BTNS */
         .nav-btns {
             display: flex;
-            gap: 14px;
+            gap: 16px;
             justify-content: flex-end;
             margin-top: auto
         }
 
         .nav-btn {
-            font-size: 24px;
-            font-weight: 800;
-            padding: 18px 40px;
-            border-radius: 16px;
+            font-size: 26px;
+            font-weight: 900;
+            padding: 20px 48px;
+            border-radius: 20px;
             cursor: pointer;
             border: none;
-            transition: .2s
+            transition: all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .btn-next {
@@ -438,94 +488,216 @@
         }
 
         .btn-next:hover {
-            transform: scale(1.04);
-            box-shadow: 0 8px 24px rgba(59, 130, 246, .4)
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4)
         }
 
         .btn-retry {
-            background: var(--card2);
-            color: var(--yellow)
+            background: #fef3c7;
+            color: #b45309;
         }
 
         .btn-retry:hover {
-            background: #475569
+            background: #fde68a;
+            transform: scale(1.05);
         }
 
         /* RESULT SCREEN */
         #resultScreen {
             align-items: center;
             justify-content: center;
-            gap: 24px;
+            gap: 32px;
             text-align: center;
-            background: linear-gradient(135deg, #0f172a, #1e1b4b)
+            background: radial-gradient(circle at center, #f0fdf4, #f8fafc);
         }
 
         .result-icon {
-            font-size: 100px
+            font-size: 120px;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
         }
 
         .result-title {
-            font-size: 48px;
+            font-size: 64px;
             font-weight: 900;
-            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            background: linear-gradient(135deg, #22c55e, #3b82f6);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .result-score {
+            font-size: 36px;
+            color: var(--muted);
+            font-weight: 700;
+        }
+
+        .score-badge span {
+            color: var(--yellow);
+            font-weight: 900;
+        }
+
+        .sound-btn {
+            background: var(--card2);
+            border: none;
+            font-size: 24px;
+            padding: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sound-btn:hover {
+            background: #e2e8f0;
+            transform: scale(1.05);
+        }
+
+        .exit-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: var(--card);
+            border: none;
+            color: var(--text);
+            font-size: 18px;
+            font-weight: 800;
+            padding: 12px 24px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: .2s;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+            text-decoration: none;
+        }
+
+        .exit-btn:hover {
+            transform: scale(1.05) translateY(-2px);
+            background: var(--card2);
+        }
+
+        /* CONTINUE MODAL */
+        #continueModal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+
+        #continueModal.active {
+            display: flex;
+        }
+
+        .continue-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 32px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            max-width: 400px;
+            width: 90%;
+            animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .continue-title {
             font-size: 32px;
-            color: var(--muted)
+            font-weight: 900;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .continue-desc {
+            font-size: 18px;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        .continue-btn {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: #fff;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-bottom: 12px;
+            width: 100%;
+        }
+
+        .skip-btn {
+            background: var(--card2);
+            color: var(--text);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
         }
 
         .result-score span {
-            color: #f59e0b;
-            font-weight: 800;
-            font-size: 38px
+            color: var(--yellow);
+            font-weight: 900;
+            font-size: 48px
         }
 
         .result-btns {
             display: flex;
-            gap: 20px;
+            gap: 24px;
             flex-wrap: wrap;
             justify-content: center;
-            margin-top: 10px
+            margin-top: 20px
         }
 
         .result-btn {
-            font-size: 24px;
-            font-weight: 800;
-            padding: 20px 44px;
-            border-radius: 16px;
+            font-size: 26px;
+            font-weight: 900;
+            padding: 22px 50px;
+            border-radius: 24px;
             cursor: pointer;
             border: none;
-            transition: .2s
+            transition: .2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         .btn-again {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: #fff
         }
 
         .btn-menu {
-            background: var(--card2);
+            background: #f1f5f9;
             color: var(--text)
         }
 
         .btn-again:hover,
         .btn-menu:hover {
-            transform: scale(1.04)
+            transform: scale(1.06) translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
         /* CONFETTI */
         .confetti-piece {
             position: fixed;
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             top: -20px;
-            animation: confettiFall 2s ease-in forwards;
+            animation: confettiFall 2.5s ease-in forwards;
             pointer-events: none;
             z-index: 9999;
-            border-radius: 2px
+            border-radius: 4px
         }
 
         @keyframes confettiFall {
@@ -540,57 +712,126 @@
             }
         }
 
-        /* SHAKE */
+        /* SHAKE for wrong answer */
         @keyframes shake {
 
             0%,
             100% {
-                transform: translateX(0)
+                transform: translateX(0);
             }
 
-            20% {
-                transform: translateX(-10px)
-            }
-
-            40% {
-                transform: translateX(10px)
-            }
-
+            20%,
             60% {
-                transform: translateX(-6px)
+                transform: translateX(-8px);
             }
 
+            40%,
             80% {
-                transform: translateX(6px)
+                transform: translateX(8px);
             }
         }
 
         .shake {
-            animation: shake .5s ease
+            animation: shake 0.5s ease-in-out;
+        }
+
+        /* CELEBRATE for correct answer */
+        @keyframes celebrate {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .celebrate {
+            animation: celebrate 0.5s ease-in-out;
+        }
+
+        /* HINT HIGHLIGHT on text panel */
+        .hint-highlight {
+            background: linear-gradient(120deg, #fef08a 0%, #fde047 60%, #fef08a 100%);
+            color: #1e1b00;
+            border-radius: 6px;
+            padding: 2px 4px;
+            animation: hintPulse 1.2s ease-in-out infinite;
+            display: inline;
+            cursor: default;
+            font-weight: 800;
+        }
+
+        @keyframes hintPulse {
+
+            0%,
+            100% {
+                background: linear-gradient(120deg, #fef08a, #fde047, #fef08a);
+                box-shadow: 0 0 0 rgba(253, 224, 71, 0);
+            }
+
+            50% {
+                background: linear-gradient(120deg, #fde047, #facc15, #fde047);
+                box-shadow: 0 0 16px rgba(253, 224, 71, 0.8);
+            }
         }
 
         /* RESPONSIVE */
-        @media(max-width:900px) {
+        @media(max-width:1100px) {
             .game-body {
                 grid-template-columns: 1fr;
-                max-height: none
             }
 
             .text-card {
-                max-height: 35vh
+                max-height: 40vh;
+            }
+        }
+
+        @media(max-width:900px) {
+            .logo {
+                font-size: 48px;
             }
 
-            .level-cards {
-                flex-direction: column
+            .level-card {
+                padding: 40px;
+                min-width: 240px;
+            }
+
+            .module-title {
+                font-size: 22px;
+            }
+
+            .q-text,
+            .text-card p,
+            .blank-sentence {
+                font-size: 24px;
+            }
+
+            .mcq-btn {
+                font-size: 20px;
             }
         }
     </style>
+
 </head>
 
 <body>
 
+    <!-- CONTINUE MODAL -->
+    <div id="continueModal">
+        <div class="continue-card">
+            <div class="continue-title">Yolculuğa Devam Et! 🚀</div>
+            <div class="continue-desc">Önceki oyununda kaldığını fark ettik. Devam etmek ister misin?</div>
+            <button class="continue-btn" onclick="resumeGame()">Evet, Devam Et! ✅</button>
+            <button class="skip-btn" onclick="closeContinue()">Hayır, Baştan Başla 🔄</button>
+        </div>
+    </div>
+
     <!-- INTRO SCREEN -->
     <div id="introScreen" class="screen active">
+        <a href="index.html" class="exit-btn">🏠 Ana Menü</a>
         <div class="logo">📖 Okuma Serüveni</div>
         <div class="logo-sub">telimenegitim.com</div>
         <div class="level-cards">
@@ -626,6 +867,7 @@
                 <div class="progress-text" id="progressText">0%</div>
             </div>
             <div class="score-badge">⭐ <span id="scoreDisplay">0</span></div>
+            <button id="btnSound" class="sound-btn" onclick="toggleSound()">🔊</button>
         </div>
         <div class="game-body">
             <div class="text-card">
@@ -704,7 +946,7 @@
             { id: 24, level: 'medium', baslik: "🎨 Resim Yapıyorum", metin: "Resim yapmayı çok seviyorum. Her hafta sonu büyük bir kâğıt alır ve boyalarımı hazırlarım. Önce kurşun kalemle taslak çizerim, sonra suluboyayla renklendiririm. Geçen hafta deniz manzarası çizdim. Mavi ve turkuaz renkler kullandım. Annem resmimi çok beğendi ve duvarımıza astı. Öğretmenim de resim derslerinde beni hep ön sıraya kaldırır. Resim yaparken düşünmeden akıp giden zaman beni çok mutlu eder.", coktan_secmeli: [{ soru: "Resim ne zaman yapılır?", secenekler: ["A) Hafta içi her sabah", "B) Her hafta sonu", "C) Sadece okul dersinde"], cevap: "B) Her hafta sonu" }, { soru: "Geçen hafta ne çizildi?", secenekler: ["A) Orman manzarası", "B) Deniz manzarası", "C) Şehir manzarası"], cevap: "B) Deniz manzarası" }, { soru: "Annem resimle ne yaptı?", secenekler: ["A) Attı", "B) Sattı", "C) Duvarına astı"], cevap: "C) Duvarına astı" }], bosluk_doldurma: [{ cumle: "Önce kurşun kalemle ........ çizerim, sonra suluboyayla renklendiririm.", kelime_havuzu: ["taslak", "kare", "çizgi"], cevap: "taslak" }, { cumle: "Resim yaparken ........ akıp giden zaman beni çok mutlu eder.", kelime_havuzu: ["düşünmeden", "koşarak", "uğraşarak"], cevap: "düşünmeden" }] },
             { id: 25, level: 'medium', baslik: "🤝 Arkadaşlık", metin: "Arkadaşlık hayatın en güzel hediyelerinden biridir. Benim de çok iyi bir arkadaşım var; adı Kerem'dir. Kerem dürüst, yardımsever ve eğlenceli bir çocuktur. Teneffüslerde hep birlikte futbol oynarız. Bir gün ben hasta oldum ve okula gidemedim. Kerem o gün notlarını bana getirdi ve ödevlerimi anlattı. O zaman anladım ki gerçek arkadaş zor günde belli olur. Kerem gibi bir arkadaşa sahip olmak çok büyük bir şanstır.", coktan_secmeli: [{ soru: "Arkadaşın adı nedir?", secenekler: ["A) Mert", "B) Kerem", "C) Ali"], cevap: "B) Kerem" }, { soru: "Kerem hasta olan arkadaşa ne yaptı?", secenekler: ["A) Hiçbir şey yapmadı", "B) Notlarını getirip ödevleri anlattı", "C) Ziyarete geldi"], cevap: "B) Notlarını getirip ödevleri anlattı" }, { soru: "Gerçek arkadaş ne zaman belli olur?", secenekler: ["A) Eğlenceli anlarda", "B) Zor günde", "C) Tatilde"], cevap: "B) Zor günde" }], bosluk_doldurma: [{ cumle: "Kerem dürüst, yardımsever ve ........ bir çocuktur.", kelime_havuzu: ["eğlenceli", "kıskanç", "tembel"], cevap: "eğlenceli" }, { cumle: "Kerem gibi bir arkadaşa sahip olmak çok büyük bir ........ tır.", kelime_havuzu: ["şans", "sorun", "zorluk"], cevap: "şans" }] },
             { id: 26, level: 'medium', baslik: "🎣 Balık Tutmak", metin: "Dedem her hafta sonu ırmak kenarına balık tutmaya gider. Geçen Pazar beni de yanında götürdü. Sabah erkenden uyandık ve oltaları hazırladık. Suyun kenarında sessizce oturarak bekledik. Ben ilk kez olta attım ama başlangıçta balık gelmedi. Sonra dedem bana nasıl tutulacağını gösterdi. Akşama doğru küçük bir balık yakaladım ve çok sevindim. Balık tutmak sabır gerektiren ama çok keyifli bir etkinliktir.", coktan_secmeli: [{ soru: "Dedem nereye gider?", secenekler: ["A) Göl kenarına", "B) Irmak kenarına", "C) Deniz kenarına"], cevap: "B) Irmak kenarına" }, { soru: "İlk kez olta atılınca ne oldu?", secenekler: ["A) Büyük balık geldi", "B) Balık gelmedi", "C) Olta koptu"], cevap: "B) Balık gelmedi" }, { soru: "Balık tutmak ne gerektirir?", secenekler: ["A) Güç", "B) Hız", "C) Sabır"], cevap: "C) Sabır" }], bosluk_doldurma: [{ cumle: "Suyun kenarında ........ oturarak bekledik.", kelime_havuzu: ["sessizce", "neşeyle", "koşarak"], cevap: "sessizce" }, { cumle: "Akşama doğru küçük bir balık ........ ve çok sevindim.", kelime_havuzu: ["yakaladım", "gördüm", "kaçırdım"], cevap: "yakaladım" }] },
-            { id: 27, level: 'medium', baslik: "🦸 Kahraman Ağabeyim", metin: "Ağabeyim Emre üniversitede öğrenci olup aynı zamanda gönüllü itfaiyecidir. Her hafta sonu eğitimlere katılır ve yangın tatbikatları yapar. Bir gün mahallemizdeki bir evde yangın çıktı. Ağabeyim hemen olay yerine koştu ve içerde mahsur kalan yaşlı komşuyu kurtardı. O gün mahallemizin kahramanı oldu. Gazeteler bile haberini yaptı. Ben ağabeyimle çok gurur duyuyorum. O benim için gerçek bir kahraman ve ilham kaynağıdır.", coktan_secmeli: [{ soru: "Ağabeyim ne okur?", secenekler: ["A) Lise", "B) Üniversite", "C) İlkokul"], cevap: "B) Üniversite" }, { soru: "Yangında kimي kurtardı?", secenekler: ["A) Genç bir çocuğu", "B) Bir köpeği", "C) Mahsur kalan yaşlı komşuyu"], cevap: "C) Mahsur kalan yaşlı komşuyu" }, { soru: "Ağabeyim için ne deniyor?", secenekler: ["A) Tembel biri", "B) Gerçek bir kahraman", "C) Sıradan biri"], cevap: "B) Gerçek bir kahraman" }], bosluk_doldurma: [{ cumle: "Ağabeyim hemen olay yerine ........ ve içerde mahsur kalan komşuyu kurtardı.", kelime_havuzu: ["koştu", "yürüdü", "gitmedi"], cevap: "koştu" }, { cumle: "O benim için gerçek bir kahraman ve ........ kaynağıdır.", kelime_havuzu: ["ilham", "para", "korku"], cevap: "ilham" }] },
+            { id: 27, level: 'medium', baslik: "🦸 Kahraman Ağabeyim", metin: "Ağabeyim Emre üniversitede öğrenci olup aynı zamanda gönüllü itfaiyecidir. Her hafta sonu eğitimlere katılır ve yangın tatbikatları yapar. Bir gün mahallemizdeki bir evde yangın çıktı. Ağabeyim hemen olay yerine koştu ve içerde mahsur kalan yaşlı komşuyu kurtardı. O gün mahallemizin kahramanı oldu. Gazeteler bile haberini yaptı. Ben ağabeyimle çok gurur duyuyorum. O benim için gerçek bir kahraman ve ilham kaynağıdır.", coktan_secmeli: [{ soru: "Ağabeyim ne okur?", secenekler: ["A) Lise", "B) Üniversite", "C) İlkokul"], cevap: "B) Üniversite" }, { soru: "Yangında kimi kurtardı?", secenekler: ["A) Genç bir çocuğu", "B) Bir köpeği", "C) Mahsur kalan yaşlı komşuyu"], cevap: "C) Mahsur kalan yaşlı komşuyu" }, { soru: "Ağabeyim için ne deniyor?", secenekler: ["A) Tembel biri", "B) Gerçek bir kahraman", "C) Sıradan biri"], cevap: "B) Gerçek bir kahraman" }], bosluk_doldurma: [{ cumle: "Ağabeyim hemen olay yerine ........ ve içerde mahsur kalan komşuyu kurtardı.", kelime_havuzu: ["koştu", "yürüdü", "gitmedi"], cevap: "koştu" }, { cumle: "O benim için gerçek bir kahraman ve ........ kaynağıdır.", kelime_havuzu: ["ilham", "para", "korku"], cevap: "ilham" }] },
             { id: 28, level: 'medium', baslik: "🌸 İlkbahar Geldi", metin: "Kış bitti ve ilkbahar geldi. Her şey yeniden canlandı. Ağaçlar çiçek açtı; pembe, beyaz ve sarı renkler her yere yayıldı. Arılar ve kelebekler uçuşmaya başladı. Kuşlar geri döndü ve şarkıları bahçelere doldu. Annem balkon saksılarını çıkardı ve yeni fideler dikti. Ben de bahçeye çıkıp çimenlerin üzerinde koştum. İlkbaharda doğa bir tablo gibi güzelleşir ve insanı sevinçle doldurur.", coktan_secmeli: [{ soru: "Ağaçlar hangi renklerde çiçek açtı?", secenekler: ["A) Mavi ve yeşil", "B) Pembe, beyaz ve sarı", "C) Mor ve turuncu"], cevap: "B) Pembe, beyaz ve sarı" }, { soru: "Kuşlar gelince ne oldu?", secenekler: ["A) Her şey sessizleşti", "B) Şarkıları bahçelere doldu", "C) Ağaçlara kondular"], cevap: "B) Şarkıları bahçelere doldu" }, { soru: "Annem ne yaptı?", secenekler: ["A) Balkon saksılarını çıkardı ve fideler dikti", "B) Pencere boyadı", "C) Bahçe düzenledi"], cevap: "A) Balkon saksılarını çıkardı ve fideler dikti" }], bosluk_doldurma: [{ cumle: "Kış bitti ve ilkbahar ........ dı.", kelime_havuzu: ["geldi", "gitti", "bitti"], cevap: "geldi" }, { cumle: "İlkbaharda doğa bir ........ gibi güzelleşir.", kelime_havuzu: ["tablo", "ev", "çiçek"], cevap: "tablo" }] },
             { id: 29, level: 'medium', baslik: "🍲 Yemek Yapmak", metin: "Annem bana yemek yapmayı öğretiyor. Geçen hafta birlikte mercimek çorbası yaptık. Önce mercimekleri yıkadık ve tencereye koyduk. Su, soğan ve baharat ekledik. Ocakta pişirirken defalarca karıştırdık. Sonunda çorba hazır oldu ve üstüne tereyağı gezdirdik. Babam çorbayı çok beğendi. Kendi ellerimizle bir şey yapmak gerçekten çok güzel bir duygu. Yemek yapmak hem eğlenceli hem de hayat becerisidir.", coktan_secmeli: [{ soru: "Annem ne öğretiyor?", secenekler: ["A) Resim yapmayı", "B) Yemek yapmayı", "C) Dikiş dikmeyi"], cevap: "B) Yemek yapmayı" }, { soru: "Geçen hafta ne yapıldı?", secenekler: ["A) Pilav", "B) Menemen", "C) Mercimek çorbası"], cevap: "C) Mercimek çorbası" }, { soru: "Çorbayı kim beğendi?", secenekler: ["A) Komşu", "B) Baba", "C) Kardeş"], cevap: "B) Baba" }], bosluk_doldurma: [{ cumle: "Çorba hazır olunca üstüne ........ gezdirdik.", kelime_havuzu: ["tereyağı", "limon", "su"], cevap: "tereyağı" }, { cumle: "Yemek yapmak hem eğlenceli hem de hayat ........ dir.", kelime_havuzu: ["becerisi", "oyunu", "ödevi"], cevap: "becerisi" }] },
             { id: 30, level: 'medium', baslik: "🫂 Arkadaşlık", metin: "İyi bir arkadaş bulduğumuzda hayat çok daha güzel olur. Sınıfımızda yeni bir öğrenci vardı; adı Selin'di. İlk gün kimseyle konuşamadı ve üzgün görünüyordu. Ben yanına gittim ve kendimi tanıttım. Birlikte teneffüste oturup konuştuk. Sonraki günlerde hep birlikte oynadık. Selin çok zeki ve yaratıcı bir çocuktu. Ona yardım etmek hem onu hem de beni mutlu etti. Yabancı bir insana el uzatmak, onu arkadaş yapar.", coktan_secmeli: [{ soru: "Yeni öğrencinin adı nedir?", secenekler: ["A) Zeynep", "B) Ayşe", "C) Selin"], cevap: "C) Selin" }, { soru: "Selin ilk gün nasıl görünüyordu?", secenekler: ["A) Mutlu ve neşeli", "B) Üzgün", "C) Heyecanlı"], cevap: "B) Üzgün" }, { soru: "Selin nasıl bir çocuktu?", secenekler: ["A) Tembel ve sıradan", "B) Kıskanç ve sinirli", "C) Zeki ve yaratıcı"], cevap: "C) Zeki ve yaratıcı" }], bosluk_doldurma: [{ cumle: "Ben yanına gittim ve kendimi .........", kelime_havuzu: ["tanıttım", "gösterdim", "çağırdım"], cevap: "tanıttım" }, { cumle: "Yabancı bir insana el uzatmak, onu ........ yapar.", kelime_havuzu: ["arkadaş", "düşman", "tanıdık"], cevap: "arkadaş" }] },
@@ -729,12 +971,41 @@
             { id: 69, level: 'medium', baslik: "🦷 Dişçi Korkusu", metin: "Diş fırçalamak çok önemlidir. Her sabah ve her akşam dişlerimi fırçalarım. Ama bir gün dişim çok ağrıdı ve dişçiye gitmek zorunda kaldım. Dişçi koltuğuna oturdum ve çok korktum. Dişçi hanım çok kibar davrandı ve beni sakinleştirdi. Dişimi tedavi etti ve artık ağrım geçti. Bana düzenli fırçalamazsan tekrar gelirsin dedi. O günden beri hiç ihmal etmiyorum. Dişçiden korkmak yerine düzenli bakım yapmak daha iyidir.", coktan_secmeli: [{ soru: "Neden dişçiye gidildi?", secenekler: ["A) Kontrol için", "B) Dişi çok ağrıdığı için", "C) Anne istedi"], cevap: "B) Dişi çok ağrıdığı için" }, { soru: "Dişçi hanım nasıl davrandı?", secenekler: ["A) Sert ve korkutucu", "B) Kibar ve sakinleştirici", "C) Hızlı ve dikkatiz"], cevap: "B) Kibar ve sakinleştirici" }, { soru: "Dişçi ne uyardı?", secenekler: ["A) Az şeker ye", "B) Düzenli fırçalamazsan tekrar gelirsin", "C) Her ay gel"], cevap: "B) Düzenli fırçalamazsan tekrar gelirsin" }], bosluk_doldurma: [{ cumle: "Dişçi koltuğuna oturdum ve çok .........", kelime_havuzu: ["korktum", "sevindim", "eğlendim"], cevap: "korktum" }, { cumle: "O günden beri hiç ........ etmiyorum.", kelime_havuzu: ["ihmal", "unutma", "erteleme"], cevap: "ihmal" }] },
             { id: 70, level: 'medium', baslik: "⏰ Pazartesi Sabahı", metin: "Pazartesi sabahları kalkması zordur. Alarm çaldı ama yataktan çıkmak istemedim. Annem üç kez seslendi. Sonunda kalktım ve acele ettim. Çantamı hazırlamıştım, bu yüzden zaman kazandım. Okula tam zamanında yetiştim. Öğretmenim bugün yeni bir konu anlatacağını söyledi. Pazartesi sabahları zor olsa da okula gitmek güzeldir.", coktan_secmeli: [{ soru: "Neden yataktan çıkmak istenmedi?", secenekler: ["A) Hasta olduğu için", "B) Pazartesi sabahı kalkması zor", "C) Okul yoktu"], cevap: "B) Pazartesi sabahı kalkması zor" }, { soru: "Anne kaç kez seslendi?", secenekler: ["A) Bir kez", "B) İki kez", "C) Üç kez"], cevap: "C) Üç kez" }, { soru: "Okula nasıl yetişildi?", secenekler: ["A) Geç kalındı", "B) Tam zamanında", "C) Çok erken"], cevap: "B) Tam zamanında" }], bosluk_doldurma: [{ cumle: "Çantamı hazırlamıştım, bu yüzden zaman .........", kelime_havuzu: ["kazandım", "kaybettim", "harcadım"], cevap: "kazandım" }, { cumle: "Pazartesi sabahları zor olsa da okula gitmek .........", kelime_havuzu: ["güzeldir", "zordur", "sıkıcıdır"], cevap: "güzeldir" }] },
         ];
+        // ===================== AUDIO & TTS =====================
+        let soundEnabled = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playDing() { if (!soundEnabled) return; const t = audioCtx.currentTime; const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); osc.type = 'sine'; osc.frequency.setValueAtTime(600, t); osc.frequency.exponentialRampToValueAtTime(1000, t + 0.1); gain.gain.setValueAtTime(0.3, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.5); osc.start(t); osc.stop(t + 0.5); }
+        function playBop() { if (!soundEnabled) return; const t = audioCtx.currentTime; const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.connect(gain); gain.connect(audioCtx.destination); osc.type = 'triangle'; osc.frequency.setValueAtTime(150, t); osc.frequency.linearRampToValueAtTime(100, t + 0.2); gain.gain.setValueAtTime(0.3, t); gain.gain.linearRampToValueAtTime(0.01, t + 0.3); osc.start(t); osc.stop(t + 0.3); }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('btnSound').textContent = soundEnabled ? '🔊' : '🔇';
+        }
+
         // ===================== GAME STATE =====================
         let currentLevel = 'easy', levelModules = [], moduleIndex = 0, qPhase = 0, qIndex = 0, score = 0, answered = false, selectedWord = null;
         let shuffledMCQ = [], shuffledBlank = [];
         let wrongAttempts = 0; // consecutive wrong attempts on current question
         let mcqCorrectCount = 0, blankCorrectCount = 0; // track correct answers in current module
         const totalMCQ = 3, totalBlank = 2;
+
+        function saveGame() {
+            const data = { level: currentLevel, modIdx: moduleIndex, score: score, modules: levelModules };
+            localStorage.setItem('okumaSeruveniSave', JSON.stringify(data));
+        }
+        function checkSave() {
+            const saved = localStorage.getItem('okumaSeruveniSave');
+            if (saved) document.getElementById('continueModal').classList.add('active');
+        }
+        function resumeGame() {
+            const saved = JSON.parse(localStorage.getItem('okumaSeruveniSave'));
+            currentLevel = saved.level; levelModules = saved.modules; moduleIndex = saved.modIdx; score = saved.score;
+            document.getElementById('scoreDisplay').textContent = score;
+            closeContinue(); showScreen('gameScreen'); loadModule();
+        }
+        function closeContinue() { document.getElementById('continueModal').classList.remove('active'); localStorage.removeItem('okumaSeruveniSave'); }
+
+        window.onload = checkSave;
 
         // Fisher-Yates shuffle
         function shuffle(arr) { const a = [...arr]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -753,6 +1024,7 @@
 
         function goNextModule() {
             moduleIndex++;
+            saveGame();
             const pct = Math.round((moduleIndex / levelModules.length) * 100);
             document.getElementById('progressFill').style.width = pct + '%';
             document.getElementById('progressText').textContent = pct + '%';
@@ -787,7 +1059,52 @@
             spawnConfetti();
         }
 
+        // Highlight the relevant part of the passage when student answers wrong
+        function highlightAnswerInText(correctAnswer) {
+            const m = levelModules[moduleIndex];
+            if (!m) return;
+            const metin = m.metin;
+            // Remove A) / B) / C) prefix
+            const clean = correctAnswer.replace(/^[A-C]\)\s*/i, '').trim();
+            if (!clean) return;
+            // Try to find the longest matching segment by splitting into words
+            // and looking for progressively shorter keyword runs
+            const words = clean.split(/\s+/);
+            let found = null;
+            for (let len = words.length; len >= 1; len--) {
+                for (let start = 0; start <= words.length - len; start++) {
+                    const phrase = words.slice(start, start + len).join(' ');
+                    if (phrase.length < 3) continue;
+                    const idx = metin.toLowerCase().indexOf(phrase.toLowerCase());
+                    if (idx !== -1) {
+                        found = { index: idx, length: phrase.length };
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+            const textEl = document.getElementById('textBody');
+            if (!found) { textEl.textContent = metin; return; }
+            const before = metin.slice(0, found.index);
+            const match = metin.slice(found.index, found.index + found.length);
+            const after = metin.slice(found.index + found.length);
+            textEl.innerHTML =
+                escapeHtml(before) +
+                '<mark class="hint-highlight">' + escapeHtml(match) + '</mark>' +
+                escapeHtml(after);
+            // Smooth scroll text panel to the highlight
+            const mark = textEl.querySelector('.hint-highlight');
+            if (mark) mark.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
         function showQuestion() {
+            // Reset text panel to plain text (clear any highlight)
+            const m = levelModules[moduleIndex];
+            if (m) document.getElementById('textBody').textContent = m.metin;
             document.getElementById('feedback').className = 'feedback'; answered = false; selectedWord = null; wrongAttempts = 0;
             if (qPhase === 0) {
                 const q = shuffledMCQ[qIndex];
@@ -834,6 +1151,7 @@
             if (chosen === correct) {
                 btn.classList.add('correct');
                 showFeedback(true);
+                playDing();
                 score += 10;
                 document.getElementById('scoreDisplay').textContent = score;
                 mcqCorrectCount++;
@@ -844,6 +1162,8 @@
                 btn.classList.add('wrong');
                 allBtns.forEach(b => { if (b.textContent.trim() === correct) b.classList.add('correct'); });
                 showFeedback(false, getWrongMsg());
+                playBop();
+                highlightAnswerInText(correct);
                 document.getElementById('navBtns').innerHTML = `<button class="nav-btn btn-retry" onclick="retryQuestion()">🔄 Tekrar Dene</button><button class="nav-btn btn-next" onclick="nextQuestion()">İleri →</button>`;
             }
         }
@@ -855,6 +1175,7 @@
             const q = shuffledBlank[qIndex];
             if (selectedWord === q.cevap) {
                 showFeedback(true);
+                playDing();
                 score += 10;
                 document.getElementById('scoreDisplay').textContent = score;
                 blankCorrectCount++;
@@ -864,6 +1185,8 @@
             } else {
                 wrongAttempts++;
                 showFeedback(false, getWrongMsg());
+                playBop();
+                highlightAnswerInText(q.cevap);
                 document.getElementById('blankSlot').textContent = '________';
                 selectedWord = null;
                 document.querySelectorAll('.word-chip').forEach(c => { c.classList.remove('selected'); });
@@ -876,7 +1199,14 @@
             const fb = document.getElementById('feedback');
             fb.textContent = correct ? '✅ Harika! Doğru cevap!' : (msg || getWrongMsg());
             fb.className = 'feedback ' + (correct ? 'correct' : 'wrong');
-            if (correct) { const card = document.getElementById('questionCard'); card.classList.add('shake'); setTimeout(() => card.classList.remove('shake'), 600); }
+            const card = document.getElementById('questionCard');
+            if (correct) {
+                card.classList.add('celebrate');
+                setTimeout(() => card.classList.remove('celebrate'), 600);
+            } else {
+                card.classList.add('shake');
+                setTimeout(() => card.classList.remove('shake'), 600);
+            }
         }
 
         function nextQuestion() {
@@ -897,7 +1227,10 @@
             }
         }
 
-        function endGame() { document.getElementById('finalScore').textContent = score; showScreen('resultScreen'); }
+        function endGame() {
+            localStorage.removeItem('okumaSeruveniSave');
+            document.getElementById('finalScore').textContent = score; showScreen('resultScreen');
+        }
         function spawnConfetti() { const colors = ['#60a5fa', '#a78bfa', '#f472b6', '#34d399', '#fbbf24', '#f87171']; for (let i = 0; i < 28; i++) { const p = document.createElement('div'); p.className = 'confetti-piece'; p.style.left = Math.random() * 100 + 'vw'; p.style.background = colors[Math.floor(Math.random() * colors.length)]; p.style.animationDelay = Math.random() * 0.6 + 's'; p.style.animationDuration = (1.2 + Math.random() * 0.8) + 's'; p.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px'; document.body.appendChild(p); setTimeout(() => p.remove(), 2500); } }
     </script>
 </body>
