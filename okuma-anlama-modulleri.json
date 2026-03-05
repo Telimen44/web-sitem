@@ -7,11 +7,11 @@
       {
         "soru": "Ailede kaç kişi vardır?",
         "secenekler": [
-          "A) Üç kişi",
-          "B) Dört kişi",
-          "C) Beş kişi"
+          "A) İki",
+          "B) Üç",
+          "C) Dört"
         ],
-        "cevap": "B) Dört kişi"
+        "cevap": "C) Dört"
       },
       {
         "soru": "Annenin mesleği nedir?",
@@ -23,13 +23,49 @@
         "cevap": "C) Öğretmen"
       },
       {
-        "soru": "Hafta sonları aile ne yapar?",
+        "soru": "Babanın mesleği nedir?",
         "secenekler": [
-          "A) Eve kapanır",
-          "B) Parka ya da sinemaya gider",
-          "C) Yurt dışına çıkar"
+          "A) Doktor",
+          "B) Mühendis",
+          "C) Öğretmen"
         ],
-        "cevap": "B) Parka ya da sinemaya gider"
+        "cevap": "B) Mühendis"
+      },
+      {
+        "soru": "Çocuk kaçıncı sınıfa gider?",
+        "secenekler": [
+          "A) Birinci",
+          "B) İkinci",
+          "C) Üçüncü"
+        ],
+        "cevap": "C) Üçüncü"
+      },
+      {
+        "soru": "Akşamları aile birlikte ne yapar?",
+        "secenekler": [
+          "A) Sinemaya gider",
+          "B) Yemek yer ve sohbet eder",
+          "C) Parka gider"
+        ],
+        "cevap": "B) Yemek yer ve sohbet eder"
+      },
+      {
+        "soru": "Hafta sonları nereye giderler?",
+        "secenekler": [
+          "A) Tatile",
+          "B) Parka ya da sinemaya",
+          "C) Köye"
+        ],
+        "cevap": "B) Parka ya da sinemaya"
+      },
+      {
+        "soru": "Bazen kimleri ziyaret ederler?",
+        "secenekler": [
+          "A) Komşuları",
+          "B) Öğretmeni",
+          "C) Büyükanne ve büyükbabayı"
+        ],
+        "cevap": "C) Büyükanne ve büyükbabayı"
       }
     ],
     "bosluk_doldurma": [
@@ -43,13 +79,22 @@
         "cevap": "mühendis"
       },
       {
+        "cumle": "Hafta sonları parka ya da ........ gideriz.",
+        "kelime_havuzu": [
+          "sinemaya",
+          "okula",
+          "markete"
+        ],
+        "cevap": "sinemaya"
+      },
+      {
         "cumle": "Ailemizin en büyük özelliği birbirimizi çok ........'mızdır.",
         "kelime_havuzu": [
-          "sevmemiz",
-          "görmemiz",
-          "tanımamız"
+          "sevme",
+          "görme",
+          "bilme"
         ],
-        "cevap": "sevmemiz"
+        "cevap": "sevme"
       }
     ]
   },
@@ -63,27 +108,63 @@
         "secenekler": [
           "A) Babası",
           "B) Annesi",
-          "C) Öğretmeni"
+          "C) Kardeşi"
         ],
         "cevap": "B) Annesi"
+      },
+      {
+        "soru": "Çocuk yüzünü yıkadıktan sonra ne yapar?",
+        "secenekler": [
+          "A) Kahvaltı eder",
+          "B) Dişlerini fırçalar",
+          "C) Çantasını hazırlar"
+        ],
+        "cevap": "B) Dişlerini fırçalar"
+      },
+      {
+        "soru": "Çantaya ilk ne konur?",
+        "secenekler": [
+          "A) Kalemler",
+          "B) Sandviç",
+          "C) Kitaplar, defter ve kalemler"
+        ],
+        "cevap": "C) Kitaplar, defter ve kalemler"
       },
       {
         "soru": "Çocuğu okula kim bırakır?",
         "secenekler": [
           "A) Annesi",
-          "B) Kendisi yürür",
-          "C) Babası"
+          "B) Babası",
+          "C) Komşu"
         ],
-        "cevap": "C) Babası"
+        "cevap": "B) Babası"
       },
       {
         "soru": "Öğretmen öğrencileri nerede karşılar?",
         "secenekler": [
           "A) Sınıfta",
-          "B) Kapıda",
-          "C) Bahçede"
+          "B) Bahçede",
+          "C) Kapıda"
         ],
-        "cevap": "B) Kapıda"
+        "cevap": "C) Kapıda"
+      },
+      {
+        "soru": "Okula zamanında yetişmek çocuğu nasıl hissettirir?",
+        "secenekler": [
+          "A) Mutsuz",
+          "B) Yorgun",
+          "C) Çok mutlu"
+        ],
+        "cevap": "C) Çok mutlu"
+      },
+      {
+        "soru": "Çocuk ayakkabılarını ne yapar?",
+        "secenekler": [
+          "A) Siler",
+          "B) Boyar",
+          "C) Bağlar"
+        ],
+        "cevap": "C) Bağlar"
       }
     ],
     "bosluk_doldurma": [
@@ -92,18 +173,27 @@
         "kelime_havuzu": [
           "kalemlerimi",
           "oyuncaklarımı",
-          "kıyafetlerimi"
+          "yiyeceklerimi"
         ],
         "cevap": "kalemlerimi"
       },
       {
         "cumle": "Öğretmenim bizi kapıda güler yüzle .........",
         "kelime_havuzu": [
-          "gönderir",
           "karşılar",
-          "bekler"
+          "bekler",
+          "gönderir"
         ],
         "cevap": "karşılar"
+      },
+      {
+        "cumle": "Babam beni okula kadar arabayla .........",
+        "kelime_havuzu": [
+          "bırakır",
+          "götürür",
+          "alır"
+        ],
+        "cevap": "bırakır"
       }
     ]
   },
@@ -117,9 +207,18 @@
         "secenekler": [
           "A) Karabaş",
           "B) Pamuk",
-          "C) Tekir"
+          "C) Duman"
         ],
         "cevap": "B) Pamuk"
+      },
+      {
+        "soru": "Pamuk nasıl bir kedidir?",
+        "secenekler": [
+          "A) Siyah ve kısa tüylü",
+          "B) Beyaz ve çok tüylü",
+          "C) Sarı ve iri"
+        ],
+        "cevap": "B) Beyaz ve çok tüylü"
       },
       {
         "soru": "Pamuk her gün nerede oynar?",
@@ -131,13 +230,40 @@
         "cevap": "C) Komşunun bahçesinde"
       },
       {
-        "soru": "Kış günleri Pamuk nereye alınır?",
+        "soru": "Çocuklar Pamuk'a yaklaşınca Pamuk ne yapar?",
         "secenekler": [
-          "A) Garaja",
-          "B) Eve",
-          "C) Markete"
+          "A) Kaçar",
+          "B) Hissırtır",
+          "C) Onların elini yalar"
         ],
-        "cevap": "B) Eve"
+        "cevap": "C) Onların elini yalar"
+      },
+      {
+        "soru": "Pamuk'a her sabah kim bakar?",
+        "secenekler": [
+          "A) Çocuklar",
+          "B) Mahalle muhtarı",
+          "C) Komşu"
+        ],
+        "cevap": "C) Komşu"
+      },
+      {
+        "soru": "Kış günleri Pamuk'a ne yapılır?",
+        "secenekler": [
+          "A) Dışarıda bırakılır",
+          "B) Eve alınır ve ısıtılır",
+          "C) Başka bir yere gönderilir"
+        ],
+        "cevap": "B) Eve alınır ve ısıtılır"
+      },
+      {
+        "soru": "Pamuk mahallenin neyi olmaktadır?",
+        "secenekler": [
+          "A) En korkutucu hayvanı",
+          "B) En sevilen hayvanı",
+          "C) En büyük hayvanı"
+        ],
+        "cevap": "B) En sevilen hayvanı"
       }
     ],
     "bosluk_doldurma": [
@@ -155,9 +281,18 @@
         "kelime_havuzu": [
           "mama",
           "ekmek",
-          "su"
+          "et"
         ],
         "cevap": "mama"
+      },
+      {
+        "cumle": "Pamuk mahallenin en ........ hayvanıdır.",
+        "kelime_havuzu": [
+          "sevilen",
+          "büyük",
+          "hızlı"
+        ],
+        "cevap": "sevilen"
       }
     ]
   },
@@ -167,29 +302,65 @@
     "metin": "Zeynep, cumartesi günü arkadaşlarıyla parka gitti. Hava güneşliydi ve çok güzeldi. Önce salıncakta sallandılar, sonra kaydıraktan kaydılar. Zeynep arkadaşıyla yakalamaca oynadı ve çok koştu. Öğle olunca anneleri piknik sepeti getirdi. Hep birlikte sandviç ve meyve yediler. Akşama doğru eve dönme zamanı geldi. Zeynep o gün çok yoruldu ama çok mutlu oldu.",
     "coktan_secmeli": [
       {
-        "soru": "Zeynep parka ne zaman gitti?",
+        "soru": "Zeynep parka hangi gün gitti?",
         "secenekler": [
-          "A) Pazar günü",
-          "B) Cuma günü",
-          "C) Cumartesi günü"
+          "A) Pazar",
+          "B) Cuma",
+          "C) Cumartesi"
         ],
-        "cevap": "C) Cumartesi günü"
+        "cevap": "C) Cumartesi"
       },
       {
-        "soru": "Öğle olunca ne oldu?",
+        "soru": "Zeynep parka kimlerle gitti?",
         "secenekler": [
-          "A) Eve döndüler",
-          "B) Anneleri piknik sepeti getirdi",
-          "C) Uyudular"
+          "A) Ailesiyle",
+          "B) Arkadaşlarıyla",
+          "C) Yalnız"
         ],
-        "cevap": "B) Anneleri piknik sepeti getirdi"
+        "cevap": "B) Arkadaşlarıyla"
       },
       {
-        "soru": "Zeynep akşam ne hissetti?",
+        "soru": "Parkta önce ne yaptılar?",
         "secenekler": [
-          "A) Üzgün ve yorgun",
+          "A) Koştular",
+          "B) Kaydıraktan kaydılar",
+          "C) Salıncakta sallandılar"
+        ],
+        "cevap": "C) Salıncakta sallandılar"
+      },
+      {
+        "soru": "Öğle olunca ne geldi?",
+        "secenekler": [
+          "A) Eve dönme vakti",
+          "B) Piknik sepeti",
+          "C) Yağmur"
+        ],
+        "cevap": "B) Piknik sepeti"
+      },
+      {
+        "soru": "Piknikte ne yediler?",
+        "secenekler": [
+          "A) Pizza ve kola",
+          "B) Sandviç ve meyve",
+          "C) Çorba ve ekmek"
+        ],
+        "cevap": "B) Sandviç ve meyve"
+      },
+      {
+        "soru": "Zeynep parkta ne oyununu oynadı?",
+        "secenekler": [
+          "A) Yılan kaçtı",
+          "B) Saklambaç",
+          "C) Yakalamaca"
+        ],
+        "cevap": "C) Yakalamaca"
+      },
+      {
+        "soru": "Zeynep eve dönerken nasıl hissetti?",
+        "secenekler": [
+          "A) Üzgün ve sinirli",
           "B) Yorgun ama mutlu",
-          "C) Hasta ve üşümüş"
+          "C) Dinlenmiş ve enerjik"
         ],
         "cevap": "B) Yorgun ama mutlu"
       }
@@ -200,7 +371,7 @@
         "kelime_havuzu": [
           "yakalamaca",
           "saklambaç",
-          "satranç"
+          "yılankaçtı"
         ],
         "cevap": "yakalamaca"
       },
@@ -208,10 +379,19 @@
         "cumle": "Hep birlikte sandviç ve ........ yediler.",
         "kelime_havuzu": [
           "meyve",
-          "dondurma",
-          "çorba"
+          "çikolata",
+          "cips"
         ],
         "cevap": "meyve"
+      },
+      {
+        "cumle": "Önce salıncakta sallandılar, sonra ........ kaydılar.",
+        "kelime_havuzu": [
+          "kaydıraktan",
+          "merdivenlerden",
+          "tepeden"
+        ],
+        "cevap": "kaydıraktan"
       }
     ]
   },
@@ -221,31 +401,67 @@
     "metin": "Dedem, köyde büyük bir bahçeye sahiptir. Bahçede elma, armut ve kiraz ağaçları vardır. Her yaz tatilinde dedemlere gideriz. Dedem bize bahçedeki meyveleri toplamayı öğretir. Ben en çok kırmızı elmaları toplamayı severim. Büyükannem toplanan meyvelerden reçel yapar. Akşamları dedemle bahçede oturup sohbet ederiz. Köydeki bu günler benim için en güzel anılardır.",
     "coktan_secmeli": [
       {
-        "soru": "Bahçede hangi ağaçlar yoktur?",
+        "soru": "Dedemenin bahçesi nerededir?",
         "secenekler": [
-          "A) Elma",
-          "B) Portakal",
-          "C) Kiraz"
+          "A) Şehirde",
+          "B) Kasabada",
+          "C) Köyde"
         ],
-        "cevap": "B) Portakal"
+        "cevap": "C) Köyde"
       },
       {
-        "soru": "Büyükannem toplanan meyvelerle ne yapar?",
+        "soru": "Bahçede hangi ağaçlar vardır?",
         "secenekler": [
-          "A) Satar",
-          "B) Reçel yapar",
-          "C) Komşulara verir"
+          "A) Portakal, limon, mandalina",
+          "B) Elma, armut ve kiraz",
+          "C) Erik, dut ve incir"
         ],
-        "cevap": "B) Reçel yapar"
+        "cevap": "B) Elma, armut ve kiraz"
       },
       {
-        "soru": "Çocuk en çok ne toplamayı sever?",
+        "soru": "Çocuk en çok neyi toplamayı sever?",
         "secenekler": [
           "A) Armutları",
-          "B) Kırmızı elmaları",
-          "C) Kirazları"
+          "B) Kirazları",
+          "C) Kırmızı elmaları"
         ],
-        "cevap": "B) Kırmızı elmaları"
+        "cevap": "C) Kırmızı elmaları"
+      },
+      {
+        "soru": "Büyükannem toplanan meyvelerden ne yapar?",
+        "secenekler": [
+          "A) Meyve suyu",
+          "B) Reçel",
+          "C) Tatlı"
+        ],
+        "cevap": "B) Reçel"
+      },
+      {
+        "soru": "Akşamları çocuk dedemle ne yapar?",
+        "secenekler": [
+          "A) Televizyon izler",
+          "B) Bahçede sohbet eder",
+          "C) Erken uyur"
+        ],
+        "cevap": "B) Bahçede sohbet eder"
+      },
+      {
+        "soru": "Bahçe ziyareti ne zaman gerçekleşir?",
+        "secenekler": [
+          "A) Kış tatilinde",
+          "B) Her yaz tatilinde",
+          "C) Bayramlarda"
+        ],
+        "cevap": "B) Her yaz tatilinde"
+      },
+      {
+        "soru": "Bu tatiller çocuk için ne anlama gelir?",
+        "secenekler": [
+          "A) Zor ve sıkıcıdır",
+          "B) Çok değerli anılardır",
+          "C) Sıradan günlerdir"
+        ],
+        "cevap": "B) Çok değerli anılardır"
       }
     ],
     "bosluk_doldurma": [
@@ -253,8 +469,8 @@
         "cumle": "Akşamları dedemle bahçede oturup ........ ederiz.",
         "kelime_havuzu": [
           "sohbet",
-          "ders",
-          "alışveriş"
+          "egzersiz",
+          "müzik"
         ],
         "cevap": "sohbet"
       },
@@ -262,10 +478,19 @@
         "cumle": "Her yaz tatilinde ........ gideriz.",
         "kelime_havuzu": [
           "dedemlere",
-          "okula",
-          "hastaneye"
+          "tatile",
+          "köye"
         ],
         "cevap": "dedemlere"
+      },
+      {
+        "cumle": "Köydeki bu günler benim için en güzel ........ dır.",
+        "kelime_havuzu": [
+          "anılar",
+          "oyunlar",
+          "tatiller"
+        ],
+        "cevap": "anılar"
       }
     ]
   },
@@ -275,31 +500,67 @@
     "metin": "Bugün sabah uyandığımda gökyüzü bulutluydu ve yağmur yağıyordu. Annem bana yağmurluk giymemi ve şemsiye almamı söyledi. Ben de turuncu yağmurluğumu giydim ve şemsiyemi çantama koydum. Okula yürüyerek gittim ama ayaklarım ıslanmadı. Sınıfa girdiğimde arkadaşlarım ıslandıklarını söylediler. Öğretmenimiz bize yağmurlu havalarda nasıl hazırlanmamız gerektiğini anlattı. Öğleden sonra yağmur durdu ve güneş çıktı. Yağmur sonrası gökyüzünde güzel bir gökkuşağı belirdi.",
     "coktan_secmeli": [
       {
-        "soru": "Çocuk yağmurlu havaya nasıl hazırlandı?",
+        "soru": "Sabah hava nasıldı?",
         "secenekler": [
-          "A) Şemsiye ve yağmurlukla",
-          "B) Sadece şemsiyeyle",
-          "C) Hiç hazırlanmadı"
+          "A) Güneşli ve sıcak",
+          "B) Bulutlu ve yağmurlu",
+          "C) Karlı ve soğuk"
         ],
-        "cevap": "A) Şemsiye ve yağmurlukla"
+        "cevap": "B) Bulutlu ve yağmurlu"
+      },
+      {
+        "soru": "Annem çocuğa ne söyledi?",
+        "secenekler": [
+          "A) Okula gitme",
+          "B) Yağmurluk ve şemsiye al",
+          "C) Erken kalk"
+        ],
+        "cevap": "B) Yağmurluk ve şemsiye al"
+      },
+      {
+        "soru": "Çocuğun yağmurluğu ne renktir?",
+        "secenekler": [
+          "A) Mavi",
+          "B) Sarı",
+          "C) Turuncu"
+        ],
+        "cevap": "C) Turuncu"
+      },
+      {
+        "soru": "Sınıftaki arkadaşlar ne demişti?",
+        "secenekler": [
+          "A) Yağmuru seviyoruz",
+          "B) Çok güzel hava",
+          "C) Islandıklarını söylediler"
+        ],
+        "cevap": "C) Islandıklarını söylediler"
+      },
+      {
+        "soru": "Öğretmen o gün ne anlattı?",
+        "secenekler": [
+          "A) Yağmurun faydaları",
+          "B) Yağmurlu havalarda nasıl hazırlanılacağını",
+          "C) Mevsimler hakkında"
+        ],
+        "cevap": "B) Yağmurlu havalarda nasıl hazırlanılacağını"
       },
       {
         "soru": "Öğleden sonra ne oldu?",
         "secenekler": [
-          "A) Yağmur daha çok yağdı",
-          "B) Yağmur durdu ve güneş çıktı",
-          "C) Kar yağmaya başladı"
+          "A) Yağmur arttı",
+          "B) Kar yağmaya başladı",
+          "C) Yağmur durdu ve güneş çıktı"
         ],
-        "cevap": "B) Yağmur durdu ve güneş çıktı"
+        "cevap": "C) Yağmur durdu ve güneş çıktı"
       },
       {
         "soru": "Yağmur sonrası gökyüzünde ne belirdi?",
         "secenekler": [
-          "A) Yıldızlar",
-          "B) Bulutlar",
-          "C) Gökkuşağı"
+          "A) Bulutlar",
+          "B) Gökkuşağı",
+          "C) Yıldızlar"
         ],
-        "cevap": "C) Gökkuşağı"
+        "cevap": "B) Gökkuşağı"
       }
     ],
     "bosluk_doldurma": [
@@ -308,7 +569,7 @@
         "kelime_havuzu": [
           "yağmurluğumu",
           "montumu",
-          "eteğimi"
+          "hırkamı"
         ],
         "cevap": "yağmurluğumu"
       },
@@ -316,10 +577,19 @@
         "cumle": "Yağmur sonrası gökyüzünde güzel bir ........ belirdi.",
         "kelime_havuzu": [
           "gökkuşağı",
-          "yıldız",
-          "ay"
+          "bulut",
+          "kuş"
         ],
         "cevap": "gökkuşağı"
+      },
+      {
+        "cumle": "Annem bana yağmurluk giymemi ve ........ almamı söyledi.",
+        "kelime_havuzu": [
+          "şemsiye",
+          "çanta",
+          "eldiven"
+        ],
+        "cevap": "şemsiye"
       }
     ]
   },
@@ -329,28 +599,64 @@
     "metin": "Mahallemizde Hasan adında sevilen bir fırıncı vardır. Hasan amca her sabah çok erken kalkar ve işe gider. Fırında büyük bir ekmek fırını vardır. Hasan amca bu fırında her gün yüzlerce ekmek pişirir. Ekmekler sıcak ve çıtır çıtır çıkar. Mahalle sakinleri taze ekmek almak için fırına sıra olur. Hasan amca herkese güler yüzle ekmek verir. Çocuklar ona çok sevgi gösterir, o da çocuklara zaman zaman poğaça ikram eder.",
     "coktan_secmeli": [
       {
-        "soru": "Hasan amca her gün ne yapar?",
+        "soru": "Fırıncının adı nedir?",
         "secenekler": [
-          "A) Simit satar",
-          "B) Yüzlerce ekmek pişirir",
-          "C) Pasta yapar"
+          "A) Mehmet",
+          "B) Ali",
+          "C) Hasan"
         ],
-        "cevap": "B) Yüzlerce ekmek pişirir"
+        "cevap": "C) Hasan"
       },
       {
-        "soru": "Mahalle sakinleri neden sıraya girer?",
+        "soru": "Hasan amca kaçta kalkar?",
         "secenekler": [
-          "A) Pasta almak için",
+          "A) Öğlen",
+          "B) Akşam",
+          "C) Çok erken"
+        ],
+        "cevap": "C) Çok erken"
+      },
+      {
+        "soru": "Fırında ne var?",
+        "secenekler": [
+          "A) Küçük bir ocak",
+          "B) Büyük bir ekmek fırını",
+          "C) Modern bir makine"
+        ],
+        "cevap": "B) Büyük bir ekmek fırını"
+      },
+      {
+        "soru": "Hasan amca her gün kaç ekmek pişirir?",
+        "secenekler": [
+          "A) Onlarca",
+          "B) Yüzlerce",
+          "C) Binlerce"
+        ],
+        "cevap": "B) Yüzlerce"
+      },
+      {
+        "soru": "Mahalle sakinleri fırına neden sıra olur?",
+        "secenekler": [
+          "A) Hasan amcayı görmek için",
           "B) Taze ekmek almak için",
-          "C) Simit almak için"
+          "C) Ucuz olduğu için"
         ],
         "cevap": "B) Taze ekmek almak için"
       },
       {
+        "soru": "Hasan amca herkese nasıl ekmek verir?",
+        "secenekler": [
+          "A) Asık yüzle",
+          "B) Güler yüzle",
+          "C) Bekleterek"
+        ],
+        "cevap": "B) Güler yüzle"
+      },
+      {
         "soru": "Hasan amca çocuklara ne ikram eder?",
         "secenekler": [
-          "A) Dondurma",
-          "B) Çikolata",
+          "A) Simit",
+          "B) Ekmek",
           "C) Poğaça"
         ],
         "cevap": "C) Poğaça"
@@ -362,7 +668,7 @@
         "kelime_havuzu": [
           "erken",
           "geç",
-          "öğle"
+          "yorgun"
         ],
         "cevap": "erken"
       },
@@ -370,10 +676,19 @@
         "cumle": "Ekmekler sıcak ve ........ çıkar.",
         "kelime_havuzu": [
           "çıtır çıtır",
-          "sert sert",
+          "soğuk",
           "yumuşak"
         ],
         "cevap": "çıtır çıtır"
+      },
+      {
+        "cumle": "Çocuklar ona çok sevgi gösterir, o da çocuklara ........ ikram eder.",
+        "kelime_havuzu": [
+          "poğaça",
+          "para",
+          "ekmek"
+        ],
+        "cevap": "poğaça"
       }
     ]
   },
@@ -383,31 +698,67 @@
     "metin": "Komşumuzun Karabaş adında büyük ve siyah bir köpeği vardır. Karabaş her sabah bahçede koşar ve oynar. Topu çok sever; onu ağzıyla tutup getirir. Komşumuz her akşam Karabaş'a mama ve su verir. Karabaş bizi gördüğünde kuyruk sallayarak koşup gelir. Hiç kimseye havlamaz, çok uysal bir köpektir. Geceleri bahçeyi korur ve yabancıları uzaklaştırır. Mahalledeki çocuklar Karabaş'la oynamayı çok sever.",
     "coktan_secmeli": [
       {
+        "soru": "Köpeğin adı nedir?",
+        "secenekler": [
+          "A) Pamuk",
+          "B) Duman",
+          "C) Karabaş"
+        ],
+        "cevap": "C) Karabaş"
+      },
+      {
         "soru": "Karabaş nasıl bir köpektir?",
         "secenekler": [
-          "A) Sarı ve küçük",
+          "A) Küçük ve sarı",
           "B) Büyük ve siyah",
-          "C) Beyaz ve tüylü"
+          "C) Orta boyda ve kahverengi"
         ],
         "cevap": "B) Büyük ve siyah"
+      },
+      {
+        "soru": "Karabaş topu ne ile tutar?",
+        "secenekler": [
+          "A) Pençesiyle",
+          "B) Kafasıyla",
+          "C) Ağzıyla"
+        ],
+        "cevap": "C) Ağzıyla"
+      },
+      {
+        "soru": "Karabaş bizi gördüğünde ne yapar?",
+        "secenekler": [
+          "A) Kaçar",
+          "B) Havlar",
+          "C) Kuyruk sallayarak koşup gelir"
+        ],
+        "cevap": "C) Kuyruk sallayarak koşup gelir"
+      },
+      {
+        "soru": "Karabaş kimseye havlar mı?",
+        "secenekler": [
+          "A) Evet herkese",
+          "B) Hayır, çok uysal bir köpektir",
+          "C) Sadece yabancılara"
+        ],
+        "cevap": "B) Hayır, çok uysal bir köpektir"
       },
       {
         "soru": "Karabaş geceleri ne yapar?",
         "secenekler": [
           "A) Uyur",
-          "B) Oynar",
-          "C) Bahçeyi korur"
+          "B) Bahçeyi korur",
+          "C) Havlar durur"
         ],
-        "cevap": "C) Bahçeyi korur"
+        "cevap": "B) Bahçeyi korur"
       },
       {
-        "soru": "Karabaş bizi gördüğünde ne yapar?",
+        "soru": "Mahalledeki çocuklar Karabaş ile ne yapmayı sever?",
         "secenekler": [
-          "A) Havlar",
-          "B) Kuyruk sallayarak koşup gelir",
-          "C) Kaçar"
+          "A) Oynamayı",
+          "B) Büyümesini izlemeyi",
+          "C) Ona yem vermeyi"
         ],
-        "cevap": "B) Kuyruk sallayarak koşup gelir"
+        "cevap": "A) Oynamayı"
       }
     ],
     "bosluk_doldurma": [
@@ -421,13 +772,22 @@
         "cevap": "koşarak"
       },
       {
-        "cumle": "Karabaş hiç kimseye ........ çok uysal bir köpektir.",
+        "cumle": "Karabaş hiç kimseye ........ , çok uysal bir köpektir.",
         "kelime_havuzu": [
           "havlamaz",
           "saldırmaz",
-          "yaklaşmaz"
+          "ısırmaz"
         ],
         "cevap": "havlamaz"
+      },
+      {
+        "cumle": "Karabaş bizi gördüğünde kuyruk sallayarak ........ gelir.",
+        "kelime_havuzu": [
+          "koşup",
+          "yürüyüp",
+          "zıplayarak"
+        ],
+        "cevap": "koşup"
       }
     ]
   },
@@ -437,31 +797,67 @@
     "metin": "Sabah kahvaltısı günün en önemli öğünüdür. Annem her sabah erken kalkarak kahvaltı hazırlar. Sofrada ekmek, peynir, zeytin ve yumurta olur. Bazen domates ve salatalık da keser. Ben her zaman bir bardak süt içerim. Babam da çayını yudumlarken gazetesini okur. Hep birlikte yemek yemek çok güzeldir. Aile olmak, sabahları birlikte sofraya oturmak demektir.",
     "coktan_secmeli": [
       {
+        "soru": "Sabah kahvaltısı nedir?",
+        "secenekler": [
+          "A) En önemli öğün",
+          "B) Atlanabilecek bir öğün",
+          "C) İkinci öğün"
+        ],
+        "cevap": "A) En önemli öğün"
+      },
+      {
         "soru": "Sofrada hangi yiyecek olmaz?",
         "secenekler": [
           "A) Peynir",
           "B) Pilav",
-          "C) Zeytin"
+          "C) Yumurta"
         ],
         "cevap": "B) Pilav"
       },
       {
-        "soru": "Baba kahvaltıda ne yapar?",
+        "soru": "Baba kahvaltıda ne içer?",
         "secenekler": [
-          "A) Uyur",
-          "B) Çayını yudumlarken gazete okur",
-          "C) Müzik dinler"
+          "A) Süt",
+          "B) Meyve suyu",
+          "C) Çay"
         ],
-        "cevap": "B) Çayını yudumlarken gazete okur"
+        "cevap": "C) Çay"
       },
       {
-        "soru": "Çocuk her sabah ne içer?",
+        "soru": "Çocuk kahvaltıda ne içer?",
         "secenekler": [
           "A) Çay",
           "B) Meyve suyu",
           "C) Süt"
         ],
         "cevap": "C) Süt"
+      },
+      {
+        "soru": "Baba kahvaltı yaparken ne okur?",
+        "secenekler": [
+          "A) Kitap",
+          "B) Gazete",
+          "C) Dergi"
+        ],
+        "cevap": "B) Gazete"
+      },
+      {
+        "soru": "Annem erken kalkarak ne hazırlar?",
+        "secenekler": [
+          "A) Öğle yemeği",
+          "B) Kahvaltı",
+          "C) Akşam yemeği"
+        ],
+        "cevap": "B) Kahvaltı"
+      },
+      {
+        "soru": "Aile olmak ne demektir?",
+        "secenekler": [
+          "A) Aynı evde yaşamak",
+          "B) Sabahları birlikte sofraya oturmak",
+          "C) Birlikte tatile gitmek"
+        ],
+        "cevap": "B) Sabahları birlikte sofraya oturmak"
       }
     ],
     "bosluk_doldurma": [
@@ -469,8 +865,8 @@
         "cumle": "Sabah kahvaltısı günün en önemli ........ dür.",
         "kelime_havuzu": [
           "öğünü",
-          "oyunu",
-          "dersi"
+          "zamanı",
+          "aktivitesi"
         ],
         "cevap": "öğünü"
       },
@@ -478,10 +874,19 @@
         "cumle": "Annem her sabah erken kalkarak kahvaltı .........",
         "kelime_havuzu": [
           "hazırlar",
-          "yer",
-          "alır"
+          "pişirir",
+          "yapar"
         ],
         "cevap": "hazırlar"
+      },
+      {
+        "cumle": "Sofrada ekmek, peynir, zeytin ve ........ olur.",
+        "kelime_havuzu": [
+          "yumurta",
+          "pilav",
+          "makarna"
+        ],
+        "cevap": "yumurta"
       }
     ]
   },
@@ -491,31 +896,67 @@
     "metin": "Mehmet birkaç gündür hasta hissediyordu. Boğazı çok ağrıyordu ve ateşi vardı. Annesi onu hemen doktora götürdü. Doktor Mehmet'i muayene etti ve boğazına baktı. Mehmet'in bademcikleri iltihaplanmıştı. Doktor ona ilaç yazdı ve bol su içmesini söyledi. Mehmet eve dönünce ilacını düzenli olarak içti. Birkaç gün sonra Mehmet'in ateşi düştü ve iyileşti.",
     "coktan_secmeli": [
       {
-        "soru": "Mehmet neden rahatsızdı?",
+        "soru": "Mehmet neden hasta hissediyordu?",
         "secenekler": [
-          "A) Bacağı ağrıyordu",
+          "A) Karnı ağrıyordu",
           "B) Boğazı ağrıyor ve ateşi vardı",
           "C) Başı dönüyordu"
         ],
         "cevap": "B) Boğazı ağrıyor ve ateşi vardı"
       },
       {
+        "soru": "Doktor Mehmet'i nerede muayene etti?",
+        "secenekler": [
+          "A) Hastane koridorunda",
+          "B) Bekleme odasında",
+          "C) Muayenehanesinde"
+        ],
+        "cevap": "C) Muayenehanesinde"
+      },
+      {
         "soru": "Doktor ne tespit etti?",
         "secenekler": [
-          "A) Kulak iltihabı",
-          "B) Bademcik iltihabı",
-          "C) Göz iltihabı"
+          "A) Grip",
+          "B) Alerji",
+          "C) Bademcik iltihabı"
         ],
-        "cevap": "B) Bademcik iltihabı"
+        "cevap": "C) Bademcik iltihabı"
       },
       {
         "soru": "Doktor Mehmet'e ne tavsiye etti?",
         "secenekler": [
-          "A) Bol uyuması",
-          "B) Bol su içmesi",
-          "C) Çok yemesi"
+          "A) Evde dinlen",
+          "B) İlaç ve bol su iç",
+          "C) Hastanede kal"
         ],
-        "cevap": "B) Bol su içmesi"
+        "cevap": "B) İlaç ve bol su iç"
+      },
+      {
+        "soru": "Mehmet ilacını nasıl içti?",
+        "secenekler": [
+          "A) Ara sıra",
+          "B) Düzenli olarak",
+          "C) Sadece ağrısı olunca"
+        ],
+        "cevap": "B) Düzenli olarak"
+      },
+      {
+        "soru": "Mehmet kaç gün sonra iyileşti?",
+        "secenekler": [
+          "A) Birkaç gün sonra",
+          "B) Bir hafta sonra",
+          "C) Bir ay sonra"
+        ],
+        "cevap": "A) Birkaç gün sonra"
+      },
+      {
+        "soru": "Bu deneyim Mehmet'e ne öğretti?",
+        "secenekler": [
+          "A) Doktordan korkmamayı",
+          "B) Sağlığını korumanın önemini",
+          "C) İlaç içmenin önemini"
+        ],
+        "cevap": "B) Sağlığını korumanın önemini"
       }
     ],
     "bosluk_doldurma": [
@@ -523,8 +964,8 @@
         "cumle": "Mehmet ilacını ........ olarak içti.",
         "kelime_havuzu": [
           "düzenli",
-          "arasıra",
-          "nadiren"
+          "arada",
+          "sık"
         ],
         "cevap": "düzenli"
       },
@@ -532,10 +973,19 @@
         "cumle": "Birkaç gün sonra Mehmet'in ateşi ........ ve iyileşti.",
         "kelime_havuzu": [
           "düştü",
-          "yükseldi",
-          "kaldı"
+          "çıktı",
+          "arttı"
         ],
         "cevap": "düştü"
+      },
+      {
+        "cumle": "Mehmet'in ........ iltihaplanmıştı.",
+        "kelime_havuzu": [
+          "bademcikleri",
+          "dişleri",
+          "kulakları"
+        ],
+        "cevap": "bademcikleri"
       }
     ]
   },
@@ -545,31 +995,67 @@
     "metin": "Selin, okul çıkışı her hafta kütüphaneye gider. Kütüphanede yüzlerce renkli kitap vardır. Selin masalardan birine oturur ve kitap okumaya başlar. Bu hafta hayvanlar hakkında bir kitap seçti. Kitapta zürafalar, filler ve aslanlar hakkında bilgiler vardı. Kütüphaneci teyze ona yeni kitaplar önerdi. Selin iki kitabı ödünç alarak eve döndü. Kitap okumak Selin'in en sevdiği alışkanlığıdır.",
     "coktan_secmeli": [
       {
-        "soru": "Selin kütüphaneye ne sıklıkta gider?",
+        "soru": "Selin okul çıkışı nereye gider?",
         "secenekler": [
-          "A) Her gün",
-          "B) Her hafta",
-          "C) Her ay"
+          "A) Parka",
+          "B) Kütüphaneye",
+          "C) Markete"
         ],
-        "cevap": "B) Her hafta"
+        "cevap": "B) Kütüphaneye"
+      },
+      {
+        "soru": "Kütüphanede ne kadar kitap vardır?",
+        "secenekler": [
+          "A) Onlarca",
+          "B) Yüzlerce",
+          "C) Birkaç"
+        ],
+        "cevap": "B) Yüzlerce"
       },
       {
         "soru": "Selin bu hafta hangi konuda kitap seçti?",
         "secenekler": [
-          "A) Bitkiler",
-          "B) Uzay",
+          "A) Uzay",
+          "B) Tarih",
           "C) Hayvanlar"
         ],
         "cevap": "C) Hayvanlar"
       },
       {
-        "soru": "Selin kütüphaneden ne yaptı?",
+        "soru": "Kütüphaneci teyze Selin'e ne yaptı?",
         "secenekler": [
-          "A) Kitap satın aldı",
-          "B) İki kitap ödünç aldı",
-          "C) Hiç kitap almadı"
+          "A) Kitap hediye etti",
+          "B) Yeni kitaplar önerdi",
+          "C) Kitap sattı"
         ],
-        "cevap": "B) İki kitap ödünç aldı"
+        "cevap": "B) Yeni kitaplar önerdi"
+      },
+      {
+        "soru": "Selin kitapta hangi hayvanları okudu?",
+        "secenekler": [
+          "A) Kedi ve köpek",
+          "B) Balık ve kuş",
+          "C) Zürafa, fil ve aslan"
+        ],
+        "cevap": "C) Zürafa, fil ve aslan"
+      },
+      {
+        "soru": "Selin kütüphaneden kaç kitap ödünç aldı?",
+        "secenekler": [
+          "A) Bir",
+          "B) İki",
+          "C) Üç"
+        ],
+        "cevap": "B) İki"
+      },
+      {
+        "soru": "Kitap okumak Selin için neyin en sevilen alışkanlığıdır?",
+        "secenekler": [
+          "A) En yorucu",
+          "B) En sıkıcı",
+          "C) En sevilen"
+        ],
+        "cevap": "C) En sevilen"
       }
     ],
     "bosluk_doldurma": [
@@ -577,10 +1063,19 @@
         "cumle": "Kütüphaneci teyze ona yeni kitaplar .........",
         "kelime_havuzu": [
           "önerdi",
-          "sattı",
-          "aldı"
+          "verdi",
+          "sattı"
         ],
         "cevap": "önerdi"
+      },
+      {
+        "cumle": "Selin iki kitabı ........ alarak eve döndü.",
+        "kelime_havuzu": [
+          "ödünç",
+          "satın",
+          "beğenerek"
+        ],
+        "cevap": "ödünç"
       },
       {
         "cumle": "Kitap okumak Selin'in en sevdiği ........ dır.",
@@ -599,51 +1094,96 @@
     "metin": "Amcamın köyde büyük bir çiftliği vardır. Çiftlikte inekler, tavuklar ve koyunlar yaşar. Her sabah amcam hayvanları besler ve sular. İnekler sabah erken sağılır ve taze süt elde edilir. Tavuklar her gün yumurta yumurtlar. Koyunlar ise çayırda otlar ve geceleri ahıra döner. Ben de yaz tatilinde amcama yardım etmeyi çok severim. Çiftlik hayatı hem çalışkan hem de eğlenceli bir hayattır.",
     "coktan_secmeli": [
       {
-        "soru": "Çiftlikte hangi hayvanlar vardır?",
+        "soru": "Amcamın çiftliği nerededir?",
         "secenekler": [
-          "A) At, köpek, kedi",
-          "B) İnek, tavuk, koyun",
-          "C) Balık, kuş, tavşan"
+          "A) Şehirde",
+          "B) Köyde",
+          "C) Kasabada"
         ],
-        "cevap": "B) İnek, tavuk, koyun"
+        "cevap": "B) Köyde"
       },
       {
-        "soru": "Taze süt nasıl elde edilir?",
+        "soru": "Çiftlikte hangi hayvanlar vardır?",
         "secenekler": [
-          "A) Marketten alınır",
-          "B) İnekler sabah erken sağılır",
-          "C) Koyunların sütü sağılır"
+          "A) At, eşek, deve",
+          "B) İnek, tavuk ve koyun",
+          "C) Köpek, kedi ve kuş"
         ],
-        "cevap": "B) İnekler sabah erken sağılır"
+        "cevap": "B) İnek, tavuk ve koyun"
+      },
+      {
+        "soru": "İnekler ne zaman sağılır?",
+        "secenekler": [
+          "A) Öğlen",
+          "B) Akşam",
+          "C) Sabah erken"
+        ],
+        "cevap": "C) Sabah erken"
+      },
+      {
+        "soru": "Tavuklar her gün ne yapar?",
+        "secenekler": [
+          "A) Yumurta yumurtlar",
+          "B) Süt verir",
+          "C) Yün verir"
+        ],
+        "cevap": "A) Yumurta yumurtlar"
+      },
+      {
+        "soru": "Koyunlar gündüzleri nerede otlar?",
+        "secenekler": [
+          "A) Ahırda",
+          "B) Çayırda",
+          "C) Yolda"
+        ],
+        "cevap": "B) Çayırda"
       },
       {
         "soru": "Koyunlar geceleri nereye döner?",
         "secenekler": [
           "A) Çayıra",
-          "B) Ahıra",
-          "C) Bahçeye"
+          "B) Bahçeye",
+          "C) Ahıra"
         ],
-        "cevap": "B) Ahıra"
+        "cevap": "C) Ahıra"
+      },
+      {
+        "soru": "Çiftlik hayatı nasıldır?",
+        "secenekler": [
+          "A) Sıkıcı ve kolay",
+          "B) Çalışkan ve eğlenceli",
+          "C) Tehlikeli ve zor"
+        ],
+        "cevap": "B) Çalışkan ve eğlenceli"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Tavuklar her gün ........ yumurtlar.",
+        "cumle": "Tavuklar her gün yumurta .........",
         "kelime_havuzu": [
-          "yumurta",
-          "yem",
-          "su"
+          "yumurtlar",
+          "verir",
+          "üretir"
         ],
-        "cevap": "yumurta"
+        "cevap": "yumurtlar"
       },
       {
         "cumle": "Çiftlik hayatı hem çalışkan hem de ........ bir hayattır.",
         "kelime_havuzu": [
           "eğlenceli",
-          "zor",
-          "sıkıcı"
+          "sıkıcı",
+          "tehlikeli"
         ],
         "cevap": "eğlenceli"
+      },
+      {
+        "cumle": "Ben de yaz tatilinde amcama ........ etmeyi çok severim.",
+        "kelime_havuzu": [
+          "yardım",
+          "ziyaret",
+          "bakım"
+        ],
+        "cevap": "yardım"
       }
     ]
   },
@@ -653,51 +1193,96 @@
     "metin": "Bu yaz ailemizle birlikte denize gittik. Deniz maviydi ve çok güzeldi. Kumda kale yaptım ve deniz kabuğu topladım. Annem güneş kremi sürdü ve beni güneşten korudu. Babam benimle birlikte denize girdi. Dalgalar bizi sallayınca ikimiz de çok güldük. Akşama kadar kumsal oyunları oynadık. O gün hayatımın en güzel günlerinden biri oldu.",
     "coktan_secmeli": [
       {
-        "soru": "Deniz kenarında ne yapıldı?",
+        "soru": "Deniz nasıldı?",
         "secenekler": [
-          "A) Resim çizildi",
-          "B) Kumda kale yapıldı",
-          "C) Kitap okundu"
+          "A) Bulanık ve soğuk",
+          "B) Mavi ve güzel",
+          "C) Yeşil ve sığ"
         ],
-        "cevap": "B) Kumda kale yapıldı"
+        "cevap": "B) Mavi ve güzel"
       },
       {
-        "soru": "Anne ne yaptı?",
+        "soru": "Annem çocuğa kumda ne sürdü?",
+        "secenekler": [
+          "A) Losyon",
+          "B) Güneş kremi",
+          "C) Jöle"
+        ],
+        "cevap": "B) Güneş kremi"
+      },
+      {
+        "soru": "Çocuk kumda ne yaptı?",
         "secenekler": [
           "A) Yüzdü",
-          "B) Güneş kremi sürdü",
-          "C) Uyudu"
+          "B) Güneşlendi",
+          "C) Kale yaptı ve deniz kabuğu topladı"
         ],
-        "cevap": "B) Güneş kremi sürdü"
+        "cevap": "C) Kale yaptı ve deniz kabuğu topladı"
       },
       {
-        "soru": "Dalgalar gelince ne oldu?",
+        "soru": "Babam denize girince dalgalar ne yaptı?",
         "secenekler": [
-          "A) Korktular",
-          "B) Çıktılar",
-          "C) İkisi de çok güldü"
+          "A) Onları korkuttu",
+          "B) İkisini de ıslattı",
+          "C) İkisini sallayıp güldürdü"
         ],
-        "cevap": "C) İkisi de çok güldü"
+        "cevap": "C) İkisini sallayıp güldürdü"
+      },
+      {
+        "soru": "Akşama kadar ne oynadılar?",
+        "secenekler": [
+          "A) Kumsal oyunları",
+          "B) Kart oyunları",
+          "C) Masa oyunları"
+        ],
+        "cevap": "A) Kumsal oyunları"
+      },
+      {
+        "soru": "Bu gün çocuk için ne oldu?",
+        "secenekler": [
+          "A) Sıradan bir gün",
+          "B) Hayatının en güzel günlerinden biri",
+          "C) Zor ama güzel bir gün"
+        ],
+        "cevap": "B) Hayatının en güzel günlerinden biri"
+      },
+      {
+        "soru": "Ailenin gittiği yer neresidir?",
+        "secenekler": [
+          "A) Göl kenarı",
+          "B) Irmak kenarı",
+          "C) Deniz"
+        ],
+        "cevap": "C) Deniz"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Kumda kale yaptım ve deniz ........ topladım.",
+        "cumle": "Kumda ........ yaptım ve deniz kabuğu topladım.",
         "kelime_havuzu": [
-          "kabuğu",
-          "balığı",
-          "yosunu"
+          "kale",
+          "ev",
+          "tünel"
         ],
-        "cevap": "kabuğu"
+        "cevap": "kale"
       },
       {
         "cumle": "Akşama kadar kumsal ........ oynadık.",
         "kelime_havuzu": [
           "oyunları",
-          "dersleri",
-          "şarkıları"
+          "yarışmaları",
+          "etkinlikleri"
         ],
         "cevap": "oyunları"
+      },
+      {
+        "cumle": "O gün hayatımın en güzel ........ biri oldu.",
+        "kelime_havuzu": [
+          "günlerinden",
+          "anlarından",
+          "zamanlarından"
+        ],
+        "cevap": "günlerinden"
       }
     ]
   },
@@ -709,11 +1294,20 @@
       {
         "soru": "Emre büyüyünce ne olmak ister?",
         "secenekler": [
-          "A) Doktor",
-          "B) İtfaiyeci",
-          "C) Öğretmen"
+          "A) Polis",
+          "B) Doktor",
+          "C) İtfaiyeci"
         ],
-        "cevap": "B) İtfaiyeci"
+        "cevap": "C) İtfaiyeci"
+      },
+      {
+        "soru": "İtfaiyeciler ne iş yapar?",
+        "secenekler": [
+          "A) Hastaları tedavi eder",
+          "B) İnsanları yangından kurtarır",
+          "C) Suçluları yakalar"
+        ],
+        "cevap": "B) İnsanları yangından kurtarır"
       },
       {
         "soru": "Emre itfaiye istasyonuna nasıl gitti?",
@@ -725,13 +1319,40 @@
         "cevap": "C) Okul gezisiyle"
       },
       {
+        "soru": "İtfaiyeciler çocuklara ne anlattı?",
+        "secenekler": [
+          "A) Oyun kuralları",
+          "B) Nasıl çalıştıklarını",
+          "C) Yangın tehlikeleri"
+        ],
+        "cevap": "B) Nasıl çalıştıklarını"
+      },
+      {
+        "soru": "Emre devasa hortumu tutunca ne oldu?",
+        "secenekler": [
+          "A) Başarıyla tuttu",
+          "B) Düştü",
+          "C) Çok ağırdı tutamadı"
+        ],
+        "cevap": "C) Çok ağırdı tutamadı"
+      },
+      {
         "soru": "İtfaiyeci amcalar Emre'ye ne hediye etti?",
         "secenekler": [
-          "A) Kırmızı bir araba",
-          "B) Mavi bir kask",
-          "C) Sarı bir yelек"
+          "A) Kırmızı araba oyuncağı",
+          "B) Mavi kask",
+          "C) İtfaiyeci forması"
         ],
-        "cevap": "B) Mavi bir kask"
+        "cevap": "B) Mavi kask"
+      },
+      {
+        "soru": "Emre o kaskı eve gelince ne yaptı?",
+        "secenekler": [
+          "A) Vitrine koydu",
+          "B) Arkadaşına verdi",
+          "C) Hiç çıkarmak istemedi"
+        ],
+        "cevap": "C) Hiç çıkarmak istemedi"
       }
     ],
     "bosluk_doldurma": [
@@ -740,7 +1361,7 @@
         "kelime_havuzu": [
           "yangından",
           "selden",
-          "kardan"
+          "hırsızdan"
         ],
         "cevap": "yangından"
       },
@@ -748,10 +1369,19 @@
         "cumle": "Emre devasa hortumu tutmayı denedi ama çok ........ dı.",
         "kelime_havuzu": [
           "ağır",
-          "hafif",
-          "kısa"
+          "sıcak",
+          "büyük"
         ],
         "cevap": "ağır"
+      },
+      {
+        "cumle": "İtfaiyeci amcalar ona ........ bir kask hediye etti.",
+        "kelime_havuzu": [
+          "mavi",
+          "kırmızı",
+          "sarı"
+        ],
+        "cevap": "mavi"
       }
     ]
   },
@@ -761,29 +1391,65 @@
     "metin": "Sabah uyandığımda her yer bembeyaz karla kaplıydı. Annem bugün okul olmadığını söyledi, çok sevindim. Hemen kışlık kıyafetlerimi giydim ve dışarı çıktım. Komşu çocuklarla kardan adam yaptık. Kardan adamın gözlerine taş, burnuna havuç koyduk. Birbirimize kartopu attık ve çok güldük. Akşam eve girdiğimde annem bana sıcak çorba yaptı. Kar tatili benim için her zaman sürpriz bir hediye gibidir.",
     "coktan_secmeli": [
       {
+        "soru": "Sabah uyandığında her yer nasıldı?",
+        "secenekler": [
+          "A) Yağmurla ıslak",
+          "B) Bembeyaz karla kaplı",
+          "C) Güneşli ve sıcak"
+        ],
+        "cevap": "B) Bembeyaz karla kaplı"
+      },
+      {
         "soru": "Çocuk neden çok sevindi?",
         "secenekler": [
           "A) Hediye aldı",
-          "B) Bugün okul yoktu",
-          "C) Tatile çıktı"
+          "B) Arkadaşı geldi",
+          "C) Bugün okul yoktu"
         ],
-        "cevap": "B) Bugün okul yoktu"
+        "cevap": "C) Bugün okul yoktu"
       },
       {
-        "soru": "Kardan adamın burnuna ne konuldu?",
+        "soru": "Komşu çocuklarla birlikte ne yaptılar?",
         "secenekler": [
-          "A) Taş",
-          "B) Çubuk",
-          "C) Havuç"
+          "A) Kardan adam",
+          "B) Buz pateni",
+          "C) Kayak"
         ],
-        "cevap": "C) Havuç"
+        "cevap": "A) Kardan adam"
       },
       {
-        "soru": "Çocuk eve girdiğinde annesi ne yaptı?",
+        "soru": "Kardan adamın gözleri neden yapıldı?",
         "secenekler": [
-          "A) Çay demle",
+          "A) Havuçtan",
+          "B) Düğmeden",
+          "C) Taştan"
+        ],
+        "cevap": "C) Taştan"
+      },
+      {
+        "soru": "Kardan adamın burnu neden yapıldı?",
+        "secenekler": [
+          "A) Taştan",
+          "B) Havuçtan",
+          "C) Düğmeden"
+        ],
+        "cevap": "B) Havuçtan"
+      },
+      {
+        "soru": "Çocuklar ne oyunu oynadılar?",
+        "secenekler": [
+          "A) Kartopu",
+          "B) Buz pateni",
+          "C) Kayak"
+        ],
+        "cevap": "A) Kartopu"
+      },
+      {
+        "soru": "Eve girince annesi ne yaptı?",
+        "secenekler": [
+          "A) Ateş yaktı",
           "B) Sıcak çorba yaptı",
-          "C) Pasta yaptı"
+          "C) Battaniyeye sardı"
         ],
         "cevap": "B) Sıcak çorba yaptı"
       }
@@ -794,7 +1460,7 @@
         "kelime_havuzu": [
           "adam",
           "kale",
-          "köpek"
+          "ip"
         ],
         "cevap": "adam"
       },
@@ -802,10 +1468,19 @@
         "cumle": "Birbirimize ........ attık ve çok güldük.",
         "kelime_havuzu": [
           "kartopu",
-          "taş",
-          "top"
+          "kar",
+          "buz"
         ],
         "cevap": "kartopu"
+      },
+      {
+        "cumle": "Kar tatili benim için her zaman sürpriz bir ........ gibidir.",
+        "kelime_havuzu": [
+          "hediye",
+          "sürpriz",
+          "şans"
+        ],
+        "cevap": "hediye"
       }
     ]
   },
@@ -815,31 +1490,67 @@
     "metin": "Annem her cumartesi sabahı pazara gider. Ben de bazen annemle birlikte giderim. Pazarda renkli sebze ve meyveler sıralanmıştır. Satıcı amcalar yüksek sesle fiyatları bağırır. Annem domates, biber ve ıspanak aldı. Ben de bir demet muz seçtim. Pazardaki kalabalık ve renkler beni çok etkiler. Evde taze sebzelerle yapılan yemekler çok daha lezzetlidir.",
     "coktan_secmeli": [
       {
-        "soru": "Annem pazara ne zaman gider?",
+        "soru": "Annem her cumartesi nereye gider?",
         "secenekler": [
-          "A) Her pazar",
-          "B) Her cuma",
-          "C) Her cumartesi sabahı"
+          "A) Alışveriş merkezine",
+          "B) Markete",
+          "C) Pazar yerine"
         ],
-        "cevap": "C) Her cumartesi sabahı"
+        "cevap": "C) Pazar yerine"
       },
       {
-        "soru": "Annem pazardan ne almadı?",
+        "soru": "Pazar yeri nasıl bir yerdir?",
         "secenekler": [
-          "A) Domates",
-          "B) Portakal",
-          "C) Biber"
+          "A) Sessiz ve boş",
+          "B) Kapalı ve karanlık",
+          "C) Kalabalık ve renkli"
         ],
-        "cevap": "B) Portakal"
+        "cevap": "C) Kalabalık ve renkli"
+      },
+      {
+        "soru": "Satıcılar fiyatları nasıl bağırır?",
+        "secenekler": [
+          "A) Fısıldayarak",
+          "B) Yüksek sesle",
+          "C) Mırıldanarak"
+        ],
+        "cevap": "B) Yüksek sesle"
+      },
+      {
+        "soru": "Annem pazarda ne alma tartışır?",
+        "secenekler": [
+          "A) Her tezgahta fiyatları karşılaştırır",
+          "B) Sadece ucuzları alır",
+          "C) Listeden alır"
+        ],
+        "cevap": "A) Her tezgahta fiyatları karşılaştırır"
+      },
+      {
+        "soru": "Annem pazardan ne aldı?",
+        "secenekler": [
+          "A) Et ve balık",
+          "B) Taze sebzeler",
+          "C) Ekmek ve süt"
+        ],
+        "cevap": "B) Taze sebzeler"
       },
       {
         "soru": "Çocuk pazardan ne seçti?",
         "secenekler": [
-          "A) Elma",
-          "B) Üzüm",
+          "A) Portakal",
+          "B) Elma",
           "C) Bir demet muz"
         ],
         "cevap": "C) Bir demet muz"
+      },
+      {
+        "soru": "Evde taze sebzelerle yapılan yemekler nasıldır?",
+        "secenekler": [
+          "A) İdare eder",
+          "B) Kötüdür",
+          "C) Çok daha lezzetlidir"
+        ],
+        "cevap": "C) Çok daha lezzetlidir"
       }
     ],
     "bosluk_doldurma": [
@@ -848,7 +1559,7 @@
         "kelime_havuzu": [
           "meyveler",
           "çiçekler",
-          "kıyafetler"
+          "giysiler"
         ],
         "cevap": "meyveler"
       },
@@ -856,10 +1567,19 @@
         "cumle": "Satıcı amcalar yüksek sesle ........ bağırır.",
         "kelime_havuzu": [
           "fiyatları",
-          "şarkıları",
-          "haberleri"
+          "adlarını",
+          "şarkıları"
         ],
         "cevap": "fiyatları"
+      },
+      {
+        "cumle": "Annem domates, biber ve ........ aldı.",
+        "kelime_havuzu": [
+          "ıspanak",
+          "muz",
+          "ekmek"
+        ],
+        "cevap": "ıspanak"
       }
     ]
   },
@@ -871,29 +1591,65 @@
       {
         "soru": "Babanın mesleği nedir?",
         "secenekler": [
-          "A) Öğretmen",
+          "A) İtfaiyeci",
           "B) Doktor",
           "C) Polis memuru"
         ],
         "cevap": "C) Polis memuru"
       },
       {
-        "soru": "Baba okul önlerinde ne yapar?",
+        "soru": "Baba her sabah ne giyer?",
         "secenekler": [
-          "A) Ders verir",
-          "B) Çocukların güvenli geçmesini sağlar",
-          "C) Araba tamir eder"
+          "A) Takım elbise",
+          "B) Mavi üniforma",
+          "C) İş tulumu"
         ],
-        "cevap": "B) Çocukların güvenli geçmesini sağlar"
+        "cevap": "B) Mavi üniforma"
       },
       {
-        "soru": "Çocuk büyüyünce ne olmak istiyor?",
+        "soru": "Babanın görevi nedir?",
+        "secenekler": [
+          "A) Hastaları tedavi etmek",
+          "B) İnsanları korumak ve düzeni sağlamak",
+          "C) Yangın söndürmek"
+        ],
+        "cevap": "B) İnsanları korumak ve düzeni sağlamak"
+      },
+      {
+        "soru": "Baba okul önlerinde çocuklara ne yapıyor?",
+        "secenekler": [
+          "A) Ders veriyor",
+          "B) Güvenli geçmelerini sağlıyor",
+          "C) Oyun öğretiyor"
+        ],
+        "cevap": "B) Güvenli geçmelerini sağlıyor"
+      },
+      {
+        "soru": "Baba bazen ne yapıyor?",
+        "secenekler": [
+          "A) Trafik denetimi yapıyor",
+          "B) Gece vardiyasına kalıyor",
+          "C) Gece uyuyor"
+        ],
+        "cevap": "B) Gece vardiyasına kalıyor"
+      },
+      {
+        "soru": "Çocuk babasını izleyince ne hissediyor?",
+        "secenekler": [
+          "A) Korku",
+          "B) Gurur",
+          "C) Üzüntü"
+        ],
+        "cevap": "B) Gurur"
+      },
+      {
+        "soru": "Büyüyünce ne olmak isteniyor?",
         "secenekler": [
           "A) Doktor",
           "B) Öğretmen",
-          "C) Polis"
+          "C) Babası gibi polis"
         ],
-        "cevap": "C) Polis"
+        "cevap": "C) Babası gibi polis"
       }
     ],
     "bosluk_doldurma": [
@@ -901,8 +1657,8 @@
         "cumle": "Babam her gün mavi ........ giyer.",
         "kelime_havuzu": [
           "üniforma",
-          "kazak",
-          "palto"
+          "takım",
+          "elbise"
         ],
         "cevap": "üniforma"
       },
@@ -910,10 +1666,19 @@
         "cumle": "Babam eve gelince yorgun olur ama mutlaka bana .........",
         "kelime_havuzu": [
           "sarılır",
-          "bağırır",
-          "gider"
+          "sorar",
+          "bakar"
         ],
         "cevap": "sarılır"
+      },
+      {
+        "cumle": "Onu çok seviyorum ve onunla ........ duyuyorum.",
+        "kelime_havuzu": [
+          "gurur",
+          "utanç",
+          "merak"
+        ],
+        "cevap": "gurur"
       }
     ]
   },
@@ -923,13 +1688,13 @@
     "metin": "Balkonumuzda küçük bir kuş yuvası vardır. İçinde üç tane yumurta bulunuyordu. Her sabah anne kuş yumurtaların üstüne oturur ve ısıtırdı. Bir sabah uyandığımda minik sesler duydum. Yumurtalardan üç yavru kuş çıkmıştı. Yavru kuşlar sarı, tüysüz ve çok küçüktü. Anne kuş her gün onlara solucan ve böcek getirdi. Biz her sabah balkondan onları seyrederdik, bu manzara bizi çok mutlu ederdi.",
     "coktan_secmeli": [
       {
-        "soru": "Kuş yuvası neredeydi?",
+        "soru": "Kuş yuvası nerededir?",
         "secenekler": [
           "A) Bahçede",
-          "B) Balkonumuzda",
-          "C) Ağaçta"
+          "B) Ağaçta",
+          "C) Balkonumuzda"
         ],
-        "cevap": "B) Balkonumuzda"
+        "cevap": "C) Balkonumuzda"
       },
       {
         "soru": "Yuvada kaç yumurta vardı?",
@@ -941,13 +1706,49 @@
         "cevap": "C) Üç"
       },
       {
+        "soru": "Anne kuş ne yapıyordu?",
+        "secenekler": [
+          "A) Yem arıyordu",
+          "B) Yumurtaların üstüne oturup ısıtıyordu",
+          "C) Uçuyordu"
+        ],
+        "cevap": "B) Yumurtaların üstüne oturup ısıtıyordu"
+      },
+      {
+        "soru": "Yavru kuşlar nasıldı?",
+        "secenekler": [
+          "A) İri ve güçlü",
+          "B) Siyah ve kocaman",
+          "C) Sarı, tüysüz ve çok küçük"
+        ],
+        "cevap": "C) Sarı, tüysüz ve çok küçük"
+      },
+      {
         "soru": "Anne kuş yavrularına ne getirdi?",
         "secenekler": [
           "A) Tohum ve meyve",
           "B) Solucan ve böcek",
-          "C) Ekmek ve su"
+          "C) Ekmek kırıntısı"
         ],
         "cevap": "B) Solucan ve böcek"
+      },
+      {
+        "soru": "Yavruların balkondan izlenmesi nasıl hissettiriyor?",
+        "secenekler": [
+          "A) Korku ve endişe",
+          "B) Mutluluk",
+          "C) Üzüntü"
+        ],
+        "cevap": "B) Mutluluk"
+      },
+      {
+        "soru": "Piknik çocuk ne zaman minik sesleri duydu?",
+        "secenekler": [
+          "A) Bir akşam",
+          "B) Bir sabah",
+          "C) Öğlen"
+        ],
+        "cevap": "B) Bir sabah"
       }
     ],
     "bosluk_doldurma": [
@@ -955,8 +1756,8 @@
         "cumle": "Yumurtalardan üç yavru ........ çıkmıştı.",
         "kelime_havuzu": [
           "kuş",
-          "kedi",
-          "tavşan"
+          "civciv",
+          "balık"
         ],
         "cevap": "kuş"
       },
@@ -965,9 +1766,18 @@
         "kelime_havuzu": [
           "küçük",
           "büyük",
-          "güçlü"
+          "güzel"
         ],
         "cevap": "küçük"
+      },
+      {
+        "cumle": "Biz her sabah balkondan onları ......... , bu bizi çok mutlu ederdi.",
+        "kelime_havuzu": [
+          "seyrederdik",
+          "dinlerdik",
+          "izlerdik"
+        ],
+        "cevap": "seyrederdik"
       }
     ]
   },
@@ -977,7 +1787,16 @@
     "metin": "Kemal bu yaz bisiklet sürmeyi öğrenmek istedi. Babası ona kırmızı yeni bir bisiklet aldı. İlk günler düşe kalka denedi ve biraz dizleri sıyrıldı. Babası yanında koşarak onu tuttu ve cesaret verdi. Dördüncü günde Kemal artık tek başına pedal çevirmeye başladı. Mahalledeki yolda ilk kez yalnız bisiklet sürdüğünde çok heyecanlandı. Annesi balkonda alkışladı ve onu tebrik etti. Kemal o gün hayatında çok önemli bir şey başardığını hissetti.",
     "coktan_secmeli": [
       {
-        "soru": "Kemal'in bisikleti ne renktir?",
+        "soru": "Kemal'e bisiklet kim aldı?",
+        "secenekler": [
+          "A) Annesi",
+          "B) Dedesi",
+          "C) Babası"
+        ],
+        "cevap": "C) Babası"
+      },
+      {
+        "soru": "Bisikletin rengi nedir?",
         "secenekler": [
           "A) Mavi",
           "B) Sarı",
@@ -986,22 +1805,49 @@
         "cevap": "C) Kırmızı"
       },
       {
-        "soru": "Kemal kaçıncı günde tek başına bisiklet sürebildi?",
+        "soru": "İlk günlerde ne oldu?",
         "secenekler": [
-          "A) Birinci gün",
-          "B) Dördüncü gün",
-          "C) Yedinci gün"
+          "A) Hemen sürdü",
+          "B) Düşe kalka denedi",
+          "C) Korktu vazgeçti"
         ],
-        "cevap": "B) Dördüncü gün"
+        "cevap": "B) Düşe kalka denedi"
+      },
+      {
+        "soru": "Babası ne yaptı?",
+        "secenekler": [
+          "A) Kendi sürdü",
+          "B) Yanında koşup onu tuttu ve cesaret verdi",
+          "C) Eve geri döndü"
+        ],
+        "cevap": "B) Yanında koşup onu tuttu ve cesaret verdi"
+      },
+      {
+        "soru": "Kemal kaçıncı günde tek başına sürdü?",
+        "secenekler": [
+          "A) İkinci",
+          "B) Üçüncü",
+          "C) Dördüncü"
+        ],
+        "cevap": "C) Dördüncü"
       },
       {
         "soru": "Annesi onu nasıl kutladı?",
         "secenekler": [
-          "A) Hediye aldı",
-          "B) Balkonda alkışladı",
-          "C) Dondurma ısmarlad"
+          "A) Hediye verdi",
+          "B) Balkonda alkışladı ve tebrik etti",
+          "C) Yanına koştu"
         ],
-        "cevap": "B) Balkonda alkışladı"
+        "cevap": "B) Balkonda alkışladı ve tebrik etti"
+      },
+      {
+        "soru": "Kemal o gün ne hissetti?",
+        "secenekler": [
+          "A) Yorulmuş ve üzülmüş",
+          "B) Çok önemli bir şey başardığını",
+          "C) Sıradan bir gün geçirdiğini"
+        ],
+        "cevap": "B) Çok önemli bir şey başardığını"
       }
     ],
     "bosluk_doldurma": [
@@ -1009,8 +1855,8 @@
         "cumle": "Babası yanında ........ onu tuttu ve cesaret verdi.",
         "kelime_havuzu": [
           "koşarak",
-          "oturarak",
-          "bağırarak"
+          "yürüyerek",
+          "zıplayarak"
         ],
         "cevap": "koşarak"
       },
@@ -1018,10 +1864,19 @@
         "cumle": "Kemal o gün hayatında çok önemli bir şey ........ dığını hissetti.",
         "kelime_havuzu": [
           "başardı",
-          "kaybetti",
-          "unuttu"
+          "öğrendi",
+          "denedi"
         ],
         "cevap": "başardı"
+      },
+      {
+        "cumle": "Babası ona kırmızı yeni bir ........ aldı.",
+        "kelime_havuzu": [
+          "bisiklet",
+          "araba",
+          "uçurtma"
+        ],
+        "cevap": "bisiklet"
       }
     ]
   },
@@ -1031,31 +1886,67 @@
     "metin": "İnsanlar her gün pek çok farklı duygu yaşar. Güldüğümüzde mutlu, ağladığımızda üzgün oluruz. Bazen bir şeyden korkarız; bu korku duygusudur. Bir şey haksız geldiğinde kızgınlık hissederiz. Sevdiğimiz biri bizi ziyaret ettiğinde heyecanlanırız. Duygularımızı sözcüklerle ifade etmek çok önemlidir. Arkadaşına nasıl hissettiğini anlatmak onu daha iyi anlamamızı sağlar. Her duygu değerlidir ve bizi daha iyi bir insan yapar.",
     "coktan_secmeli": [
       {
-        "soru": "Ağladığımızda hangi duyguyu yaşarız?",
+        "soru": "Güldüğümüzde hangi duyguyu yaşarız?",
         "secenekler": [
-          "A) Mutluluk",
-          "B) Üzüntü",
-          "C) Heyecan"
+          "A) Üzüntü",
+          "B) Kızgınlık",
+          "C) Mutluluk"
         ],
-        "cevap": "B) Üzüntü"
+        "cevap": "C) Mutluluk"
       },
       {
-        "soru": "Bir şey haksız geldiğinde ne hissederiz?",
+        "soru": "Ağladığımızda hangi duyguyu yaşarız?",
         "secenekler": [
-          "A) Korku",
-          "B) Kızgınlık",
-          "C) Sevinç"
+          "A) Sevinç",
+          "B) Üzgünlük",
+          "C) Heyecan"
         ],
-        "cevap": "B) Kızgınlık"
+        "cevap": "B) Üzgünlük"
+      },
+      {
+        "soru": "Korku duygusu ne zaman oluşur?",
+        "secenekler": [
+          "A) Bir şeyi başardığımızda",
+          "B) Bir şeyden korktuğumuzda",
+          "C) Konuk geldiğinde"
+        ],
+        "cevap": "B) Bir şeyden korktuğumuzda"
+      },
+      {
+        "soru": "Kızgınlık ne zaman hissedilir?",
+        "secenekler": [
+          "A) Mutlu olduğumuzda",
+          "B) Güldüğümüzde",
+          "C) Bir şey haksız geldiğinde"
+        ],
+        "cevap": "C) Bir şey haksız geldiğinde"
       },
       {
         "soru": "Duygularımızı nasıl ifade etmeliyiz?",
         "secenekler": [
-          "A) Hiç anlatmamalıyız",
-          "B) Sözcüklerle ifade etmeliyiz",
-          "C) Sadece ağlamalıyız"
+          "A) Sessiz kalarak",
+          "B) Sözcüklerle ifade ederek",
+          "C) Görmezden gelerek"
         ],
-        "cevap": "B) Sözcüklerle ifade etmeliyiz"
+        "cevap": "B) Sözcüklerle ifade ederek"
+      },
+      {
+        "soru": "Arkadaşına nasıl hissettiğini anlatmak ne sağlar?",
+        "secenekler": [
+          "A) Onu daha iyi anlamamızı",
+          "B) Onu kızdırmamızı",
+          "C) Onu uzaklaştırmamızı"
+        ],
+        "cevap": "A) Onu daha iyi anlamamızı"
+      },
+      {
+        "soru": "Her duygu ne yapar?",
+        "secenekler": [
+          "A) Bizi üzer",
+          "B) Bizi daha iyi bir insan yapar",
+          "C) Bizi yorar"
+        ],
+        "cevap": "B) Bizi daha iyi bir insan yapar"
       }
     ],
     "bosluk_doldurma": [
@@ -1073,9 +1964,18 @@
         "kelime_havuzu": [
           "değerli",
           "gereksiz",
-          "tehlikeli"
+          "zor"
         ],
         "cevap": "değerli"
+      },
+      {
+        "cumle": "Her duygu değerlidir ve bizi daha iyi bir ........ yapar.",
+        "kelime_havuzu": [
+          "insan",
+          "öğrenci",
+          "arkadaş"
+        ],
+        "cevap": "insan"
       }
     ]
   },
@@ -1085,31 +1985,67 @@
     "metin": "Annemin balkonda küçük ama güzel bir çiçek bahçesi vardır. Kırmızı güller, sarı papatyalar ve mor lavantalar yetiştirir. Her sabah çiçekleri sular ve yapraklarını siler. Bazen bana tohumların nasıl ekildiğini gösterir. Ben de küçük bir saksıya fesleğen ektim. Annem çiçeklerin canlı şeyler olduğunu ve sevgiyle büyüdüğünü söylüyor. Balkonumuzdaki çiçekler komşularımızın da çok dikkatini çeker. Güzel bir bahçe insanı hem huzurlandırır hem de mutlu eder.",
     "coktan_secmeli": [
       {
-        "soru": "Annesi balkonda hangi çiçekleri yetiştirmez?",
+        "soru": "Annenin balkonda bahçesi nasıldır?",
         "secenekler": [
-          "A) Kırmızı güller",
-          "B) Mavi laleler",
-          "C) Sarı papatyalar"
+          "A) Büyük ve karışık",
+          "B) Küçük ama güzel",
+          "C) Geniş ve bakımsız"
         ],
-        "cevap": "B) Mavi laleler"
+        "cevap": "B) Küçük ama güzel"
+      },
+      {
+        "soru": "Balkonda hangi çiçekler yetiştirilir?",
+        "secenekler": [
+          "A) Lale, nergis, sümbül",
+          "B) Gül, papatya ve lavanta",
+          "C) Karanfil, menekşe, zambak"
+        ],
+        "cevap": "B) Gül, papatya ve lavanta"
+      },
+      {
+        "soru": "Annem her sabah çiçekler için ne yapar?",
+        "secenekler": [
+          "A) Gübre verir",
+          "B) Sular ve yapraklarını siler",
+          "C) Yeni tohum eker"
+        ],
+        "cevap": "B) Sular ve yapraklarını siler"
       },
       {
         "soru": "Çocuk saksıya ne ekti?",
         "secenekler": [
-          "A) Domates",
-          "B) Fesleğen",
-          "C) Gül"
+          "A) Gül",
+          "B) Lavanta",
+          "C) Fesleğen"
         ],
-        "cevap": "B) Fesleğen"
+        "cevap": "C) Fesleğen"
       },
       {
-        "soru": "Annem çiçekler hakkında ne söylüyor?",
+        "soru": "Anneye göre çiçekler nasıl büyür?",
         "secenekler": [
-          "A) Çok pahalıdır",
-          "B) Sevgiyle büyürler",
-          "C) Sulamak gerekmez"
+          "A) Güneşle",
+          "B) Sevgiyle",
+          "C) Suyla"
         ],
-        "cevap": "B) Sevgiyle büyürler"
+        "cevap": "B) Sevgiyle"
+      },
+      {
+        "soru": "Balkon bahçesi kimlerin dikkatini çeker?",
+        "secenekler": [
+          "A) Arabaların",
+          "B) Komşuların",
+          "C) Sokak hayvanlarının"
+        ],
+        "cevap": "B) Komşuların"
+      },
+      {
+        "soru": "Güzel bir bahçe ne sağlar?",
+        "secenekler": [
+          "A) Hem huzur hem mutluluk",
+          "B) Sadece güzel koku",
+          "C) Sadece estetik görünüm"
+        ],
+        "cevap": "A) Hem huzur hem mutluluk"
       }
     ],
     "bosluk_doldurma": [
@@ -1117,19 +2053,28 @@
         "cumle": "Annem her sabah çiçekleri ........ ve yapraklarını siler.",
         "kelime_havuzu": [
           "sular",
-          "keser",
-          "toplar"
+          "kopar",
+          "boyar"
         ],
         "cevap": "sular"
       },
       {
-        "cumle": "Güzel bir bahçe insanı hem ........ hem de mutlu eder.",
+        "cumle": "Güzel bir bahçe insanı hem huzurlandırır hem de ........ eder.",
         "kelime_havuzu": [
-          "huzurlandırır",
-          "yorar",
-          "korkutur"
+          "mutlu",
+          "üzgün",
+          "yorgun"
         ],
-        "cevap": "huzurlandırır"
+        "cevap": "mutlu"
+      },
+      {
+        "cumle": "Bazen bana tohumların nasıl ........ gösterir.",
+        "kelime_havuzu": [
+          "ekildiğini",
+          "yetiştirildiğini",
+          "sulandığını"
+        ],
+        "cevap": "ekildiğini"
       }
     ]
   },
@@ -1139,51 +2084,96 @@
     "metin": "Hastanemizin en sevilen hemşiresi Fatma Teyze'dir. Her gün beyaz önlüğünü giyer ve erken işe gelir. Hastalara ilaçlarını zamanında verir ve iğnelerini yapar. Küçük çocuklar iğneden korkunca onlara güzel hikâyeler anlatır. Çocuklar onu o kadar çok sever ki hastaneden gitmek istemez. Fatma Teyze her hastanın adını ve durumunu ezberler. İşi çok zor ama yüzü her zaman güler. O, hastaneleri korkutucu değil, sıcak bir yer yapar.",
     "coktan_secmeli": [
       {
-        "soru": "Fatma Teyze işe ne giyerek gelir?",
+        "soru": "Halanın adı nedir?",
         "secenekler": [
-          "A) Mavi üniformayla",
-          "B) Beyaz önlükle",
-          "C) Yeşil önlükle"
+          "A) Fatma",
+          "B) Zeynep",
+          "C) Ayşe"
         ],
-        "cevap": "B) Beyaz önlükle"
+        "cevap": "B) Zeynep"
       },
       {
-        "soru": "Çocuklar iğneden korkunca Fatma Teyze ne yapar?",
+        "soru": "Hala nerede çalışır?",
         "secenekler": [
-          "A) Başka odaya gönderir",
-          "B) Güzel hikâyeler anlatır",
-          "C) İğne yapmaktan vazgeçer"
+          "A) Eczanede",
+          "B) Klinikte",
+          "C) Devlet hastanesinde"
         ],
-        "cevap": "B) Güzel hikâyeler anlatır"
+        "cevap": "C) Devlet hastanesinde"
       },
       {
-        "soru": "Fatma Teyze her hastanın ne'ini ezberler?",
+        "soru": "Hemşire ne tür görevler üstlenir?",
         "secenekler": [
-          "A) Adresini ve telefonunu",
-          "B) Adını ve durumunu",
-          "C) Yaşını ve boyunu"
+          "A) Sadece ilaç verir",
+          "B) İlaç, tansiyon ve doktor yardımı",
+          "C) Sadece kayıt tutar"
         ],
-        "cevap": "B) Adını ve durumunu"
+        "cevap": "B) İlaç, tansiyon ve doktor yardımı"
+      },
+      {
+        "soru": "Hala bazen ne zaman vardiyaya kalır?",
+        "secenekler": [
+          "A) Hafta sonları",
+          "B) Geceleri",
+          "C) Bayramlarda"
+        ],
+        "cevap": "B) Geceleri"
+      },
+      {
+        "soru": "Hemşireler olmadan hastaneler ne olur?",
+        "secenekler": [
+          "A) İşleyemez",
+          "B) Daha iyi çalışır",
+          "C) Değişmez"
+        ],
+        "cevap": "A) İşleyemez"
+      },
+      {
+        "soru": "Hemşireler nasıl tanımlanır?",
+        "secenekler": [
+          "A) Gürültülü kahramanlar",
+          "B) Yorgun çalışanlar",
+          "C) Sessiz kahramanlar"
+        ],
+        "cevap": "C) Sessiz kahramanlar"
+      },
+      {
+        "soru": "Çocuk halası için ne hisseder?",
+        "secenekler": [
+          "A) Sever ve saygı duyar",
+          "B) Korkar",
+          "C) Sıkılır"
+        ],
+        "cevap": "A) Sever ve saygı duyar"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Hastalara ilaçlarını zamanında verir ve ........ yapar.",
+        "cumle": "Her gün kıyafeti olan beyaz ........ ni giyer.",
         "kelime_havuzu": [
-          "iğnelerini",
-          "ameliyatlarını",
-          "muayenelerini"
+          "önlüğü",
+          "şapkası",
+          "çantası"
         ],
-        "cevap": "iğnelerini"
+        "cevap": "önlüğü"
       },
       {
-        "cumle": "O, hastaneleri korkutucu değil, ........ bir yer yapar.",
+        "cumle": "İnsan hayatını kurtarmak için çok ........ verir.",
         "kelime_havuzu": [
-          "sıcak",
-          "soğuk",
-          "karanlık"
+          "emek",
+          "para",
+          "zaman"
         ],
-        "cevap": "sıcak"
+        "cevap": "emek"
+      },
+      {
+        "cumle": "Onlar sağlık sisteminin sessiz ........ dır.",
+        "kelime_havuzu": [
+          "kahramanları",
+          "çalışanları",
+          "doktorları"
+        ],
+        "cevap": "kahramanları"
       }
     ]
   },
@@ -1193,51 +2183,96 @@
     "metin": "Sınıfımız bu hafta hayvanat bahçesine gezi yaptı. Öğretmenimiz bize hayvanları tanıtmak için rehber gibi anlattı. Zürafaların boylarının çok uzun olduğunu gördük. Aslanlar kafeslerinde sakin sakin uyuyordu. Maymunlar birbirleriyle oynarken bizi güldürdü. En çok pengüenleri sevdim; onlar yürürken tıpkı beceriksiz insanlar gibiydiler. Hayvanat bahçesinden çıkarken herkes fotoğraf çektirdi. Bu gezi benim için unutulmaz bir anı oldu.",
     "coktan_secmeli": [
       {
-        "soru": "Gezi nereye yapıldı?",
+        "soru": "Okul gezisi nereye yapıldı?",
         "secenekler": [
           "A) Müzeye",
           "B) Hayvanat bahçesine",
-          "C) Parka"
+          "C) Kütüphaneye"
         ],
         "cevap": "B) Hayvanat bahçesine"
       },
       {
-        "soru": "Aslanlar ne yapıyordu?",
+        "soru": "Hayvanat bahçesine nasıl gittiler?",
         "secenekler": [
-          "A) Koşuyordu",
-          "B) Yiyordu",
-          "C) Sakin sakin uyuyordu"
+          "A) Yürüyerek",
+          "B) Metroyla",
+          "C) Otobüsle"
         ],
-        "cevap": "C) Sakin sakin uyuyordu"
+        "cevap": "C) Otobüsle"
       },
       {
-        "soru": "Çocuğun en çok sevdiği hayvan hangisiydi?",
+        "soru": "Hangi hayvanı izledikten sonra en çok hangiyi beğendiler?",
         "secenekler": [
-          "A) Aslanlar",
-          "B) Penguenler",
-          "C) Maymunlar"
+          "A) Aslanı",
+          "B) Zürafayı",
+          "C) Fili"
         ],
-        "cevap": "B) Penguenler"
+        "cevap": "B) Zürafayı"
+      },
+      {
+        "soru": "Zürafayı neden beğendiler?",
+        "secenekler": [
+          "A) Hızlı koştuğu için",
+          "B) Boynu çok uzun olduğu için",
+          "C) Rengi güzel olduğu için"
+        ],
+        "cevap": "B) Boynu çok uzun olduğu için"
+      },
+      {
+        "soru": "Rehber ne anlattı?",
+        "secenekler": [
+          "A) Hayvanların yaşam ortamları ve beslenme biçimleri",
+          "B) Hayvanların isimleri",
+          "C) Hayvanların yaşını"
+        ],
+        "cevap": "A) Hayvanların yaşam ortamları ve beslenme biçimleri"
+      },
+      {
+        "soru": "Öğretmen eve dönerken ne anlattı?",
+        "secenekler": [
+          "A) Hayvanları korumanın önemi",
+          "B) Bir sonraki geziyi",
+          "C) Hayvan sesleri"
+        ],
+        "cevap": "A) Hayvanları korumanın önemi"
+      },
+      {
+        "soru": "O gün çocuk ne yaptı?",
+        "secenekler": [
+          "A) Sadece eğlendi",
+          "B) Hem öğrendi hem çok eğlendi",
+          "C) Sadece öğrendi"
+        ],
+        "cevap": "B) Hem öğrendi hem çok eğlendi"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Maymunlar birbirleriyle oynarken bizi .........",
+        "cumle": "Rehber hayvanların yaşam ortamları hakkında ........ verdi.",
         "kelime_havuzu": [
-          "güldürdü",
-          "üzdü",
-          "korkuttu"
+          "bilgi",
+          "para",
+          "hediye"
         ],
-        "cevap": "güldürdü"
+        "cevap": "bilgi"
       },
       {
-        "cumle": "Bu gezi benim için ........ bir anı oldu.",
+        "cumle": "O gün hem öğrendim hem de çok .........",
         "kelime_havuzu": [
-          "unutulmaz",
-          "sıradan",
-          "sıkıcı"
+          "eğlendim",
+          "yoruldum",
+          "üzüldüm"
         ],
-        "cevap": "unutulmaz"
+        "cevap": "eğlendim"
+      },
+      {
+        "cumle": "Hayvanat bahçesinden çıkarken herkes ........ çektirdi.",
+        "kelime_havuzu": [
+          "fotoğraf",
+          "video",
+          "resim"
+        ],
+        "cevap": "fotoğraf"
       }
     ]
   },
@@ -1247,51 +2282,96 @@
     "metin": "Resim yapmayı çok severim. Her akşam defterime renkli kalemlerle çizim yaparım. Geçen hafta büyük bir gökkuşağı çizdim. Sarı, mavi, kırmızı ve yeşil boyaları kullandım. Resmi bitirince annem duvarına astı. Öğretmenim resimlerimin çok yaratıcı olduğunu söyledi. Okuldaki resim yarışmasına katılmak istiyorum. Büyüyünce ressam ya da tasarımcı olmayı hayal ediyorum.",
     "coktan_secmeli": [
       {
-        "soru": "Çocuk resimlerini nereye çiziyor?",
+        "soru": "Ne zaman resim yapılır?",
         "secenekler": [
-          "A) Tahtaya",
-          "B) Defterine",
-          "C) Duvara"
+          "A) Her gün öğlen",
+          "B) Her hafta sonu",
+          "C) Sadece derste"
         ],
-        "cevap": "B) Defterine"
+        "cevap": "B) Her hafta sonu"
       },
       {
-        "soru": "Geçen hafta ne çizdi?",
+        "soru": "Resim yaparken önce ne yapılır?",
         "secenekler": [
-          "A) Ev",
-          "B) Araba",
-          "C) Gökkuşağı"
+          "A) Doğrudan boya sürülür",
+          "B) Kurşun kalemle taslak çizilir",
+          "C) Kağıt seçilir"
         ],
-        "cevap": "C) Gökkuşağı"
+        "cevap": "B) Kurşun kalemle taslak çizilir"
       },
       {
-        "soru": "Annesi resmi alıp ne yaptı?",
+        "soru": "Taslak çizildikten sonra ne yapılır?",
         "secenekler": [
-          "A) Attı",
-          "B) Duvarına astı",
-          "C) Öğretmene götürdü"
+          "A) Kurutulur",
+          "B) Çerçevelenir",
+          "C) Suluboyayla renklendirilir"
         ],
-        "cevap": "B) Duvarına astı"
+        "cevap": "C) Suluboyayla renklendirilir"
+      },
+      {
+        "soru": "Geçen hafta ne çizildi?",
+        "secenekler": [
+          "A) Orman manzarası",
+          "B) Deniz manzarası",
+          "C) Şehir manzarası"
+        ],
+        "cevap": "B) Deniz manzarası"
+      },
+      {
+        "soru": "Hangi renkler kullanıldı?",
+        "secenekler": [
+          "A) Kırmızı ve sarı",
+          "B) Mavi ve turkuaz",
+          "C) Yeşil ve mor"
+        ],
+        "cevap": "B) Mavi ve turkuaz"
+      },
+      {
+        "soru": "Anne resimle ne yaptı?",
+        "secenekler": [
+          "A) Sattı",
+          "B) Çerçeveletti",
+          "C) Duvarına astı"
+        ],
+        "cevap": "C) Duvarına astı"
+      },
+      {
+        "soru": "Öğretmen resim derslerinde çocuğa ne yapıyor?",
+        "secenekler": [
+          "A) Eleştiriyor",
+          "B) Ön sıraya kaldırıyor",
+          "C) Ödev veriyor"
+        ],
+        "cevap": "B) Ön sıraya kaldırıyor"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Öğretmenim resimlerimin çok ........ olduğunu söyledi.",
+        "cumle": "Önce kurşun kalemle ........ çizerim, sonra suluboyayla renklendiririm.",
         "kelime_havuzu": [
-          "yaratıcı",
-          "basit",
-          "hatalı"
+          "taslak",
+          "şekil",
+          "manzara"
         ],
-        "cevap": "yaratıcı"
+        "cevap": "taslak"
       },
       {
-        "cumle": "Büyüyünce ressam ya da ........ olmayı hayal ediyorum.",
+        "cumle": "Resim yaparken ........ akıp giden zaman beni çok mutlu eder.",
         "kelime_havuzu": [
-          "tasarımcı",
-          "doktor",
-          "pilot"
+          "düşünmeden",
+          "koşarak",
+          "uğraşarak"
         ],
-        "cevap": "tasarımcı"
+        "cevap": "düşünmeden"
+      },
+      {
+        "cumle": "Annem resmimi çok beğendi ve ........ astı.",
+        "kelime_havuzu": [
+          "duvarıma",
+          "dolaba",
+          "dışarıya"
+        ],
+        "cevap": "duvarıma"
       }
     ]
   },
@@ -1301,51 +2381,96 @@
     "metin": "Aylin dişçiden çok korkardı. Bir gün dişi çok ağrıdı ve annesi onu dişçiye götürdü. Bekleme odasında oturdu ve çok gergin hissetti. Dişçi doktor ona gülümseyerek merhaba dedi. Doktor önce ona dişini inceledi ve çok nazik davrandı. Biraz iğne yaptı ama çok acıtmadı. İşlem bittikten sonra Aylin'in dişi hiç ağrımıyordu. Artık dişçiden o kadar korkmadığını anladı ve bir daha gelmek için söz verdi.",
     "coktan_secmeli": [
       {
-        "soru": "Aylin neden dişçiye gitti?",
+        "soru": "Çocuğun en iyi arkadaşının adı nedir?",
         "secenekler": [
-          "A) Kontrol için",
-          "B) Dişi çok ağrıdı",
-          "C) Annesi istedi"
+          "A) Mert",
+          "B) Kerem",
+          "C) Ali"
         ],
-        "cevap": "B) Dişi çok ağrıdı"
+        "cevap": "B) Kerem"
       },
       {
-        "soru": "Dişçi doktor Aylin'e nasıl davrandı?",
+        "soru": "Kerem nasıl bir çocuktur?",
         "secenekler": [
-          "A) Sert ve sıkıcı",
-          "B) Korkutucu",
-          "C) Nazik ve güler yüzlü"
+          "A) Kıskanç ve sinirli",
+          "B) Dürüst, yardımsever ve eğlenceli",
+          "C) Tembel ve sessiz"
         ],
-        "cevap": "C) Nazik ve güler yüzlü"
+        "cevap": "B) Dürüst, yardımsever ve eğlenceli"
       },
       {
-        "soru": "İşlem bittikten sonra Aylin ne anladı?",
+        "soru": "Teneffüslerde birlikte ne oynarlar?",
         "secenekler": [
-          "A) Dişçiden hâlâ korktuğunu",
-          "B) Dişçiden o kadar korkmadığını",
-          "C) Bir daha gelmeyeceğini"
+          "A) Basketbol",
+          "B) Futbol",
+          "C) Voleybol"
         ],
-        "cevap": "B) Dişçiden o kadar korkmadığını"
+        "cevap": "B) Futbol"
+      },
+      {
+        "soru": "Çocuk hasta olunca ne oldu?",
+        "secenekler": [
+          "A) Okula gidemedi",
+          "B) Hastaneye yattı",
+          "C) Erken eve döndü"
+        ],
+        "cevap": "A) Okula gidemedi"
+      },
+      {
+        "soru": "Kerem hasta olan arkadaşına ne yaptı?",
+        "secenekler": [
+          "A) Ziyarete geldi",
+          "B) Notlarını getirip ödevleri anlattı",
+          "C) Telefon etti"
+        ],
+        "cevap": "B) Notlarını getirip ödevleri anlattı"
+      },
+      {
+        "soru": "Gerçek arkadaşlık ne zaman belli olur?",
+        "secenekler": [
+          "A) Eğlenceli anlarda",
+          "B) Tatilde",
+          "C) Zor günde"
+        ],
+        "cevap": "C) Zor günde"
+      },
+      {
+        "soru": "Kerem gibi bir arkadaşa sahip olmak nedir?",
+        "secenekler": [
+          "A) Sıradan bir şey",
+          "B) Çok büyük bir şans",
+          "C) Zor bir durum"
+        ],
+        "cevap": "B) Çok büyük bir şans"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Bekleme odasında oturdu ve çok ........ hissetti.",
+        "cumle": "Kerem dürüst, yardımsever ve ........ bir çocuktur.",
         "kelime_havuzu": [
-          "gergin",
-          "mutlu",
-          "rahat"
+          "eğlenceli",
+          "kıskanç",
+          "tembel"
         ],
-        "cevap": "gergin"
+        "cevap": "eğlenceli"
       },
       {
-        "cumle": "Biraz iğne yaptı ama çok .........",
+        "cumle": "Gerçek arkadaş ........ günde belli olur.",
         "kelime_havuzu": [
-          "acıtmadı",
-          "acıttı",
-          "korkuttu"
+          "zor",
+          "kolay",
+          "mutlu"
         ],
-        "cevap": "acıtmadı"
+        "cevap": "zor"
+      },
+      {
+        "cumle": "Kerem gibi bir arkadaşa sahip olmak çok büyük bir ........ tır.",
+        "kelime_havuzu": [
+          "şans",
+          "sorun",
+          "zorluk"
+        ],
+        "cevap": "şans"
       }
     ]
   },
@@ -1355,51 +2480,96 @@
     "metin": "Dedem her sabah erkenden göle balık tutmaya gider. Geçen hafta sonu beni de yanına aldı. Olta ve kova aldık, gölün kenarına oturduk. Dedem bana oltanın nasıl kullanıldığını öğretti. Uzun süre bekledik ama balıklar hemen gelmedi. Sabırla beklemeye devam ettik ve sonunda iki balık tuttuk. Dedem tuttuğumuz balıkları eve götürüp pişirdi. O akşam yediğimiz balık yemeği hayatımda yediğim en lezzetli yemekti.",
     "coktan_secmeli": [
       {
-        "soru": "Dedem her sabah nereye gider?",
+        "soru": "Dedem her hafta sonu nereye gider?",
         "secenekler": [
-          "A) Nehre",
-          "B) Denize",
-          "C) Göle"
+          "A) Göle",
+          "B) Ormana",
+          "C) Irmak kenarına"
         ],
-        "cevap": "C) Göle"
+        "cevap": "C) Irmak kenarına"
       },
       {
-        "soru": "Balıklar hemen geldi mi?",
+        "soru": "Birlikte ne zaman yola çıktılar?",
         "secenekler": [
-          "A) Evet, hemen geldi",
-          "B) Hayır, uzun süre beklendi",
-          "C) Hiç gelmediler"
+          "A) Öğlen",
+          "B) Sabah erkenden",
+          "C) Akşam"
         ],
-        "cevap": "B) Hayır, uzun süre beklendi"
+        "cevap": "B) Sabah erkenden"
       },
       {
-        "soru": "Sonunda kaç balık tuttular?",
+        "soru": "Suyun kenarında ne yaparak beklediler?",
         "secenekler": [
-          "A) Bir balık",
-          "B) Üç balık",
-          "C) İki balık"
+          "A) Konuşarak",
+          "B) Sessizce oturarak",
+          "C) Koşarak"
         ],
-        "cevap": "C) İki balık"
+        "cevap": "B) Sessizce oturarak"
+      },
+      {
+        "soru": "İlk olta atılınca ne oldu?",
+        "secenekler": [
+          "A) Büyük balık geldi",
+          "B) Olta koptu",
+          "C) Balık gelmedi"
+        ],
+        "cevap": "C) Balık gelmedi"
+      },
+      {
+        "soru": "Dedem çocuğa ne öğretti?",
+        "secenekler": [
+          "A) Yüzmeyi",
+          "B) Oltanın nasıl kullanılacağını",
+          "C) Balık pişirmeyi"
+        ],
+        "cevap": "B) Oltanın nasıl kullanılacağını"
+      },
+      {
+        "soru": "En sonunda ne kadar balık yakaladı?",
+        "secenekler": [
+          "A) Hiç yakalamadı",
+          "B) Küçük bir balık yakaladı",
+          "C) Çok büyük balık yakaladı"
+        ],
+        "cevap": "B) Küçük bir balık yakaladı"
+      },
+      {
+        "soru": "Balık tutmak nasıl bir etkinliktir?",
+        "secenekler": [
+          "A) Heyecanlı ama kolay",
+          "B) Sabır gerektiren ama keyifli",
+          "C) Hem kolay hem sıkıcı"
+        ],
+        "cevap": "B) Sabır gerektiren ama keyifli"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Olta ve ........ aldık, gölün kenarına oturduk.",
+        "cumle": "Suyun kenarında ........ oturarak bekledik.",
         "kelime_havuzu": [
-          "kova",
-          "sepet",
-          "çanta"
+          "sessizce",
+          "neşeyle",
+          "koşarak"
         ],
-        "cevap": "kova"
+        "cevap": "sessizce"
       },
       {
-        "cumle": "Dedem tuttuğumuz balıkları eve götürüp .........",
+        "cumle": "Akşama doğru küçük bir balık ........ ve çok sevindim.",
         "kelime_havuzu": [
-          "pişirdi",
-          "sattı",
-          "bıraktı"
+          "yakaladım",
+          "gördüm",
+          "kaçırdım"
         ],
-        "cevap": "pişirdi"
+        "cevap": "yakaladım"
+      },
+      {
+        "cumle": "Balık tutmak ........ gerektiren ama çok keyifli bir etkinliktir.",
+        "kelime_havuzu": [
+          "sabır",
+          "güç",
+          "para"
+        ],
+        "cevap": "sabır"
       }
     ]
   },
@@ -1409,51 +2579,96 @@
     "metin": "Ağabeyim bu yıl üniversiteyi bitirdi ve mühendis oldu. Küçüklüğümden beri benim için en büyük kahramanım olmuştur. Derslerimde zorlandığımda bana yardım eder. Matematikten anlamıyorsam saate kadar yanımda oturur, anlatır. Benim için kitap okur, güzel şeyler paylaşır. Hafta sonu birlikte top oynarız ve sinema ya da parka gideriz. Ağabeyim hem çalışkan hem de çok iyi kalplidir. Büyüyünce ben de onun gibi olmak istiyorum.",
     "coktan_secmeli": [
       {
-        "soru": "Ağabeyi bu yıl ne oldu?",
+        "soru": "Ağabeyim nerede okuyor?",
         "secenekler": [
-          "A) Öğretmen",
-          "B) Doktor",
-          "C) Mühendis"
+          "A) Lisede",
+          "B) Üniversitede",
+          "C) İlkokulda"
         ],
-        "cevap": "C) Mühendis"
+        "cevap": "B) Üniversitede"
       },
       {
-        "soru": "Ağabeyi matematikte nasıl yardım eder?",
+        "soru": "Ağabeyim aynı zamanda ne görevi yapıyor?",
         "secenekler": [
-          "A) Ödev yapar",
-          "B) Saate kadar yanında oturur anlatır",
-          "C) Öğretmeni arar"
+          "A) Gönüllü doktor",
+          "B) Gönüllü itfaiyeci",
+          "C) Gönüllü öğretmen"
         ],
-        "cevap": "B) Saate kadar yanında oturur anlatır"
+        "cevap": "B) Gönüllü itfaiyeci"
       },
       {
-        "soru": "Hafta sonu birlikte ne yaparlar?",
+        "soru": "Yangında ne oldu?",
         "secenekler": [
-          "A) Top oynarlar",
-          "B) Ders çalışırlar",
-          "C) Uyurlar"
+          "A) Mahallede büyük bir yangın çıktı",
+          "B) Bir evde yangın çıktı",
+          "C) Okul yandı"
         ],
-        "cevap": "A) Top oynarlar"
+        "cevap": "B) Bir evde yangın çıktı"
+      },
+      {
+        "soru": "Ağabeyi yangında kimi kurtardı?",
+        "secenekler": [
+          "A) Küçük bir çocuğu",
+          "B) Bir köpeği",
+          "C) Mahsur kalan yaşlı komşuyu"
+        ],
+        "cevap": "C) Mahsur kalan yaşlı komşuyu"
+      },
+      {
+        "soru": "O gün ağabeyi ne oldu?",
+        "secenekler": [
+          "A) Yaralandı",
+          "B) Mahallenin kahramanı oldu",
+          "C) Ödül aldı"
+        ],
+        "cevap": "B) Mahallenin kahramanı oldu"
+      },
+      {
+        "soru": "Gazeteler ağabeyiyle ilgili ne yaptı?",
+        "secenekler": [
+          "A) Hiçbir şey yapmadı",
+          "B) Haberini yaptı",
+          "C) Röportaj istedi"
+        ],
+        "cevap": "B) Haberini yaptı"
+      },
+      {
+        "soru": "Çocuk ağabeyi için ne hisseder?",
+        "secenekler": [
+          "A) Utanç",
+          "B) Kıskançlık",
+          "C) Gurur"
+        ],
+        "cevap": "C) Gurur"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Ağabeyim hem çalışkan hem de çok iyi ........'dir.",
+        "cumle": "Ağabeyim hemen olay yerine ........ ve içerde mahsur kalan komşuyu kurtardı.",
         "kelime_havuzu": [
-          "kalpli",
-          "sinirli",
-          "tembel"
+          "koştu",
+          "yürüdü",
+          "gitmedi"
         ],
-        "cevap": "kalpli"
+        "cevap": "koştu"
       },
       {
-        "cumle": "Büyüyünce ben de onun gibi ........ istiyorum.",
+        "cumle": "O benim için gerçek bir kahraman ve ........ kaynağıdır.",
         "kelime_havuzu": [
-          "olmak",
-          "gitmek",
-          "bulmak"
+          "ilham",
+          "para",
+          "korku"
         ],
-        "cevap": "olmak"
+        "cevap": "ilham"
+      },
+      {
+        "cumle": "Ağabeyim bu yıl üniversiteyi bitirdi ve ........ oldu.",
+        "kelime_havuzu": [
+          "mühendis",
+          "doktor",
+          "öğretmen"
+        ],
+        "cevap": "mühendis"
       }
     ]
   },
@@ -1463,31 +2678,67 @@
     "metin": "Kış gitti ve ilkbahar geldi. Her yer çiçek açmaya başladı. Ağaçlar yeniden yeşillendi ve kuşlar cıvıldamaya başladı. Bahçemizdeki gül fidanları tomurcuklandı. Hava her geçen gün daha ılık olmaya başladı. Annem bahçe işlerine başladı, çiçek tohumları ekti. Biz de okul bahçesinde uzun teneffüslerde top oynadık. İlkbahar, her şeyin yeniden canlandığı ve umut dolduğu güzel bir mevsimdir.",
     "coktan_secmeli": [
       {
-        "soru": "Hangi mevsim geldi?",
+        "soru": "Kış bitti ve hangi mevsim geldi?",
         "secenekler": [
           "A) Yaz",
-          "B) İlkbahar",
-          "C) Sonbahar"
+          "B) Sonbahar",
+          "C) İlkbahar"
         ],
-        "cevap": "B) İlkbahar"
+        "cevap": "C) İlkbahar"
       },
       {
-        "soru": "Bahçemizdeki gül fidanları ne oldu?",
+        "soru": "Ağaçlar ne yaptı?",
         "secenekler": [
-          "A) Soldu",
-          "B) Tomurcuklandı",
-          "C) Kurudu"
+          "A) Yaprak döktü",
+          "B) Çiçek açtı",
+          "C) Soldu"
         ],
-        "cevap": "B) Tomurcuklandı"
+        "cevap": "B) Çiçek açtı"
       },
       {
-        "soru": "Okul bahçesinde ne yaptılar?",
+        "soru": "Ağaçların çiçekleri hangi renklerdir?",
         "secenekler": [
-          "A) Ders çalıştılar",
-          "B) Uyudular",
-          "C) Top oynadılar"
+          "A) Mavi ve yeşil",
+          "B) Pembe, beyaz ve sarı",
+          "C) Mor ve turuncu"
         ],
-        "cevap": "C) Top oynadılar"
+        "cevap": "B) Pembe, beyaz ve sarı"
+      },
+      {
+        "soru": "İlkbaharda ne uçuşmaya başladı?",
+        "secenekler": [
+          "A) Kar taneleri",
+          "B) Arılar ve kelebekler",
+          "C) Toz ve yapraklar"
+        ],
+        "cevap": "B) Arılar ve kelebekler"
+      },
+      {
+        "soru": "Kuşlar gelince ne oldu?",
+        "secenekler": [
+          "A) Her şey sessizleşti",
+          "B) Şarkıları bahçelere doldu",
+          "C) Ağaçlara kondular"
+        ],
+        "cevap": "B) Şarkıları bahçelere doldu"
+      },
+      {
+        "soru": "Annem balkonda ne yaptı?",
+        "secenekler": [
+          "A) Çiçekleri suladı",
+          "B) Saksıları çıkarıp yeni fideler dikti",
+          "C) Boya yaptı"
+        ],
+        "cevap": "B) Saksıları çıkarıp yeni fideler dikti"
+      },
+      {
+        "soru": "Çocuk bahçeye çıkınca ne üzerinde koştu?",
+        "secenekler": [
+          "A) Taşların",
+          "B) Çimenlerin",
+          "C) Kaldırımın"
+        ],
+        "cevap": "B) Çimenlerin"
       }
     ],
     "bosluk_doldurma": [
@@ -1495,8 +2746,8 @@
         "cumle": "Ağaçlar yeniden ........ ve kuşlar cıvıldamaya başladı.",
         "kelime_havuzu": [
           "yeşillendi",
-          "kurudu",
-          "büyüdü"
+          "çiçek açtı",
+          "canlandı"
         ],
         "cevap": "yeşillendi"
       },
@@ -1504,10 +2755,19 @@
         "cumle": "İlkbahar, her şeyin yeniden ........ güzel bir mevsimdir.",
         "kelime_havuzu": [
           "canlandığı",
-          "donduğu",
-          "battığı"
+          "solduğu",
+          "uyuduğu"
         ],
         "cevap": "canlandığı"
+      },
+      {
+        "cumle": "Arılar ve ........ uçuşmaya başladı.",
+        "kelime_havuzu": [
+          "kelebekler",
+          "kuşlar",
+          "sinekler"
+        ],
+        "cevap": "kelebekler"
       }
     ]
   },
@@ -1517,31 +2777,67 @@
     "metin": "Annem bana yemek yapmayı öğretmek istiyor. Geçen pazar birlikte mercimek çorbası yaptık. Önce soğanı doğradık, tereyağında kavurduk. Sonra mercimeği ve suyu ekledik, ocakta pişirdik. Annem bana baharatları nasıl kullanacağımı gösterdi. Çorba piştikten sonra blenderden geçirdik. Sofrayı birlikte kurduk ve çorbayı içtik. Kendi yaptığım yemek bana çok daha lezzetli geldi.",
     "coktan_secmeli": [
       {
-        "soru": "Ne zaman yemek yaptılar?",
+        "soru": "Anne çocuğa ne öğretiyor?",
         "secenekler": [
-          "A) Salı günü",
-          "B) Cuma akşamı",
-          "C) Geçen pazar"
+          "A) Resim yapmayı",
+          "B) Yemek yapmayı",
+          "C) Dikiş dikmeyi"
         ],
-        "cevap": "C) Geçen pazar"
+        "cevap": "B) Yemek yapmayı"
       },
       {
-        "soru": "Hangi yemeği yaptılar?",
+        "soru": "Geçen hafta birlikte ne yaptılar?",
         "secenekler": [
-          "A) Tavuk çorbası",
+          "A) Pilav",
           "B) Mercimek çorbası",
-          "C) Domates çorbası"
+          "C) Menemen"
         ],
         "cevap": "B) Mercimek çorbası"
       },
       {
-        "soru": "Çorba piştikten sonra ne yapıldı?",
+        "soru": "Önce ne yapıldı?",
         "secenekler": [
-          "A) Buzdolabına kondu",
-          "B) Blenderden geçirildi",
-          "C) Atıldı"
+          "A) Mercimekler kaynatıldı",
+          "B) Soğan doğranıp kavuruldu",
+          "C) Su kaynatıldı"
         ],
-        "cevap": "B) Blenderden geçirildi"
+        "cevap": "B) Soğan doğranıp kavuruldu"
+      },
+      {
+        "soru": "Pişen çorba neden geçirildi?",
+        "secenekler": [
+          "A) Soğutmak için",
+          "B) Pürüzsüz olması için blenderdan",
+          "C) Süzmek için"
+        ],
+        "cevap": "B) Pürüzsüz olması için blenderdan"
+      },
+      {
+        "soru": "Baba çorbayı nasıl buldu?",
+        "secenekler": [
+          "A) Beğenmedi",
+          "B) İdare eder dedi",
+          "C) Çok beğendi"
+        ],
+        "cevap": "C) Çok beğendi"
+      },
+      {
+        "soru": "Kendi elleriyle yemek yapmak nasıl bir duygu?",
+        "secenekler": [
+          "A) Çok güzel bir duygu",
+          "B) Yorucu ve zor",
+          "C) Gereksiz bir uğraş"
+        ],
+        "cevap": "A) Çok güzel bir duygu"
+      },
+      {
+        "soru": "Yemek yapmak nedir?",
+        "secenekler": [
+          "A) Kolay bir hobi",
+          "B) Hem eğlenceli hem hayat becerisi",
+          "C) Sadece büyüklere özgü"
+        ],
+        "cevap": "B) Hem eğlenceli hem hayat becerisi"
       }
     ],
     "bosluk_doldurma": [
@@ -1549,8 +2845,8 @@
         "cumle": "Önce soğanı doğradık, tereyağında .........",
         "kelime_havuzu": [
           "kavurduk",
-          "yedik",
-          "attık"
+          "pişirdik",
+          "kızdık"
         ],
         "cevap": "kavurduk"
       },
@@ -1558,10 +2854,19 @@
         "cumle": "Kendi yaptığım yemek bana çok daha ........ geldi.",
         "kelime_havuzu": [
           "lezzetli",
-          "tatsız",
-          "acı"
+          "acı",
+          "tuzlu"
         ],
         "cevap": "lezzetli"
+      },
+      {
+        "cumle": "Çorba piştikten sonra üstüne ........ gezdirdik.",
+        "kelime_havuzu": [
+          "tereyağı",
+          "süt",
+          "zeytinyağı"
+        ],
+        "cevap": "tereyağı"
       }
     ]
   },
@@ -1571,51 +2876,96 @@
     "metin": "Gerçek bir arkadaş çok değerlidir. Benim en iyi arkadaşım Can'dır. Sevinçlerimi de üzüntülerimi de onunla paylaşırım. Sınıfta yanyana otururuz ve birbirimize yardım ederiz. Bir gün düşüp dizimi sıyırınca Can koşup geldi ve yardım etti. Teneffüslerde hep birlikte oynayız, bazen kitap da okuruz. İyi bir arkadaş asla yalan söylemez ve her zaman yanında olur. Can benim için en iyi arkadaş olduğu için çok şanslıyım.",
     "coktan_secmeli": [
       {
-        "soru": "Çocuğun en iyi arkadaşının adı nedir?",
+        "soru": "Sınıfa yeni gelen öğrencinin adı nedir?",
         "secenekler": [
-          "A) Ali",
-          "B) Can",
-          "C) Emre"
+          "A) Zeynep",
+          "B) Ayşe",
+          "C) Selin"
         ],
-        "cevap": "B) Can"
+        "cevap": "C) Selin"
       },
       {
-        "soru": "Çocuk düşünce Can ne yaptı?",
+        "soru": "Selin ilk gün nasıl görünüyordu?",
         "secenekler": [
-          "A) Güldü",
-          "B) Kaçtı",
-          "C) Koşup geldi ve yardım etti"
+          "A) Mutlu ve enerjik",
+          "B) Üzgün ve kimseyle konuşamıyordu",
+          "C) Heyecanlı ve neşeli"
         ],
-        "cevap": "C) Koşup geldi ve yardım etti"
+        "cevap": "B) Üzgün ve kimseyle konuşamıyordu"
       },
       {
-        "soru": "İyi bir arkadaş nasıl olur?",
+        "soru": "Çocuk yeni öğrenciye ne yaptı?",
         "secenekler": [
-          "A) Yalan söyler",
-          "B) Her zaman yanında olur",
-          "C) Yardım etmez"
+          "A) Görmezden geldi",
+          "B) Yanına gidip kendini tanıttı",
+          "C) Öğretmene söyledi"
         ],
-        "cevap": "B) Her zaman yanında olur"
+        "cevap": "B) Yanına gidip kendini tanıttı"
+      },
+      {
+        "soru": "Teneffüste ne yaptılar?",
+        "secenekler": [
+          "A) Koştular",
+          "B) Birlikte dondurma yediler",
+          "C) Oturup konuştular"
+        ],
+        "cevap": "C) Oturup konuştular"
+      },
+      {
+        "soru": "Selin nasıl bir çocuktu?",
+        "secenekler": [
+          "A) Tembel ve sıradan",
+          "B) Zeki ve yaratıcı",
+          "C) Kıskanç ve sinirli"
+        ],
+        "cevap": "B) Zeki ve yaratıcı"
+      },
+      {
+        "soru": "Selin'e yardım etmek ikisini de ne yaptı?",
+        "secenekler": [
+          "A) Üzdü",
+          "B) Yordu",
+          "C) Mutlu etti"
+        ],
+        "cevap": "C) Mutlu etti"
+      },
+      {
+        "soru": "Yabancı bir insana el uzatmak onu ne yapar?",
+        "secenekler": [
+          "A) Düşman",
+          "B) Tanıdık",
+          "C) Arkadaş"
+        ],
+        "cevap": "C) Arkadaş"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Sevinçlerimi de ........ de onunla paylaşırım.",
+        "cumle": "Ben yanına gittim ve kendimi .........",
         "kelime_havuzu": [
-          "üzüntülerimi",
-          "oyuncaklarımı",
-          "kitaplarımı"
+          "tanıttım",
+          "gösterdim",
+          "çağırdım"
         ],
-        "cevap": "üzüntülerimi"
+        "cevap": "tanıttım"
       },
       {
-        "cumle": "İyi bir arkadaş asla ........ söylemez.",
+        "cumle": "Ona ........ etmek hem onu hem de beni mutlu etti.",
         "kelime_havuzu": [
-          "yalan",
-          "söz",
-          "şiir"
+          "yardım",
+          "itiraz",
+          "engel"
         ],
-        "cevap": "yalan"
+        "cevap": "yardım"
+      },
+      {
+        "cumle": "Yabancı bir insana el uzatmak, onu ........ yapar.",
+        "kelime_havuzu": [
+          "arkadaş",
+          "düşman",
+          "tanıdık"
+        ],
+        "cevap": "arkadaş"
       }
     ]
   },
@@ -1650,6 +3000,42 @@
           "C) Mutfakta"
         ],
         "cevap": "B) Bahçede"
+      },
+      {
+        "soru": "Top ne renktir?",
+        "secenekler": [
+          "A) Kırmızı",
+          "B) Mavi",
+          "C) Sarı"
+        ],
+        "cevap": "A) Kırmızı"
+      },
+      {
+        "soru": "Top nasıldır?",
+        "secenekler": [
+          "A) Kare",
+          "B) Yuvarlak",
+          "C) Uzun"
+        ],
+        "cevap": "B) Yuvarlak"
+      },
+      {
+        "soru": "Topu nerede atar?",
+        "secenekler": [
+          "A) Evde",
+          "B) Sokakta",
+          "C) Bahçede"
+        ],
+        "cevap": "C) Bahçede"
+      },
+      {
+        "soru": "Çocuğun topuyla kim oynar?",
+        "secenekler": [
+          "A) Babası",
+          "B) Annesi",
+          "C) Kardeşi"
+        ],
+        "cevap": "B) Annesi"
       }
     ],
     "bosluk_doldurma": [
@@ -1670,6 +3056,15 @@
           "gider"
         ],
         "cevap": "oynar"
+      },
+      {
+        "cumle": "Topu ........ atarım.",
+        "kelime_havuzu": [
+          "bahçede",
+          "çöpe",
+          "havaya"
+        ],
+        "cevap": "bahçede"
       }
     ]
   },
@@ -1704,6 +3099,42 @@
           "C) Ekmek"
         ],
         "cevap": "B) Mama"
+      },
+      {
+        "soru": "Köpeğin adı nedir?",
+        "secenekler": [
+          "A) Karabaş",
+          "B) Duman",
+          "C) Pamuk"
+        ],
+        "cevap": "B) Duman"
+      },
+      {
+        "soru": "Duman nasıl bir köpektir?",
+        "secenekler": [
+          "A) Büyük ve siyah",
+          "B) Küçük ve tüylüdür",
+          "C) Yaşlı ve kızgın"
+        ],
+        "cevap": "B) Küçük ve tüylüdür"
+      },
+      {
+        "soru": "Duman çocukla ne zaman oynar?",
+        "secenekler": [
+          "A) Her gün",
+          "B) Hafta sonu",
+          "C) Akşamları"
+        ],
+        "cevap": "A) Her gün"
+      },
+      {
+        "soru": "Çocuğun Dumana verdiği şey nedir?",
+        "secenekler": [
+          "A) Kemik",
+          "B) Süt",
+          "C) Mama"
+        ],
+        "cevap": "C) Mama"
       }
     ],
     "bosluk_doldurma": [
@@ -1724,6 +3155,15 @@
           "bilirim"
         ],
         "cevap": "severim"
+      },
+      {
+        "cumle": "Duman ........ ve tüylüdür.",
+        "kelime_havuzu": [
+          "küçük",
+          "büyük",
+          "siyah"
+        ],
+        "cevap": "küçük"
       }
     ]
   },
@@ -1758,6 +3198,42 @@
           "C) Tatlı"
         ],
         "cevap": "C) Tatlı"
+      },
+      {
+        "soru": "Elma nasıldır?",
+        "secenekler": [
+          "A) Acıdır",
+          "B) Ekşidir",
+          "C) Tatlıdır"
+        ],
+        "cevap": "C) Tatlıdır"
+      },
+      {
+        "soru": "Çocuk ne sıklıkla elma yer?",
+        "secenekler": [
+          "A) Haftada bir",
+          "B) Ayda bir",
+          "C) Her gün"
+        ],
+        "cevap": "C) Her gün"
+      },
+      {
+        "soru": "Elmayı yemeden önce kim yıkar?",
+        "secenekler": [
+          "A) Annesi",
+          "B) Babası",
+          "C) Kendisi"
+        ],
+        "cevap": "A) Annesi"
+      },
+      {
+        "soru": "Elma yemek nasıldır?",
+        "secenekler": [
+          "A) Zararlıdır",
+          "B) Sağlıklıdır",
+          "C) Kötüdür"
+        ],
+        "cevap": "B) Sağlıklıdır"
       }
     ],
     "bosluk_doldurma": [
@@ -1778,6 +3254,15 @@
           "tatsız"
         ],
         "cevap": "sağlıklı"
+      },
+      {
+        "cumle": "Her gün bir ........ yerim.",
+        "kelime_havuzu": [
+          "elma",
+          "armut",
+          "muz"
+        ],
+        "cevap": "elma"
       }
     ]
   },
@@ -1812,6 +3297,42 @@
           "C) Hayvan"
         ],
         "cevap": "B) Arkadaşlar"
+      },
+      {
+        "soru": "Okulun adı nedir?",
+        "secenekler": [
+          "A) Atatürk İlkokulu",
+          "B) Cumhuriyet İlkokulu",
+          "C) Fatih İlkokulu"
+        ],
+        "cevap": "A) Atatürk İlkokulu"
+      },
+      {
+        "soru": "Okulda neler vardır?",
+        "secenekler": [
+          "A) Odalar",
+          "B) Sınıflar",
+          "C) Evler"
+        ],
+        "cevap": "B) Sınıflar"
+      },
+      {
+        "soru": "Öğretmeni nasıldır?",
+        "secenekler": [
+          "A) Çok iyidir",
+          "B) Çok komiktir",
+          "C) Çok kısadır"
+        ],
+        "cevap": "A) Çok iyidir"
+      },
+      {
+        "soru": "Çocuk okulda kimi sever?",
+        "secenekler": [
+          "A) Sadece arkadaşlarını",
+          "B) Öğretmenini",
+          "C) Yemeği"
+        ],
+        "cevap": "B) Öğretmenini"
       }
     ],
     "bosluk_doldurma": [
@@ -1832,6 +3353,15 @@
           "hayvanlar"
         ],
         "cevap": "sınıflar"
+      },
+      {
+        "cumle": "Okulda ........ var.",
+        "kelime_havuzu": [
+          "arkadaşlarım",
+          "kedilerim",
+          "köpeklerim"
+        ],
+        "cevap": "arkadaşlarım"
       }
     ]
   },
@@ -1866,6 +3396,42 @@
           "C) Okula"
         ],
         "cevap": "C) Okula"
+      },
+      {
+        "soru": "Sabah nasıl kalktı?",
+        "secenekler": [
+          "A) Geç kalktım",
+          "B) Erken kalktım",
+          "C) Yavaş kalktım"
+        ],
+        "cevap": "B) Erken kalktım"
+      },
+      {
+        "soru": "Yüzünü yıkadıktan sonra ne yaptı?",
+        "secenekler": [
+          "A) Yemek yedi",
+          "B) Dişlerini fırçaladı",
+          "C) Uyudu"
+        ],
+        "cevap": "B) Dişlerini fırçaladı"
+      },
+      {
+        "soru": "Neyi giydi?",
+        "secenekler": [
+          "A) Pijamalarını",
+          "B) Kıyafetlerini",
+          "C) Ayakkabılarını"
+        ],
+        "cevap": "B) Kıyafetlerini"
+      },
+      {
+        "soru": "Kahvaltıdan sonra nereye gitti?",
+        "secenekler": [
+          "A) Okula",
+          "B) Pazara",
+          "C) Parka"
+        ],
+        "cevap": "A) Okula"
       }
     ],
     "bosluk_doldurma": [
@@ -1886,6 +3452,15 @@
           "aldım"
         ],
         "cevap": "yedim"
+      },
+      {
+        "cumle": "Yüzümü ........ .",
+        "kelime_havuzu": [
+          "yıkadım",
+          "sildim",
+          "kuruladım"
+        ],
+        "cevap": "yıkadım"
       }
     ]
   },
@@ -1920,6 +3495,42 @@
           "C) Çok iyi"
         ],
         "cevap": "C) Çok iyi"
+      },
+      {
+        "soru": "Annesi nasıl biridir?",
+        "secenekler": [
+          "A) Çok komiktir",
+          "B) Çok iyidir",
+          "C) Çok sinirlidir"
+        ],
+        "cevap": "B) Çok iyidir"
+      },
+      {
+        "soru": "Annesi ona ne yapar?",
+        "secenekler": [
+          "A) Yemek yapar",
+          "B) Resim yapar",
+          "C) Oyun yapar"
+        ],
+        "cevap": "A) Yemek yapar"
+      },
+      {
+        "soru": "Annesi ona ne anlatır?",
+        "secenekler": [
+          "A) Masal",
+          "B) Hikâye",
+          "C) Şiir"
+        ],
+        "cevap": "B) Hikâye"
+      },
+      {
+        "soru": "Annesi Onu nereye bırakır?",
+        "secenekler": [
+          "A) Parka",
+          "B) Okula",
+          "C) Manava"
+        ],
+        "cevap": "B) Okula"
       }
     ],
     "bosluk_doldurma": [
@@ -1940,6 +3551,15 @@
           "çağırırım"
         ],
         "cevap": "severim"
+      },
+      {
+        "cumle": "Annem en güzel ........ .",
+        "kelime_havuzu": [
+          "insandır",
+          "öğretmendir",
+          "kadındır"
+        ],
+        "cevap": "insandır"
       }
     ]
   },
@@ -1974,6 +3594,42 @@
           "C) Okulda"
         ],
         "cevap": "B) Bahçede"
+      },
+      {
+        "soru": "Bugün hava nasıldır?",
+        "secenekler": [
+          "A) Yağmurlu",
+          "B) Soğuk",
+          "C) Güzel"
+        ],
+        "cevap": "C) Güzel"
+      },
+      {
+        "soru": "Çıkan şey nedir?",
+        "secenekler": [
+          "A) Ay",
+          "B) Yıldız",
+          "C) Güneş"
+        ],
+        "cevap": "C) Güneş"
+      },
+      {
+        "soru": "Gökyüzü ne renktir?",
+        "secenekler": [
+          "A) Mavi",
+          "B) Gri",
+          "C) Beyaz"
+        ],
+        "cevap": "A) Mavi"
+      },
+      {
+        "soru": "Dışarısı nasıldır?",
+        "secenekler": [
+          "A) Sıcaktır",
+          "B) Soğuktur",
+          "C) Karanlıktır"
+        ],
+        "cevap": "A) Sıcaktır"
       }
     ],
     "bosluk_doldurma": [
@@ -1994,6 +3650,15 @@
           "korktum"
         ],
         "cevap": "eğlendim"
+      },
+      {
+        "cumle": "Ben ........ çıktım.",
+        "kelime_havuzu": [
+          "dışarı",
+          "içeri",
+          "yukarı"
+        ],
+        "cevap": "dışarı"
       }
     ]
   },
@@ -2028,6 +3693,42 @@
           "C) Yemek yenir"
         ],
         "cevap": "B) Müzik dinlenir"
+      },
+      {
+        "soru": "Kimin arabası var?",
+        "secenekler": [
+          "A) Annemin",
+          "B) Dedemin",
+          "C) Babamın"
+        ],
+        "cevap": "C) Babamın"
+      },
+      {
+        "soru": "Araba nasıldır?",
+        "secenekler": [
+          "A) Küçüktür",
+          "B) Büyüktür",
+          "C) Eskidir"
+        ],
+        "cevap": "B) Büyüktür"
+      },
+      {
+        "soru": "Babası arabayla nereye gider?",
+        "secenekler": [
+          "A) Tatile",
+          "B) Pazara",
+          "C) İşe"
+        ],
+        "cevap": "C) İşe"
+      },
+      {
+        "soru": "Arabada ne dinlerler?",
+        "secenekler": [
+          "A) Haber",
+          "B) Müzik",
+          "C) Masal"
+        ],
+        "cevap": "B) Müzik"
       }
     ],
     "bosluk_doldurma": [
@@ -2048,6 +3749,15 @@
           "parka"
         ],
         "cevap": "işe"
+      },
+      {
+        "cumle": "Ben de ........ arabayla giderim.",
+        "kelime_havuzu": [
+          "bazen",
+          "her gün",
+          "hiç"
+        ],
+        "cevap": "bazen"
       }
     ]
   },
@@ -2082,6 +3792,42 @@
           "C) Ekmek"
         ],
         "cevap": "B) Yem"
+      },
+      {
+        "soru": "Evlerinde ne var?",
+        "secenekler": [
+          "A) Akvaryum",
+          "B) Kafes",
+          "C) Sepet"
+        ],
+        "cevap": "A) Akvaryum"
+      },
+      {
+        "soru": "Balıklar nasıldır?",
+        "secenekler": [
+          "A) Renklidir",
+          "B) Siyah beyazdır",
+          "C) Görünmezdir"
+        ],
+        "cevap": "A) Renklidir"
+      },
+      {
+        "soru": "Balıklara her gün ne verilir?",
+        "secenekler": [
+          "A) Su",
+          "B) Yem",
+          "C) Ekmek"
+        ],
+        "cevap": "B) Yem"
+      },
+      {
+        "soru": "Balıkları ne yapmak güzeldir?",
+        "secenekler": [
+          "A) Yemek",
+          "B) İzlemek",
+          "C) Yakalamak"
+        ],
+        "cevap": "B) İzlemek"
       }
     ],
     "bosluk_doldurma": [
@@ -2102,6 +3848,15 @@
           "az"
         ],
         "cevap": "çok"
+      },
+      {
+        "cumle": "Balıklar suda ........ .",
+        "kelime_havuzu": [
+          "yüzer",
+          "uçar",
+          "koşar"
+        ],
+        "cevap": "yüzer"
       }
     ]
   },
@@ -2136,6 +3891,42 @@
           "C) Yanımda"
         ],
         "cevap": "C) Yanımda"
+      },
+      {
+        "soru": "Çocuğun oyuncağı nedir?",
+        "secenekler": [
+          "A) Araba",
+          "B) Bebek",
+          "C) Ayı"
+        ],
+        "cevap": "C) Ayı"
+      },
+      {
+        "soru": "Ayı nasıldır?",
+        "secenekler": [
+          "A) Serttir",
+          "B) Yumuşaktır",
+          "C) Soğuktur"
+        ],
+        "cevap": "B) Yumuşaktır"
+      },
+      {
+        "soru": "Ayı ne zaman çocuğun yanında uyur?",
+        "secenekler": [
+          "A) Her sabah",
+          "B) Öğlen",
+          "C) Her gece"
+        ],
+        "cevap": "C) Her gece"
+      },
+      {
+        "soru": "Oyuncağın adı nedir?",
+        "secenekler": [
+          "A) Minnoş",
+          "B) Pamuk",
+          "C) Tarçın"
+        ],
+        "cevap": "A) Minnoş"
       }
     ],
     "bosluk_doldurma": [
@@ -2156,6 +3947,15 @@
           "komşum"
         ],
         "cevap": "arkadaşım"
+      },
+      {
+        "cumle": "Minnoş en iyi ........ .",
+        "kelime_havuzu": [
+          "arkadaşımdır",
+          "oyuncağımdır",
+          "kardeşimdir"
+        ],
+        "cevap": "arkadaşımdır"
       }
     ]
   },
@@ -2190,6 +3990,42 @@
           "C) Çalışılır"
         ],
         "cevap": "B) Oynanır"
+      },
+      {
+        "soru": "Kardeşin adı nedir?",
+        "secenekler": [
+          "A) Ayşe",
+          "B) Elif",
+          "C) Zeynep"
+        ],
+        "cevap": "B) Elif"
+      },
+      {
+        "soru": "Elif nasıl biridir?",
+        "secenekler": [
+          "A) Güler yüzlüdür",
+          "B) Ağlak yüzlüdür",
+          "C) Sinirlidir"
+        ],
+        "cevap": "A) Güler yüzlüdür"
+      },
+      {
+        "soru": "İki kardeş birlikte ne yaparlar?",
+        "secenekler": [
+          "A) Uyurlar",
+          "B) Yemek yaparlar",
+          "C) Oynarlar"
+        ],
+        "cevap": "C) Oynarlar"
+      },
+      {
+        "soru": "Kavga etseler de birbirlerini ne kadar severler?",
+        "secenekler": [
+          "A) Az severler",
+          "B) Çok severler",
+          "C) Hiç sevmezler"
+        ],
+        "cevap": "B) Çok severler"
       }
     ],
     "bosluk_doldurma": [
@@ -2210,6 +4046,15 @@
           "biliriz"
         ],
         "cevap": "severiz"
+      },
+      {
+        "cumle": "Ama birbirimizi ........ severiz.",
+        "kelime_havuzu": [
+          "çok",
+          "az",
+          "hiç"
+        ],
+        "cevap": "çok"
       }
     ]
   },
@@ -2244,6 +4089,42 @@
           "C) Komşudan"
         ],
         "cevap": "B) Marketten"
+      },
+      {
+        "soru": "Muz ne renktir?",
+        "secenekler": [
+          "A) Kırmızı",
+          "B) Sarı",
+          "C) Yeşil"
+        ],
+        "cevap": "B) Sarı"
+      },
+      {
+        "soru": "Muz nasıldır?",
+        "secenekler": [
+          "A) Tatlıdır",
+          "B) Ekşidir",
+          "C) Acıdır"
+        ],
+        "cevap": "A) Tatlıdır"
+      },
+      {
+        "soru": "Annesi muzu nereden alır?",
+        "secenekler": [
+          "A) Pazardan",
+          "B) Manavdan",
+          "C) Marketten"
+        ],
+        "cevap": "C) Marketten"
+      },
+      {
+        "soru": "Muz çocuğu nasıl yapar?",
+        "secenekler": [
+          "A) Zayıf",
+          "B) Güçlü",
+          "C) Şişman"
+        ],
+        "cevap": "B) Güçlü"
       }
     ],
     "bosluk_doldurma": [
@@ -2262,6 +4143,15 @@
           "güçlü",
           "hasta",
           "yorgun"
+        ],
+        "cevap": "güçlü"
+      },
+      {
+        "cumle": "Muz beni ........ yapar.",
+        "kelime_havuzu": [
+          "güçlü",
+          "yorgun",
+          "zayıf"
         ],
         "cevap": "güçlü"
       }
@@ -2298,6 +4188,42 @@
           "C) Islanmadı"
         ],
         "cevap": "C) Islanmadı"
+      },
+      {
+        "soru": "Bugün hava nasıldır?",
+        "secenekler": [
+          "A) Güneşli",
+          "B) Karlı",
+          "C) Yağmurlu"
+        ],
+        "cevap": "C) Yağmurlu"
+      },
+      {
+        "soru": "Gökyüzü ne renkti?",
+        "secenekler": [
+          "A) Mavi",
+          "B) Gri",
+          "C) Beyaz"
+        ],
+        "cevap": "B) Gri"
+      },
+      {
+        "soru": "Çocuk dışarı çıkarken ne giydi?",
+        "secenekler": [
+          "A) Kazak",
+          "B) Mont",
+          "C) Yağmurluk"
+        ],
+        "cevap": "C) Yağmurluk"
+      },
+      {
+        "soru": "Okula gidince ayaklarına ne oldu?",
+        "secenekler": [
+          "A) Islandı",
+          "B) Çamur oldu",
+          "C) Islanmadı"
+        ],
+        "cevap": "C) Islanmadı"
       }
     ],
     "bosluk_doldurma": [
@@ -2318,6 +4244,15 @@
           "sarı"
         ],
         "cevap": "gri"
+      },
+      {
+        "cumle": "Bugün ........ yağıyor.",
+        "kelime_havuzu": [
+          "kar",
+          "yağmur",
+          "dolu"
+        ],
+        "cevap": "yağmur"
       }
     ]
   },
@@ -2352,6 +4287,42 @@
           "C) Orta"
         ],
         "cevap": "B) İyiydi"
+      },
+      {
+        "soru": "Bugün ne günüdür?",
+        "secenekler": [
+          "A) Bayram günü",
+          "B) Doğum günü",
+          "C) Karne günü"
+        ],
+        "cevap": "C) Karne günü"
+      },
+      {
+        "soru": "Karneyi kim verdi?",
+        "secenekler": [
+          "A) Müdür",
+          "B) Öğretmen",
+          "C) Annem"
+        ],
+        "cevap": "B) Öğretmen"
+      },
+      {
+        "soru": "Çocuğun notları nasıldı?",
+        "secenekler": [
+          "A) Kötüydü",
+          "B) İyiydi",
+          "C) Orta"
+        ],
+        "cevap": "B) İyiydi"
+      },
+      {
+        "soru": "Annesi karnesini görünce nasıl oldu?",
+        "secenekler": [
+          "A) Kızdı",
+          "B) Üzüldü",
+          "C) Çok mutlu oldu"
+        ],
+        "cevap": "C) Çok mutlu oldu"
       }
     ],
     "bosluk_doldurma": [
@@ -2372,6 +4343,15 @@
           "üzgün"
         ],
         "cevap": "mutlu"
+      },
+      {
+        "cumle": "Öğretmenim ........ verdi.",
+        "kelime_havuzu": [
+          "karnemi",
+          "kitabımı",
+          "silgimi"
+        ],
+        "cevap": "karnemi"
       }
     ]
   },
@@ -2406,6 +4386,42 @@
           "C) Et"
         ],
         "cevap": "B) Yumurta"
+      },
+      {
+        "soru": "Tavuklar kimin evindedir?",
+        "secenekler": [
+          "A) Çocuğun evinde",
+          "B) Dayısının evinde",
+          "C) Büyükannemin evinde"
+        ],
+        "cevap": "C) Büyükannemin evinde"
+      },
+      {
+        "soru": "Tavukların rengi nedir?",
+        "secenekler": [
+          "A) Beyaz",
+          "B) Siyah",
+          "C) Kahverengi"
+        ],
+        "cevap": "A) Beyaz"
+      },
+      {
+        "soru": "Biz ne yeriz?",
+        "secenekler": [
+          "A) Peyniri",
+          "B) Tavuğu",
+          "C) Yumurtaları"
+        ],
+        "cevap": "C) Yumurtaları"
+      },
+      {
+        "soru": "Tavuklar nasıl hayvanlardır?",
+        "secenekler": [
+          "A) Gürültülü",
+          "B) Sessiz",
+          "C) Yavaş"
+        ],
+        "cevap": "A) Gürültülü"
       }
     ],
     "bosluk_doldurma": [
@@ -2426,6 +4442,15 @@
           "saklarız"
         ],
         "cevap": "yeriz"
+      },
+      {
+        "cumle": "Tavuklar ........ hayvanlardır.",
+        "kelime_havuzu": [
+          "güzel",
+          "çirkin",
+          "vahşi"
+        ],
+        "cevap": "güzel"
       }
     ]
   },
@@ -2460,6 +4485,42 @@
           "C) Kalemler"
         ],
         "cevap": "C) Kalemler"
+      },
+      {
+        "soru": "Kalem kutusu ne renktir?",
+        "secenekler": [
+          "A) Sarı",
+          "B) Kırmızı",
+          "C) Mavi"
+        ],
+        "cevap": "C) Mavi"
+      },
+      {
+        "soru": "Kalem kutusunun içinde ne vardır?",
+        "secenekler": [
+          "A) Silgiler",
+          "B) Kalemler",
+          "C) Cetveller"
+        ],
+        "cevap": "B) Kalemler"
+      },
+      {
+        "soru": "Çocuğun hangi renk kalemleri vardır?",
+        "secenekler": [
+          "A) Kırmızı, sarı ve yeşil",
+          "B) Mor, pembe ve beyaz",
+          "C) Siyah, gri ve lacivert"
+        ],
+        "cevap": "A) Kırmızı, sarı ve yeşil"
+      },
+      {
+        "soru": "Kalemlerle ne yapar?",
+        "secenekler": [
+          "A) Yazı yazar",
+          "B) Ödev yapar",
+          "C) Resim çizer"
+        ],
+        "cevap": "C) Resim çizer"
       }
     ],
     "bosluk_doldurma": [
@@ -2480,6 +4541,15 @@
           "unuturum"
         ],
         "cevap": "severim"
+      },
+      {
+        "cumle": "Kalemlerimi ........ gün kullanırım.",
+        "kelime_havuzu": [
+          "her",
+          "ara sıra",
+          "bazı"
+        ],
+        "cevap": "her"
       }
     ]
   },
@@ -2514,6 +4584,42 @@
           "C) Çok iyi"
         ],
         "cevap": "C) Çok iyi"
+      },
+      {
+        "soru": "Babası nereye gider?",
+        "secenekler": [
+          "A) İşe",
+          "B) Tatile",
+          "C) Parka"
+        ],
+        "cevap": "A) İşe"
+      },
+      {
+        "soru": "Babası ne zaman eve gelir?",
+        "secenekler": [
+          "A) Sabah",
+          "B) Öğlen",
+          "C) Akşam"
+        ],
+        "cevap": "C) Akşam"
+      },
+      {
+        "soru": "Babası eve gelince ne okur?",
+        "secenekler": [
+          "A) Gazete",
+          "B) Hikâye",
+          "C) Dergi"
+        ],
+        "cevap": "B) Hikâye"
+      },
+      {
+        "soru": "Çocuğun babası nasıldır?",
+        "secenekler": [
+          "A) En iyi babadır",
+          "B) En sinirli babadır",
+          "C) En yorgun babadır"
+        ],
+        "cevap": "A) En iyi babadır"
       }
     ],
     "bosluk_doldurma": [
@@ -2534,6 +4640,15 @@
           "çağırırım"
         ],
         "cevap": "severim"
+      },
+      {
+        "cumle": "Babam her gün ........ gider.",
+        "kelime_havuzu": [
+          "işe",
+          "okula",
+          "markete"
+        ],
+        "cevap": "işe"
       }
     ]
   },
@@ -2568,6 +4683,42 @@
           "C) Vanilyalı"
         ],
         "cevap": "B) Çikolatalı"
+      },
+      {
+        "soru": "Bugün çocuğun neyidir?",
+        "secenekler": [
+          "A) Bayramı",
+          "B) Doğum günüdür",
+          "C) Okulun ilk günüdür"
+        ],
+        "cevap": "B) Doğum günüdür"
+      },
+      {
+        "soru": "Pastayı kim yaptı?",
+        "secenekler": [
+          "A) Pastane",
+          "B) Annem",
+          "C) Teyzem"
+        ],
+        "cevap": "B) Annem"
+      },
+      {
+        "soru": "Pasta neylidir?",
+        "secenekler": [
+          "A) Çileklidir",
+          "B) Muzludur",
+          "C) Çikolatalıdır"
+        ],
+        "cevap": "C) Çikolatalıdır"
+      },
+      {
+        "soru": "Çocuk mumları üfleyince ne oldu?",
+        "secenekler": [
+          "A) Ateş yandı",
+          "B) Dileklerim oldu",
+          "C) Oyun oynadılar"
+        ],
+        "cevap": "B) Dileklerim oldu"
       }
     ],
     "bosluk_doldurma": [
@@ -2588,6 +4739,15 @@
           "baktık"
         ],
         "cevap": "yedik"
+      },
+      {
+        "cumle": "Pastayı ........ birlikte yedik.",
+        "kelime_havuzu": [
+          "hep",
+          "bazen",
+          "hiç"
+        ],
+        "cevap": "hep"
       }
     ]
   },
@@ -2622,6 +4782,42 @@
           "C) Örttü ve iyi geceler dedi"
         ],
         "cevap": "C) Örttü ve iyi geceler dedi"
+      },
+      {
+        "soru": "Hangi vakit geldi?",
+        "secenekler": [
+          "A) Öğle vakti",
+          "B) Kahvaltı vakti",
+          "C) Uyku vakti"
+        ],
+        "cevap": "C) Uyku vakti"
+      },
+      {
+        "soru": "Nelerini fırçaladı?",
+        "secenekler": [
+          "A) Saçlarını",
+          "B) Dişlerini",
+          "C) Ayakkabılarını"
+        ],
+        "cevap": "B) Dişlerini"
+      },
+      {
+        "soru": "Ne giydi?",
+        "secenekler": [
+          "A) Pijamasını",
+          "B) Kazağını",
+          "C) Terliğini"
+        ],
+        "cevap": "A) Pijamasını"
+      },
+      {
+        "soru": "Annesi çocuğa ne dedi?",
+        "secenekler": [
+          "A) Günaydın",
+          "B) İyi geceler",
+          "C) Afiyet olsun"
+        ],
+        "cevap": "B) İyi geceler"
       }
     ],
     "bosluk_doldurma": [
@@ -2642,6 +4838,15 @@
           "attım"
         ],
         "cevap": "girdim"
+      },
+      {
+        "cumle": "Annem ........ örttü.",
+        "kelime_havuzu": [
+          "beni",
+          "seni",
+          "onu"
+        ],
+        "cevap": "beni"
       }
     ]
   },
@@ -2676,6 +4881,42 @@
           "C) Komşudan"
         ],
         "cevap": "B) Bahçeden"
+      },
+      {
+        "soru": "Çilek ne renk bir meyvedir?",
+        "secenekler": [
+          "A) Kırmızı",
+          "B) Beyaz",
+          "C) Yeşil"
+        ],
+        "cevap": "A) Kırmızı"
+      },
+      {
+        "soru": "Çilek nasıldır?",
+        "secenekler": [
+          "A) Kocamandır",
+          "B) Büyüktür",
+          "C) Küçüktür"
+        ],
+        "cevap": "C) Küçüktür"
+      },
+      {
+        "soru": "Çilekleri nereden topladılar?",
+        "secenekler": [
+          "A) Ormandan",
+          "B) Manavdan",
+          "C) Bahçeden"
+        ],
+        "cevap": "C) Bahçeden"
+      },
+      {
+        "soru": "Çilekleri ne yapıp yedik?",
+        "secenekler": [
+          "A) Kestik",
+          "B) Yıkadık",
+          "C) Soyduk"
+        ],
+        "cevap": "B) Yıkadık"
       }
     ],
     "bosluk_doldurma": [
@@ -2696,6 +4937,15 @@
           "tatsız"
         ],
         "cevap": "nefis"
+      },
+      {
+        "cumle": "Çilek ........ bir meyvedir.",
+        "kelime_havuzu": [
+          "kırmızı",
+          "sarı",
+          "mor"
+        ],
+        "cevap": "kırmızı"
       }
     ]
   },
@@ -2705,29 +4955,65 @@
     "metin": "Sınıfımızda küçük bir sınıf kütüphanesi var. Her hafta bir öğrenci kütüphaneci olur. Bu hafta kütüphaneci ben oldum. Kitapları raftaki sıralarına göre dizdim. Arkadaşlarım kitap almak isteyince onlara yardım ettim. Hangi kitabın nerede olduğunu öğrendim. Öğretmenim benim çok düzenli çalıştığımı söyledi. Kütüphaneci olmak bana sorumluluk duygusunu öğretti.",
     "coktan_secmeli": [
       {
-        "soru": "Bu hafta kütüphaneci kim oldu?",
+        "soru": "Sınıfta ne vardır?",
         "secenekler": [
-          "A) Öğretmen",
-          "B) Ben",
-          "C) Arkadaşım"
+          "A) Bilgisayar odası",
+          "B) Küçük bir kütüphane",
+          "C) Spor salonu"
         ],
-        "cevap": "B) Ben"
+        "cevap": "B) Küçük bir kütüphane"
       },
       {
-        "soru": "Kitaplar neye göre dizildi?",
+        "soru": "Kütüphaneci görevi ne zaman değişir?",
+        "secenekler": [
+          "A) Her gün",
+          "B) Her ay",
+          "C) Her hafta"
+        ],
+        "cevap": "C) Her hafta"
+      },
+      {
+        "soru": "Çocuk kitapları neye göre dizmiştir?",
         "secenekler": [
           "A) Renklerine göre",
-          "B) Büyüklüklerine göre",
-          "C) Raftaki sıralarına göre"
+          "B) Raftaki sıralarına göre",
+          "C) Boyutlarına göre"
         ],
-        "cevap": "C) Raftaki sıralarına göre"
+        "cevap": "B) Raftaki sıralarına göre"
       },
       {
-        "soru": "Kütüphaneci olmak ne öğretti?",
+        "soru": "Arkadaşlar kitap almak isteyince çocuk ne yaptı?",
         "secenekler": [
-          "A) Okumayı",
+          "A) Öğretmeni çağırdı",
+          "B) Onlara yardım etti",
+          "C) Görmezden geldi"
+        ],
+        "cevap": "B) Onlara yardım etti"
+      },
+      {
+        "soru": "Çocuk kütüphanedeki kitaplar hakkında ne öğrendi?",
+        "secenekler": [
+          "A) Kaç tane olduğunu",
+          "B) Ne zaman geldiğini",
+          "C) Hangi kitabın nerede olduğunu"
+        ],
+        "cevap": "C) Hangi kitabın nerede olduğunu"
+      },
+      {
+        "soru": "Öğretmeni çocuğu nasıl nitelendirdi?",
+        "secenekler": [
+          "A) Çok düzenli",
+          "B) Çok hızlı",
+          "C) Çok sessiz"
+        ],
+        "cevap": "A) Çok düzenli"
+      },
+      {
+        "soru": "Kütüphaneci olmak çocuğa ne öğretti?",
+        "secenekler": [
+          "A) Çabuk okumayı",
           "B) Sorumluluk duygusunu",
-          "C) Yazmayı"
+          "C) Kitap seçmeyi"
         ],
         "cevap": "B) Sorumluluk duygusunu"
       }
@@ -2750,6 +5036,15 @@
           "dağınık"
         ],
         "cevap": "düzenli"
+      },
+      {
+        "cumle": "Kütüphaneci olmak bana ........ duygusunu öğretti.",
+        "kelime_havuzu": [
+          "sorumluluk",
+          "tembellik",
+          "heyecan"
+        ],
+        "cevap": "sorumluluk"
       }
     ]
   },
@@ -2763,27 +5058,63 @@
         "secenekler": [
           "A) Ailesiyle",
           "B) Yalnız",
-          "C) Arkadaşlarıyla"
+          "C) Bakımevinde"
         ],
         "cevap": "B) Yalnız"
+      },
+      {
+        "soru": "Hatice Teyze yürümekte ne yaşar?",
+        "secenekler": [
+          "A) Çok hızlı yürür",
+          "B) Zorlanır",
+          "C) Yardımsız yürür"
+        ],
+        "cevap": "B) Zorlanır"
       },
       {
         "soru": "Annem her akşam ne yapar?",
         "secenekler": [
           "A) Hatice Teyzeyi ziyaret eder",
-          "B) Hatice Teyzeye yemek götürür",
-          "C) Hatice Teyzeyi hastaneye götürür"
+          "B) Ona telefon eder",
+          "C) Ona yemek götürür"
         ],
-        "cevap": "B) Hatice Teyzeye yemek götürür"
+        "cevap": "C) Ona yemek götürür"
+      },
+      {
+        "soru": "Çocuk Hatice Teyzeye zaman zaman ne yapar?",
+        "secenekler": [
+          "A) Temizlik yapar",
+          "B) Marketten alışveriş yapar",
+          "C) Onu doktora götürür"
+        ],
+        "cevap": "B) Marketten alışveriş yapar"
       },
       {
         "soru": "Hatice Teyze çocuğa ne ikram eder?",
         "secenekler": [
-          "A) Meyve",
-          "B) Tatlı",
-          "C) Çay"
+          "A) Para",
+          "B) Meyve",
+          "C) Tatlı"
         ],
-        "cevap": "B) Tatlı"
+        "cevap": "C) Tatlı"
+      },
+      {
+        "soru": "Hatice Teyze çocuğa ne anlatır?",
+        "secenekler": [
+          "A) Bilmeceler",
+          "B) Şakalar",
+          "C) Masallar"
+        ],
+        "cevap": "C) Masallar"
+      },
+      {
+        "soru": "Büyüklere yardım etmek nasıldır?",
+        "secenekler": [
+          "A) Zaman kaybıdır",
+          "B) Çok önemlidir",
+          "C) Gereksizdir"
+        ],
+        "cevap": "B) Çok önemlidir"
       }
     ],
     "bosluk_doldurma": [
@@ -2804,6 +5135,15 @@
           "üzgün"
         ],
         "cevap": "mutlu"
+      },
+      {
+        "cumle": "Bana her zaman tatlı ikram eder ve ........ anlatır.",
+        "kelime_havuzu": [
+          "masallar",
+          "şakalar",
+          "bilmeceler"
+        ],
+        "cevap": "masallar"
       }
     ]
   },
@@ -2813,31 +5153,67 @@
     "metin": "Okulumuzda haftada bir müzik dersimiz var. Müzik öğretmenimizin adı Elif Hanım'dır. Bize şarkı söylemeyi ve ritim tutmayı öğretiyor. Bu hafta trambolinle ritim çalıştık. Ben ritmi tutmakta çok iyi olduğumu fark ettim. Sınıfımızdaki herkes koro halinde şarkı söyledi. Müzik dersi beni her zaman neşelendiriyor. Müziğin insanı mutlu ettiğine inanıyorum.",
     "coktan_secmeli": [
       {
-        "soru": "Müzik dersi haftada kaç kez var?",
+        "soru": "Haftada kaç kez müzik dersi vardır?",
         "secenekler": [
-          "A) İki kez",
-          "B) Her gün",
-          "C) Bir kez"
+          "A) İki",
+          "B) Üç",
+          "C) Bir"
         ],
-        "cevap": "C) Bir kez"
+        "cevap": "C) Bir"
+      },
+      {
+        "soru": "Müzik öğretmeninin adı nedir?",
+        "secenekler": [
+          "A) Ayşe Hanım",
+          "B) Elif Hanım",
+          "C) Fatma Hanım"
+        ],
+        "cevap": "B) Elif Hanım"
+      },
+      {
+        "soru": "Öğretmen onlara ne öğretiyor?",
+        "secenekler": [
+          "A) Piyano ve keman",
+          "B) Şarkı söyleme ve ritim tutma",
+          "C) Nota okuma"
+        ],
+        "cevap": "B) Şarkı söyleme ve ritim tutma"
       },
       {
         "soru": "Bu hafta ne çalışıldı?",
         "secenekler": [
-          "A) Flüt",
-          "B) Trambolinle ritim",
-          "C) Piyano"
+          "A) Piyano",
+          "B) Trampet",
+          "C) Trambolinle ritim"
         ],
-        "cevap": "B) Trambolinle ritim"
+        "cevap": "C) Trambolinle ritim"
+      },
+      {
+        "soru": "Çocuk kendinde neyi fark etti?",
+        "secenekler": [
+          "A) Çok iyi şarkı söylediğini",
+          "B) Ritmi tutmakta çok iyi olduğunu",
+          "C) Enstrüman çalmayı bildiğini"
+        ],
+        "cevap": "B) Ritmi tutmakta çok iyi olduğunu"
       },
       {
         "soru": "Sınıf şarkıyı nasıl söyledi?",
         "secenekler": [
-          "A) Tek tek",
+          "A) Sırayla tek tek",
           "B) Sessizce",
           "C) Koro halinde"
         ],
         "cevap": "C) Koro halinde"
+      },
+      {
+        "soru": "Çocuk müzik hakkında ne düşünüyor?",
+        "secenekler": [
+          "A) Müziğin insanı mutlu ettiğine inanıyor",
+          "B) Müziğin zor olduğuna inanıyor",
+          "C) Müziğin gereksiz olduğuna inanıyor"
+        ],
+        "cevap": "A) Müziğin insanı mutlu ettiğine inanıyor"
       }
     ],
     "bosluk_doldurma": [
@@ -2846,9 +5222,18 @@
         "kelime_havuzu": [
           "neşelendiriyor",
           "üzüyor",
-          "sıkıyor"
+          "yoruyor"
         ],
         "cevap": "neşelendiriyor"
+      },
+      {
+        "cumle": "Bu hafta ........ ile ritim çalıştık.",
+        "kelime_havuzu": [
+          "trambolin",
+          "piyano",
+          "keman"
+        ],
+        "cevap": "trambolin"
       },
       {
         "cumle": "Müziğin insanı ........ ettiğine inanıyorum.",
@@ -2867,31 +5252,67 @@
     "metin": "Okul bahçemiz bazen çöp doluyor. Geçen hafta öğretmenimiz bize bahçeyi temizlememizi söyledi. Eldivenler giydik ve çöp torbası aldık. Sınıfça bahçedeki kağıt ve plastikleri topladık. Yarım saatte bahçe bembeyaz oldu. Öğretmenimiz çok memnun oldu ve bizi tebrik etti. Çevreyi temiz tutmak herkesin görevidir. O gün hem çalıştık hem de çok eğlendik.",
     "coktan_secmeli": [
       {
-        "soru": "Bahçe neden temizlendi?",
+        "soru": "Okul bahçesi bazen ne doluyor?",
         "secenekler": [
-          "A) Müdür istedi",
-          "B) Öğretmen söyledi",
-          "C) Veli istedi"
+          "A) Çiçek",
+          "B) Yaprak",
+          "C) Çöp"
         ],
-        "cevap": "B) Öğretmen söyledi"
+        "cevap": "C) Çöp"
       },
       {
-        "soru": "Bahçe ne kadar sürede temizlendi?",
+        "soru": "Bahçeyi temizlemek için kim talimat verdi?",
+        "secenekler": [
+          "A) Müdür",
+          "B) Öğretmen",
+          "C) Veli"
+        ],
+        "cevap": "B) Öğretmen"
+      },
+      {
+        "soru": "Bahçeyi temizlerken ne giydiler?",
+        "secenekler": [
+          "A) Mont",
+          "B) Önlük",
+          "C) Eldiven"
+        ],
+        "cevap": "C) Eldiven"
+      },
+      {
+        "soru": "Bahçede hangi çöpler toplandı?",
+        "secenekler": [
+          "A) Cam ve metal",
+          "B) Kağıt ve plastik",
+          "C) Biyolojik atık"
+        ],
+        "cevap": "B) Kağıt ve plastik"
+      },
+      {
+        "soru": "Bahçe kaç sürede temizlendi?",
         "secenekler": [
           "A) Bir saatte",
-          "B) Yarım saatte",
-          "C) Bir günde"
+          "B) Bir günde",
+          "C) Yarım saatte"
         ],
-        "cevap": "B) Yarım saatte"
+        "cevap": "C) Yarım saatte"
       },
       {
-        "soru": "Çevreyi temiz tutmak kimin görevidir?",
+        "soru": "Öğretmen temizlik sonrası ne yaptı?",
         "secenekler": [
-          "A) Sadece temizlikçilerin",
-          "B) Herkesin",
-          "C) Öğretmenlerin"
+          "A) Ödev verdi",
+          "B) Memnun olup tebrik etti",
+          "C) Hiçbir şey söylemedi"
         ],
-        "cevap": "B) Herkesin"
+        "cevap": "B) Memnun olup tebrik etti"
+      },
+      {
+        "soru": "O gün hem çalışıldı hem de ne yapıldı?",
+        "secenekler": [
+          "A) Ders çalışıldı",
+          "B) Çok eğlenildi",
+          "C) Uyundu"
+        ],
+        "cevap": "B) Çok eğlenildi"
       }
     ],
     "bosluk_doldurma": [
@@ -2908,10 +5329,19 @@
         "cumle": "O gün hem çalıştık hem de çok .........",
         "kelime_havuzu": [
           "eğlendik",
-          "üzüldük",
-          "yorulduk"
+          "yorulduk",
+          "üzüldük"
         ],
         "cevap": "eğlendik"
+      },
+      {
+        "cumle": "Çevreyi temiz tutmak herkesin .........",
+        "kelime_havuzu": [
+          "görevidir",
+          "işi değil",
+          "tercihidir"
+        ],
+        "cevap": "görevidir"
       }
     ]
   },
@@ -2921,39 +5351,75 @@
     "metin": "Geçen ay ailemizle birlikte trene bindik. İlk kez tren yolculuğu yapıyordum. Tren çok büyük ve temizdi. Pencereden dışarıyı izledim; dağlar, tarılar ve nehirler geçti. Annem sandviç getirmişti, yolda yedik. Dört saat sonra büyükşehire ulaştık. Tren yolculuğu benim için çok heyecanlı bir deneyimdi. Bir gün daha uzun bir yolculuk yapmak istiyorum.",
     "coktan_secmeli": [
       {
-        "soru": "Bu tren yolculuğu kaçıncı kez?",
+        "soru": "Kimlerle birlikte trene bindiler?",
         "secenekler": [
-          "A) İkinci kez",
-          "B) İlk kez",
-          "C) Üçüncü kez"
+          "A) Öğretmenle",
+          "B) Arkadaşlarla",
+          "C) Aileyle"
         ],
-        "cevap": "B) İlk kez"
+        "cevap": "C) Aileyle"
       },
       {
-        "soru": "Yolda ne yendi?",
+        "soru": "Bu tren yolculuğu çocuk için kaçıncı kez?",
         "secenekler": [
-          "A) Çorba",
-          "B) Pizza",
-          "C) Sandviç"
+          "A) İkinci",
+          "B) Birinci (ilk kez)",
+          "C) Üçüncü"
         ],
-        "cevap": "C) Sandviç"
+        "cevap": "B) Birinci (ilk kez)"
       },
       {
-        "soru": "Kaç saat sonra büyükşehire ulaşıldı?",
+        "soru": "Tren nasıldı?",
         "secenekler": [
-          "A) İki saat",
-          "B) Altı saat",
-          "C) Dört saat"
+          "A) Küçük ve eski",
+          "B) Büyük ve temiz",
+          "C) Hızlı ama kirli"
         ],
-        "cevap": "C) Dört saat"
+        "cevap": "B) Büyük ve temiz"
+      },
+      {
+        "soru": "Pencereden dışarıda ne geçti?",
+        "secenekler": [
+          "A) Şehirler ve köprüler",
+          "B) Dağlar, tarlalar ve nehirler",
+          "C) Sadece düzlük"
+        ],
+        "cevap": "B) Dağlar, tarlalar ve nehirler"
+      },
+      {
+        "soru": "Yolda ne yediler?",
+        "secenekler": [
+          "A) Annemin pişirdiği yemek",
+          "B) Lokantada yediler",
+          "C) Annenin getirdiği sandviç"
+        ],
+        "cevap": "C) Annenin getirdiği sandviç"
+      },
+      {
+        "soru": "Yolculuk kaç saat sürdü?",
+        "secenekler": [
+          "A) İki",
+          "B) Altı",
+          "C) Dört"
+        ],
+        "cevap": "C) Dört"
+      },
+      {
+        "soru": "Çocuk ileride ne yapmak istiyor?",
+        "secenekler": [
+          "A) Hiç yolculuk yapmamak",
+          "B) Daha uzun bir yolculuk yapmak",
+          "C) Uçakla gitmek"
+        ],
+        "cevap": "B) Daha uzun bir yolculuk yapmak"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Pencereden dışarıyı ........; dağlar, tarılar ve nehirler geçti.",
+        "cumle": "Pencereden dışarıyı ........; dağlar, tarlalar ve nehirler geçti.",
         "kelime_havuzu": [
           "izledim",
-          "çizdim",
+          "resmettim",
           "fotoğrafladım"
         ],
         "cevap": "izledim"
@@ -2963,9 +5429,18 @@
         "kelime_havuzu": [
           "heyecanlı",
           "sıkıcı",
-          "korkunç"
+          "yorucu"
         ],
         "cevap": "heyecanlı"
+      },
+      {
+        "cumle": "Bir gün daha ........ bir yolculuk yapmak istiyorum.",
+        "kelime_havuzu": [
+          "uzun",
+          "kısa",
+          "yakın"
+        ],
+        "cevap": "uzun"
       }
     ]
   },
@@ -2975,20 +5450,29 @@
     "metin": "Büyükannem çok güzel yemek yapar. Özellikle mercimek çorbası çok meşhurdur. Her ziyaretimizde bize büyük bir tencere çorba yapar. Çorbanın içine havuç, soğan ve baharat koyar. Çorba piştikten sonra üstüne tereyağı döker. Masaya oturduğumuzda çorbanın kokusu odayı doldurur. Ben her zaman iki kase içerim. Büyükannemin çorbası dünyanın en lezzetli yemeğidir.",
     "coktan_secmeli": [
       {
-        "soru": "Büyükannem hangi çorbayı yapar?",
+        "soru": "Büyükannenin hangi yemeği meşhurdur?",
         "secenekler": [
-          "A) Domates çorbası",
-          "B) Tavuk çorbası",
-          "C) Mercimek çorbası"
+          "A) Dolması",
+          "B) Mercimek çorbası",
+          "C) Köftesi"
         ],
-        "cevap": "C) Mercimek çorbası"
+        "cevap": "B) Mercimek çorbası"
+      },
+      {
+        "soru": "Her ziyarette ne yapılır?",
+        "secenekler": [
+          "A) Dışarıya çıkılır",
+          "B) Büyük tencere çorba yapılır",
+          "C) Pasta kesilir"
+        ],
+        "cevap": "B) Büyük tencere çorba yapılır"
       },
       {
         "soru": "Çorbanın içine ne konulur?",
         "secenekler": [
           "A) Patates ve bezelye",
           "B) Havuç, soğan ve baharat",
-          "C) Biber ve domates"
+          "C) Domates ve biber"
         ],
         "cevap": "B) Havuç, soğan ve baharat"
       },
@@ -2996,10 +5480,37 @@
         "soru": "Çorba piştikten sonra üstüne ne dökülür?",
         "secenekler": [
           "A) Zeytinyağı",
-          "B) Tereyağı",
-          "C) Limon"
+          "B) Limon",
+          "C) Tereyağı"
         ],
-        "cevap": "B) Tereyağı"
+        "cevap": "C) Tereyağı"
+      },
+      {
+        "soru": "Masaya oturulunca çorbanın kokusu ne doldurur?",
+        "secenekler": [
+          "A) Mutfağı",
+          "B) Odayı",
+          "C) Evi"
+        ],
+        "cevap": "B) Odayı"
+      },
+      {
+        "soru": "Çocuk her zaman kaç kase içer?",
+        "secenekler": [
+          "A) Bir",
+          "B) İki",
+          "C) Üç"
+        ],
+        "cevap": "B) İki"
+      },
+      {
+        "soru": "Bu çorba çocuğa göre nasıldır?",
+        "secenekler": [
+          "A) İdare eder",
+          "B) Dünyanın en lezzetli yemeği",
+          "C) Çok tuzlu"
+        ],
+        "cevap": "B) Dünyanın en lezzetli yemeği"
       }
     ],
     "bosluk_doldurma": [
@@ -3007,8 +5518,8 @@
         "cumle": "Masaya oturduğumuzda çorbanın kokusu odayı .........",
         "kelime_havuzu": [
           "doldurur",
-          "terkeder",
-          "karıştırır"
+          "yapar",
+          "kaplar"
         ],
         "cevap": "doldurur"
       },
@@ -3020,6 +5531,15 @@
           "bardak"
         ],
         "cevap": "kase"
+      },
+      {
+        "cumle": "Çorba piştikten sonra üstüne ........ döker.",
+        "kelime_havuzu": [
+          "tereyağı",
+          "zeytinyağı",
+          "limon"
+        ],
+        "cevap": "tereyağı"
       }
     ]
   },
@@ -3029,7 +5549,16 @@
     "metin": "Bu yıl yeni bir okula başladım. İlk gün çok heyecanlı ve biraz endişeliydim. Sınıfa girince öğretmenim beni herkese tanıttı. Yanımda oturan Mert hemen konuşmaya başladı. Teneffüste birlikte koşup oynadık. Öğleden sonra ders bitince Mert bana telefon numarasını verdi. İlk gün korktuğum kadar zor olmadı. Yeni okulum ve yeni arkadaşlarım beni çok mutlu etti.",
     "coktan_secmeli": [
       {
-        "soru": "İlk gün nasıl bir duygu yaşandı?",
+        "soru": "Çocuk bu yıl ne başladı?",
+        "secenekler": [
+          "A) Yeni bir kulübe",
+          "B) Yeni bir okula",
+          "C) Yeni bir sınıfa"
+        ],
+        "cevap": "B) Yeni bir okula"
+      },
+      {
+        "soru": "İlk gün çocuk nasıl hissetti?",
         "secenekler": [
           "A) Sadece mutlu",
           "B) Heyecanlı ve biraz endişeli",
@@ -3038,22 +5567,49 @@
         "cevap": "B) Heyecanlı ve biraz endişeli"
       },
       {
-        "soru": "Yanında kim oturdu?",
+        "soru": "Öğretmen okulun ilk gününde ne yaptı?",
+        "secenekler": [
+          "A) Sınav yaptı",
+          "B) Ders anlattı",
+          "C) Çocuğu herkese tanıttı"
+        ],
+        "cevap": "C) Çocuğu herkese tanıttı"
+      },
+      {
+        "soru": "Yanında oturan çocuğun adı nedir?",
         "secenekler": [
           "A) Ahmet",
-          "B) Zeynep",
+          "B) Ali",
           "C) Mert"
         ],
         "cevap": "C) Mert"
       },
       {
-        "soru": "Mert ders bitince ne yaptı?",
+        "soru": "Teneffüste Mert ile ne yaptılar?",
         "secenekler": [
-          "A) Eve gitti",
-          "B) Telefon numarasını verdi",
-          "C) Kitap ödünç verdi"
+          "A) Müzik dinlediler",
+          "B) Birlikte koşup oynadılar",
+          "C) Kitap okudular"
         ],
-        "cevap": "B) Telefon numarasını verdi"
+        "cevap": "B) Birlikte koşup oynadılar"
+      },
+      {
+        "soru": "Ders bitince Mert çocuğa ne verdi?",
+        "secenekler": [
+          "A) Bir kitap",
+          "B) Telefon numarasını",
+          "C) Bir silgi"
+        ],
+        "cevap": "B) Telefon numarasını"
+      },
+      {
+        "soru": "İlk gün nasıl geçti?",
+        "secenekler": [
+          "A) Korktuğu kadar zor olmadı",
+          "B) Çok zor ve üzücüydü",
+          "C) Çok sıkıcıydı"
+        ],
+        "cevap": "A) Korktuğu kadar zor olmadı"
       }
     ],
     "bosluk_doldurma": [
@@ -3074,6 +5630,15 @@
           "güzel"
         ],
         "cevap": "zor"
+      },
+      {
+        "cumle": "Yeni okulum ve yeni ........ beni çok mutlu etti.",
+        "kelime_havuzu": [
+          "arkadaşlarım",
+          "derslerim",
+          "ödevlerim"
+        ],
+        "cevap": "arkadaşlarım"
       }
     ]
   },
@@ -3083,31 +5648,67 @@
     "metin": "Babam bana renkli bir uçurtma aldı. Uçurtmam mavi, kırmızı ve sarı renklerdedir. Pazar günü babamla parka gittik. Rüzgar çok güzel esiyordu. Babam önce uçurtmayı havaya kaldırdı. Sonra ipi bana verdi. Uçurtma gökyüzünde süzülerek yükseldi. Ben o an dünyanın en mutlu çocuğuydum.",
     "coktan_secmeli": [
       {
-        "soru": "Uçurtmayı kim aldı?",
+        "soru": "Çocuğa kim uçurtma aldı?",
         "secenekler": [
-          "A) Anne",
-          "B) Dede",
-          "C) Baba"
+          "A) Annesi",
+          "B) Dedesi",
+          "C) Babası"
         ],
-        "cevap": "C) Baba"
+        "cevap": "C) Babası"
       },
       {
         "soru": "Uçurtma hangi renklerdedir?",
         "secenekler": [
           "A) Yeşil, mor ve turuncu",
-          "B) Mavi, kırmızı ve sarı",
-          "C) Beyaz ve siyah"
+          "B) Beyaz ve siyah",
+          "C) Mavi, kırmızı ve sarı"
         ],
-        "cevap": "B) Mavi, kırmızı ve sarı"
+        "cevap": "C) Mavi, kırmızı ve sarı"
       },
       {
-        "soru": "Uçurtmayı önce kim havaya kaldırdı?",
+        "soru": "Hangi gün parka gittiler?",
+        "secenekler": [
+          "A) Cumartesi",
+          "B) Pazar",
+          "C) Cuma"
+        ],
+        "cevap": "B) Pazar"
+      },
+      {
+        "soru": "Rüzgar nasıldı?",
+        "secenekler": [
+          "A) Hiç yoktu",
+          "B) Çok güzel esiyordu",
+          "C) Çok sert ve tehlikeliydi"
+        ],
+        "cevap": "B) Çok güzel esiyordu"
+      },
+      {
+        "soru": "Önce uçurtmayı kim havaya kaldırdı?",
         "secenekler": [
           "A) Çocuk",
           "B) Baba",
-          "C) Anne"
+          "C) İkisi birlikte"
         ],
         "cevap": "B) Baba"
+      },
+      {
+        "soru": "Baba ipi kime verdi?",
+        "secenekler": [
+          "A) Komşuya",
+          "B) Anneye",
+          "C) Çocuğa"
+        ],
+        "cevap": "C) Çocuğa"
+      },
+      {
+        "soru": "Uçurtma havada ne yaptı?",
+        "secenekler": [
+          "A) Hemen düştü",
+          "B) Rüzgarda sürüklendi",
+          "C) Gökyüzünde süzülerek yükseldi"
+        ],
+        "cevap": "C) Gökyüzünde süzülerek yükseldi"
       }
     ],
     "bosluk_doldurma": [
@@ -3128,6 +5729,15 @@
           "durdu"
         ],
         "cevap": "yükseldi"
+      },
+      {
+        "cumle": "Ben o an dünyanın en ........ çocuğuydum.",
+        "kelime_havuzu": [
+          "mutlu",
+          "üzgün",
+          "şanssız"
+        ],
+        "cevap": "mutlu"
       }
     ]
   },
@@ -3137,61 +5747,25 @@
     "metin": "Pazartesi sabahları kalkması zordur. Alarm çaldı ama yataktan çıkmak istemedim. Annem üç kez seslendi. Sonunda kalktım ve acele ettim. Çantamı hazırlamıştım, bu yüzden zaman kazandım. Okula tam zamanında yetiştim. Öğretmenim bugün yeni bir konu anlatacağını söyledi. Pazartesi sabahları zor olsa da okula gitmek güzeldir.",
     "coktan_secmeli": [
       {
-        "soru": "Neden yataktan çıkmak istenmedi?",
+        "soru": "Ne zaman üşüdü?",
         "secenekler": [
-          "A) Hasta olduğu için",
-          "B) Pazartesi sabahı kalkması zor",
-          "C) Okul yoktu"
+          "A) Öğlen",
+          "B) Sabah",
+          "C) Dün gece"
         ],
-        "cevap": "B) Pazartesi sabahı kalkması zor"
+        "cevap": "C) Dün gece"
       },
       {
-        "soru": "Anne kaç kez seslendi?",
+        "soru": "Sabah ne oldu?",
         "secenekler": [
-          "A) Bir kez",
-          "B) İki kez",
-          "C) Üç kez"
+          "A) Karnı ağrıdı",
+          "B) Ateşi çıktı",
+          "C) Başı döndü"
         ],
-        "cevap": "C) Üç kez"
+        "cevap": "B) Ateşi çıktı"
       },
       {
-        "soru": "Okula nasıl yetişildi?",
-        "secenekler": [
-          "A) Geç kalındı",
-          "B) Tam zamanında",
-          "C) Çok erken"
-        ],
-        "cevap": "B) Tam zamanında"
-      }
-    ],
-    "bosluk_doldurma": [
-      {
-        "cumle": "Çantamı hazırlamıştım, bu yüzden zaman .........",
-        "kelime_havuzu": [
-          "kazandım",
-          "kaybettim",
-          "harcadım"
-        ],
-        "cevap": "kazandım"
-      },
-      {
-        "cumle": "Öğretmenim bugün yeni bir konu ........ söyledi.",
-        "kelime_havuzu": [
-          "anlatacağını",
-          "bitireceğini",
-          "öğreteceğini"
-        ],
-        "cevap": "anlatacağını"
-      }
-    ]
-  },
-  {
-    "id": 60,
-    "baslik": "Hasta Oldum",
-    "metin": "Dün gece üşüdüm ve sabah ateşim çıktı. Annem termometreyle ateşimi ölçtü. Otuz sekiz buçuk derece ateşim vardı. Annem bana ılık çorba yaptı ve ilaç verdi. Gün boyu yatakta dinlendim. Akşama kadar çok kitap okudum. Ertesi sabah ateşim düştü ve kendimi daha iyi hissettim. Hasta olmak zordur ama annemin ilgisi beni çok iyi hissettirdi.",
-    "coktan_secmeli": [
-      {
-        "soru": "Annem ateşi nasıl ölçtü?",
+        "soru": "Annesi ateşi neyle ölçtü?",
         "secenekler": [
           "A) Eliyle yokladı",
           "B) Termometreyle",
@@ -3200,22 +5774,40 @@
         "cevap": "B) Termometreyle"
       },
       {
-        "soru": "Ateş kaç dereceydi?",
+        "soru": "Çocuğun ateşi kaç dereceydi?",
         "secenekler": [
           "A) Otuz yedi",
-          "B) Otuz sekiz buçuk",
-          "C) Kırk derece"
+          "B) Kırk derece",
+          "C) Otuz sekiz buçuk"
         ],
-        "cevap": "B) Otuz sekiz buçuk"
+        "cevap": "C) Otuz sekiz buçuk"
       },
       {
-        "soru": "Gün boyu ne yapıldı?",
+        "soru": "Annesi ne yaptı?",
         "secenekler": [
-          "A) Televizyon izlendi",
-          "B) Oyun oynandı",
-          "C) Yatakta dinlenildi"
+          "A) Hastaneye götürdü",
+          "B) Ilık çorba yapıp ilaç verdi",
+          "C) Komşuyu çağırdı"
         ],
-        "cevap": "C) Yatakta dinlenildi"
+        "cevap": "B) Ilık çorba yapıp ilaç verdi"
+      },
+      {
+        "soru": "Gün boyu yatakta ne yapıldı?",
+        "secenekler": [
+          "A) Uyundu",
+          "B) Televizyon izlendi",
+          "C) Kitap okundu"
+        ],
+        "cevap": "C) Kitap okundu"
+      },
+      {
+        "soru": "Ertesi sabah ne oldu?",
+        "secenekler": [
+          "A) Ateş arttı",
+          "B) Ateş düştü ve kendini daha iyi hissetti",
+          "C) Hastaneye gitti"
+        ],
+        "cevap": "B) Ateş düştü ve kendini daha iyi hissetti"
       }
     ],
     "bosluk_doldurma": [
@@ -3223,8 +5815,8 @@
         "cumle": "Annem bana ılık çorba yaptı ve ........ verdi.",
         "kelime_havuzu": [
           "ilaç",
-          "su",
-          "meyve"
+          "oyuncak",
+          "kitap"
         ],
         "cevap": "ilaç"
       },
@@ -3236,6 +5828,114 @@
           "sesi"
         ],
         "cevap": "ilgisi"
+      },
+      {
+        "cumle": "Ertesi sabah ateşim ........ ve kendimi daha iyi hissettim.",
+        "kelime_havuzu": [
+          "düştü",
+          "çıktı",
+          "arttı"
+        ],
+        "cevap": "düştü"
+      }
+    ]
+  },
+  {
+    "id": 60,
+    "baslik": "Hasta Oldum",
+    "metin": "Dün gece üşüdüm ve sabah ateşim çıktı. Annem termometreyle ateşimi ölçtü. Otuz sekiz buçuk derece ateşim vardı. Annem bana ılık çorba yaptı ve ilaç verdi. Gün boyu yatakta dinlendim. Akşama kadar çok kitap okudum. Ertesi sabah ateşim düştü ve kendimi daha iyi hissettim. Hasta olmak zordur ama annemin ilgisi beni çok iyi hissettirdi.",
+    "coktan_secmeli": [
+      {
+        "soru": "Okulda her yıl ne düzenlenir?",
+        "secenekler": [
+          "A) Spor turnuvası",
+          "B) Resim sergisi",
+          "C) Konser"
+        ],
+        "cevap": "B) Resim sergisi"
+      },
+      {
+        "soru": "Çocuk tablosu üzerinde ne kadar çalıştı?",
+        "secenekler": [
+          "A) Bir hafta",
+          "B) İki hafta",
+          "C) Üç hafta"
+        ],
+        "cevap": "C) Üç hafta"
+      },
+      {
+        "soru": "Tabloda ne çizilmişti?",
+        "secenekler": [
+          "A) Gökyüzündeki kuşlar",
+          "B) Ormandaki bir geyik",
+          "C) Deniz manzarası"
+        ],
+        "cevap": "B) Ormandaki bir geyik"
+      },
+      {
+        "soru": "Öğretmeni tabloyu nereye astı?",
+        "secenekler": [
+          "A) Kapının arkasına",
+          "B) En iyi yere",
+          "C) Köşeye"
+        ],
+        "cevap": "B) En iyi yere"
+      },
+      {
+        "soru": "Sergide kim geldi ve ne yaptı?",
+        "secenekler": [
+          "A) Müdür konuşma yaptı",
+          "B) Veliler gelip resimlere baktı",
+          "C) Öğrenciler sahne aldı"
+        ],
+        "cevap": "B) Veliler gelip resimlere baktı"
+      },
+      {
+        "soru": "Annem tablonun önünde ne çektirdi?",
+        "secenekler": [
+          "A) Video",
+          "B) Selfie",
+          "C) Fotoğraf"
+        ],
+        "cevap": "C) Fotoğraf"
+      },
+      {
+        "soru": "O gün çocuk nasıl bir gün geçirdi?",
+        "secenekler": [
+          "A) Hayatının en yorucu günü",
+          "B) Hayatının en gurur dolu günü",
+          "C) Sıradan bir gün"
+        ],
+        "cevap": "B) Hayatının en gurur dolu günü"
+      }
+    ],
+    "bosluk_doldurma": [
+      {
+        "cumle": "Üç haftadır üzerinde çalıştığım tablumu .........",
+        "kelime_havuzu": [
+          "getirdim",
+          "sattım",
+          "bıraktım"
+        ],
+        "cevap": "getirdim"
+      },
+      {
+        "cumle": "O gün hayatımın en ........ dolu günüydü.",
+        "kelime_havuzu": [
+          "gurur",
+          "korku",
+          "üzüntü"
+        ],
+        "cevap": "gurur"
+      },
+      {
+        "cumle": "Veliler okula geldi ve ........ baktı.",
+        "kelime_havuzu": [
+          "resimlere",
+          "vitrinlere",
+          "bahçeye"
+        ],
+        "cevap": "resimlere"
       }
     ]
   },
@@ -3245,40 +5945,85 @@
     "metin": "Bahar gelince ormanın kenarında çiçekler açar. Annemle birlikte yürüyüşe çıktık. Yolda papatyalar, gelincikler ve leylaklar gördük. Onlardan küçük bir demet topladık. Eve gelince çiçekleri bir vazo içine koydum. Çiçekler odayı güzel kokulara boğdu. Annem çok sevindi ve bana sarıldı. Doğayı gezmek hem eğlenceli hem de huzur vericidir.",
     "coktan_secmeli": [
       {
-        "soru": "Hangi mevsimde çiçekler açar?",
+        "soru": "Bahar gelince nerede çiçekler açar?",
         "secenekler": [
-          "A) Kış",
-          "B) Sonbahar",
-          "C) Bahar"
+          "A) Parkta",
+          "B) Evin içinde",
+          "C) Ormanın kenarında"
         ],
-        "cevap": "C) Bahar"
+        "cevap": "C) Ormanın kenarında"
       },
       {
-        "soru": "Hangi çiçek görülmedi?",
+        "soru": "Annemle birlikte ne yaptılar?",
         "secenekler": [
-          "A) Gül",
-          "B) Papatya",
-          "C) Gelincik"
+          "A) Alışverişe çıktılar",
+          "B) Yürüyüşe çıktılar",
+          "C) Parkta oturdular"
         ],
-        "cevap": "A) Gül"
+        "cevap": "B) Yürüyüşe çıktılar"
       },
       {
-        "soru": "Çiçekler eve gelince nereye kondu?",
+        "soru": "Yolda hangi çiçekleri gördüler?",
         "secenekler": [
-          "A) Bahçeye",
-          "B) Vazonun içine",
-          "C) Yatağın yanına"
+          "A) Gül, lale, sümbül",
+          "B) Papatya, gelincik ve leylak",
+          "C) Karanfil, menekşe, zambak"
         ],
-        "cevap": "B) Vazonun içine"
+        "cevap": "B) Papatya, gelincik ve leylak"
+      },
+      {
+        "soru": "Çiçeklerden ne oluşturdular?",
+        "secenekler": [
+          "A) Büyük bir buket",
+          "B) Küçük bir demet",
+          "C) Çelenk yaptılar"
+        ],
+        "cevap": "B) Küçük bir demet"
+      },
+      {
+        "soru": "Eve gelince çiçekler nereye konuldu?",
+        "secenekler": [
+          "A) Büyük bir kova içine",
+          "B) Bahçeye dikildi",
+          "C) Vazo içine"
+        ],
+        "cevap": "C) Vazo içine"
+      },
+      {
+        "soru": "Çiçekler odayı ne yaptı?",
+        "secenekler": [
+          "A) Soğuttu",
+          "B) Güzel kokulara boğdu",
+          "C) Karanlıklaştırdı"
+        ],
+        "cevap": "B) Güzel kokulara boğdu"
+      },
+      {
+        "soru": "Annesi çiçekleri görünce ne yaptı?",
+        "secenekler": [
+          "A) İstedi",
+          "B) Çok sevindi ve sarıldı",
+          "C) Vazoya koydu"
+        ],
+        "cevap": "B) Çok sevindi ve sarıldı"
       }
     ],
     "bosluk_doldurma": [
+      {
+        "cumle": "Onlardan küçük bir ........ topladık.",
+        "kelime_havuzu": [
+          "demet",
+          "buket",
+          "çelenk"
+        ],
+        "cevap": "demet"
+      },
       {
         "cumle": "Çiçekler odayı güzel kokulara .........",
         "kelime_havuzu": [
           "boğdu",
           "doldurdu",
-          "kattı"
+          "yaydı"
         ],
         "cevap": "boğdu"
       },
@@ -3299,6 +6044,24 @@
     "metin": "Bugün sınıfımızda başkan seçimi vardı. Öğretmenimiz adayların kendini tanıtmasını istedi. Üç arkadaşım aday oldu. Her biri sınıf için neler yapacağını anlattı. Ardından oy kullandık. Ben de oy kullandım ve çok heyecanlandım. Oyların sayımı bittikten sonra Selin başkan seçildi. Selin çok sevindi ve teşekkür konuşması yaptı. Seçim süreci bana demokrasiyi öğretti.",
     "coktan_secmeli": [
       {
+        "soru": "Bugün sınıfta ne var?",
+        "secenekler": [
+          "A) Özel ders",
+          "B) Sınıf başkanı seçimi",
+          "C) Sınav"
+        ],
+        "cevap": "B) Sınıf başkanı seçimi"
+      },
+      {
+        "soru": "Öğretmen ne istedi?",
+        "secenekler": [
+          "A) Adayların kendini tanıtmasını",
+          "B) Herkesin şarkı söylemesini",
+          "C) Ödev yapılmasını"
+        ],
+        "cevap": "A) Adayların kendini tanıtmasını"
+      },
+      {
         "soru": "Kaç kişi aday oldu?",
         "secenekler": [
           "A) İki",
@@ -3308,22 +6071,40 @@
         "cevap": "C) Üç"
       },
       {
+        "soru": "Sonra ne yapıldı?",
+        "secenekler": [
+          "A) Müzik dinlendi",
+          "B) Oy kullanıldı",
+          "C) Kura çekildi"
+        ],
+        "cevap": "B) Oy kullanıldı"
+      },
+      {
         "soru": "Başkan kim seçildi?",
         "secenekler": [
           "A) Ahmet",
-          "B) Selin",
-          "C) Mert"
+          "B) Mert",
+          "C) Selin"
         ],
-        "cevap": "B) Selin"
+        "cevap": "C) Selin"
       },
       {
-        "soru": "Seçim ne öğretti?",
+        "soru": "Selin başkan seçilince ne yaptı?",
+        "secenekler": [
+          "A) Ağladı",
+          "B) Sevinip teşekkür konuşması yaptı",
+          "C) Sessiz kaldı"
+        ],
+        "cevap": "B) Sevinip teşekkür konuşması yaptı"
+      },
+      {
+        "soru": "Seçim süreci çocuğa ne öğretti?",
         "secenekler": [
           "A) Matematik",
-          "B) Demokrasi",
-          "C) Coğrafya"
+          "B) Demokrasiyi",
+          "C) Sabır"
         ],
-        "cevap": "B) Demokrasi"
+        "cevap": "B) Demokrasiyi"
       }
     ],
     "bosluk_doldurma": [
@@ -3337,13 +6118,22 @@
         "cevap": "anlattı"
       },
       {
-        "cumle": "Selin çok sevindi ve teşekkür ........ yaptı.",
+        "cumle": "Selin çok sevindi ve ........ konuşması yaptı.",
         "kelime_havuzu": [
-          "konuşması",
-          "yarışması",
-          "toplantısı"
+          "teşekkür",
+          "veda",
+          "açılış"
         ],
-        "cevap": "konuşması"
+        "cevap": "teşekkür"
+      },
+      {
+        "cumle": "Ben de oy kullandım ve çok .........",
+        "kelime_havuzu": [
+          "heyecanlandım",
+          "korktum",
+          "üzüldüm"
+        ],
+        "cevap": "heyecanlandım"
       }
     ]
   },
@@ -3353,31 +6143,67 @@
     "metin": "Amcamlar bizi ormana pikniğe davet etti. Sabah erkenden yola çıktık. Ormanda temiz bir alan bulduk ve örtüyü serdik. Annem sandviç ve meyve getirmişti. Biz çocuklar orman içinde koşup oynadık. Akşama doğru ateş yaktık ve mısır pişirdik. Dönüşte hepimiz yorgun ama mutluyduk. Orman piknikleri şehir hayatının stresini atar.",
     "coktan_secmeli": [
       {
-        "soru": "Pikniğe kim davet etti?",
+        "soru": "Kimler pikniğe davet etti?",
         "secenekler": [
           "A) Komşular",
           "B) Amcamlar",
-          "C) Öğretmen"
+          "C) Arkadaşlar"
         ],
         "cevap": "B) Amcamlar"
       },
       {
-        "soru": "Akşama doğru ne yapıldı?",
+        "soru": "Ne zaman yola çıktılar?",
         "secenekler": [
-          "A) Eve dönüldü",
-          "B) Uyundu",
-          "C) Ateş yakılıp mısır pişirildi"
+          "A) Öğleden sonra",
+          "B) Sabah erkenden",
+          "C) Akşam"
         ],
-        "cevap": "C) Ateş yakılıp mısır pişirildi"
+        "cevap": "B) Sabah erkenden"
+      },
+      {
+        "soru": "Ormanın içinde ne buldular?",
+        "secenekler": [
+          "A) Kirli bir alan",
+          "B) Temiz bir alan",
+          "C) Çadırlı bir kamp"
+        ],
+        "cevap": "B) Temiz bir alan"
+      },
+      {
+        "soru": "Annem ne getirmişti?",
+        "secenekler": [
+          "A) Pizza ve kola",
+          "B) Sandviç ve meyve",
+          "C) Çorba ve ekmek"
+        ],
+        "cevap": "B) Sandviç ve meyve"
+      },
+      {
+        "soru": "Akşama doğru ne yaptılar?",
+        "secenekler": [
+          "A) Eve döndüler",
+          "B) Yüzdüler",
+          "C) Ateş yakıp mısır piştirdiler"
+        ],
+        "cevap": "C) Ateş yakıp mısır piştirdiler"
       },
       {
         "soru": "Dönüşte herkes nasıldı?",
         "secenekler": [
-          "A) Üzgün ve bitkin",
-          "B) Yorgun ama mutlu",
-          "C) Hasta ve üşümüş"
+          "A) Hasta ve bitkin",
+          "B) Kızgın ve çamurlu",
+          "C) Yorgun ama mutlu"
         ],
-        "cevap": "B) Yorgun ama mutlu"
+        "cevap": "C) Yorgun ama mutlu"
+      },
+      {
+        "soru": "Orman piknikleri ne işe yarar?",
+        "secenekler": [
+          "A) Şehir hayatının stresini atar",
+          "B) Çok enerji harcar",
+          "C) Doğa bilgisi öğretir"
+        ],
+        "cevap": "A) Şehir hayatının stresini atar"
       }
     ],
     "bosluk_doldurma": [
@@ -3398,6 +6224,15 @@
           "saklar"
         ],
         "cevap": "atar"
+      },
+      {
+        "cumle": "Biz ........ orman içinde koşup oynadık.",
+        "kelime_havuzu": [
+          "çocuklar",
+          "büyükler",
+          "anneler"
+        ],
+        "cevap": "çocuklar"
       }
     ]
   },
@@ -3407,85 +6242,67 @@
     "metin": "Diş fırçalamak çok önemlidir. Her sabah ve her akşam dişlerimi fırçalarım. Diş macunumu fırçanın üstüne sıkarım. İki dakika boyunca dişlerimi fırçalarım. Ağzımı suyla çalkalarım. Dişçi her altı ayda bir kontrol yapar. Dişçim dişlerimin çok temiz olduğunu söylüyor. Düzenli diş fırçalamak çürükleri önler.",
     "coktan_secmeli": [
       {
-        "soru": "Dişler günde kaç kez fırçalanır?",
+        "soru": "Sonbahar gelince yapraklar ne değiştirir?",
         "secenekler": [
-          "A) Bir kez",
-          "B) İki kez",
-          "C) Üç kez"
+          "A) Boyu",
+          "B) Tadı",
+          "C) Rengi"
         ],
-        "cevap": "B) İki kez"
+        "cevap": "C) Rengi"
       },
       {
-        "soru": "Dişler kaç dakika fırçalanır?",
+        "soru": "Yapraklar hangi renklere döner?",
         "secenekler": [
-          "A) Bir dakika",
-          "B) Beş dakika",
-          "C) İki dakika"
+          "A) Mavi ve yeşil",
+          "B) Sarı, turuncu ve kırmızı",
+          "C) Beyaz ve mor"
         ],
-        "cevap": "C) İki dakika"
+        "cevap": "B) Sarı, turuncu ve kırmızı"
       },
       {
-        "soru": "Düzenli diş fırçalamak neyi önler?",
+        "soru": "Ağaçlar yapraklarını ne zaman döker?",
         "secenekler": [
-          "A) Hastalık",
-          "B) Çürük",
-          "C) Ağrı"
+          "A) Birden",
+          "B) Hızla",
+          "C) Yavaş yavaş"
         ],
-        "cevap": "B) Çürük"
-      }
-    ],
-    "bosluk_doldurma": [
-      {
-        "cumle": "Diş macunumu fırçanın üstüne .........",
-        "kelime_havuzu": [
-          "sıkarım",
-          "koyarım",
-          "yazarım"
-        ],
-        "cevap": "sıkarım"
+        "cevap": "C) Yavaş yavaş"
       },
       {
-        "cumle": "Dişçi her altı ayda bir ........ yapar.",
-        "kelime_havuzu": [
-          "kontrol",
-          "ameliyat",
-          "iğne"
-        ],
-        "cevap": "kontrol"
-      }
-    ]
-  },
-  {
-    "id": 65,
-    "baslik": "Güz Mevsimi",
-    "metin": "Sonbahar gelince yapraklar renk değiştirir. Yeşil yapraklar sarı, turuncu ve kırmızıya döner. Ağaçlar yapraklarını yavaş yavaş döker. Ben sonbaharı çok severim. Yerde biriken yaprakların üstünde zıplamak çok eğlencelidir. Annem güz mevsiminde balkak çorbası yapar. Hava serinlediği için kazak giymeye başlarız. Sonbahar hem güzel hem melankoli dolu bir mevsimdir.",
-    "coktan_secmeli": [
-      {
-        "soru": "Sonbaharda yapraklar nasıl değişir?",
+        "soru": "Yerde yaprakların üzerinde ne yapmak eğlencelidir?",
         "secenekler": [
-          "A) Mavi ve mora döner",
-          "B) Sarı, turuncu ve kırmızıya döner",
-          "C) Beyaza döner"
+          "A) Uyumak",
+          "B) Zıplamak",
+          "C) Oturmak"
         ],
-        "cevap": "B) Sarı, turuncu ve kırmızıya döner"
+        "cevap": "B) Zıplamak"
       },
       {
-        "soru": "Annem güz mevsiminde ne yapar?",
+        "soru": "Annem güz mevsiminde ne çorbası yapar?",
         "secenekler": [
-          "A) Reçel yapar",
-          "B) Balkak çorbası yapar",
-          "C) Meyve toplar"
+          "A) Mercimek",
+          "B) Domates",
+          "C) Balkabağı"
         ],
-        "cevap": "B) Balkak çorbası yapar"
+        "cevap": "C) Balkabağı"
       },
       {
-        "soru": "Hava serinleyince ne giyilir?",
+        "soru": "Hava serinlediğinde ne giymeye başlanır?",
         "secenekler": [
           "A) Tişört",
           "B) Şort",
           "C) Kazak"
         ],
         "cevap": "C) Kazak"
+      },
+      {
+        "soru": "Sonbahar nasıl bir mevsimdir?",
+        "secenekler": [
+          "A) Hem güzel hem melankoli dolu",
+          "B) Sıkıcı ve kasvetli",
+          "C) En iyi mevsim"
+        ],
+        "cevap": "A) Hem güzel hem melankoli dolu"
       }
     ],
     "bosluk_doldurma": [
@@ -3502,98 +6319,89 @@
         "cumle": "Ağaçlar yapraklarını yavaş yavaş .........",
         "kelime_havuzu": [
           "döker",
-          "toplar",
-          "büyütür"
+          "büyütür",
+          "toplar"
         ],
         "cevap": "döker"
+      },
+      {
+        "cumle": "Annem güz mevsiminde ........ çorbası yapar.",
+        "kelime_havuzu": [
+          "balkabağı",
+          "mercimek",
+          "domates"
+        ],
+        "cevap": "balkabağı"
       }
     ]
   },
   {
-    "id": 66,
-    "baslik": "Manav Dede",
-    "metin": "Sokak başında küçük bir manav var. Manav dedesinin adı Ramazan'dır. Her sabah seyyar arabasını çıkarır ve sebze meyve dizer. Çok taze ve güzel ürünleri vardır. Sesini yükseltip 'taze domates, taze salatalık!' diye bağırır. Mahalle kadınları ondan alışveriş etmeyi çok sever. Ben de annemle gidince bana bazen armut ya da elma verir. Ramazan Dede mahallenin en renkli ve neşeli insanıdır.",
-    "coktan_secmeli": [
-      {
-        "soru": "Manav dedesinin adı nedir?",
-        "secenekler": [
-          "A) Hasan",
-          "B) Ramazan",
-          "C) Mehmet"
-        ],
-        "cevap": "B) Ramazan"
-      },
-      {
-        "soru": "Ramazan Dede ne satar?",
-        "secenekler": [
-          "A) Ekmek ve simit",
-          "B) Sebze ve meyve",
-          "C) Çiçek ve fide"
-        ],
-        "cevap": "B) Sebze ve meyve"
-      },
-      {
-        "soru": "Çocuğa ne verilir?",
-        "secenekler": [
-          "A) Para",
-          "B) Armut ya da elma",
-          "C) Çikolata"
-        ],
-        "cevap": "B) Armut ya da elma"
-      }
-    ],
-    "bosluk_doldurma": [
-      {
-        "cumle": "Her sabah seyyar arabasını çıkarır ve sebze meyve .........",
-        "kelime_havuzu": [
-          "dizer",
-          "atar",
-          "satar"
-        ],
-        "cevap": "dizer"
-      },
-      {
-        "cumle": "Ramazan Dede mahallenin en renkli ve ........ insanıdır.",
-        "kelime_havuzu": [
-          "neşeli",
-          "sinirli",
-          "sert"
-        ],
-        "cevap": "neşeli"
-      }
-    ]
-  },
-  {
-    "id": 67,
-    "baslik": "Uyumak İstemiyorum",
-    "metin": "Akşam olunca annem yatma vakti geldi dedi. Ama ben uyumak istemiyordum çünkü çizgi film izliyordum. Annem televizyonu kapattı ve beni odama götürdü. Biraz surat astım ama annem öylece yanıma oturdu. Bana sevimli bir masal anlattı. Masalın ortasında gözlerim ağırlaşmaya başladı. Ne zaman uyuduğumu bile anlamadım. Sabah uyandığımda annemin haklı olduğunu anladım.",
+    "id": 65,
+    "baslik": "Güz Mevsimi",
+    "metin": "Sonbahar gelince yapraklar renk değiştirir. Yeşil yapraklar sarı, turuncu ve kırmızıya döner. Ağaçlar yapraklarını yavaş yavaş döker. Ben sonbaharı çok severim. Yerde biriken yaprakların üstünde zıplamak çok eğlencelidir. Annem güz mevsiminde balkak çorbası yapar. Hava serinlediği için kazak giymeye başlarız. Sonbahar hem güzel hem melankoli dolu bir mevsimdir.",
     "coktan_secmeli": [
       {
         "soru": "Çocuk neden uyumak istemiyordu?",
         "secenekler": [
           "A) Korkuyordu",
           "B) Çizgi film izliyordu",
-          "C) Arkadaşıyla oynuyordu"
+          "C) Oyun oynuyordu"
         ],
         "cevap": "B) Çizgi film izliyordu"
       },
       {
-        "soru": "Annem ne yaptı?",
+        "soru": "Annesi ne yaptı?",
         "secenekler": [
-          "A) Bağırdı",
-          "B) Masalı kitaptan okudu",
-          "C) Masal anlattı"
+          "A) Kızdı ve bağırdı",
+          "B) Televizyonu kapattı ve odaya götürdü",
+          "C) Görmezden geldi"
         ],
-        "cevap": "C) Masal anlattı"
+        "cevap": "B) Televizyonu kapattı ve odaya götürdü"
       },
       {
-        "soru": "Sabah uyandığında ne anlaşıldı?",
+        "soru": "Çocuk annesi onu odaya götürünce ne yaptı?",
         "secenekler": [
-          "A) Annemin haklı olduğu",
-          "B) Masalın çok güzel olduğu",
-          "C) Geç kalındığı"
+          "A) Ağladı",
+          "B) Biraz surat astı",
+          "C) Hemen uyudu"
         ],
-        "cevap": "A) Annemin haklı olduğu"
+        "cevap": "B) Biraz surat astı"
+      },
+      {
+        "soru": "Annesi odada çocuğa ne anlattı?",
+        "secenekler": [
+          "A) Korku hikayesi",
+          "B) Sevimli bir masal",
+          "C) Bir anısını"
+        ],
+        "cevap": "B) Sevimli bir masal"
+      },
+      {
+        "soru": "Masalın ortasında çocuğa ne oldu?",
+        "secenekler": [
+          "A) Sıkıldı",
+          "B) Güldü",
+          "C) Gözleri ağırlaşmaya başladı"
+        ],
+        "cevap": "C) Gözleri ağırlaşmaya başladı"
+      },
+      {
+        "soru": "Çocuk ne zaman uyuduğunu anlayabildi mi?",
+        "secenekler": [
+          "A) Evet, yavaş yavaş uyudu",
+          "B) Hayır, ne zaman uyuduğunu anlamadı",
+          "C) Evet, geç saatte uyudu"
+        ],
+        "cevap": "B) Hayır, ne zaman uyuduğunu anlamadı"
+      },
+      {
+        "soru": "Sabah uyandığında ne anladı?",
+        "secenekler": [
+          "A) Çizgi filmin bitmediğini",
+          "B) Annesinin haklı olduğunu",
+          "C) Çok geç uyuduğunu"
+        ],
+        "cevap": "B) Annesinin haklı olduğunu"
       }
     ],
     "bosluk_doldurma": [
@@ -3614,148 +6422,184 @@
           "kapandı"
         ],
         "cevap": "başladı"
+      },
+      {
+        "cumle": "Annem ........ kapattı ve beni odama götürdü.",
+        "kelime_havuzu": [
+          "televizyonu",
+          "ışığı",
+          "kapıyı"
+        ],
+        "cevap": "televizyonu"
       }
     ]
   },
   {
-    "id": 68,
-    "baslik": "Sergi Günü",
-    "metin": "Okulumuzda her yıl resim sergisi düzenlenir. Bu yıl ben de sergiye katıldım. Üç haftadır üzerinde çalıştığım tablomu getirdim. Tablom ormandaki bir geyiği gösteriyordu. Öğretmenim tabloma çok beğendi ve en iyi yere astı. Veliler okula geldi ve resimlere baktı. Annem benim tablomun önünde fotoğraf çektirdi. O gün hayatımın en gurur dolu günüydü.",
+    "id": 66,
+    "baslik": "Manav Dede",
+    "metin": "Sokak başında küçük bir manav var. Manav dedesinin adı Ramazan'dır. Her sabah seyyar arabasını çıkarır ve sebze meyve dizer. Çok taze ve güzel ürünleri vardır. Sesini yükseltip 'taze domates, taze salatalık!' diye bağırır. Mahalle kadınları ondan alışveriş etmeyi çok sever. Ben de annemle gidince bana bazen armut ya da elma verir. Ramazan Dede mahallenin en renkli ve neşeli insanıdır.",
     "coktan_secmeli": [
       {
-        "soru": "Sergi ne zaman düzenlenir?",
+        "soru": "Manav sokağın neresindedir?",
         "secenekler": [
-          "A) Her ay",
-          "B) Her yıl",
-          "C) Her dönem"
+          "A) Ortasında",
+          "B) Sonunda",
+          "C) Başında"
         ],
-        "cevap": "B) Her yıl"
+        "cevap": "C) Başında"
       },
       {
-        "soru": "Tablo ne gösteriyor?",
+        "soru": "Manav dedesinin adı nedir?",
         "secenekler": [
-          "A) Ormandaki bir geyik",
-          "B) Deniz manzarası",
-          "C) Şehir görüntüsü"
+          "A) Hasan",
+          "B) Mehmet",
+          "C) Ramazan"
         ],
-        "cevap": "A) Ormandaki bir geyik"
+        "cevap": "C) Ramazan"
       },
       {
-        "soru": "Öğretmen tabloyu nereye astı?",
+        "soru": "Ramazan Dede her sabah ne yapar?",
         "secenekler": [
-          "A) Kapının yanına",
-          "B) En iyi yere",
-          "C) Köşeye"
+          "A) Markete gider",
+          "B) Seyyar arabasını çıkarır",
+          "C) Evde oturur"
         ],
-        "cevap": "B) En iyi yere"
+        "cevap": "B) Seyyar arabasını çıkarır"
+      },
+      {
+        "soru": "Ürünleri nasıldır?",
+        "secenekler": [
+          "A) Çürük ve ucuz",
+          "B) Çok taze ve güzel",
+          "C) Pahalı ve az"
+        ],
+        "cevap": "B) Çok taze ve güzel"
+      },
+      {
+        "soru": "Ramazan Dede ne bağırır?",
+        "secenekler": [
+          "A) Fiyatları",
+          "B) Adını",
+          "C) 'Taze domates, taze salatalık'"
+        ],
+        "cevap": "C) 'Taze domates, taze salatalık'"
+      },
+      {
+        "soru": "Kimler ondan alışveriş etmeyi sever?",
+        "secenekler": [
+          "A) Çocuklar",
+          "B) Erkekler",
+          "C) Mahalle kadınları"
+        ],
+        "cevap": "C) Mahalle kadınları"
+      },
+      {
+        "soru": "Ramazan Dede mahallenin nasıl insanıdır?",
+        "secenekler": [
+          "A) En sinirli",
+          "B) En sessiz",
+          "C) En renkli ve neşeli"
+        ],
+        "cevap": "C) En renkli ve neşeli"
       }
     ],
     "bosluk_doldurma": [
       {
-        "cumle": "Üç haftadır üzerinde çalıştığım tablumu .........",
+        "cumle": "Her sabah seyyar arabasını çıkarır ve sebze meyve .........",
         "kelime_havuzu": [
-          "getirdim",
-          "sattım",
-          "unuttum"
+          "dizer",
+          "atar",
+          "gizler"
         ],
-        "cevap": "getirdim"
+        "cevap": "dizer"
       },
       {
-        "cumle": "O gün hayatımın en ........ dolu günüydü.",
+        "cumle": "Ramazan Dede mahallenin en renkli ve ........ insanıdır.",
         "kelime_havuzu": [
-          "gurur",
-          "korku",
-          "üzüntü"
+          "neşeli",
+          "sinirli",
+          "sert"
         ],
-        "cevap": "gurur"
+        "cevap": "neşeli"
+      },
+      {
+        "cumle": "Çok ........ ve güzel ürünleri vardır.",
+        "kelime_havuzu": [
+          "taze",
+          "pahalı",
+          "az"
+        ],
+        "cevap": "taze"
       }
     ]
   },
   {
-    "id": 69,
-    "baslik": "Spor Yapmak",
-    "metin": "Her gün spor yapmak sağlıklıdır. Ben sabahları yirmi dakika yürüyüş yaparım. Babam bana bisiklet sürmeyi de öğretti. Hafta sonları futbol oynarım. Spor yapmak hem vücudu güçlendirir hem de zihnimizi açar. Öğretmenim bize en az haftada üç gün spor yapmamızı söyledi. Ben bu kurala hep uyarım. Sağlıklı bir vücut için spor şarttır.",
+    "id": 67,
+    "baslik": "Uyumak İstemiyorum",
+    "metin": "Akşam olunca annem yatma vakti geldi dedi. Ama ben uyumak istemiyordum çünkü çizgi film izliyordum. Annem televizyonu kapattı ve beni odama götürdü. Biraz surat astım ama annem öylece yanıma oturdu. Bana sevimli bir masal anlattı. Masalın ortasında gözlerim ağırlaşmaya başladı. Ne zaman uyuduğumu bile anlamadım. Sabah uyandığımda annemin haklı olduğunu anladım.",
     "coktan_secmeli": [
       {
-        "soru": "Sabahları kaç dakika yürüyüş yapılır?",
+        "soru": "Kışa hazırlık ne zaman başlar?",
         "secenekler": [
-          "A) On dakika",
-          "B) Yirmi dakika",
-          "C) Otuz dakika"
+          "A) Bahar gelince",
+          "B) Hava soğumaya başlayınca",
+          "C) Kar yağınca"
         ],
-        "cevap": "B) Yirmi dakika"
+        "cevap": "B) Hava soğumaya başlayınca"
       },
       {
-        "soru": "Öğretmen haftada en az kaç gün spor yapılmasını söyledi?",
+        "soru": "Annem dolapta ne yapar?",
         "secenekler": [
-          "A) İki gün",
-          "B) Beş gün",
-          "C) Üç gün"
+          "A) Yazlık kıyafetleri öne alır",
+          "B) Kalın kazak ve montları öne alır",
+          "C) Her şeyi kutulara koyar"
         ],
-        "cevap": "C) Üç gün"
+        "cevap": "B) Kalın kazak ve montları öne alır"
       },
       {
-        "soru": "Spor yapmanın faydası nedir?",
+        "soru": "Battaniyelerle ne yapılır?",
         "secenekler": [
-          "A) Sadece eğlenceli",
-          "B) Hem vücudu güçlendirir hem zihni açar",
-          "C) Sadece kilo verilir"
+          "A) Yıkanır",
+          "B) Havada silkelenir ve güneşe serilir",
+          "C) Katlanıp kutulara konur"
         ],
-        "cevap": "B) Hem vücudu güçlendirir hem zihni açar"
-      }
-    ],
-    "bosluk_doldurma": [
-      {
-        "cumle": "Babam bana ........ sürmeyi de öğretti.",
-        "kelime_havuzu": [
-          "bisiklet",
-          "araba",
-          "motosiklet"
-        ],
-        "cevap": "bisiklet"
-      },
-      {
-        "cumle": "Sağlıklı bir vücut için spor ........'dır.",
-        "kelime_havuzu": [
-          "şart",
-          "gereksiz",
-          "zor"
-        ],
-        "cevap": "şart"
-      }
-    ]
-  },
-  {
-    "id": 70,
-    "baslik": "Kış Hazırlığı",
-    "metin": "Hava soğumaya başlayınca annem kışa hazırlık yapar. Dolapta kalın kazakları ve montları ön sıraya alır. Battaniyeler havada silkelenir ve güneşe serilir. Babam pencerelerin fitillerini kontrol eder. Ben de atkı ve eldivenlerimi çıkarırım. Her yıl bu hazırlıkları yapmak bize kışın rahatça geçeceğini hissettirir. Kış soğuk olabilir ama ailecek evde olmak çok sıcak bir his verir.",
-    "coktan_secmeli": [
-      {
-        "soru": "Annem kış hazırlığında ne yapar?",
-        "secenekler": [
-          "A) Çiçek eker",
-          "B) Kalın kıyafetleri ön sıraya alır",
-          "C) Pencere açar"
-        ],
-        "cevap": "B) Kalın kıyafetleri ön sıraya alır"
+        "cevap": "B) Havada silkelenir ve güneşe serilir"
       },
       {
         "soru": "Baba ne kontrol eder?",
         "secenekler": [
-          "A) Arabanın tekerleri",
-          "B) Pencerelerin fitilleri",
-          "C) Kapı kilitleri"
+          "A) Arabanın lastiklerini",
+          "B) Pencerelerin fitillerini",
+          "C) Kapı kilitlerini"
         ],
-        "cevap": "B) Pencerelerin fitilleri"
+        "cevap": "B) Pencerelerin fitillerini"
+      },
+      {
+        "soru": "Çocuk ne çıkarır?",
+        "secenekler": [
+          "A) Kazak ve eldiven",
+          "B) Mont ve ayakkabı",
+          "C) Atkı ve eldivenlerini"
+        ],
+        "cevap": "C) Atkı ve eldivenlerini"
       },
       {
         "soru": "Bu hazırlıklar ne hissettirir?",
         "secenekler": [
-          "A) Kışın rahatça geçeceğini",
-          "B) Kışın zor olacağını",
+          "A) Kışın zor geçeceğini",
+          "B) Kışın rahatça geçeceğini",
           "C) İlkbaharın geleceğini"
         ],
-        "cevap": "A) Kışın rahatça geçeceğini"
+        "cevap": "B) Kışın rahatça geçeceğini"
+      },
+      {
+        "soru": "Ailecek evde olmak nasıl bir his verir?",
+        "secenekler": [
+          "A) Sıkıcı",
+          "B) Soğuk",
+          "C) Çok sıcak"
+        ],
+        "cevap": "C) Çok sıcak"
       }
     ],
     "bosluk_doldurma": [
@@ -3776,6 +6620,312 @@
           "çizmelerimi"
         ],
         "cevap": "eldivenlerimi"
+      },
+      {
+        "cumle": "Ailecek ........ olmak çok sıcak bir his verir.",
+        "kelime_havuzu": [
+          "evde",
+          "tatilde",
+          "dışarıda"
+        ],
+        "cevap": "evde"
+      }
+    ]
+  },
+  {
+    "id": 68,
+    "baslik": "Sergi Günü",
+    "metin": "Okulumuzda her yıl resim sergisi düzenlenir. Bu yıl ben de sergiye katıldım. Üç haftadır üzerinde çalıştığım tablomu getirdim. Tablom ormandaki bir geyiği gösteriyordu. Öğretmenim tabloma çok beğendi ve en iyi yere astı. Veliler okula geldi ve resimlere baktı. Annem benim tablomun önünde fotoğraf çektirdi. O gün hayatımın en gurur dolu günüydü.",
+    "coktan_secmeli": [
+      {
+        "soru": "Ormanın kenarında çiçekler ne zaman açar?",
+        "secenekler": [
+          "A) Kışın",
+          "B) Sonbaharda",
+          "C) Bahar gelince"
+        ],
+        "cevap": "C) Bahar gelince"
+      },
+      {
+        "soru": "Annemle birlikte ne yaptılar?",
+        "secenekler": [
+          "A) Alışverişe çıktılar",
+          "B) Yürüyüşe çıktılar",
+          "C) Bisiklet sürdüler"
+        ],
+        "cevap": "B) Yürüyüşe çıktılar"
+      },
+      {
+        "soru": "Hangi çiçek yolda görülmedi?",
+        "secenekler": [
+          "A) Papatya",
+          "B) Gelincik",
+          "C) Gül"
+        ],
+        "cevap": "C) Gül"
+      },
+      {
+        "soru": "Çiçeklerden ne oluşturdular?",
+        "secenekler": [
+          "A) Büyük buket",
+          "B) Küçük demet",
+          "C) Çelenk"
+        ],
+        "cevap": "B) Küçük demet"
+      },
+      {
+        "soru": "Vazo içine konan çiçekler ne yaptı?",
+        "secenekler": [
+          "A) Hemen soldu",
+          "B) Odayı güzel kokulara boğdu",
+          "C) Hiçbir şey olmadı"
+        ],
+        "cevap": "B) Odayı güzel kokulara boğdu"
+      },
+      {
+        "soru": "Annem çiçekleri görünce ne yaptı?",
+        "secenekler": [
+          "A) İstedi",
+          "B) Çok sevindi ve sarıldı",
+          "C) Vazoyu getirdi"
+        ],
+        "cevap": "B) Çok sevindi ve sarıldı"
+      },
+      {
+        "soru": "Doğayı gezmek nasıl bir şeydir?",
+        "secenekler": [
+          "A) Sadece eğlenceli",
+          "B) Hem eğlenceli hem huzur verici",
+          "C) Sadece yorucu"
+        ],
+        "cevap": "B) Hem eğlenceli hem huzur verici"
+      }
+    ],
+    "bosluk_doldurma": [
+      {
+        "cumle": "Yolda ........., gelincikler ve leylaklar gördük.",
+        "kelime_havuzu": [
+          "papatyalar",
+          "güller",
+          "laleler"
+        ],
+        "cevap": "papatyalar"
+      },
+      {
+        "cumle": "Çiçekler odayı güzel kokulara .........",
+        "kelime_havuzu": [
+          "boğdu",
+          "doldurdu",
+          "yaydı"
+        ],
+        "cevap": "boğdu"
+      },
+      {
+        "cumle": "Doğayı gezmek hem eğlenceli hem de ........ vericidir.",
+        "kelime_havuzu": [
+          "huzur",
+          "korku",
+          "enerji"
+        ],
+        "cevap": "huzur"
+      }
+    ]
+  },
+  {
+    "id": 69,
+    "baslik": "Spor Yapmak",
+    "metin": "Her gün spor yapmak sağlıklıdır. Ben sabahları yirmi dakika yürüyüş yaparım. Babam bana bisiklet sürmeyi de öğretti. Hafta sonları futbol oynarım. Spor yapmak hem vücudu güçlendirir hem de zihnimizi açar. Öğretmenim bize en az haftada üç gün spor yapmamızı söyledi. Ben bu kurala hep uyarım. Sağlıklı bir vücut için spor şarttır.",
+    "coktan_secmeli": [
+      {
+        "soru": "Her gün spor yapmak nasıldır?",
+        "secenekler": [
+          "A) Zararlıdır",
+          "B) Sağlıklıdır",
+          "C) Gereksizdir"
+        ],
+        "cevap": "B) Sağlıklıdır"
+      },
+      {
+        "soru": "Çocuk sabahları kaç dakika yürüyüş yapar?",
+        "secenekler": [
+          "A) On",
+          "B) Otuz",
+          "C) Yirmi"
+        ],
+        "cevap": "C) Yirmi"
+      },
+      {
+        "soru": "Babası çocuğa ne sürmeyi öğretti?",
+        "secenekler": [
+          "A) Araba",
+          "B) Motorsiklet",
+          "C) Bisiklet"
+        ],
+        "cevap": "C) Bisiklet"
+      },
+      {
+        "soru": "Hafta sonları ne oynanır?",
+        "secenekler": [
+          "A) Basketbol",
+          "B) Futbol",
+          "C) Voleybol"
+        ],
+        "cevap": "B) Futbol"
+      },
+      {
+        "soru": "Spor yapmanın faydaları nelerdir?",
+        "secenekler": [
+          "A) Sadece eğlenceli",
+          "B) Hem vücudu güçlendirir hem zihni açar",
+          "C) Sadece zayıflatır"
+        ],
+        "cevap": "B) Hem vücudu güçlendirir hem zihni açar"
+      },
+      {
+        "soru": "Öğretmen haftada en az kaç gün spor tavsiye etti?",
+        "secenekler": [
+          "A) İki",
+          "B) Dört",
+          "C) Üç"
+        ],
+        "cevap": "C) Üç"
+      },
+      {
+        "soru": "Sağlıklı bir vücut için spor nasıldır?",
+        "secenekler": [
+          "A) Tercih meselesi",
+          "B) Şarttır",
+          "C) Gereksizdir"
+        ],
+        "cevap": "B) Şarttır"
+      }
+    ],
+    "bosluk_doldurma": [
+      {
+        "cumle": "Babam bana ........ sürmeyi de öğretti.",
+        "kelime_havuzu": [
+          "bisiklet",
+          "araba",
+          "motor"
+        ],
+        "cevap": "bisiklet"
+      },
+      {
+        "cumle": "Sağlıklı bir vücut için spor .........",
+        "kelime_havuzu": [
+          "şarttır",
+          "gereksizdir",
+          "zordur"
+        ],
+        "cevap": "şarttır"
+      },
+      {
+        "cumle": "Spor yapmak hem vücudu güçlendirir hem de zihnimizi .........",
+        "kelime_havuzu": [
+          "açar",
+          "kapatır",
+          "yorar"
+        ],
+        "cevap": "açar"
+      }
+    ]
+  },
+  {
+    "id": 70,
+    "baslik": "Kış Hazırlığı",
+    "metin": "Hava soğumaya başlayınca annem kışa hazırlık yapar. Dolapta kalın kazakları ve montları ön sıraya alır. Battaniyeler havada silkelenir ve güneşe serilir. Babam pencerelerin fitillerini kontrol eder. Ben de atkı ve eldivenlerimi çıkarırım. Her yıl bu hazırlıkları yapmak bize kışın rahatça geçeceğini hissettirir. Kış soğuk olabilir ama ailecek evde olmak çok sıcak bir his verir.",
+    "coktan_secmeli": [
+      {
+        "soru": "Hangi sabahlar kalkmak zordur?",
+        "secenekler": [
+          "A) Cuma",
+          "B) Salı",
+          "C) Pazartesi"
+        ],
+        "cevap": "C) Pazartesi"
+      },
+      {
+        "soru": "Alarm çaldığında ne olmak istemedi?",
+        "secenekler": [
+          "A) Kahvaltı etmek",
+          "B) Yataktan çıkmak",
+          "C) Okula gitmek"
+        ],
+        "cevap": "B) Yataktan çıkmak"
+      },
+      {
+        "soru": "Annesi kaç kez seslendi?",
+        "secenekler": [
+          "A) İki",
+          "B) Beş",
+          "C) Üç"
+        ],
+        "cevap": "C) Üç"
+      },
+      {
+        "soru": "Çantasını neden önceden hazırlamıştı?",
+        "secenekler": [
+          "A) Annesine yardım etmek için",
+          "B) Zaman kazanmak için",
+          "C) Haberdar olmak için"
+        ],
+        "cevap": "B) Zaman kazanmak için"
+      },
+      {
+        "soru": "Okula nasıl yetişti?",
+        "secenekler": [
+          "A) Geç kaldı",
+          "B) Çok erken gitti",
+          "C) Tam zamanında"
+        ],
+        "cevap": "C) Tam zamanında"
+      },
+      {
+        "soru": "Öğretmeni bugün ne söyledi?",
+        "secenekler": [
+          "A) Sınav olacağını",
+          "B) Yeni bir konu anlatacağını",
+          "C) Tatil olduğunu"
+        ],
+        "cevap": "B) Yeni bir konu anlatacağını"
+      },
+      {
+        "soru": "Pazartesi sabahları zor olsa da çocuk neyi güzel buluyor?",
+        "secenekler": [
+          "A) Geç kalkmayı",
+          "B) Okula gitmemeyi",
+          "C) Okula gitmeyi"
+        ],
+        "cevap": "C) Okula gitmeyi"
+      }
+    ],
+    "bosluk_doldurma": [
+      {
+        "cumle": "Çantamı hazırlamıştım, bu yüzden zaman .........",
+        "kelime_havuzu": [
+          "kazandım",
+          "kaybettim",
+          "harcadım"
+        ],
+        "cevap": "kazandım"
+      },
+      {
+        "cumle": "Öğretmenim bugün yeni bir konu ........ söyledi.",
+        "kelime_havuzu": [
+          "anlatacağını",
+          "yazmayacağını",
+          "seçeceğini"
+        ],
+        "cevap": "anlatacağını"
+      },
+      {
+        "cumle": "Okula tam ........ yetiştim.",
+        "kelime_havuzu": [
+          "zamanında",
+          "geç",
+          "erken"
+        ],
+        "cevap": "zamanında"
       }
     ]
   }
