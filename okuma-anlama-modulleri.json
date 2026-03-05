@@ -2993,42 +2993,6 @@
         "cevap": "C) Yuvarlak"
       },
       {
-        "soru": "Top nerede atılır?",
-        "secenekler": [
-          "A) Odada",
-          "B) Bahçede",
-          "C) Mutfakta"
-        ],
-        "cevap": "B) Bahçede"
-      },
-      {
-        "soru": "Top ne renktir?",
-        "secenekler": [
-          "A) Kırmızı",
-          "B) Mavi",
-          "C) Sarı"
-        ],
-        "cevap": "A) Kırmızı"
-      },
-      {
-        "soru": "Top nasıldır?",
-        "secenekler": [
-          "A) Kare",
-          "B) Yuvarlak",
-          "C) Uzun"
-        ],
-        "cevap": "B) Yuvarlak"
-      },
-      {
-        "soru": "Topu nerede atar?",
-        "secenekler": [
-          "A) Evde",
-          "B) Sokakta",
-          "C) Bahçede"
-        ],
-        "cevap": "C) Bahçede"
-      },
-      {
         "soru": "Çocuğun topuyla kim oynar?",
         "secenekler": [
           "A) Babası",
@@ -3083,52 +3047,16 @@
         "cevap": "C) Duman"
       },
       {
-        "soru": "Köpek nasıldır?",
+        "soru": "Duman nasıl bir köpektir?",
         "secenekler": [
-          "A) Büyük ve tüysüz",
+          "A) Büyük ve siyah",
           "B) Küçük ve tüylü",
           "C) Uzun ve sarı"
         ],
         "cevap": "B) Küçük ve tüylü"
       },
       {
-        "soru": "Köpeğe ne verilir?",
-        "secenekler": [
-          "A) Meyve",
-          "B) Mama",
-          "C) Ekmek"
-        ],
-        "cevap": "B) Mama"
-      },
-      {
-        "soru": "Köpeğin adı nedir?",
-        "secenekler": [
-          "A) Karabaş",
-          "B) Duman",
-          "C) Pamuk"
-        ],
-        "cevap": "B) Duman"
-      },
-      {
-        "soru": "Duman nasıl bir köpektir?",
-        "secenekler": [
-          "A) Büyük ve siyah",
-          "B) Küçük ve tüylüdür",
-          "C) Yaşlı ve kızgın"
-        ],
-        "cevap": "B) Küçük ve tüylüdür"
-      },
-      {
-        "soru": "Duman çocukla ne zaman oynar?",
-        "secenekler": [
-          "A) Her gün",
-          "B) Hafta sonu",
-          "C) Akşamları"
-        ],
-        "cevap": "A) Her gün"
-      },
-      {
-        "soru": "Çocuğun Dumana verdiği şey nedir?",
+        "soru": "Çocuğun Duman'a verdiği şey nedir?",
         "secenekler": [
           "A) Kemik",
           "B) Süt",
@@ -3173,24 +3101,6 @@
     "metin": "Elmayı çok severim. Elma kırmızıdır. Elma tatlıdır. Her gün bir elma yerim. Annem elmayı yıkar. Ben de yerim. Elma sağlıklıdır.",
     "coktan_secmeli": [
       {
-        "soru": "Elmanın rengi nedir?",
-        "secenekler": [
-          "A) Sarı",
-          "B) Kırmızı",
-          "C) Yeşil"
-        ],
-        "cevap": "B) Kırmızı"
-      },
-      {
-        "soru": "Elmayı kim yıkar?",
-        "secenekler": [
-          "A) Baba",
-          "B) Kardeş",
-          "C) Anne"
-        ],
-        "cevap": "C) Anne"
-      },
-      {
         "soru": "Elma nasıl bir meyvedir?",
         "secenekler": [
           "A) Acı",
@@ -3198,15 +3108,6 @@
           "C) Tatlı"
         ],
         "cevap": "C) Tatlı"
-      },
-      {
-        "soru": "Elma nasıldır?",
-        "secenekler": [
-          "A) Acıdır",
-          "B) Ekşidir",
-          "C) Tatlıdır"
-        ],
-        "cevap": "C) Tatlıdır"
       },
       {
         "soru": "Çocuk ne sıklıkla elma yer?",
@@ -3225,15 +3126,6 @@
           "C) Kendisi"
         ],
         "cevap": "A) Annesi"
-      },
-      {
-        "soru": "Elma yemek nasıldır?",
-        "secenekler": [
-          "A) Zararlıdır",
-          "B) Sağlıklıdır",
-          "C) Kötüdür"
-        ],
-        "cevap": "B) Sağlıklıdır"
       }
     ],
     "bosluk_doldurma": [
@@ -3272,33 +3164,6 @@
     "metin": "Okuluma giderim. Okulumun adı Atatürk İlkokuludur. Okulumda sınıflar var. Öğretmenim çok iyidir. Ben öğretmenimi severim. Okulda arkadaşlarım var. Okulu severim.",
     "coktan_secmeli": [
       {
-        "soru": "Nereye gidilir?",
-        "secenekler": [
-          "A) Parka",
-          "B) Okula",
-          "C) Markete"
-        ],
-        "cevap": "B) Okula"
-      },
-      {
-        "soru": "Öğretmen nasıldır?",
-        "secenekler": [
-          "A) Kötü",
-          "B) Sert",
-          "C) Çok iyi"
-        ],
-        "cevap": "C) Çok iyi"
-      },
-      {
-        "soru": "Okulda ne var?",
-        "secenekler": [
-          "A) Araba",
-          "B) Arkadaşlar",
-          "C) Hayvan"
-        ],
-        "cevap": "B) Arkadaşlar"
-      },
-      {
         "soru": "Okulun adı nedir?",
         "secenekler": [
           "A) Atatürk İlkokulu",
@@ -3308,6 +3173,15 @@
         "cevap": "A) Atatürk İlkokulu"
       },
       {
+        "soru": "Çocuk okulda kimi sever?",
+        "secenekler": [
+          "A) Arkadaşlarını",
+          "B) Öğretmenini",
+          "C) Yemeği"
+        ],
+        "cevap": "B) Öğretmenini"
+      },
+      {
         "soru": "Okulda neler vardır?",
         "secenekler": [
           "A) Odalar",
@@ -3315,24 +3189,6 @@
           "C) Evler"
         ],
         "cevap": "B) Sınıflar"
-      },
-      {
-        "soru": "Öğretmeni nasıldır?",
-        "secenekler": [
-          "A) Çok iyidir",
-          "B) Çok komiktir",
-          "C) Çok kısadır"
-        ],
-        "cevap": "A) Çok iyidir"
-      },
-      {
-        "soru": "Çocuk okulda kimi sever?",
-        "secenekler": [
-          "A) Sadece arkadaşlarını",
-          "B) Öğretmenini",
-          "C) Yemeği"
-        ],
-        "cevap": "B) Öğretmenini"
       }
     ],
     "bosluk_doldurma": [
@@ -3396,42 +3252,6 @@
           "C) Okula"
         ],
         "cevap": "C) Okula"
-      },
-      {
-        "soru": "Sabah nasıl kalktı?",
-        "secenekler": [
-          "A) Geç kalktım",
-          "B) Erken kalktım",
-          "C) Yavaş kalktım"
-        ],
-        "cevap": "B) Erken kalktım"
-      },
-      {
-        "soru": "Yüzünü yıkadıktan sonra ne yaptı?",
-        "secenekler": [
-          "A) Yemek yedi",
-          "B) Dişlerini fırçaladı",
-          "C) Uyudu"
-        ],
-        "cevap": "B) Dişlerini fırçaladı"
-      },
-      {
-        "soru": "Neyi giydi?",
-        "secenekler": [
-          "A) Pijamalarını",
-          "B) Kıyafetlerini",
-          "C) Ayakkabılarını"
-        ],
-        "cevap": "B) Kıyafetlerini"
-      },
-      {
-        "soru": "Kahvaltıdan sonra nereye gitti?",
-        "secenekler": [
-          "A) Okula",
-          "B) Pazara",
-          "C) Parka"
-        ],
-        "cevap": "A) Okula"
       }
     ],
     "bosluk_doldurma": [
@@ -3470,52 +3290,7 @@
     "metin": "Annem çok iyidir. Annem beni sever. Annem yemek yapar. Annem bana hikâye anlatır. Annem beni okula bırakır. Ben de annemi çok severim. Annem en güzel insandır.",
     "coktan_secmeli": [
       {
-        "soru": "Annem ne yapar?",
-        "secenekler": [
-          "A) Yemek yapar",
-          "B) Araba tamir eder",
-          "C) Balık tutar"
-        ],
-        "cevap": "A) Yemek yapar"
-      },
-      {
-        "soru": "Annem beni nereye bırakır?",
-        "secenekler": [
-          "A) Parka",
-          "B) Okula",
-          "C) Markete"
-        ],
-        "cevap": "B) Okula"
-      },
-      {
-        "soru": "Annem nasıl biridir?",
-        "secenekler": [
-          "A) Kötü",
-          "B) Sert",
-          "C) Çok iyi"
-        ],
-        "cevap": "C) Çok iyi"
-      },
-      {
-        "soru": "Annesi nasıl biridir?",
-        "secenekler": [
-          "A) Çok komiktir",
-          "B) Çok iyidir",
-          "C) Çok sinirlidir"
-        ],
-        "cevap": "B) Çok iyidir"
-      },
-      {
-        "soru": "Annesi ona ne yapar?",
-        "secenekler": [
-          "A) Yemek yapar",
-          "B) Resim yapar",
-          "C) Oyun yapar"
-        ],
-        "cevap": "A) Yemek yapar"
-      },
-      {
-        "soru": "Annesi ona ne anlatır?",
+        "soru": "Annesi çocuğa ne anlatır?",
         "secenekler": [
           "A) Masal",
           "B) Hikâye",
@@ -3531,6 +3306,15 @@
           "C) Manava"
         ],
         "cevap": "B) Okula"
+      },
+      {
+        "soru": "Annesi nasıl biridir?",
+        "secenekler": [
+          "A) Çok komiktir",
+          "B) Çok iyidir",
+          "C) Çok sinirlidir"
+        ],
+        "cevap": "B) Çok iyidir"
       }
     ],
     "bosluk_doldurma": [
@@ -3569,15 +3353,6 @@
     "metin": "Bugün hava güzel. Güneş çıktı. Gökyüzü mavidir. Dışarısı sıcaktır. Ben dışarı çıktım. Bahçede oynadım. Çok eğlendim.",
     "coktan_secmeli": [
       {
-        "soru": "Bugün hava nasıl?",
-        "secenekler": [
-          "A) Yağmurlu",
-          "B) Güzel",
-          "C) Karlı"
-        ],
-        "cevap": "B) Güzel"
-      },
-      {
         "soru": "Gökyüzü ne renktir?",
         "secenekler": [
           "A) Gri",
@@ -3587,25 +3362,7 @@
         "cevap": "C) Mavi"
       },
       {
-        "soru": "Çocuk nerede oynadı?",
-        "secenekler": [
-          "A) Odada",
-          "B) Bahçede",
-          "C) Okulda"
-        ],
-        "cevap": "B) Bahçede"
-      },
-      {
-        "soru": "Bugün hava nasıldır?",
-        "secenekler": [
-          "A) Yağmurlu",
-          "B) Soğuk",
-          "C) Güzel"
-        ],
-        "cevap": "C) Güzel"
-      },
-      {
-        "soru": "Çıkan şey nedir?",
+        "soru": "Gökyüzünde çıkan şey nedir?",
         "secenekler": [
           "A) Ay",
           "B) Yıldız",
@@ -3614,22 +3371,13 @@
         "cevap": "C) Güneş"
       },
       {
-        "soru": "Gökyüzü ne renktir?",
+        "soru": "Çocuk nerede oynadı?",
         "secenekler": [
-          "A) Mavi",
-          "B) Gri",
-          "C) Beyaz"
+          "A) Odada",
+          "B) Bahçede",
+          "C) Okulda"
         ],
-        "cevap": "A) Mavi"
-      },
-      {
-        "soru": "Dışarısı nasıldır?",
-        "secenekler": [
-          "A) Sıcaktır",
-          "B) Soğuktur",
-          "C) Karanlıktır"
-        ],
-        "cevap": "A) Sıcaktır"
+        "cevap": "B) Bahçede"
       }
     ],
     "bosluk_doldurma": [
@@ -3690,45 +3438,9 @@
         "secenekler": [
           "A) Uyunur",
           "B) Müzik dinlenir",
-          "C) Yemek yenir"
+          "C) Kitap okunur"
         ],
         "cevap": "B) Müzik dinlenir"
-      },
-      {
-        "soru": "Kimin arabası var?",
-        "secenekler": [
-          "A) Annemin",
-          "B) Dedemin",
-          "C) Babamın"
-        ],
-        "cevap": "C) Babamın"
-      },
-      {
-        "soru": "Araba nasıldır?",
-        "secenekler": [
-          "A) Küçüktür",
-          "B) Büyüktür",
-          "C) Eskidir"
-        ],
-        "cevap": "B) Büyüktür"
-      },
-      {
-        "soru": "Babası arabayla nereye gider?",
-        "secenekler": [
-          "A) Tatile",
-          "B) Pazara",
-          "C) İşe"
-        ],
-        "cevap": "C) İşe"
-      },
-      {
-        "soru": "Arabada ne dinlerler?",
-        "secenekler": [
-          "A) Haber",
-          "B) Müzik",
-          "C) Masal"
-        ],
-        "cevap": "B) Müzik"
       }
     ],
     "bosluk_doldurma": [
@@ -3767,13 +3479,13 @@
     "metin": "Evimizde bir akvaryum var. Akvaryumda balıklar var. Balıklar renklidir. Balıklar suda yüzer. Her gün onlara yem veririm. Balıkları izlemek güzeldir. Balıkları severim.",
     "coktan_secmeli": [
       {
-        "soru": "Evde ne var?",
+        "soru": "Akvaryum nerede bulunuyor?",
         "secenekler": [
-          "A) Köpek",
-          "B) Kedi",
-          "C) Akvaryum"
+          "A) Okulda",
+          "B) Parkta",
+          "C) Evimizde"
         ],
-        "cevap": "C) Akvaryum"
+        "cevap": "C) Evimizde"
       },
       {
         "soru": "Balıklar nasıldır?",
@@ -3792,42 +3504,6 @@
           "C) Ekmek"
         ],
         "cevap": "B) Yem"
-      },
-      {
-        "soru": "Evlerinde ne var?",
-        "secenekler": [
-          "A) Akvaryum",
-          "B) Kafes",
-          "C) Sepet"
-        ],
-        "cevap": "A) Akvaryum"
-      },
-      {
-        "soru": "Balıklar nasıldır?",
-        "secenekler": [
-          "A) Renklidir",
-          "B) Siyah beyazdır",
-          "C) Görünmezdir"
-        ],
-        "cevap": "A) Renklidir"
-      },
-      {
-        "soru": "Balıklara her gün ne verilir?",
-        "secenekler": [
-          "A) Su",
-          "B) Yem",
-          "C) Ekmek"
-        ],
-        "cevap": "B) Yem"
-      },
-      {
-        "soru": "Balıkları ne yapmak güzeldir?",
-        "secenekler": [
-          "A) Yemek",
-          "B) İzlemek",
-          "C) Yakalamak"
-        ],
-        "cevap": "B) İzlemek"
       }
     ],
     "bosluk_doldurma": [
@@ -3891,42 +3567,6 @@
           "C) Yanımda"
         ],
         "cevap": "C) Yanımda"
-      },
-      {
-        "soru": "Çocuğun oyuncağı nedir?",
-        "secenekler": [
-          "A) Araba",
-          "B) Bebek",
-          "C) Ayı"
-        ],
-        "cevap": "C) Ayı"
-      },
-      {
-        "soru": "Ayı nasıldır?",
-        "secenekler": [
-          "A) Serttir",
-          "B) Yumuşaktır",
-          "C) Soğuktur"
-        ],
-        "cevap": "B) Yumuşaktır"
-      },
-      {
-        "soru": "Ayı ne zaman çocuğun yanında uyur?",
-        "secenekler": [
-          "A) Her sabah",
-          "B) Öğlen",
-          "C) Her gece"
-        ],
-        "cevap": "C) Her gece"
-      },
-      {
-        "soru": "Oyuncağın adı nedir?",
-        "secenekler": [
-          "A) Minnoş",
-          "B) Pamuk",
-          "C) Tarçın"
-        ],
-        "cevap": "A) Minnoş"
       }
     ],
     "bosluk_doldurma": [
@@ -3974,58 +3614,22 @@
         "cevap": "C) Elif"
       },
       {
-        "soru": "Elif nasıldır?",
-        "secenekler": [
-          "A) Büyük",
-          "B) Küçük",
-          "C) Uzun"
-        ],
-        "cevap": "B) Küçük"
-      },
-      {
-        "soru": "Birlikte ne yapılır?",
-        "secenekler": [
-          "A) Uyunur",
-          "B) Oynanır",
-          "C) Çalışılır"
-        ],
-        "cevap": "B) Oynanır"
-      },
-      {
-        "soru": "Kardeşin adı nedir?",
-        "secenekler": [
-          "A) Ayşe",
-          "B) Elif",
-          "C) Zeynep"
-        ],
-        "cevap": "B) Elif"
-      },
-      {
         "soru": "Elif nasıl biridir?",
         "secenekler": [
-          "A) Güler yüzlüdür",
-          "B) Ağlak yüzlüdür",
+          "A) Ağlak yüzlüdür",
+          "B) Güler yüzlüdür",
           "C) Sinirlidir"
         ],
-        "cevap": "A) Güler yüzlüdür"
-      },
-      {
-        "soru": "İki kardeş birlikte ne yaparlar?",
-        "secenekler": [
-          "A) Uyurlar",
-          "B) Yemek yaparlar",
-          "C) Oynarlar"
-        ],
-        "cevap": "C) Oynarlar"
+        "cevap": "B) Güler yüzlüdür"
       },
       {
         "soru": "Kavga etseler de birbirlerini ne kadar severler?",
         "secenekler": [
           "A) Az severler",
-          "B) Çok severler",
-          "C) Hiç sevmezler"
+          "B) Hiç sevmezler",
+          "C) Çok severler"
         ],
-        "cevap": "B) Çok severler"
+        "cevap": "C) Çok severler"
       }
     ],
     "bosluk_doldurma": [
@@ -4073,15 +3677,6 @@
         "cevap": "B) Sarı"
       },
       {
-        "soru": "Muz nasıl bir meyvedir?",
-        "secenekler": [
-          "A) Ekşi",
-          "B) Acı",
-          "C) Tatlı"
-        ],
-        "cevap": "C) Tatlı"
-      },
-      {
         "soru": "Annem muzu nereden alır?",
         "secenekler": [
           "A) Bahçeden",
@@ -4091,38 +3686,11 @@
         "cevap": "B) Marketten"
       },
       {
-        "soru": "Muz ne renktir?",
-        "secenekler": [
-          "A) Kırmızı",
-          "B) Sarı",
-          "C) Yeşil"
-        ],
-        "cevap": "B) Sarı"
-      },
-      {
-        "soru": "Muz nasıldır?",
-        "secenekler": [
-          "A) Tatlıdır",
-          "B) Ekşidir",
-          "C) Acıdır"
-        ],
-        "cevap": "A) Tatlıdır"
-      },
-      {
-        "soru": "Annesi muzu nereden alır?",
-        "secenekler": [
-          "A) Pazardan",
-          "B) Manavdan",
-          "C) Marketten"
-        ],
-        "cevap": "C) Marketten"
-      },
-      {
         "soru": "Muz çocuğu nasıl yapar?",
         "secenekler": [
           "A) Zayıf",
           "B) Güçlü",
-          "C) Şişman"
+          "C) Hasta"
         ],
         "cevap": "B) Güçlü"
       }
@@ -4172,42 +3740,6 @@
         "cevap": "B) Yağmurlu"
       },
       {
-        "soru": "Ne alındı?",
-        "secenekler": [
-          "A) Çanta",
-          "B) Şemsiye",
-          "C) Eldiven"
-        ],
-        "cevap": "B) Şemsiye"
-      },
-      {
-        "soru": "Ayaklar ne oldu?",
-        "secenekler": [
-          "A) Islandı",
-          "B) Üşüdü",
-          "C) Islanmadı"
-        ],
-        "cevap": "C) Islanmadı"
-      },
-      {
-        "soru": "Bugün hava nasıldır?",
-        "secenekler": [
-          "A) Güneşli",
-          "B) Karlı",
-          "C) Yağmurlu"
-        ],
-        "cevap": "C) Yağmurlu"
-      },
-      {
-        "soru": "Gökyüzü ne renkti?",
-        "secenekler": [
-          "A) Mavi",
-          "B) Gri",
-          "C) Beyaz"
-        ],
-        "cevap": "B) Gri"
-      },
-      {
         "soru": "Çocuk dışarı çıkarken ne giydi?",
         "secenekler": [
           "A) Kazak",
@@ -4220,7 +3752,7 @@
         "soru": "Okula gidince ayaklarına ne oldu?",
         "secenekler": [
           "A) Islandı",
-          "B) Çamur oldu",
+          "B) Üşüdü",
           "C) Islanmadı"
         ],
         "cevap": "C) Islanmadı"
@@ -4278,42 +3810,6 @@
           "C) Müdür"
         ],
         "cevap": "B) Öğretmen"
-      },
-      {
-        "soru": "Notlar nasıldı?",
-        "secenekler": [
-          "A) Kötüydü",
-          "B) İyiydi",
-          "C) Orta"
-        ],
-        "cevap": "B) İyiydi"
-      },
-      {
-        "soru": "Bugün ne günüdür?",
-        "secenekler": [
-          "A) Bayram günü",
-          "B) Doğum günü",
-          "C) Karne günü"
-        ],
-        "cevap": "C) Karne günü"
-      },
-      {
-        "soru": "Karneyi kim verdi?",
-        "secenekler": [
-          "A) Müdür",
-          "B) Öğretmen",
-          "C) Annem"
-        ],
-        "cevap": "B) Öğretmen"
-      },
-      {
-        "soru": "Çocuğun notları nasıldı?",
-        "secenekler": [
-          "A) Kötüydü",
-          "B) İyiydi",
-          "C) Orta"
-        ],
-        "cevap": "B) İyiydi"
       },
       {
         "soru": "Annesi karnesini görünce nasıl oldu?",
@@ -4379,49 +3875,13 @@
         "cevap": "C) Beyaz"
       },
       {
-        "soru": "Tavuklardan ne elde edilir?",
-        "secenekler": [
-          "A) Süt",
-          "B) Yumurta",
-          "C) Et"
-        ],
-        "cevap": "B) Yumurta"
-      },
-      {
-        "soru": "Tavuklar kimin evindedir?",
-        "secenekler": [
-          "A) Çocuğun evinde",
-          "B) Dayısının evinde",
-          "C) Büyükannemin evinde"
-        ],
-        "cevap": "C) Büyükannemin evinde"
-      },
-      {
-        "soru": "Tavukların rengi nedir?",
-        "secenekler": [
-          "A) Beyaz",
-          "B) Siyah",
-          "C) Kahverengi"
-        ],
-        "cevap": "A) Beyaz"
-      },
-      {
-        "soru": "Biz ne yeriz?",
-        "secenekler": [
-          "A) Peyniri",
-          "B) Tavuğu",
-          "C) Yumurtaları"
-        ],
-        "cevap": "C) Yumurtaları"
-      },
-      {
         "soru": "Tavuklar nasıl hayvanlardır?",
         "secenekler": [
-          "A) Gürültülü",
-          "B) Sessiz",
+          "A) Sessiz",
+          "B) Gürültülü",
           "C) Yavaş"
         ],
-        "cevap": "A) Gürültülü"
+        "cevap": "B) Gürültülü"
       }
     ],
     "bosluk_doldurma": [
@@ -4469,42 +3929,6 @@
         "cevap": "B) Mavi"
       },
       {
-        "soru": "Kalemlerle ne yapılır?",
-        "secenekler": [
-          "A) Yemek yenir",
-          "B) Resim çizilir",
-          "C) Oyun oynanır"
-        ],
-        "cevap": "B) Resim çizilir"
-      },
-      {
-        "soru": "Kutunun içinde ne var?",
-        "secenekler": [
-          "A) Oyuncak",
-          "B) Silgi",
-          "C) Kalemler"
-        ],
-        "cevap": "C) Kalemler"
-      },
-      {
-        "soru": "Kalem kutusu ne renktir?",
-        "secenekler": [
-          "A) Sarı",
-          "B) Kırmızı",
-          "C) Mavi"
-        ],
-        "cevap": "C) Mavi"
-      },
-      {
-        "soru": "Kalem kutusunun içinde ne vardır?",
-        "secenekler": [
-          "A) Silgiler",
-          "B) Kalemler",
-          "C) Cetveller"
-        ],
-        "cevap": "B) Kalemler"
-      },
-      {
         "soru": "Çocuğun hangi renk kalemleri vardır?",
         "secenekler": [
           "A) Kırmızı, sarı ve yeşil",
@@ -4514,13 +3938,13 @@
         "cevap": "A) Kırmızı, sarı ve yeşil"
       },
       {
-        "soru": "Kalemlerle ne yapar?",
+        "soru": "Kalemlerle ne yapılır?",
         "secenekler": [
-          "A) Yazı yazar",
-          "B) Ödev yapar",
-          "C) Resim çizer"
+          "A) Yazı yazılır",
+          "B) Resim çizilir",
+          "C) Ödev yapılır"
         ],
-        "cevap": "C) Resim çizer"
+        "cevap": "B) Resim çizilir"
       }
     ],
     "bosluk_doldurma": [
@@ -4568,43 +3992,7 @@
         "cevap": "C) İşe"
       },
       {
-        "soru": "Baba akşam eve gelince ne yapar?",
-        "secenekler": [
-          "A) Uyur",
-          "B) Benimle oynar",
-          "C) Gider"
-        ],
-        "cevap": "B) Benimle oynar"
-      },
-      {
-        "soru": "Baba nasıl biridir?",
-        "secenekler": [
-          "A) Kötü",
-          "B) Sert",
-          "C) Çok iyi"
-        ],
-        "cevap": "C) Çok iyi"
-      },
-      {
-        "soru": "Babası nereye gider?",
-        "secenekler": [
-          "A) İşe",
-          "B) Tatile",
-          "C) Parka"
-        ],
-        "cevap": "A) İşe"
-      },
-      {
-        "soru": "Babası ne zaman eve gelir?",
-        "secenekler": [
-          "A) Sabah",
-          "B) Öğlen",
-          "C) Akşam"
-        ],
-        "cevap": "C) Akşam"
-      },
-      {
-        "soru": "Babası eve gelince ne okur?",
+        "soru": "Babası eve gelince çocuğa ne okur?",
         "secenekler": [
           "A) Gazete",
           "B) Hikâye",
@@ -4615,11 +4003,11 @@
       {
         "soru": "Çocuğun babası nasıldır?",
         "secenekler": [
-          "A) En iyi babadır",
-          "B) En sinirli babadır",
-          "C) En yorgun babadır"
+          "A) En sinirli babadır",
+          "B) En yorgun babadır",
+          "C) En iyi babadır"
         ],
-        "cevap": "A) En iyi babadır"
+        "cevap": "C) En iyi babadır"
       }
     ],
     "bosluk_doldurma": [
@@ -4667,15 +4055,6 @@
         "cevap": "B) Doğum günü"
       },
       {
-        "soru": "Pastayı kim yaptı?",
-        "secenekler": [
-          "A) Baba",
-          "B) Komşu",
-          "C) Anne"
-        ],
-        "cevap": "C) Anne"
-      },
-      {
         "soru": "Pasta nasıldır?",
         "secenekler": [
           "A) Meyveli",
@@ -4683,33 +4062,6 @@
           "C) Vanilyalı"
         ],
         "cevap": "B) Çikolatalı"
-      },
-      {
-        "soru": "Bugün çocuğun neyidir?",
-        "secenekler": [
-          "A) Bayramı",
-          "B) Doğum günüdür",
-          "C) Okulun ilk günüdür"
-        ],
-        "cevap": "B) Doğum günüdür"
-      },
-      {
-        "soru": "Pastayı kim yaptı?",
-        "secenekler": [
-          "A) Pastane",
-          "B) Annem",
-          "C) Teyzem"
-        ],
-        "cevap": "B) Annem"
-      },
-      {
-        "soru": "Pasta neylidir?",
-        "secenekler": [
-          "A) Çileklidir",
-          "B) Muzludur",
-          "C) Çikolatalıdır"
-        ],
-        "cevap": "C) Çikolatalıdır"
       },
       {
         "soru": "Çocuk mumları üfleyince ne oldu?",
@@ -4757,15 +4109,6 @@
     "metin": "Akşam oldu. Uyku vakti geldi. Pijamamı giydim. Dişlerimi fırçaladım. Yatağıma girdim. Annem beni örttü. İyi geceler dedi.",
     "coktan_secmeli": [
       {
-        "soru": "Ne vakti geldi?",
-        "secenekler": [
-          "A) Kahvaltı",
-          "B) Oyun",
-          "C) Uyku"
-        ],
-        "cevap": "C) Uyku"
-      },
-      {
         "soru": "Yatmadan önce ne yapıldı?",
         "secenekler": [
           "A) Dişler fırçalandı",
@@ -4775,40 +4118,13 @@
         "cevap": "A) Dişler fırçalandı"
       },
       {
-        "soru": "Anne ne yaptı?",
+        "soru": "Yatmak için ne giydi?",
         "secenekler": [
-          "A) Gitti",
-          "B) Uyudu",
-          "C) Örttü ve iyi geceler dedi"
-        ],
-        "cevap": "C) Örttü ve iyi geceler dedi"
-      },
-      {
-        "soru": "Hangi vakit geldi?",
-        "secenekler": [
-          "A) Öğle vakti",
-          "B) Kahvaltı vakti",
-          "C) Uyku vakti"
-        ],
-        "cevap": "C) Uyku vakti"
-      },
-      {
-        "soru": "Nelerini fırçaladı?",
-        "secenekler": [
-          "A) Saçlarını",
-          "B) Dişlerini",
-          "C) Ayakkabılarını"
-        ],
-        "cevap": "B) Dişlerini"
-      },
-      {
-        "soru": "Ne giydi?",
-        "secenekler": [
-          "A) Pijamasını",
-          "B) Kazağını",
+          "A) Kazak",
+          "B) Pijamasını",
           "C) Terliğini"
         ],
-        "cevap": "A) Pijamasını"
+        "cevap": "B) Pijamasını"
       },
       {
         "soru": "Annesi çocuğa ne dedi?",
@@ -4865,15 +4181,6 @@
         "cevap": "B) Kırmızı"
       },
       {
-        "soru": "Çilek nasıl bir meyvedir?",
-        "secenekler": [
-          "A) Acı",
-          "B) Ekşi",
-          "C) Tatlı"
-        ],
-        "cevap": "C) Tatlı"
-      },
-      {
         "soru": "Çilekler nereden toplandı?",
         "secenekler": [
           "A) Marketten",
@@ -4883,40 +4190,13 @@
         "cevap": "B) Bahçeden"
       },
       {
-        "soru": "Çilek ne renk bir meyvedir?",
+        "soru": "Çilekleri yemeden önce ne yapıldı?",
         "secenekler": [
-          "A) Kırmızı",
-          "B) Beyaz",
-          "C) Yeşil"
+          "A) Kesildi",
+          "B) Yıkandı",
+          "C) Soyuldu"
         ],
-        "cevap": "A) Kırmızı"
-      },
-      {
-        "soru": "Çilek nasıldır?",
-        "secenekler": [
-          "A) Kocamandır",
-          "B) Büyüktür",
-          "C) Küçüktür"
-        ],
-        "cevap": "C) Küçüktür"
-      },
-      {
-        "soru": "Çilekleri nereden topladılar?",
-        "secenekler": [
-          "A) Ormandan",
-          "B) Manavdan",
-          "C) Bahçeden"
-        ],
-        "cevap": "C) Bahçeden"
-      },
-      {
-        "soru": "Çilekleri ne yapıp yedik?",
-        "secenekler": [
-          "A) Kestik",
-          "B) Yıkadık",
-          "C) Soyduk"
-        ],
-        "cevap": "B) Yıkadık"
+        "cevap": "B) Yıkandı"
       }
     ],
     "bosluk_doldurma": [
