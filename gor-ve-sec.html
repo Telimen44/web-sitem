@@ -233,7 +233,7 @@
         /* Options Area (Buttons) */
         .options-container {
             width: 100%;
-            max-width: 1100px;
+            max-width: 1200px;
             display: grid;
             gap: 20px;
             /* Auto responsive based on button count */
@@ -248,7 +248,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(18px, 3.2vw, 2.2rem);
+            font-size: clamp(28px, 3vw, 3rem);
             font-weight: 800;
             color: var(--text-color);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
@@ -266,11 +266,11 @@
         }
 
         .option-btn.opt-long {
-            font-size: clamp(15px, 2.8vw, 1.95rem);
+            font-size: clamp(24px, 2.6vw, 2.5rem);
         }
 
         .option-btn.opt-xlong {
-            font-size: clamp(14px, 2.3vw, 1.7rem);
+            font-size: clamp(20px, 2.2vw, 2.1rem);
         }
 
         /* For image options (Mode 2/3) */
@@ -1085,11 +1085,16 @@
 
         function fitOptionButtonText(btnEl) {
             if (!btnEl) return;
+            btnEl.style.fontSize = '';
             let size = parseFloat(getComputedStyle(btnEl).fontSize);
-            const minSize = 14;
+            const minSize = 20;
             let guard = 0;
 
-            while (btnEl.scrollWidth > (btnEl.clientWidth - 6) && size > minSize && guard < 30) {
+            while (
+                (btnEl.scrollWidth > (btnEl.clientWidth - 12) || btnEl.scrollHeight > (btnEl.clientHeight - 8)) &&
+                size > minSize &&
+                guard < 40
+            ) {
                 size -= 1;
                 btnEl.style.fontSize = `${size}px`;
                 guard++;
@@ -1175,8 +1180,8 @@
 
                 if (mode === 1) {
                     btn.innerText = opt.w;
-                    if (opt.w.length >= 8) btn.classList.add('opt-xlong');
-                    else if (opt.w.length >= 6) btn.classList.add('opt-long');
+                    if (opt.w.length >= 10) btn.classList.add('opt-xlong');
+                    else if (opt.w.length >= 8) btn.classList.add('opt-long');
                 } else {
                     const trKey = normalizeTR(opt.w);
                     const v = VISUALS[trKey];
@@ -1196,8 +1201,14 @@
 
                 btn.onclick = () => handleAnswer(opt, btn);
                 optArea.appendChild(btn);
-                if (mode === 1) requestAnimationFrame(() => fitOptionButtonText(btn));
             });
+
+            if (mode === 1) {
+                requestAnimationFrame(() => {
+                    const buttons = document.querySelectorAll('#options-area .option-btn');
+                    buttons.forEach(fitOptionButtonText);
+                });
+            }
         }
 
         function handleAnswer(opt, btnEl) {
@@ -1401,8 +1412,10 @@
 
         window.addEventListener('resize', () => {
             if (String(appState.settings.mode) !== '1') return;
-            const buttons = document.querySelectorAll('#options-area .option-btn');
-            buttons.forEach(fitOptionButtonText);
+            requestAnimationFrame(() => {
+                const buttons = document.querySelectorAll('#options-area .option-btn');
+                buttons.forEach(fitOptionButtonText);
+            });
         });
 
         // Init
