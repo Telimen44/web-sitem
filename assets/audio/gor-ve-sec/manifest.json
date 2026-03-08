@@ -1,0 +1,667 @@
+{
+  "agac": {
+    "text": "Ağaç",
+    "file": "assets/audio/gor-ve-sec/agac.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "aile": {
+    "text": "Aile",
+    "file": "assets/audio/gor-ve-sec/aile.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "anne": {
+    "text": "Anne",
+    "file": "assets/audio/gor-ve-sec/anne.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "anten": {
+    "text": "Anten",
+    "file": "assets/audio/gor-ve-sec/anten.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "ari": {
+    "text": "Arı",
+    "file": "assets/audio/gor-ve-sec/ari.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "armut": {
+    "text": "Armut",
+    "file": "assets/audio/gor-ve-sec/armut.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "at": {
+    "text": "At",
+    "file": "assets/audio/gor-ve-sec/at.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "bal": {
+    "text": "Bal",
+    "file": "assets/audio/gor-ve-sec/bal.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "balik": {
+    "text": "Balık",
+    "file": "assets/audio/gor-ve-sec/balik.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "balina": {
+    "text": "Balina",
+    "file": "assets/audio/gor-ve-sec/balina.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "balon": {
+    "text": "Balon",
+    "file": "assets/audio/gor-ve-sec/balon.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "bardak": {
+    "text": "Bardak",
+    "file": "assets/audio/gor-ve-sec/bardak.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "battaniye": {
+    "text": "Battaniye",
+    "file": "assets/audio/gor-ve-sec/battaniye.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "bebek": {
+    "text": "Bebek",
+    "file": "assets/audio/gor-ve-sec/bebek.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "bilgisayar": {
+    "text": "Bilgisayar",
+    "file": "assets/audio/gor-ve-sec/bilgisayar.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "bisiklet": {
+    "text": "Bisiklet",
+    "file": "assets/audio/gor-ve-sec/bisiklet.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "bulut": {
+    "text": "Bulut",
+    "file": "assets/audio/gor-ve-sec/bulut.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "canta": {
+    "text": "Çanta",
+    "file": "assets/audio/gor-ve-sec/canta.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "catal": {
+    "text": "Çatal",
+    "file": "assets/audio/gor-ve-sec/catal.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "ceket": {
+    "text": "Ceket",
+    "file": "assets/audio/gor-ve-sec/ceket.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "cicek": {
+    "text": "Çiçek",
+    "file": "assets/audio/gor-ve-sec/cicek.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "corap": {
+    "text": "Çorap",
+    "file": "assets/audio/gor-ve-sec/corap.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "dag": {
+    "text": "Dağ",
+    "file": "assets/audio/gor-ve-sec/dag.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "defter": {
+    "text": "Defter",
+    "file": "assets/audio/gor-ve-sec/defter.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "dolap": {
+    "text": "Dolap",
+    "file": "assets/audio/gor-ve-sec/dolap.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "el": {
+    "text": "El",
+    "file": "assets/audio/gor-ve-sec/el.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "elbise": {
+    "text": "Elbise",
+    "file": "assets/audio/gor-ve-sec/elbise.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "elek": {
+    "text": "Elek",
+    "file": "assets/audio/gor-ve-sec/elek.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "elma": {
+    "text": "Elma",
+    "file": "assets/audio/gor-ve-sec/elma.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "ev": {
+    "text": "Ev",
+    "file": "assets/audio/gor-ve-sec/ev.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "fare": {
+    "text": "Fare",
+    "file": "assets/audio/gor-ve-sec/fare.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "fil": {
+    "text": "Fil",
+    "file": "assets/audio/gor-ve-sec/fil.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "gemi": {
+    "text": "Gemi",
+    "file": "assets/audio/gor-ve-sec/gemi.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "gokkusagi": {
+    "text": "Gökkuşağı",
+    "file": "assets/audio/gor-ve-sec/gokkusagi.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "gozluk": {
+    "text": "Gözlük",
+    "file": "assets/audio/gor-ve-sec/gozluk.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "gunes": {
+    "text": "Güneş",
+    "file": "assets/audio/gor-ve-sec/gunes.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "havlu": {
+    "text": "Havlu",
+    "file": "assets/audio/gor-ve-sec/havlu.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "havuc": {
+    "text": "Havuç",
+    "file": "assets/audio/gor-ve-sec/havuc.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "helikopter": {
+    "text": "Helikopter",
+    "file": "assets/audio/gor-ve-sec/helikopter.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "inek": {
+    "text": "İnek",
+    "file": "assets/audio/gor-ve-sec/inek.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "kamera": {
+    "text": "Kamera",
+    "file": "assets/audio/gor-ve-sec/kamera.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "kamyon": {
+    "text": "Kamyon",
+    "file": "assets/audio/gor-ve-sec/kamyon.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "kapi": {
+    "text": "Kapı",
+    "file": "assets/audio/gor-ve-sec/kapi.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "kaplumbaga": {
+    "text": "Kaplumbağa",
+    "file": "assets/audio/gor-ve-sec/kaplumbaga.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "karpuz": {
+    "text": "Karpuz",
+    "file": "assets/audio/gor-ve-sec/karpuz.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "kasik": {
+    "text": "Kaşık",
+    "file": "assets/audio/gor-ve-sec/kasik.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "kek": {
+    "text": "Kek",
+    "file": "assets/audio/gor-ve-sec/kek.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "kelek": {
+    "text": "Kelek",
+    "file": "assets/audio/gor-ve-sec/kelek.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "koltuk": {
+    "text": "Koltuk",
+    "file": "assets/audio/gor-ve-sec/koltuk.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "koyun": {
+    "text": "Koyun",
+    "file": "assets/audio/gor-ve-sec/koyun.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "kus": {
+    "text": "Kuş",
+    "file": "assets/audio/gor-ve-sec/kus.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "kutu": {
+    "text": "Kutu",
+    "file": "assets/audio/gor-ve-sec/kutu.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "lale": {
+    "text": "Lale",
+    "file": "assets/audio/gor-ve-sec/lale.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "lamba": {
+    "text": "Lamba",
+    "file": "assets/audio/gor-ve-sec/lamba.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "limon": {
+    "text": "Limon",
+    "file": "assets/audio/gor-ve-sec/limon.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "makine": {
+    "text": "Makine",
+    "file": "assets/audio/gor-ve-sec/makine.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "maymun": {
+    "text": "Maymun",
+    "file": "assets/audio/gor-ve-sec/maymun.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "motor": {
+    "text": "Motor",
+    "file": "assets/audio/gor-ve-sec/motor.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "mum": {
+    "text": "Mum",
+    "file": "assets/audio/gor-ve-sec/mum.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "muz": {
+    "text": "Muz",
+    "file": "assets/audio/gor-ve-sec/muz.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "nane": {
+    "text": "Nane",
+    "file": "assets/audio/gor-ve-sec/nane.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "nar": {
+    "text": "Nar",
+    "file": "assets/audio/gor-ve-sec/nar.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "okul": {
+    "text": "Okul",
+    "file": "assets/audio/gor-ve-sec/okul.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "okur": {
+    "text": "Okur",
+    "file": "assets/audio/gor-ve-sec/okur.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "ordek": {
+    "text": "Ördek",
+    "file": "assets/audio/gor-ve-sec/ordek.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "orman": {
+    "text": "Orman",
+    "file": "assets/audio/gor-ve-sec/orman.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "oto": {
+    "text": "Oto",
+    "file": "assets/audio/gor-ve-sec/oto.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "otobus": {
+    "text": "Otobüs",
+    "file": "assets/audio/gor-ve-sec/otobus.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "oyun": {
+    "text": "Oyun",
+    "file": "assets/audio/gor-ve-sec/oyun.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "pasta": {
+    "text": "Pasta",
+    "file": "assets/audio/gor-ve-sec/pasta.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "pencere": {
+    "text": "Pencere",
+    "file": "assets/audio/gor-ve-sec/pencere.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "penguen": {
+    "text": "Penguen",
+    "file": "assets/audio/gor-ve-sec/penguen.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "peynir": {
+    "text": "Peynir",
+    "file": "assets/audio/gor-ve-sec/peynir.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "portakal": {
+    "text": "Portakal",
+    "file": "assets/audio/gor-ve-sec/portakal.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "robot": {
+    "text": "Robot",
+    "file": "assets/audio/gor-ve-sec/robot.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "saat": {
+    "text": "Saat",
+    "file": "assets/audio/gor-ve-sec/saat.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "sandalye": {
+    "text": "Sandalye",
+    "file": "assets/audio/gor-ve-sec/sandalye.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "sapka": {
+    "text": "Şapka",
+    "file": "assets/audio/gor-ve-sec/sapka.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "semsiye": {
+    "text": "Şemsiye",
+    "file": "assets/audio/gor-ve-sec/semsiye.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "su": {
+    "text": "Su",
+    "file": "assets/audio/gor-ve-sec/su.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "sut": {
+    "text": "Süt",
+    "file": "assets/audio/gor-ve-sec/sut.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "tabak": {
+    "text": "Tabak",
+    "file": "assets/audio/gor-ve-sec/tabak.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "tablet": {
+    "text": "Tablet",
+    "file": "assets/audio/gor-ve-sec/tablet.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "tel": {
+    "text": "Tel",
+    "file": "assets/audio/gor-ve-sec/tel.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "telefon": {
+    "text": "Telefon",
+    "file": "assets/audio/gor-ve-sec/telefon.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "top": {
+    "text": "Top",
+    "file": "assets/audio/gor-ve-sec/top.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "traktor": {
+    "text": "Traktör",
+    "file": "assets/audio/gor-ve-sec/traktor.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "tren": {
+    "text": "Tren",
+    "file": "assets/audio/gor-ve-sec/tren.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "ucak": {
+    "text": "Uçak",
+    "file": "assets/audio/gor-ve-sec/ucak.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "ucurtma": {
+    "text": "Uçurtma",
+    "file": "assets/audio/gor-ve-sec/ucurtma.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "uzum": {
+    "text": "Üzüm",
+    "file": "assets/audio/gor-ve-sec/uzum.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "vazo": {
+    "text": "Vazo",
+    "file": "assets/audio/gor-ve-sec/vazo.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "yagmur": {
+    "text": "Yağmur",
+    "file": "assets/audio/gor-ve-sec/yagmur.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "yatak": {
+    "text": "Yatak",
+    "file": "assets/audio/gor-ve-sec/yatak.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  },
+  "zurafa": {
+    "text": "Zürafa",
+    "file": "assets/audio/gor-ve-sec/zurafa.mp3",
+    "provider": "edge-tts",
+    "voice": "tr-TR-EmelNeural",
+    "rate": "-12%"
+  }
+}
