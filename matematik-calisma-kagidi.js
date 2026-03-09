@@ -15,7 +15,7 @@
         "1": ["ritmik-sayma", "onceki-sonraki", "aradaki-sayilar", "sayi-karsilastirma", "toplama", "cikarma"],
         "2": ["toplama", "cikarma", "ritmik-sayma", "sayi-karsilastirma", "carpma"],
         "3": ["toplama", "cikarma", "carpma", "ritmik-sayma"],
-        "4": ["toplama", "cikarma", "carpma", "bolme", "kesir-okuma"]
+        "4": ["toplama", "cikarma", "carpma", "bolme"]
     };
 
     const LAYOUT_OPTIONS = [
@@ -144,18 +144,6 @@
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
             ],
             generator: generateDivision
-        },
-        "kesir-okuma": {
-            label: "Kesir Okuma",
-            title: "Kesir Okuma Çalışma Kağıdı",
-            instruction: "Verilen kesri yazıyla okuyunuz.",
-            settings: [
-                checkboxField("includeMixed", "Tam kesir dahil mi", true),
-                numberField("questionCount", "Soru sayısı", 15, 5, 60),
-                textField("teacherName", "Öğretmen adı", "Opsiyonel"),
-                checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
-            ],
-            generator: generateFractionReading
         }
     };
 
