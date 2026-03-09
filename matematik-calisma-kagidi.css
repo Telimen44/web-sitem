@@ -271,29 +271,47 @@ input:focus-visible {
     line-height: 1.35;
 }
 
-.mkg-op-vertical {
-    min-height: 78px;
+.mkg-question-operation {
+    min-height: 112px;
+    align-items: flex-start;
 }
 
-.mkg-op-vertical .mkg-question-text {
+.mkg-question-operation .mkg-question-number {
+    padding-top: 2px;
+}
+
+.mkg-op-stack {
+    --mkg-op-width: 4ch;
+    width: calc(var(--mkg-op-width) + 2ch);
     font-family: "Courier New", Courier, monospace;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.04em;
 }
 
-.mkg-op-line {
-    border-bottom: 2px solid #374151;
-    display: inline-flex;
-    min-width: 130px;
-    justify-content: flex-end;
-    gap: 8px;
-    padding-bottom: 3px;
+.mkg-op-row {
+    display: grid;
+    grid-template-columns: 1.2ch var(--mkg-op-width);
+    align-items: baseline;
+    justify-content: end;
+    column-gap: 0.2ch;
 }
 
-.mkg-op-answer {
-    min-width: 130px;
-    border-bottom: 2px solid #374151;
-    margin-top: 4px;
+.mkg-op-sign {
+    text-align: center;
+}
+
+.mkg-op-value {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.mkg-op-answer-line {
+    border-bottom: 2px solid #1f2937;
+    margin-top: 5px;
+    height: 20px;
 }
 
 .mkg-answer-page {
@@ -345,50 +363,5 @@ input:focus-visible {
 
     .mkg-question-grid.mkg-layout-double {
         grid-template-columns: 1fr;
-    }
-}
-
-@page {
-    size: A4 portrait;
-    margin: 10mm;
-}
-
-@media print {
-    .mkg-body {
-        background: #ffffff;
-    }
-
-    .mkg-topbar,
-    .mkg-controls,
-    .mkg-preview-tools,
-    .mkg-status {
-        display: none !important;
-    }
-
-    .mkg-layout {
-        display: block;
-        padding: 0;
-    }
-
-    .mkg-preview-panel {
-        border: none;
-        border-radius: 0;
-        padding: 0;
-        box-shadow: none;
-    }
-
-    .mkg-sheet {
-        width: auto;
-        min-height: auto;
-        border: none;
-        box-shadow: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .mkg-answer-page {
-        page-break-before: always;
-        break-before: page;
-        border-top: none;
     }
 }

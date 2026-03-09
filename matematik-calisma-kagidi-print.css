@@ -1,0 +1,98 @@
+@page {
+    size: A4 portrait;
+    margin: 10mm;
+}
+
+@media print {
+    html,
+    body {
+        background: #ffffff !important;
+        margin: 0;
+        padding: 0;
+        color: #111827;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .mkg-topbar,
+    .mkg-controls,
+    .mkg-preview-tools,
+    .mkg-status {
+        display: none !important;
+    }
+
+    .mkg-layout {
+        display: block !important;
+        padding: 0 !important;
+    }
+
+    .mkg-preview-panel,
+    .mkg-preview-root {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: visible !important;
+    }
+
+    .mkg-sheet {
+        width: auto !important;
+        min-height: auto !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .mkg-sheet-header h2 {
+        font-size: 15pt;
+        margin-bottom: 8mm;
+    }
+
+    .mkg-meta-line,
+    .mkg-meta-line--teacher,
+    .mkg-instruction,
+    .mkg-question-text,
+    .mkg-answer-list li {
+        font-size: 11pt !important;
+    }
+
+    .mkg-question,
+    .mkg-op-row,
+    .mkg-question-text {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .mkg-question-grid {
+        gap: 10px;
+    }
+
+    .mkg-question-grid.mkg-layout-double {
+        gap: 12px 16px;
+    }
+
+    .mkg-question-operation {
+        min-height: 96px;
+    }
+
+    .mkg-op-stack {
+        font-size: 13pt;
+    }
+
+    .mkg-op-value {
+        white-space: nowrap;
+    }
+
+    .mkg-op-answer-line {
+        height: 18px;
+    }
+
+    .mkg-answer-page {
+        page-break-before: always;
+        break-before: page;
+        border-top: none !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+}

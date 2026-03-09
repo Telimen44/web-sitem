@@ -84,8 +84,10 @@
                 selectField("digitCount", "Kaç basamaklı", digitOptions(1, 4), "2"),
                 selectField("carryMode", "Eldeli / Eldesiz", [
                     { value: "eldesiz", label: "Eldesiz" },
-                    { value: "eldeli", label: "Eldeli" }
+                    { value: "eldeli", label: "Eldeli" },
+                    { value: "mixed", label: "Karışık" }
                 ], "eldesiz"),
+                checkboxField("allowZeroOperand", "Sıfır içeren ikinci terim pratiği", false),
                 numberField("questionCount", "Soru sayısı", 20, 5, 60),
                 selectField("layout", "Görünüm düzeni", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
@@ -98,11 +100,14 @@
             title: "Çıkarma İşlemi Çalışma Kağıdı",
             instruction: "İşlemleri tamamlayınız.",
             settings: [
-                selectField("digitCount", "Kaç basamaklı", digitOptions(2, 4), "2"),
+                selectField("digitCount", "Kaç basamaklı", digitOptions(1, 4), "2"),
                 selectField("borrowMode", "Onluk bozmalı / bozmasız", [
                     { value: "bozmasiz", label: "Bozmasız" },
-                    { value: "bozmali", label: "Onluk bozmalı" }
+                    { value: "bozmali", label: "Onluk bozmalı" },
+                    { value: "mixed", label: "Karışık" }
                 ], "bozmasiz"),
+                checkboxField("allowZeroOperand", "Sıfır çıkanlı işlem pratiği", false),
+                checkboxField("allowEqualOperands", "Aynı sayıdan çıkarma olsun mu", false),
                 numberField("questionCount", "Soru sayısı", 20, 5, 60),
                 selectField("layout", "Görünüm düzeni", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
@@ -333,16 +338,24 @@
 
     function renderQuestion(question, index, layout) {
         if (question.type === "operation" && layout === "altalta") {
+            const displayOperator = question.operator === "-" ? "−" : question.operator;
+            const widthChars = clamp(Math.max(
+                String(question.a).length,
+                String(question.b).length
+            ) + 1, 3, 6);
             return `
-                <div class="mkg-question mkg-op-vertical">
+                <div class="mkg-question mkg-question-operation">
                     <div class="mkg-question-number">${index})</div>
-                    <div class="mkg-question-text">
-                        <div>${escapeHtml(String(question.a))}</div>
-                        <div class="mkg-op-line">
-                            <span>${escapeHtml(question.operator)}</span>
-                            <span>${escapeHtml(String(question.b))}</span>
+                    <div class="mkg-op-stack" style="--mkg-op-width:${widthChars}ch">
+                        <div class="mkg-op-row">
+                            <span class="mkg-op-sign" aria-hidden="true">&nbsp;</span>
+                            <span class="mkg-op-value">${escapeHtml(String(question.a))}</span>
                         </div>
-                        <div class="mkg-op-answer">&nbsp;</div>
+                        <div class="mkg-op-row">
+                            <span class="mkg-op-sign">${escapeHtml(displayOperator)}</span>
+                            <span class="mkg-op-value">${escapeHtml(String(question.b))}</span>
+                        </div>
+                        <div class="mkg-op-answer-line" aria-hidden="true"></div>
                     </div>
                 </div>
             `;
@@ -507,90 +520,69 @@
 
     function generateAddition(context) {
         const digits = Number.parseInt(context.settings.digitCount, 10) || 2;
-        const carryMode = context.settings.carryMode === "eldeli" ? "eldeli" : "eldesiz";
+        const carryMode = normalizeMode(context.settings.carryMode, "eldesiz", "eldeli");
+        const allowZeroOperand = Boolean(context.settings.allowZeroOperand);
         const count = context.settings.questionCount;
         const range = getDigitRange(digits);
-        const questions = generateUnique(count, function () {
-            let a = 0;
-            let b = 0;
+        const mixedPattern = carryMode === "mixed" ? buildMixedPattern(count) : [];
+        const seen = new Set();
+        const questions = [];
 
-            if (carryMode === "eldesiz") {
-                const pair = buildCarrylessAddition(digits);
-                if (!pair) {
-                    return null;
-                }
-                a = pair.a;
-                b = pair.b;
-            } else {
-                let found = false;
-                for (let i = 0; i < 220; i += 1) {
-                    a = randomInt(range.min, range.max);
-                    b = randomInt(range.min, range.max);
-                    if (hasCarry(a, b)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    return null;
-                }
+        for (let index = 0; index < count; index += 1) {
+            const requireCarry = carryMode === "mixed"
+                ? mixedPattern[index]
+                : carryMode === "eldeli";
+
+            const pair = pickAdditionPair(range, requireCarry, allowZeroOperand, seen);
+            if (!pair) {
+                break;
             }
 
-            return {
+            questions.push({
                 type: "operation",
                 operator: "+",
-                a,
-                b,
-                text: `${a} + ${b} = ____`,
-                answer: String(a + b),
-                key: `${a}|${b}`
-            };
-        });
+                a: pair.a,
+                b: pair.b,
+                text: `${pair.a} + ${pair.b} = ____`,
+                answer: String(pair.a + pair.b),
+                key: pair.key
+            });
+        }
 
         return buildWorksheet(context, questions, normalizeLayout(context.settings.layout));
     }
 
     function generateSubtraction(context) {
         const digits = Number.parseInt(context.settings.digitCount, 10) || 2;
-        const borrowMode = context.settings.borrowMode === "bozmali" ? "bozmali" : "bozmasiz";
+        const borrowMode = normalizeMode(context.settings.borrowMode, "bozmasiz", "bozmali");
+        const allowZeroOperand = Boolean(context.settings.allowZeroOperand);
+        const allowEqualOperands = Boolean(context.settings.allowEqualOperands);
         const count = context.settings.questionCount;
         const range = getDigitRange(digits);
-        const questions = generateUnique(count, function () {
-            let a = 0;
-            let b = 0;
+        const mixedPattern = borrowMode === "mixed" ? buildMixedPattern(count) : [];
+        const seen = new Set();
+        const questions = [];
 
-            if (borrowMode === "bozmasiz") {
-                const pair = buildBorrowlessSubtraction(digits);
-                if (!pair) {
-                    return null;
-                }
-                a = pair.a;
-                b = pair.b;
-            } else {
-                let found = false;
-                for (let i = 0; i < 350; i += 1) {
-                    a = randomInt(range.min, range.max);
-                    b = randomInt(range.min, range.max);
-                    if (a >= b && hasBorrow(a, b)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    return null;
-                }
+        for (let index = 0; index < count; index += 1) {
+            const requireBorrow = borrowMode === "mixed"
+                ? mixedPattern[index]
+                : borrowMode === "bozmali";
+
+            const pair = pickSubtractionPair(range, requireBorrow, allowZeroOperand, allowEqualOperands, seen);
+            if (!pair) {
+                break;
             }
 
-            return {
+            questions.push({
                 type: "operation",
                 operator: "-",
-                a,
-                b,
-                text: `${a} - ${b} = ____`,
-                answer: String(a - b),
-                key: `${a}|${b}`
-            };
-        });
+                a: pair.a,
+                b: pair.b,
+                text: `${pair.a} - ${pair.b} = ____`,
+                answer: String(pair.a - pair.b),
+                key: pair.key
+            });
+        }
 
         return buildWorksheet(context, questions, normalizeLayout(context.settings.layout));
     }
@@ -762,6 +754,105 @@
         return pattern;
     }
 
+    function buildMixedPattern(count) {
+        if (count <= 1) {
+            return [Math.random() < 0.5];
+        }
+
+        const pattern = [];
+        for (let i = 0; i < count; i += 1) {
+            pattern.push(i % 2 === 0);
+        }
+
+        for (let i = pattern.length - 1; i > 0; i -= 1) {
+            const j = randomInt(0, i);
+            const temp = pattern[i];
+            pattern[i] = pattern[j];
+            pattern[j] = temp;
+        }
+        return pattern;
+    }
+
+    function normalizeMode(value, offMode, onMode) {
+        if (value === onMode || value === offMode || value === "mixed") {
+            return value;
+        }
+        return offMode;
+    }
+
+    function pickAdditionPair(range, requireCarry, allowZeroOperand, seen) {
+        for (let attempts = 0; attempts < 1800; attempts += 1) {
+            const a = randomInt(range.min, range.max);
+            const b = allowZeroOperand && Math.random() < 0.2
+                ? 0
+                : randomInt(range.min, range.max);
+
+            if (!allowZeroOperand && b === 0) {
+                continue;
+            }
+
+            const needsCarry = hasCarry(a, b);
+            if (requireCarry && !needsCarry) {
+                continue;
+            }
+            if (!requireCarry && needsCarry) {
+                continue;
+            }
+
+            const left = Math.min(a, b);
+            const right = Math.max(a, b);
+            const key = `add|${left}|${right}|${requireCarry ? "c" : "n"}|${b === 0 ? "z" : "nz"}`;
+            if (seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+            return { a, b, key };
+        }
+
+        return null;
+    }
+
+    function pickSubtractionPair(range, requireBorrow, allowZeroOperand, allowEqualOperands, seen) {
+        for (let attempts = 0; attempts < 2200; attempts += 1) {
+            let a = randomInt(range.min, range.max);
+            let b = allowZeroOperand && Math.random() < 0.2
+                ? 0
+                : randomInt(range.min, range.max);
+
+            if (a < b) {
+                const temp = a;
+                a = b;
+                b = temp;
+            }
+
+            if (!allowZeroOperand && b === 0) {
+                continue;
+            }
+            if (!allowEqualOperands && a === b) {
+                continue;
+            }
+
+            const needsBorrow = hasBorrow(a, b);
+            if (requireBorrow && !needsBorrow) {
+                continue;
+            }
+            if (!requireBorrow && needsBorrow) {
+                continue;
+            }
+
+            const key = `sub|${a}|${b}|${requireBorrow ? "b" : "n"}|${b === 0 ? "z" : "nz"}|${a === b ? "eq" : "ne"}`;
+            if (seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+            return { a, b, key };
+        }
+
+        return null;
+    }
+
     function createComparisonPair(sign, min, max) {
         if (sign === "=") {
             const value = randomInt(min, max);
@@ -864,7 +955,7 @@
 
     function getDigitRange(digits) {
         const safeDigits = clamp(Number(digits) || 1, 1, 6);
-        const min = safeDigits === 1 ? 0 : Math.pow(10, safeDigits - 1);
+        const min = Math.pow(10, safeDigits - 1);
         const max = Math.pow(10, safeDigits) - 1;
         return { min, max };
     }
