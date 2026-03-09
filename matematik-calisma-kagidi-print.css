@@ -98,7 +98,10 @@
     }
 
     .mwg-op-answer-line {
-        height: 16px !important;
+        border-top: 2px solid #1f2937 !important;
+        border-bottom: none !important;
+        margin-top: 1px !important;
+        height: 10px !important;
     }
 
     .mwg-text-question {

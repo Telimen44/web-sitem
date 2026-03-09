@@ -46,7 +46,7 @@
     font-family: "Courier New", Courier, monospace;
     font-size: 1.15rem;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.12;
 }
 
 .mwg-op-row {
@@ -68,9 +68,9 @@
 }
 
 .mwg-op-answer-line {
-    border-bottom: 2px solid #1f2937;
-    margin-top: 5px;
-    height: 22px;
+    border-top: 2px solid #1f2937;
+    margin-top: 2px;
+    height: 14px;
 }
 
 .mwg-grid-cell--text {
@@ -112,6 +112,6 @@
     }
 
     .mwg-op-answer-line {
-        height: 18px;
+        height: 12px;
     }
 }
