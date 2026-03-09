@@ -1,0 +1,117 @@
+.mwg-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mwg-grid-row {
+    display: grid;
+    grid-template-columns: repeat(var(--mwg-screen-cols, 4), minmax(0, 1fr));
+    gap: 10px;
+}
+
+.mwg-grid-cell {
+    border: 1px solid #d8e2ef;
+    border-radius: 10px;
+    background: #ffffff;
+    min-height: 126px;
+    padding: 8px 8px 6px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    break-inside: avoid;
+}
+
+.mwg-grid-cell-empty {
+    border: none;
+    background: transparent;
+}
+
+.mwg-item-number {
+    min-width: 30px;
+    font-weight: 800;
+    color: #0f172a;
+    font-size: 0.98rem;
+    line-height: 1.2;
+    padding-top: 1px;
+}
+
+.mwg-grid-cell--operation {
+    align-items: flex-start;
+}
+
+.mwg-op-block {
+    --mwg-digit-width: 4ch;
+    width: calc(var(--mwg-digit-width) + 2ch);
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.mwg-op-row {
+    display: grid;
+    grid-template-columns: 1.2ch var(--mwg-digit-width);
+    align-items: baseline;
+    justify-content: end;
+    column-gap: 0.15ch;
+}
+
+.mwg-op-sign {
+    text-align: center;
+}
+
+.mwg-op-value {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.mwg-op-answer-line {
+    border-bottom: 2px solid #1f2937;
+    margin-top: 5px;
+    height: 22px;
+}
+
+.mwg-grid-cell--text {
+    min-height: 106px;
+}
+
+.mwg-text-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.mwg-text-question {
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #0f172a;
+    word-break: break-word;
+}
+
+@media (max-width: 900px) {
+    .mwg-grid-cell {
+        min-height: 110px;
+    }
+
+    .mwg-op-block {
+        font-size: 1.05rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .mwg-grid-cell {
+        min-height: 96px;
+        padding: 7px 7px 6px;
+    }
+
+    .mwg-item-number {
+        min-width: 27px;
+        font-size: 0.95rem;
+    }
+
+    .mwg-op-answer-line {
+        height: 18px;
+    }
+}

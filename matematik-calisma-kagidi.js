@@ -88,7 +88,7 @@
                     { value: "mixed", label: "Karışık" }
                 ], "eldesiz"),
                 checkboxField("allowZeroOperand", "Sıfır içeren ikinci terim pratiği", false),
-                numberField("questionCount", "Soru sayısı", 20, 5, 60),
+                numberField("questionCount", "Soru sayısı", 24, 6, 80),
                 selectField("layout", "Görünüm düzeni", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
@@ -108,7 +108,7 @@
                 ], "bozmasiz"),
                 checkboxField("allowZeroOperand", "Sıfır çıkanlı işlem pratiği", false),
                 checkboxField("allowEqualOperands", "Aynı sayıdan çıkarma olsun mu", false),
-                numberField("questionCount", "Soru sayısı", 20, 5, 60),
+                numberField("questionCount", "Soru sayısı", 24, 6, 80),
                 selectField("layout", "Görünüm düzeni", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
@@ -122,7 +122,7 @@
             settings: [
                 numberField("factorMin", "Çarpan aralığı (min)", 2, 1, 30),
                 numberField("factorMax", "Çarpan aralığı (max)", 10, 2, 40),
-                numberField("questionCount", "Soru sayısı", 20, 5, 80),
+                numberField("questionCount", "Soru sayısı", 24, 6, 80),
                 selectField("layout", "Düzen", LAYOUT_OPTIONS, "single"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
@@ -142,7 +142,7 @@
                     { value: "kalansiz", label: "Kalansız" },
                     { value: "kalanli", label: "Kalanlı" }
                 ], "kalansiz"),
-                numberField("questionCount", "Soru sayısı", 18, 5, 80),
+                numberField("questionCount", "Soru sayısı", 24, 6, 80),
                 selectField("layout", "Düzen", [
                     { value: "single", label: "Tek sütun" },
                     { value: "double", label: "Çift sütun" }
@@ -198,6 +198,12 @@
 
         printButton.addEventListener("click", function () {
             window.print();
+        });
+
+        window.addEventListener("resize", function () {
+            if (lastWorksheet) {
+                renderWorksheet(lastWorksheet);
+            }
         });
 
         onClassChange();
@@ -301,9 +307,7 @@
             ? `<div class="mkg-meta-line mkg-meta-line--teacher">Öğretmen: ${escapeHtml(worksheet.settings.teacherName)}</div>`
             : "";
 
-        const questionsHtml = worksheet.questions.map(function (question, index) {
-            return renderQuestion(question, index + 1, worksheet.layout);
-        }).join("");
+        const questionsHtml = renderQuestionMatrix(worksheet);
 
         const answerHtml = worksheet.settings.showAnswerKey
             ? `
@@ -334,6 +338,22 @@
                 ${answerHtml}
             </article>
         `;
+    }
+
+    function renderQuestionMatrix(worksheet) {
+        if (window.MathWorksheetGrid && typeof window.MathWorksheetGrid.renderMatrix === "function") {
+            return window.MathWorksheetGrid.renderMatrix({
+                questions: worksheet.questions,
+                questionCount: worksheet.questions.length,
+                layout: worksheet.layout,
+                topicId: worksheet.topicId,
+                escapeHtml
+            });
+        }
+
+        return worksheet.questions.map(function (question, index) {
+            return renderQuestion(question, index + 1, worksheet.layout);
+        }).join("");
     }
 
     function renderQuestion(question, index, layout) {
@@ -711,6 +731,8 @@
         return {
             title: `${context.classLevel}. Sınıf - ${context.title}`,
             instruction: context.instruction,
+            topicId: context.topicId,
+            topicLabel: context.topicLabel,
             layout,
             settings: context.settings,
             questions: rawQuestions

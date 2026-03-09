@@ -236,18 +236,16 @@ input:focus-visible {
 }
 
 .mkg-question-grid {
-    display: grid;
-    gap: 12px;
+    display: block;
 }
 
 .mkg-question-grid.mkg-layout-double {
-    grid-template-columns: 1fr 1fr;
-    gap: 14px 20px;
+    display: block;
 }
 
 .mkg-question-grid.mkg-layout-single,
 .mkg-question-grid.mkg-layout-altalta {
-    grid-template-columns: 1fr;
+    display: block;
 }
 
 .mkg-question {
@@ -258,6 +256,10 @@ input:focus-visible {
     align-items: flex-start;
     gap: 8px;
     break-inside: avoid;
+}
+
+.mkg-question + .mkg-question {
+    margin-top: 10px;
 }
 
 .mkg-question-number {
@@ -362,6 +364,6 @@ input:focus-visible {
     }
 
     .mkg-question-grid.mkg-layout-double {
-        grid-template-columns: 1fr;
+        display: block;
     }
 }
