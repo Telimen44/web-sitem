@@ -124,11 +124,47 @@
         return renderTextCell(item, escapeHtml);
     }
 
+    function renderRhythmicRow(item, escapeHtml) {
+        const cells = Array.isArray(item.question.cells) ? item.question.cells : [];
+        const cellsHtml = cells.map((value) => {
+            const hasValue = value !== null && value !== undefined && value !== "";
+            return `
+                <span class="mwg-rhythm-cell ${hasValue ? "mwg-rhythm-cell--filled" : ""}">
+                    ${hasValue ? escapeHtml(String(value)) : "&nbsp;"}
+                </span>
+            `;
+        }).join("");
+
+        return `
+            <article class="mwg-rhythm-row" data-question-index="${item.index}">
+                <div class="mwg-rhythm-track">${cellsHtml}</div>
+            </article>
+        `;
+    }
+
+    function renderRhythmicSheet(options, escapeHtml) {
+        const questions = Array.isArray(options.questions) ? options.questions : [];
+        const numberedItems = questions.map((question, index) => ({
+            question,
+            index: index + 1
+        }));
+
+        return `
+            <section class="mwg-rhythm-sheet">
+                ${numberedItems.map((item) => renderRhythmicRow(item, escapeHtml)).join("")}
+            </section>
+        `;
+    }
+
     function renderMatrix(options) {
         const escapeHtml = options.escapeHtml || defaultEscape;
         const questions = Array.isArray(options.questions) ? options.questions : [];
         if (!questions.length) {
             return "";
+        }
+
+        if (options.topicId === "ritmik-sayma") {
+            return renderRhythmicSheet(options, escapeHtml);
         }
 
         const printColumns = estimatePrintColumns(options);

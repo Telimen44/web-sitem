@@ -26,7 +26,7 @@
         "ritmik-sayma": {
             label: "Ritmik Sayma",
             title: "Ritmik Sayma Çalışma Kağıdı",
-            instruction: "Boşluklara uygun sayıları yazınız.",
+            instruction: "Aşağıda verilen sayıları devam ettiriniz.",
             settings: [
                 numberField("maxNumber", "En büyük sayı", 100, 20, 1000),
                 numberField("step", "Kaçar gitsin", 5, 1, 20),
@@ -433,6 +433,8 @@
     }
 
     function generateRhythmicCounting(context) {
+        const boxCount = 10;
+        const givenCount = 3;
         const maxNumber = Math.max(context.settings.maxNumber, 20);
         const step = Math.max(context.settings.step, 1);
         const direction = context.settings.direction === "backward" ? "backward" : "forward";
@@ -440,29 +442,45 @@
 
         const questions = generateUnique(questionCount, function () {
             if (direction === "backward") {
-                const minStart = step * 5;
+                const minStart = step * (boxCount - 1);
                 const maxStart = maxNumber;
                 if (maxStart < minStart) {
                     return null;
                 }
                 const start = randomInt(minStart, maxStart);
+                const values = Array.from({ length: boxCount }, function (_, idx) {
+                    return start - (idx * step);
+                });
                 return {
-                    type: "text",
-                    text: `${start}, ${start - step}, ${start - (step * 2)}, __, __, __`,
-                    answer: `${start - (step * 3)}, ${start - (step * 4)}, ${start - (step * 5)}`,
+                    type: "rhythmic-sequence",
+                    cells: values.map(function (value, idx) {
+                        return idx < givenCount ? value : "";
+                    }),
+                    text: values.map(function (value, idx) {
+                        return idx < givenCount ? String(value) : "___";
+                    }).join(" | "),
+                    answer: values.slice(givenCount).join(", "),
                     key: `b|${start}|${step}`
                 };
             }
 
-            const maxStart = maxNumber - (step * 5);
+            const maxStart = maxNumber - (step * (boxCount - 1));
             if (maxStart < 0) {
                 return null;
             }
             const start = randomInt(0, maxStart);
+            const values = Array.from({ length: boxCount }, function (_, idx) {
+                return start + (idx * step);
+            });
             return {
-                type: "text",
-                text: `${start}, ${start + step}, ${start + (step * 2)}, __, __, __`,
-                answer: `${start + (step * 3)}, ${start + (step * 4)}, ${start + (step * 5)}`,
+                type: "rhythmic-sequence",
+                cells: values.map(function (value, idx) {
+                    return idx < givenCount ? value : "";
+                }),
+                text: values.map(function (value, idx) {
+                    return idx < givenCount ? String(value) : "___";
+                }).join(" | "),
+                answer: values.slice(givenCount).join(", "),
                 key: `f|${start}|${step}`
             };
         });
