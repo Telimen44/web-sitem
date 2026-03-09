@@ -1,0 +1,6 @@
+.playwright-cli/
+output/
+progress.md
+scripts/assets/
+assets/test_pollinations_banana.jpg
+assets/images/gor-ve-sec-preview-grid.jpg
