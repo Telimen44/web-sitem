@@ -265,12 +265,25 @@
             overflow-wrap: normal;
         }
 
-        .option-btn.opt-long {
-            font-size: clamp(24px, 2.6vw, 2.5rem);
+        .option-btn.word-option {
+            font-size: clamp(30px, 3.2vw, 3.2rem);
+            font-weight: 800;
+            color: #29414d;
+            letter-spacing: 0.02em;
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.98), 0 3px 10px rgba(108, 99, 255, 0.08);
         }
 
-        .option-btn.opt-xlong {
-            font-size: clamp(20px, 2.2vw, 2.1rem);
+        .option-btn.word-option.opt-long {
+            font-size: clamp(26px, 2.8vw, 2.8rem);
+        }
+
+        .option-btn.word-option.opt-xlong {
+            font-size: clamp(23px, 2.4vw, 2.35rem);
+        }
+
+        .option-btn.word-option.correct,
+        .option-btn.word-option.wrong {
+            text-shadow: none;
         }
 
         /* For image options (Mode 2/3) */
@@ -1145,7 +1158,7 @@
             if (!btnEl) return;
             btnEl.style.fontSize = '';
             let size = parseFloat(getComputedStyle(btnEl).fontSize);
-            const minSize = 20;
+            const minSize = 22;
             let guard = 0;
 
             while (
@@ -1237,6 +1250,7 @@
                 btn.setAttribute('aria-label', `${opt.w} seçeneği`);
 
                 if (mode === 1) {
+                    btn.classList.add('word-option');
                     btn.innerText = opt.w;
                     if (opt.w.length >= 10) btn.classList.add('opt-xlong');
                     else if (opt.w.length >= 8) btn.classList.add('opt-long');
