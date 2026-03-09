@@ -83,15 +83,14 @@
             title: "Toplama İşlemi Çalışma Kağıdı",
             instruction: "İşlemleri tamamlayınız.",
             settings: [
-                selectField("digitCount", "Kaç basamaklı", digitOptions(1, 4), "2"),
-                selectField("carryMode", "Eldeli / Eldesiz", [
+                selectField("digitCount", "Sayılar kaç basamaklı olsun?", digitOptions(1, 4), "2"),
+                selectField("carryMode", "İşlem türü", [
                     { value: "eldesiz", label: "Eldesiz" },
                     { value: "eldeli", label: "Eldeli" },
                     { value: "mixed", label: "Karışık" }
                 ], "eldesiz"),
-                checkboxField("allowZeroOperand", "Sıfır içeren ikinci terim pratiği", false),
                 numberField("questionCount", "Soru sayısı", 24, 6, 80),
-                selectField("layout", "Görünüm düzeni", LAYOUT_OPTIONS, "altalta"),
+                selectField("layout", "İşlem düzeni", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
             ],
@@ -102,16 +101,14 @@
             title: "Çıkarma İşlemi Çalışma Kağıdı",
             instruction: "İşlemleri tamamlayınız.",
             settings: [
-                selectField("digitCount", "Kaç basamaklı", digitOptions(1, 4), "2"),
-                selectField("borrowMode", "Onluk bozmalı / bozmasız", [
+                selectField("digitCount", "Sayılar kaç basamaklı olsun?", digitOptions(1, 4), "2"),
+                selectField("borrowMode", "İşlem türü", [
                     { value: "bozmasiz", label: "Bozmasız" },
                     { value: "bozmali", label: "Onluk bozmalı" },
                     { value: "mixed", label: "Karışık" }
                 ], "bozmasiz"),
-                checkboxField("allowZeroOperand", "Sıfır çıkanlı işlem pratiği", false),
-                checkboxField("allowEqualOperands", "Aynı sayıdan çıkarma olsun mu", false),
                 numberField("questionCount", "Soru sayısı", 24, 6, 80),
-                selectField("layout", "Görünüm düzeni", LAYOUT_OPTIONS, "altalta"),
+                selectField("layout", "İşlem düzeni", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
             ],
@@ -122,10 +119,9 @@
             title: "Çarpma İşlemi Çalışma Kağıdı",
             instruction: "Çarpma işlemlerini tamamlayınız.",
             settings: [
-                numberField("factorMin", "Çarpan aralığı (min)", 2, 2, 30),
-                numberField("factorMax", "Çarpan aralığı (max)", 10, 2, 40),
+                numberField("factorMax", "Çarpanlar kaça kadar olsun?", 10, 2, 20),
                 numberField("questionCount", "Soru sayısı", 24, 6, 80),
-                selectField("layout", "Düzen", LAYOUT_OPTIONS, "altalta"),
+                selectField("layout", "İşlem düzeni", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
             ],
@@ -136,16 +132,14 @@
             title: "Bölme İşlemi Çalışma Kağıdı",
             instruction: "Bölme işlemlerini tamamlayınız.",
             settings: [
-                numberField("divisorMin", "Bölen aralığı (min)", 2, 2, 20),
-                numberField("divisorMax", "Bölen aralığı (max)", 10, 2, 30),
-                numberField("dividendMin", "Bölünen aralığı (min)", 20, 2, 600),
-                numberField("dividendMax", "Bölünen aralığı (max)", 200, 5, 3000),
-                selectField("remainderMode", "Kalanlı / kalansız", [
-                    { value: "kalansiz", label: "Kalansız" },
-                    { value: "kalanli", label: "Kalanlı" }
+                selectField("dividendDigits", "Bölünen kaç basamaklı olsun?", digitOptions(2, 5), "3"),
+                selectField("divisorDigits", "Bölen kaç basamaklı olsun?", digitOptions(1, 2), "2"),
+                selectField("remainderMode", "İşlemde kalan olsun mu?", [
+                    { value: "kalanli", label: "Evet" },
+                    { value: "kalansiz", label: "Hayır" }
                 ], "kalansiz"),
                 numberField("questionCount", "Soru sayısı", 24, 6, 80),
-                selectField("layout", "Düzen", LAYOUT_OPTIONS, "altalta"),
+                selectField("layout", "İşlem düzeni", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
             ],
@@ -565,7 +559,6 @@
     function generateAddition(context) {
         const digits = Number.parseInt(context.settings.digitCount, 10) || 2;
         const carryMode = normalizeMode(context.settings.carryMode, "eldesiz", "eldeli");
-        const allowZeroOperand = Boolean(context.settings.allowZeroOperand);
         const count = context.settings.questionCount;
         const range = getDigitRange(digits);
         const mixedPattern = carryMode === "mixed" ? buildMixedPattern(count) : [];
@@ -577,7 +570,7 @@
                 ? mixedPattern[index]
                 : carryMode === "eldeli";
 
-            const pair = pickAdditionPair(range, requireCarry, allowZeroOperand, seen);
+            const pair = pickAdditionPair(range, requireCarry, false, seen);
             if (!pair) {
                 break;
             }
@@ -599,8 +592,6 @@
     function generateSubtraction(context) {
         const digits = Number.parseInt(context.settings.digitCount, 10) || 2;
         const borrowMode = normalizeMode(context.settings.borrowMode, "bozmasiz", "bozmali");
-        const allowZeroOperand = Boolean(context.settings.allowZeroOperand);
-        const allowEqualOperands = Boolean(context.settings.allowEqualOperands);
         const count = context.settings.questionCount;
         const range = getDigitRange(digits);
         const mixedPattern = borrowMode === "mixed" ? buildMixedPattern(count) : [];
@@ -612,7 +603,7 @@
                 ? mixedPattern[index]
                 : borrowMode === "bozmali";
 
-            const pair = pickSubtractionPair(range, requireBorrow, allowZeroOperand, allowEqualOperands, seen);
+            const pair = pickSubtractionPair(range, requireBorrow, false, false, seen);
             if (!pair) {
                 break;
             }
@@ -632,13 +623,8 @@
     }
 
     function generateMultiplication(context) {
-        let min = Math.max(2, context.settings.factorMin);
+        const min = 2;
         let max = context.settings.factorMax;
-        if (min > max) {
-            const temp = min;
-            min = max;
-            max = temp;
-        }
         max = Math.max(2, max);
 
         const count = context.settings.questionCount;
@@ -661,24 +647,14 @@
     }
 
     function generateDivision(context) {
-        let divisorMin = context.settings.divisorMin;
-        let divisorMax = context.settings.divisorMax;
-        let dividendMin = context.settings.dividendMin;
-        let dividendMax = context.settings.dividendMax;
-        if (divisorMin > divisorMax) {
-            const temp = divisorMin;
-            divisorMin = divisorMax;
-            divisorMax = temp;
-        }
-        if (dividendMin > dividendMax) {
-            const temp = dividendMin;
-            dividendMin = dividendMax;
-            dividendMax = temp;
-        }
-        divisorMin = Math.max(2, divisorMin);
-        divisorMax = Math.max(divisorMin, divisorMax);
-        dividendMin = Math.max(2, dividendMin);
-        dividendMax = Math.max(dividendMin, dividendMax);
+        const divisorDigits = clamp(Number.parseInt(context.settings.divisorDigits, 10) || 2, 1, 2);
+        const dividendDigits = clamp(Number.parseInt(context.settings.dividendDigits, 10) || 3, 2, 5);
+        const divisorRange = getDigitRange(divisorDigits);
+        const dividendRange = getDigitRange(dividendDigits);
+        const divisorMin = Math.max(2, divisorRange.min);
+        const divisorMax = Math.max(divisorMin, divisorRange.max);
+        const dividendMin = Math.max(2, dividendRange.min);
+        const dividendMax = Math.max(dividendMin, dividendRange.max);
 
         const count = context.settings.questionCount;
         const withRemainder = context.settings.remainderMode === "kalanli";
@@ -1036,7 +1012,6 @@
     function applyClassTopicDefaults(classLevel, topicId) {
         if (topicId === "carpma") {
             const multiplicationDefaults = getMultiplicationDefaultsByClass(classLevel);
-            setFieldValue("factorMin", multiplicationDefaults.factorMin);
             setFieldValue("factorMax", multiplicationDefaults.factorMax);
             setFieldValue("layout", "altalta");
             return;
@@ -1044,29 +1019,27 @@
 
         if (topicId === "bolme") {
             const divisionDefaults = getDivisionDefaultsByClass(classLevel);
-            setFieldValue("divisorMin", divisionDefaults.divisorMin);
-            setFieldValue("divisorMax", divisionDefaults.divisorMax);
-            setFieldValue("dividendMin", divisionDefaults.dividendMin);
-            setFieldValue("dividendMax", divisionDefaults.dividendMax);
+            setFieldValue("dividendDigits", divisionDefaults.dividendDigits);
+            setFieldValue("divisorDigits", divisionDefaults.divisorDigits);
             setFieldValue("layout", "altalta");
         }
     }
 
     function getMultiplicationDefaultsByClass(classLevel) {
         if (classLevel === "2") {
-            return { factorMin: 2, factorMax: 5 };
+            return { factorMax: 5 };
         }
         if (classLevel === "4") {
-            return { factorMin: 2, factorMax: 20 };
+            return { factorMax: 20 };
         }
-        return { factorMin: 2, factorMax: 10 };
+        return { factorMax: 10 };
     }
 
     function getDivisionDefaultsByClass(classLevel) {
         if (classLevel === "4") {
-            return { divisorMin: 2, divisorMax: 10, dividendMin: 20, dividendMax: 200 };
+            return { dividendDigits: 3, divisorDigits: 2 };
         }
-        return { divisorMin: 2, divisorMax: 10, dividendMin: 10, dividendMax: 120 };
+        return { dividendDigits: 2, divisorDigits: 1 };
     }
 
     function setFieldValue(fieldId, value) {
