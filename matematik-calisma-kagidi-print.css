@@ -105,6 +105,18 @@
         height: 10px !important;
     }
 
+    .mwg-op-remainder {
+        margin-top: 1px !important;
+        font-size: 8.6pt !important;
+        white-space: nowrap !important;
+    }
+
+    .mwg-op-remainder-blank {
+        display: inline-block !important;
+        width: 11mm !important;
+        border-bottom: 1px solid #1f2937 !important;
+    }
+
     .mwg-text-question {
         font-size: 10pt !important;
         line-height: 1.3 !important;

@@ -83,9 +83,16 @@
 
     function renderOperationCell(item, escapeHtml) {
         const question = item.question;
-        const sign = question.operator === "-" ? "−" : question.operator;
+        const sign = question.operator === "-" ? "-" : question.operator;
         const maxDigits = Math.max(String(question.a).length, String(question.b).length);
         const digitWidth = clamp(maxDigits + 1, 3, 7);
+        const remainderLine = question.remainderPlaceholder
+            ? `
+                <div class="mwg-op-remainder">
+                    kalan: <span class="mwg-op-remainder-blank" aria-hidden="true"></span>
+                </div>
+            `
+            : "";
 
         return `
             <article class="mwg-grid-cell mwg-grid-cell--operation" data-question-index="${item.index}">
@@ -96,10 +103,11 @@
                         <span class="mwg-op-value">${escapeHtml(String(question.a))}</span>
                     </div>
                     <div class="mwg-op-row">
-                        <span class="mwg-op-sign">${escapeHtml(sign)}</span>
+                        <span class="mwg-op-sign">${sign === "-" ? "&minus;" : escapeHtml(sign)}</span>
                         <span class="mwg-op-value">${escapeHtml(String(question.b))}</span>
                     </div>
                     <div class="mwg-op-answer-line" aria-hidden="true"></div>
+                    ${remainderLine}
                 </div>
             </article>
         `;

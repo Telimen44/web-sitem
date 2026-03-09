@@ -77,6 +77,21 @@
     height: 14px;
 }
 
+.mwg-op-remainder {
+    margin-top: 1px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #334155;
+    white-space: nowrap;
+}
+
+.mwg-op-remainder-blank {
+    display: inline-block;
+    width: 3.6ch;
+    border-bottom: 1.6px solid #1f2937;
+    transform: translateY(-1px);
+}
+
 .mwg-grid-cell--text {
     min-height: 106px;
 }
@@ -216,6 +231,10 @@
 
     .mwg-op-answer-line {
         height: 12px;
+    }
+
+    .mwg-op-remainder {
+        font-size: 0.74rem;
     }
 
     .mwg-grid-cell--operation .mwg-op-block {

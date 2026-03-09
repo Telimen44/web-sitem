@@ -13,7 +13,7 @@
 
     const TOPICS_BY_CLASS = {
         "1": ["ritmik-sayma", "onceki-sonraki", "aradaki-sayilar", "sayi-karsilastirma", "toplama", "cikarma"],
-        "2": ["toplama", "cikarma", "ritmik-sayma", "sayi-karsilastirma"],
+        "2": ["toplama", "cikarma", "ritmik-sayma", "sayi-karsilastirma", "carpma"],
         "3": ["toplama", "cikarma", "carpma", "ritmik-sayma"],
         "4": ["toplama", "cikarma", "carpma", "bolme", "kesir-okuma"]
     };
@@ -122,10 +122,10 @@
             title: "Çarpma İşlemi Çalışma Kağıdı",
             instruction: "Çarpma işlemlerini tamamlayınız.",
             settings: [
-                numberField("factorMin", "Çarpan aralığı (min)", 2, 1, 30),
+                numberField("factorMin", "Çarpan aralığı (min)", 2, 2, 30),
                 numberField("factorMax", "Çarpan aralığı (max)", 10, 2, 40),
                 numberField("questionCount", "Soru sayısı", 24, 6, 80),
-                selectField("layout", "Düzen", LAYOUT_OPTIONS, "single"),
+                selectField("layout", "Düzen", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
             ],
@@ -138,17 +138,14 @@
             settings: [
                 numberField("divisorMin", "Bölen aralığı (min)", 2, 2, 20),
                 numberField("divisorMax", "Bölen aralığı (max)", 10, 2, 30),
-                numberField("dividendMin", "Bölünen aralığı (min)", 10, 1, 600),
-                numberField("dividendMax", "Bölünen aralığı (max)", 120, 5, 3000),
+                numberField("dividendMin", "Bölünen aralığı (min)", 20, 2, 600),
+                numberField("dividendMax", "Bölünen aralığı (max)", 200, 5, 3000),
                 selectField("remainderMode", "Kalanlı / kalansız", [
                     { value: "kalansiz", label: "Kalansız" },
                     { value: "kalanli", label: "Kalanlı" }
                 ], "kalansiz"),
                 numberField("questionCount", "Soru sayısı", 24, 6, 80),
-                selectField("layout", "Düzen", [
-                    { value: "single", label: "Tek sütun" },
-                    { value: "double", label: "Çift sütun" }
-                ], "single"),
+                selectField("layout", "Düzen", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
             ],
@@ -235,6 +232,7 @@
         }
 
         topicSettingsRoot.innerHTML = topic.settings.map(renderField).join("");
+        applyClassTopicDefaults(classLevelSelect.value, topicSelect.value);
         statusBox.textContent = "";
     }
 
@@ -634,13 +632,14 @@
     }
 
     function generateMultiplication(context) {
-        let min = context.settings.factorMin;
+        let min = Math.max(2, context.settings.factorMin);
         let max = context.settings.factorMax;
         if (min > max) {
             const temp = min;
             min = max;
             max = temp;
         }
+        max = Math.max(2, max);
 
         const count = context.settings.questionCount;
         const questions = generateUnique(count, function () {
@@ -676,6 +675,10 @@
             dividendMin = dividendMax;
             dividendMax = temp;
         }
+        divisorMin = Math.max(2, divisorMin);
+        divisorMax = Math.max(divisorMin, divisorMax);
+        dividendMin = Math.max(2, dividendMin);
+        dividendMax = Math.max(dividendMin, dividendMax);
 
         const count = context.settings.questionCount;
         const withRemainder = context.settings.remainderMode === "kalanli";
@@ -695,7 +698,10 @@
                     return null;
                 }
                 return {
-                    type: "text",
+                    type: "operation",
+                    operator: "÷",
+                    a: dividend,
+                    b: divisor,
                     text: `${dividend} ÷ ${divisor} = ____`,
                     answer: String(quotient),
                     key: `${dividend}|${divisor}|0`
@@ -713,7 +719,11 @@
             }
 
             return {
-                type: "text",
+                type: "operation",
+                operator: "÷",
+                a: dividend,
+                b: divisor,
+                remainderPlaceholder: true,
                 text: `${dividend} ÷ ${divisor} = ____ kalan ____`,
                 answer: `${quotient} kalan ${remainder}`,
                 key: `${dividend}|${divisor}|${remainder}`
@@ -1021,6 +1031,56 @@
             return layoutValue;
         }
         return "single";
+    }
+
+    function applyClassTopicDefaults(classLevel, topicId) {
+        if (topicId === "carpma") {
+            const multiplicationDefaults = getMultiplicationDefaultsByClass(classLevel);
+            setFieldValue("factorMin", multiplicationDefaults.factorMin);
+            setFieldValue("factorMax", multiplicationDefaults.factorMax);
+            setFieldValue("layout", "altalta");
+            return;
+        }
+
+        if (topicId === "bolme") {
+            const divisionDefaults = getDivisionDefaultsByClass(classLevel);
+            setFieldValue("divisorMin", divisionDefaults.divisorMin);
+            setFieldValue("divisorMax", divisionDefaults.divisorMax);
+            setFieldValue("dividendMin", divisionDefaults.dividendMin);
+            setFieldValue("dividendMax", divisionDefaults.dividendMax);
+            setFieldValue("layout", "altalta");
+        }
+    }
+
+    function getMultiplicationDefaultsByClass(classLevel) {
+        if (classLevel === "2") {
+            return { factorMin: 2, factorMax: 5 };
+        }
+        if (classLevel === "4") {
+            return { factorMin: 2, factorMax: 20 };
+        }
+        return { factorMin: 2, factorMax: 10 };
+    }
+
+    function getDivisionDefaultsByClass(classLevel) {
+        if (classLevel === "4") {
+            return { divisorMin: 2, divisorMax: 10, dividendMin: 20, dividendMax: 200 };
+        }
+        return { divisorMin: 2, divisorMax: 10, dividendMin: 10, dividendMax: 120 };
+    }
+
+    function setFieldValue(fieldId, value) {
+        const input = document.getElementById(`mkg-field-${fieldId}`);
+        if (!input) {
+            return;
+        }
+
+        if (input.type === "checkbox") {
+            input.checked = Boolean(value);
+            return;
+        }
+
+        input.value = String(value);
     }
 
     function digitOptions(minDigits, maxDigits) {
