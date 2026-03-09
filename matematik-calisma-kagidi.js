@@ -57,7 +57,7 @@
         "aradaki-sayilar": {
             label: "Aradaki Sayılar",
             title: "Aradaki Sayılar Çalışma Kağıdı",
-            instruction: "İki sayı arasındaki eksik sayıları tamamlayınız.",
+            instruction: "Verilen sayıların arasında kalan sayıları yazınız.",
             settings: [
                 numberField("maxNumber", "En büyük sayı", 120, 10, 1000),
                 numberField("questionCount", "Soru sayısı", 16, 5, 50),
@@ -514,15 +514,17 @@
         const maxNumber = Math.max(context.settings.maxNumber, 8);
         const count = context.settings.questionCount;
         const questions = generateUnique(count, function () {
-            if (maxNumber < 4) {
+            if (maxNumber < 3) {
                 return null;
             }
-            const start = randomInt(0, maxNumber - 3);
-            const end = start + 3;
+            const start = randomInt(1, maxNumber - 2);
+            const end = start + 2;
             return {
-                type: "text",
-                text: `${start} ile ${end} arasındaki sayılar: ____, ____`,
-                answer: `${start + 1}, ${start + 2}`,
+                type: "between-box",
+                leftValue: start,
+                rightValue: end,
+                text: `${start} | ___ | ${end}`,
+                answer: `${start + 1}`,
                 key: `${start}|${end}`
             };
         });

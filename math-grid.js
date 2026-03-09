@@ -167,23 +167,36 @@
         return 3;
     }
 
-    function renderPreviousNextCell(item, escapeHtml) {
-        const middle = item.question && Number.isFinite(Number(item.question.middleValue))
-            ? Number(item.question.middleValue)
-            : "";
+    function renderTripletCell(item, escapeHtml, mode) {
+        const question = item.question || {};
+        const isBetween = mode === "between";
+
+        let left = "&nbsp;";
+        let middle = "&nbsp;";
+        let right = "&nbsp;";
+
+        if (isBetween) {
+            const leftValue = Number(question.leftValue);
+            const rightValue = Number(question.rightValue);
+            left = Number.isFinite(leftValue) ? escapeHtml(String(leftValue)) : "&nbsp;";
+            right = Number.isFinite(rightValue) ? escapeHtml(String(rightValue)) : "&nbsp;";
+        } else {
+            const middleValue = Number(question.middleValue);
+            middle = Number.isFinite(middleValue) ? escapeHtml(String(middleValue)) : "&nbsp;";
+        }
 
         return `
             <article class="mwg-prevnext-item" data-question-index="${item.index}">
                 <div class="mwg-prevnext-track">
-                    <span class="mwg-prevnext-box">&nbsp;</span>
-                    <span class="mwg-prevnext-box mwg-prevnext-box--middle">${escapeHtml(String(middle))}</span>
-                    <span class="mwg-prevnext-box">&nbsp;</span>
+                    <span class="mwg-prevnext-box ${isBetween ? "mwg-prevnext-box--filled" : ""}">${left}</span>
+                    <span class="mwg-prevnext-box ${isBetween ? "" : "mwg-prevnext-box--middle"}">${middle}</span>
+                    <span class="mwg-prevnext-box ${isBetween ? "mwg-prevnext-box--filled" : ""}">${right}</span>
                 </div>
             </article>
         `;
     }
 
-    function renderPreviousNextSheet(options, escapeHtml) {
+    function renderTripletSheet(options, escapeHtml, mode) {
         const questions = Array.isArray(options.questions) ? options.questions : [];
         const numberedItems = questions.map((question, index) => ({
             question,
@@ -199,7 +212,7 @@
                 if (!item) {
                     return `<div class="mwg-prevnext-item mwg-prevnext-item-empty" aria-hidden="true"></div>`;
                 }
-                return renderPreviousNextCell(item, escapeHtml);
+                return renderTripletCell(item, escapeHtml, mode);
             }).join("");
             return `<div class="mwg-prevnext-row">${cells}</div>`;
         }).join("");
@@ -223,7 +236,11 @@
         }
 
         if (options.topicId === "onceki-sonraki") {
-            return renderPreviousNextSheet(options, escapeHtml);
+            return renderTripletSheet(options, escapeHtml, "prevnext");
+        }
+
+        if (options.topicId === "aradaki-sayilar") {
+            return renderTripletSheet(options, escapeHtml, "between");
         }
 
         const printColumns = estimatePrintColumns(options);
