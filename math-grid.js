@@ -156,6 +156,61 @@
         `;
     }
 
+    function getPreviousNextScreenColumns() {
+        const width = global.innerWidth || 1200;
+        if (width < 560) {
+            return 1;
+        }
+        if (width < 900) {
+            return 2;
+        }
+        return 3;
+    }
+
+    function renderPreviousNextCell(item, escapeHtml) {
+        const middle = item.question && Number.isFinite(Number(item.question.middleValue))
+            ? Number(item.question.middleValue)
+            : "";
+
+        return `
+            <article class="mwg-prevnext-item" data-question-index="${item.index}">
+                <div class="mwg-prevnext-track">
+                    <span class="mwg-prevnext-box">&nbsp;</span>
+                    <span class="mwg-prevnext-box mwg-prevnext-box--middle">${escapeHtml(String(middle))}</span>
+                    <span class="mwg-prevnext-box">&nbsp;</span>
+                </div>
+            </article>
+        `;
+    }
+
+    function renderPreviousNextSheet(options, escapeHtml) {
+        const questions = Array.isArray(options.questions) ? options.questions : [];
+        const numberedItems = questions.map((question, index) => ({
+            question,
+            index: index + 1
+        }));
+
+        const printColumns = 3;
+        const screenColumns = getPreviousNextScreenColumns();
+        const matrix = buildQuestionMatrix(numberedItems, printColumns);
+
+        const rowsHtml = matrix.map((rowItems) => {
+            const cells = rowItems.map((item) => {
+                if (!item) {
+                    return `<div class="mwg-prevnext-item mwg-prevnext-item-empty" aria-hidden="true"></div>`;
+                }
+                return renderPreviousNextCell(item, escapeHtml);
+            }).join("");
+            return `<div class="mwg-prevnext-row">${cells}</div>`;
+        }).join("");
+
+        return `
+            <section class="mwg-prevnext-sheet" style="--mwg-prevnext-screen-cols:${screenColumns}; --mwg-prevnext-print-cols:${printColumns};">
+                ${rowsHtml}
+            </section>
+        `;
+    }
+
     function renderMatrix(options) {
         const escapeHtml = options.escapeHtml || defaultEscape;
         const questions = Array.isArray(options.questions) ? options.questions : [];
@@ -165,6 +220,10 @@
 
         if (options.topicId === "ritmik-sayma") {
             return renderRhythmicSheet(options, escapeHtml);
+        }
+
+        if (options.topicId === "onceki-sonraki") {
+            return renderPreviousNextSheet(options, escapeHtml);
         }
 
         const printColumns = estimatePrintColumns(options);

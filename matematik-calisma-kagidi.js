@@ -45,7 +45,7 @@
         "onceki-sonraki": {
             label: "Önceki / Sonraki Sayı",
             title: "Önceki ve Sonraki Sayı Çalışma Kağıdı",
-            instruction: "Verilen sayının önceki ve sonraki sayısını yazınız.",
+            instruction: "Verilen sayılardan önceki ve sonraki sayıları yazınız.",
             settings: [
                 numberField("maxNumber", "En büyük sayı", 100, 10, 1000),
                 numberField("questionCount", "Soru sayısı", 16, 5, 50),
@@ -499,8 +499,9 @@
         const questions = generateUnique(count, function () {
             const value = randomInt(1, maxNumber - 1);
             return {
-                type: "text",
-                text: `${value} sayısının önceki ve sonraki sayısı: ____, ____`,
+                type: "prev-next-box",
+                middleValue: value,
+                text: `___ | ${value} | ___`,
                 answer: `${value - 1}, ${value + 1}`,
                 key: String(value)
             };
