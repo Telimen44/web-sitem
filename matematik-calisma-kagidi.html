@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Matematik Çalışma Kağıdı Oluşturucu</title>
+    <meta name="description" content="Sınıf düzeyine ve konuya göre matematik çalışma kağıdı oluşturun, A4 önizleyin ve yazdırın.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="matematik-calisma-kagidi.css">
+</head>
+<body class="mkg-body">
+    <header class="mkg-topbar">
+        <a class="mkg-home-link" href="index.html" aria-label="Ana sayfaya dön">Ana Sayfa</a>
+        <div class="mkg-topbar-text">
+            <h1>Matematik Çalışma Kağıdı Oluşturucu</h1>
+            <p>Öğretmenler için sınıf düzeyine uygun, yazdırılabilir çalışma kağıdı üretimi</p>
+        </div>
+    </header>
+
+    <main class="mkg-layout">
+        <section class="mkg-controls" aria-label="Çalışma kağıdı ayarları">
+            <form id="mkg-form" novalidate>
+                <div class="mkg-field">
+                    <label for="mkg-class-level">Sınıf düzeyi</label>
+                    <select id="mkg-class-level" name="classLevel"></select>
+                </div>
+
+                <div class="mkg-field">
+                    <label for="mkg-topic">Konu</label>
+                    <select id="mkg-topic" name="topic"></select>
+                </div>
+
+                <div id="mkg-topic-settings" class="mkg-topic-settings"></div>
+
+                <div class="mkg-actions">
+                    <button type="submit" class="mkg-btn mkg-btn-primary">Oluştur</button>
+                    <button type="button" id="mkg-regenerate" class="mkg-btn mkg-btn-secondary" disabled>Yeniden Oluştur</button>
+                    <button type="button" id="mkg-print" class="mkg-btn mkg-btn-print">Yazdır / PDF Kaydet</button>
+                </div>
+            </form>
+            <p id="mkg-status" class="mkg-status" aria-live="polite"></p>
+        </section>
+
+        <section class="mkg-preview-panel" aria-label="A4 canlı önizleme">
+            <div class="mkg-preview-tools">A4 Önizleme</div>
+            <div id="mkg-preview-root" class="mkg-preview-root">
+                <article class="mkg-sheet mkg-sheet-placeholder">
+                    <h2>Önizleme hazır</h2>
+                    <p>Sınıf, konu ve ayarları seçtikten sonra <strong>Oluştur</strong> düğmesine basın.</p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <script src="matematik-calisma-kagidi.js"></script>
+</body>
+</html>
