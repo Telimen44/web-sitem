@@ -97,6 +97,125 @@
             padding: 0 16px 48px;
         }
 
+        .worksheet-spotlight {
+            position: relative;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 18px;
+            padding: 20px 22px;
+            margin: 0 0 24px;
+            border-radius: 22px;
+            background: linear-gradient(130deg, #0f172a 0%, #1d4ed8 45%, #0ea5e9 100%);
+            color: #f8fafc;
+            text-decoration: none;
+            overflow: hidden;
+            box-shadow: 0 14px 34px rgba(15, 23, 42, 0.24);
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+        }
+
+        .worksheet-spotlight:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 42px rgba(15, 23, 42, 0.32);
+        }
+
+        .worksheet-spotlight::before {
+            content: '';
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            top: -82px;
+            right: -36px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 68%);
+            pointer-events: none;
+        }
+
+        .worksheet-icon {
+            width: 76px;
+            height: 76px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.13);
+            border: 1px solid rgba(255, 255, 255, 0.34);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            backdrop-filter: blur(4px);
+            flex-shrink: 0;
+        }
+
+        .worksheet-icon svg {
+            width: 34px;
+            height: 34px;
+            stroke: #f8fafc;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            z-index: 1;
+        }
+
+        .worksheet-orbit {
+            position: absolute;
+            inset: 8px;
+            border: 1px dashed rgba(255, 255, 255, 0.55);
+            border-radius: 18px;
+            animation: worksheetOrbit 5.2s linear infinite;
+        }
+
+        .worksheet-orbit::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fde047;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 12px rgba(253, 224, 71, 0.85);
+        }
+
+        @keyframes worksheetOrbit {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .worksheet-copy h2 {
+            font-size: 1.26rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+            letter-spacing: 0.01em;
+        }
+
+        .worksheet-copy p {
+            font-size: 0.98rem;
+            line-height: 1.45;
+            color: rgba(248, 250, 252, 0.92);
+        }
+
+        .worksheet-cta {
+            border-radius: 999px;
+            background: #f8fafc;
+            color: #0f172a;
+            font-size: 0.95rem;
+            font-weight: 900;
+            padding: 11px 18px;
+            letter-spacing: 0.01em;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.28);
+            white-space: nowrap;
+        }
+
+        .worksheet-spotlight:hover .worksheet-cta {
+            background: #fde68a;
+        }
+
         .games-grid {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
@@ -122,6 +241,35 @@
         @media (min-width: 1280px) {
             .games-grid {
                 grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .worksheet-spotlight {
+                grid-template-columns: auto 1fr;
+                gap: 14px;
+                padding: 16px;
+            }
+
+            .worksheet-cta {
+                grid-column: 1 / -1;
+                justify-self: start;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .worksheet-icon {
+                width: 66px;
+                height: 66px;
+                border-radius: 16px;
+            }
+
+            .worksheet-copy h2 {
+                font-size: 1.08rem;
+            }
+
+            .worksheet-copy p {
+                font-size: 0.9rem;
             }
         }
 
@@ -1174,6 +1322,24 @@
 
     <!-- Games Grid -->
     <main class="games-container">
+        <a class="worksheet-spotlight" href="matematik-calisma-kagidi.html" aria-label="Matematik Çalışma Kağıdı Oluşturucu">
+            <div class="worksheet-icon" aria-hidden="true">
+                <div class="worksheet-orbit"></div>
+                <svg viewBox="0 0 24 24">
+                    <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+                    <path d="M8 8h8"></path>
+                    <path d="M8 12h3"></path>
+                    <path d="M13 12h3"></path>
+                    <path d="M8 16h3"></path>
+                    <path d="M13 16h3"></path>
+                </svg>
+            </div>
+            <div class="worksheet-copy">
+                <h2>Matematik Çalışma Kağıdı Oluşturucu</h2>
+                <p>Seviyeye ve konuya göre anında çalışma kağıdı üret, önizle ve tek dokunuşla yazdır.</p>
+            </div>
+            <span class="worksheet-cta">Aracı Aç</span>
+        </a>
         <div class="games-grid">
             <!-- Game 1: Şekilleri Tanıyalım -->
             <a href="oyun.html" class="game-card grad-purple">
