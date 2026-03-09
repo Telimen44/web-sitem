@@ -27,6 +27,9 @@
         if (topicId === "kesir-okuma" || topicId === "ritmik-sayma") {
             minCellWidthMm = 50;
         }
+        if (topicId === "bolme") {
+            minCellWidthMm = 46;
+        }
 
         let columns = Math.floor(A4_CONTENT_WIDTH_MM / minCellWidthMm);
         columns = clamp(columns, 2, 5);
@@ -43,6 +46,10 @@
             columns = Math.min(columns, 4);
         } else if (questionCount >= 24) {
             columns = Math.max(columns, 4);
+        }
+
+        if (topicId === "bolme") {
+            columns = Math.min(columns, 4);
         }
 
         return clamp(columns, 2, 5);
@@ -113,6 +120,31 @@
         `;
     }
 
+    function renderDivisionCell(item, escapeHtml) {
+        const question = item.question;
+        const dividend = escapeHtml(String(question.a));
+        const divisor = escapeHtml(String(question.b));
+        const remainderHint = question.remainderPlaceholder
+            ? '<div class="mwg-division-remainder">kalan</div>'
+            : "";
+
+        return `
+            <article class="mwg-grid-cell mwg-grid-cell--division" data-question-index="${item.index}">
+                <div class="mwg-item-number">${item.index})</div>
+                <div class="mwg-division-block">
+                    <div class="mwg-division-layout">
+                        <div class="mwg-division-dividend">${dividend}</div>
+                        <div class="mwg-division-divisor-wrap">
+                            <span class="mwg-division-divisor">${divisor}</span>
+                        </div>
+                        <div class="mwg-division-workspace" aria-hidden="true"></div>
+                    </div>
+                    ${remainderHint}
+                </div>
+            </article>
+        `;
+    }
+
     function renderTextCell(item, escapeHtml) {
         const questionText = String(item.question.text || "").replace(/_{2,}/g, "_____");
         return `
@@ -127,6 +159,9 @@
 
     function renderCell(item, escapeHtml) {
         if (item.question && item.question.type === "operation") {
+            if (item.question.operator === "÷") {
+                return renderDivisionCell(item, escapeHtml);
+            }
             return renderOperationCell(item, escapeHtml);
         }
         return renderTextCell(item, escapeHtml);

@@ -83,6 +83,13 @@
         min-height: 24mm !important;
     }
 
+    .mwg-grid-cell--division {
+        min-height: 33mm !important;
+        border: none !important;
+        background: transparent !important;
+        padding: 2mm 1.2mm !important;
+    }
+
     .mwg-item-number {
         font-size: 10.5pt !important;
         min-width: 8mm !important;
@@ -115,6 +122,41 @@
         display: inline-block !important;
         width: 11mm !important;
         border-bottom: 1px solid #1f2937 !important;
+    }
+
+    .mwg-division-block {
+        margin-top: 1mm !important;
+    }
+
+    .mwg-division-dividend,
+    .mwg-division-divisor {
+        font-size: 12pt !important;
+        font-weight: 700 !important;
+    }
+
+    .mwg-division-dividend {
+        padding-top: 1.4mm !important;
+    }
+
+    .mwg-division-divisor-wrap {
+        min-width: 11mm !important;
+        min-height: 8mm !important;
+        padding: 0 0 0.8mm 1.4mm !important;
+        border-left: 1px solid #1f2937 !important;
+        border-bottom: 1px solid #1f2937 !important;
+    }
+
+    .mwg-division-workspace {
+        min-height: 8mm !important;
+        border-left: 1px solid #1f2937 !important;
+    }
+
+    .mwg-division-remainder {
+        margin-top: 2mm !important;
+        margin-left: calc(100% - 9mm) !important;
+        width: 8mm !important;
+        font-size: 7.6pt !important;
+        color: #64748b !important;
     }
 
     .mwg-text-question {

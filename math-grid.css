@@ -44,6 +44,13 @@
     margin-top: 8px;
 }
 
+.mwg-grid-cell--division {
+    border: none;
+    background: transparent;
+    min-height: 138px;
+    padding: 8px 4px 6px;
+}
+
 .mwg-op-block {
     --mwg-digit-width: 4ch;
     width: calc(var(--mwg-digit-width) + 2ch);
@@ -90,6 +97,69 @@
     width: 3.6ch;
     border-bottom: 1.6px solid #1f2937;
     transform: translateY(-1px);
+}
+
+.mwg-division-block {
+    margin-top: 2px;
+    font-family: "Courier New", Courier, monospace;
+    color: #0f172a;
+}
+
+.mwg-division-layout {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas:
+        "dividend divisor"
+        ". workspace";
+    align-items: start;
+    column-gap: 2px;
+}
+
+.mwg-division-dividend {
+    grid-area: dividend;
+    align-self: center;
+    justify-self: end;
+    padding-top: 6px;
+    font-size: 1.18rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.mwg-division-divisor-wrap {
+    grid-area: divisor;
+    min-width: 5ch;
+    min-height: 30px;
+    padding: 0 0 3px 6px;
+    border-left: 1.8px solid #1f2937;
+    border-bottom: 1.8px solid #1f2937;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.mwg-division-divisor {
+    font-size: 1.18rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.mwg-division-workspace {
+    grid-area: workspace;
+    min-height: 22px;
+    border-left: 1.8px solid #1f2937;
+}
+
+.mwg-division-remainder {
+    margin-top: 8px;
+    margin-left: calc(100% - 3.8ch);
+    width: 3.2ch;
+    font-family: "Nunito", sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: lowercase;
 }
 
 .mwg-grid-cell--text {
@@ -195,6 +265,10 @@
         min-height: 110px;
     }
 
+    .mwg-grid-cell--division {
+        min-height: 122px;
+    }
+
     .mwg-op-block {
         font-size: 1.05rem;
     }
@@ -216,12 +290,22 @@
         min-height: 30px;
         font-size: 0.95rem;
     }
+
+    .mwg-division-dividend,
+    .mwg-division-divisor {
+        font-size: 1.08rem;
+    }
 }
 
 @media (max-width: 560px) {
     .mwg-grid-cell {
         min-height: 96px;
         padding: 7px 7px 6px;
+    }
+
+    .mwg-grid-cell--division {
+        min-height: 108px;
+        padding: 6px 4px;
     }
 
     .mwg-item-number {
@@ -239,6 +323,26 @@
 
     .mwg-grid-cell--operation .mwg-op-block {
         margin-top: 4px;
+    }
+
+    .mwg-division-dividend,
+    .mwg-division-divisor {
+        font-size: 1rem;
+    }
+
+    .mwg-division-divisor-wrap {
+        min-width: 4.4ch;
+        min-height: 26px;
+        padding-left: 5px;
+    }
+
+    .mwg-division-workspace {
+        min-height: 18px;
+    }
+
+    .mwg-division-remainder {
+        margin-top: 6px;
+        font-size: 0.66rem;
     }
 
     .mwg-rhythm-sheet {
