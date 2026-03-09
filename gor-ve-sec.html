@@ -806,7 +806,7 @@
                 groupMode: 'sequential',
                 selectedGroup: 1,
 
-                letterPolicy: 'cumulative',
+                letterPolicy: 'only',
 
                 shuffle: false,
                 autoAdvanceGroup: false,
@@ -924,7 +924,8 @@
 
             let activeGroup = s.groupMode === 'sequential' ? appState.currentGroup : s.selectedGroup;
 
-            if (s.letterPolicy === 'only') {
+            // Sequential flow should ask only the current sound group.
+            if (s.groupMode === 'sequential' || s.letterPolicy === 'only') {
                 pool = pool.filter(w => w.group === activeGroup);
             } else {
                 pool = pool.filter(w => w.group <= activeGroup);
@@ -993,6 +994,11 @@
                     // SANITIZE: Remove legacy basara selection
                     if (appState.settings.program === 'basara') {
                         appState.settings.program = 'anetil';
+                    }
+                    // Older configs could keep cumulative progression enabled.
+                    // In sequential mode we always want just the active group.
+                    if (appState.settings.groupMode === 'sequential') {
+                        appState.settings.letterPolicy = 'only';
                     }
                 }
             } catch (e) { }
