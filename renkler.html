@@ -303,16 +303,46 @@
             _loadTTSVoice();
         }
 
-        const speakColor = (text, enabled) => {
-            if (!enabled || !window.speechSynthesis) return;
+        const AI_AUDIO_BASE = 'assets/audio/gor-ve-sec';
+        let _ttsAudioPlayer = null;
+        const _failedWordAudio = new Set();
+
+        const normalizeAudioKey = (text) => String(text || '')
+            .replace(/I/g, 'ı')
+            .replace(/İ/g, 'i')
+            .toLowerCase()
+            .replace(/ç/g, 'c')
+            .replace(/ğ/g, 'g')
+            .replace(/ı/g, 'i')
+            .replace(/ö/g, 'o')
+            .replace(/ş/g, 's')
+            .replace(/ü/g, 'u')
+            .replace(/[^a-z0-9]/g, '');
+
+        const stopChildFriendlyAudio = () => {
+            if (!_ttsAudioPlayer) return;
+            _ttsAudioPlayer.pause();
+            _ttsAudioPlayer.currentTime = 0;
+            _ttsAudioPlayer = null;
+        };
+
+        const speakFallbackTTS = (text) => {
+            if (!window.speechSynthesis) return;
+            stopChildFriendlyAudio();
             window.speechSynthesis.cancel();
-            if (!_ttsVoicesLoaded) _loadTTSVoice();
             const utterance = new SpeechSynthesisUtterance(text);
-            if (_ttsVoice) utterance.voice = _ttsVoice;
             utterance.lang = 'tr-TR';
-            utterance.rate = 0.85;
-            utterance.pitch = 1.0;
+            utterance.rate = 0.9;
             window.speechSynthesis.speak(utterance);
+        };
+
+        const speakWithChildFriendlyVoice = (text) => {
+            speakFallbackTTS(text);
+        };
+
+        const speakColor = (text, enabled) => {
+            if (!enabled) return;
+            speakWithChildFriendlyVoice(text);
         };
 
         const createConfetti = () => {

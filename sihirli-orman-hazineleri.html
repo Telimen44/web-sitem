@@ -732,16 +732,72 @@
                 if (this._ttsVoice) console.log('🗣️ Voice:', this._ttsVoice.name);
             },
 
-            speak(text) {
+            _ttsAudioPlayer: null,
+            _failedWordAudio: new Set(),
+
+            normalizeAudioKey(text) {
+                return String(text || '')
+                    .replace(/I/g, 'ı')
+                    .replace(/İ/g, 'i')
+                    .toLowerCase()
+                    .replace(/ç/g, 'c')
+                    .replace(/ğ/g, 'g')
+                    .replace(/ı/g, 'i')
+                    .replace(/ö/g, 'o')
+                    .replace(/ş/g, 's')
+                    .replace(/ü/g, 'u')
+                    .replace(/[^a-z0-9]/g, '');
+            },
+
+            stopChildFriendlyAudio() {
+                if (!this._ttsAudioPlayer) return;
+                this._ttsAudioPlayer.pause();
+                this._ttsAudioPlayer.currentTime = 0;
+                this._ttsAudioPlayer = null;
+            },
+
+            speakFallbackTTS(text) {
                 if (!window.speechSynthesis) return;
+                this.stopChildFriendlyAudio();
                 window.speechSynthesis.cancel();
-                if (!this._ttsVoicesLoaded) this._loadTTSVoice();
                 const u = new SpeechSynthesisUtterance(text);
-                if (this._ttsVoice) u.voice = this._ttsVoice;
                 u.lang = 'tr-TR';
-                u.rate = 0.85;
-                u.pitch = 1.0;
+                u.rate = 0.9;
                 window.speechSynthesis.speak(u);
+            },
+
+            speak(text) {
+                if (String(text || '').trim().split(/\s+/).length > 1) {
+                    this.speakFallbackTTS(text);
+                    return;
+                }
+
+                const key = this.normalizeAudioKey(text);
+                if (!key || this._failedWordAudio.has(key)) {
+                    this.speakFallbackTTS(text);
+                    return;
+                }
+
+                this.stopChildFriendlyAudio();
+                if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+                const audio = new Audio(`assets/audio/gor-ve-sec/${key}.mp3`);
+                this._ttsAudioPlayer = audio;
+                let handled = false;
+
+                const fallbackToTTS = () => {
+                    if (handled) return;
+                    handled = true;
+                    this._failedWordAudio.add(key);
+                    if (this._ttsAudioPlayer === audio) this._ttsAudioPlayer = null;
+                    this.speakFallbackTTS(text);
+                };
+
+                audio.addEventListener('ended', () => {
+                    if (this._ttsAudioPlayer === audio) this._ttsAudioPlayer = null;
+                }, { once: true });
+                audio.addEventListener('error', fallbackToTTS, { once: true });
+                audio.play().catch(fallbackToTTS);
             },
 
             setupEvents() {

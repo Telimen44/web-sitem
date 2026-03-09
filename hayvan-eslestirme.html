@@ -1595,18 +1595,73 @@
             if (_ttsVoice) console.log('🗣️ Voice:', _ttsVoice.name);
         }
 
+        const AI_AUDIO_BASE = 'assets/audio/gor-ve-sec';
+        let _ttsAudioPlayer = null;
+        const _failedWordAudio = new Set();
+
+        function normalizeAudioKey(str) {
+            return String(str || '')
+                .replace(/I/g, 'ı')
+                .replace(/İ/g, 'i')
+                .toLowerCase()
+                .replace(/ç/g, 'c')
+                .replace(/ğ/g, 'g')
+                .replace(/ı/g, 'i')
+                .replace(/ö/g, 'o')
+                .replace(/ş/g, 's')
+                .replace(/ü/g, 'u')
+                .replace(/[^a-z0-9]/g, '');
+        }
+
+        function stopChildFriendlyAudio() {
+            if (!_ttsAudioPlayer) return;
+            _ttsAudioPlayer.pause();
+            _ttsAudioPlayer.currentTime = 0;
+            _ttsAudioPlayer = null;
+        }
+
+        function speakFallbackTTS(text) {
+            if (!window.speechSynthesis) return;
+            stopChildFriendlyAudio();
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'tr-TR';
+            utterance.rate = 0.9;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function speakWithChildFriendlyVoice(text) {
+            const key = normalizeAudioKey(text);
+            if (!key || _failedWordAudio.has(key)) {
+                speakFallbackTTS(text);
+                return;
+            }
+
+            stopChildFriendlyAudio();
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+            const audio = new Audio(`${AI_AUDIO_BASE}/${key}.mp3`);
+            _ttsAudioPlayer = audio;
+            let handled = false;
+
+            const fallbackToTTS = () => {
+                if (handled) return;
+                handled = true;
+                _failedWordAudio.add(key);
+                if (_ttsAudioPlayer === audio) _ttsAudioPlayer = null;
+                speakFallbackTTS(text);
+            };
+
+            audio.addEventListener('ended', () => {
+                if (_ttsAudioPlayer === audio) _ttsAudioPlayer = null;
+            }, { once: true });
+            audio.addEventListener('error', fallbackToTTS, { once: true });
+            audio.play().catch(fallbackToTTS);
+        }
+
         function speakName(name) {
             if (!ttsEnabled) return;
-            if (!window.speechSynthesis) return;
-            window.speechSynthesis.cancel();
-            if (!_ttsVoicesLoaded) _loadTTSVoice();
-            const utterance = new SpeechSynthesisUtterance(name);
-            if (_ttsVoice) utterance.voice = _ttsVoice;
-            utterance.lang = 'tr-TR';
-            utterance.rate = 0.85;
-            utterance.pitch = 1.0;
-            utterance.volume = 1;
-            window.speechSynthesis.speak(utterance);
+            speakWithChildFriendlyVoice(name);
         }
 
         // Sesleri hazırla (Chrome async fix)
