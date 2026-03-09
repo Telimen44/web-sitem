@@ -182,6 +182,93 @@
             margin-bottom: 10px;
         }
 
+        .entry-config-block.two-player-hidden {
+            display: none
+        }
+
+        .two-player-configs {
+            width: min(100%, 940px);
+            display: none;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 22px
+        }
+
+        .two-player-configs.show {
+            display: grid
+        }
+
+        .player-config-card {
+            border-radius: 28px;
+            padding: 18px 16px 20px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .1);
+            box-shadow: 0 18px 50px rgba(15, 12, 41, .24);
+            backdrop-filter: blur(14px)
+        }
+
+        .player-config-card .cards-row {
+            max-width: none
+        }
+
+        .player-config-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            margin-bottom: 12px
+        }
+
+        .player-config-title strong {
+            font-size: 1.15rem;
+            color: white
+        }
+
+        .player-config-title span {
+            font-size: .82rem;
+            color: rgba(255, 255, 255, .52)
+        }
+
+        .mini-label {
+            font-size: .74rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, .42);
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            margin: 14px 0 8px;
+            text-align: center
+        }
+
+        .player-config-card .sel-card {
+            min-width: 78px;
+            max-width: none;
+            padding: 14px 10px
+        }
+
+        .player-config-card .sel-card .icon {
+            font-size: 1.7rem
+        }
+
+        .player-config-card .sel-card .label {
+            font-size: .78rem
+        }
+
+        .player-config-card .sel-card .desc {
+            font-size: .64rem
+        }
+
+        .player-sub-options {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height .35s ease, opacity .25s ease
+        }
+
+        .player-sub-options.open {
+            max-height: 340px;
+            opacity: 1
+        }
+
         .start-btn {
             margin-top: 28px;
             padding: 16px 56px;
@@ -685,6 +772,14 @@
                 font-size: 90px
             }
 
+            .two-player-configs.show {
+                grid-template-columns: 1fr
+            }
+
+            .player-config-card {
+                padding: 16px 12px 18px
+            }
+
             .hud-layer.split .controls {
                 width: calc(100% - 8px);
                 gap: 5px;
@@ -750,85 +845,85 @@
             <div class="entry-title">Matematik Defteri</div>
             <div class="entry-subtitle">İşlem türünü ve ayarları seç</div>
 
-            <div class="section-label">İşlem Türü</div>
-            <div class="cards-row" id="opCards">
-                <div class="sel-card" data-op="+" onclick="selectOp(this)">
-                    <div class="icon">➕</div>
-                    <div class="label">Toplama</div>
-                    <div class="desc">Sayıları topla</div>
+            <div class="entry-config-block" id="singleConfigBlock">
+                <div class="section-label">İşlem Türü</div>
+                <div class="cards-row" id="opCards">
+                    <div class="sel-card" data-op="+" onclick="selectOp(this)">
+                        <div class="icon">➕</div>
+                        <div class="label">Toplama</div>
+                        <div class="desc">Sayıları topla</div>
+                    </div>
+                    <div class="sel-card" data-op="-" onclick="selectOp(this)">
+                        <div class="icon">➖</div>
+                        <div class="label">Çıkarma</div>
+                        <div class="desc">Farkı bul</div>
+                    </div>
+                    <div class="sel-card" data-op="x" onclick="selectOp(this)">
+                        <div class="icon">✖️</div>
+                        <div class="label">Çarpma</div>
+                        <div class="desc">Çarpım hesapla</div>
+                    </div>
                 </div>
-                <div class="sel-card" data-op="-" onclick="selectOp(this)">
-                    <div class="icon">➖</div>
-                    <div class="label">Çıkarma</div>
-                    <div class="desc">Farkı bul</div>
-                </div>
-                <div class="sel-card" data-op="x" onclick="selectOp(this)">
-                    <div class="icon">✖️</div>
-                    <div class="label">Çarpma</div>
-                    <div class="desc">Çarpım hesapla</div>
-                </div>
-            </div>
 
-            <!-- Addition sub-options -->
-            <div class="sub-options" id="addOptions">
-                <div class="section-label">Elde Seçeneği</div>
-                <div class="cards-row">
-                    <div class="sel-card opt-card selected" data-val="nocarry" onclick="selectOpt('carry',this)">
-                        <div class="icon">✨</div>
-                        <div class="label">Eldesiz</div>
-                        <div class="desc">Elde yok</div>
-                    </div>
-                    <div class="sel-card opt-card" data-val="carry" onclick="selectOpt('carry',this)">
-                        <div class="icon">🔢</div>
-                        <div class="label">Eldeli</div>
-                        <div class="desc">Elde var</div>
-                    </div>
-                    <div class="sel-card opt-card" data-val="mixed" onclick="selectOpt('carry',this)">
-                        <div class="icon">🎲</div>
-                        <div class="label">Karışık</div>
-                        <div class="desc">Her ikisi de</div>
+                <div class="sub-options" id="addOptions">
+                    <div class="section-label">Elde Seçeneği</div>
+                    <div class="cards-row">
+                        <div class="sel-card opt-card selected" data-val="nocarry" onclick="selectOpt('carry',this)">
+                            <div class="icon">✨</div>
+                            <div class="label">Eldesiz</div>
+                            <div class="desc">Elde yok</div>
+                        </div>
+                        <div class="sel-card opt-card" data-val="carry" onclick="selectOpt('carry',this)">
+                            <div class="icon">🔢</div>
+                            <div class="label">Eldeli</div>
+                            <div class="desc">Elde var</div>
+                        </div>
+                        <div class="sel-card opt-card" data-val="mixed" onclick="selectOpt('carry',this)">
+                            <div class="icon">🎲</div>
+                            <div class="label">Karışık</div>
+                            <div class="desc">Her ikisi de</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Subtraction sub-options -->
-            <div class="sub-options" id="subOptions">
-                <div class="section-label">Onluk Bozma</div>
-                <div class="cards-row">
-                    <div class="sel-card opt-card selected" data-val="noborrow" onclick="selectOpt('borrow',this)">
-                        <div class="icon">✨</div>
-                        <div class="label">Bozmasız</div>
-                        <div class="desc">Onluk bozma yok</div>
-                    </div>
-                    <div class="sel-card opt-card" data-val="borrow" onclick="selectOpt('borrow',this)">
-                        <div class="icon">🔄</div>
-                        <div class="label">Bozmalı</div>
-                        <div class="desc">Onluk bozma var</div>
-                    </div>
-                    <div class="sel-card opt-card" data-val="mixed" onclick="selectOpt('borrow',this)">
-                        <div class="icon">🎲</div>
-                        <div class="label">Karışık</div>
-                        <div class="desc">Her ikisi de</div>
+                <div class="sub-options" id="subOptions">
+                    <div class="section-label">Onluk Bozma</div>
+                    <div class="cards-row">
+                        <div class="sel-card opt-card selected" data-val="noborrow" onclick="selectOpt('borrow',this)">
+                            <div class="icon">✨</div>
+                            <div class="label">Bozmasız</div>
+                            <div class="desc">Onluk bozma yok</div>
+                        </div>
+                        <div class="sel-card opt-card" data-val="borrow" onclick="selectOpt('borrow',this)">
+                            <div class="icon">🔄</div>
+                            <div class="label">Bozmalı</div>
+                            <div class="desc">Onluk bozma var</div>
+                        </div>
+                        <div class="sel-card opt-card" data-val="mixed" onclick="selectOpt('borrow',this)">
+                            <div class="icon">🎲</div>
+                            <div class="label">Karışık</div>
+                            <div class="desc">Her ikisi de</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="section-label" style="margin-top:20px">Basamak Sayısı</div>
-            <div class="cards-row" id="digitCards">
-                <div class="sel-card digit-card selected" data-val="1" onclick="selectDigit(this)">
-                    <div class="icon">1️⃣</div>
-                    <div class="label">Tek</div>
-                    <div class="desc">1 – 9</div>
-                </div>
-                <div class="sel-card digit-card" data-val="2" onclick="selectDigit(this)">
-                    <div class="icon">2️⃣</div>
-                    <div class="label">İki</div>
-                    <div class="desc">10 – 99</div>
-                </div>
-                <div class="sel-card digit-card" data-val="3" onclick="selectDigit(this)">
-                    <div class="icon">3️⃣</div>
-                    <div class="label">Üç</div>
-                    <div class="desc">100 – 999</div>
+                <div class="section-label" style="margin-top:20px">Basamak Sayısı</div>
+                <div class="cards-row" id="digitCards">
+                    <div class="sel-card digit-card selected" data-val="1" onclick="selectDigit(this)">
+                        <div class="icon">1️⃣</div>
+                        <div class="label">Tek</div>
+                        <div class="desc">1 – 9</div>
+                    </div>
+                    <div class="sel-card digit-card" data-val="2" onclick="selectDigit(this)">
+                        <div class="icon">2️⃣</div>
+                        <div class="label">İki</div>
+                        <div class="desc">10 – 99</div>
+                    </div>
+                    <div class="sel-card digit-card" data-val="3" onclick="selectDigit(this)">
+                        <div class="icon">3️⃣</div>
+                        <div class="label">Üç</div>
+                        <div class="desc">100 – 999</div>
+                    </div>
                 </div>
             </div>
 
@@ -843,6 +938,173 @@
                     <div class="icon">👥</div>
                     <div class="label">2 Kişi</div>
                     <div class="desc">Sol ve sağ aynı anda</div>
+                </div>
+            </div>
+
+            <div class="two-player-configs" id="twoPlayerConfigs">
+                <div class="player-config-card" data-player-config="0">
+                    <div class="player-config-title">
+                        <strong>Öğrenci 1</strong>
+                        <span>Sol taraf ayarları</span>
+                    </div>
+                    <div class="mini-label">İşlem Türü</div>
+                    <div class="cards-row">
+                        <div class="sel-card" data-op="+" onclick="selectPlayerOp(0,this)">
+                            <div class="icon">➕</div>
+                            <div class="label">Toplama</div>
+                            <div class="desc">Toplama soruları</div>
+                        </div>
+                        <div class="sel-card" data-op="-" onclick="selectPlayerOp(0,this)">
+                            <div class="icon">➖</div>
+                            <div class="label">Çıkarma</div>
+                            <div class="desc">Çıkarma soruları</div>
+                        </div>
+                        <div class="sel-card" data-op="x" onclick="selectPlayerOp(0,this)">
+                            <div class="icon">✖️</div>
+                            <div class="label">Çarpma</div>
+                            <div class="desc">Çarpma soruları</div>
+                        </div>
+                    </div>
+                    <div class="player-sub-options" data-role="addOptions">
+                        <div class="mini-label">Elde Seçeneği</div>
+                        <div class="cards-row">
+                            <div class="sel-card opt-card" data-val="nocarry" onclick="selectPlayerOpt(0,'carry',this)">
+                                <div class="icon">✨</div>
+                                <div class="label">Eldesiz</div>
+                                <div class="desc">Elde yok</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="carry" onclick="selectPlayerOpt(0,'carry',this)">
+                                <div class="icon">🔢</div>
+                                <div class="label">Eldeli</div>
+                                <div class="desc">Elde var</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(0,'carry',this)">
+                                <div class="icon">🎲</div>
+                                <div class="label">Karışık</div>
+                                <div class="desc">Her ikisi de</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-sub-options" data-role="subOptions">
+                        <div class="mini-label">Onluk Bozma</div>
+                        <div class="cards-row">
+                            <div class="sel-card opt-card" data-val="noborrow" onclick="selectPlayerOpt(0,'borrow',this)">
+                                <div class="icon">✨</div>
+                                <div class="label">Bozmasız</div>
+                                <div class="desc">Onluk bozma yok</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="borrow" onclick="selectPlayerOpt(0,'borrow',this)">
+                                <div class="icon">🔄</div>
+                                <div class="label">Bozmalı</div>
+                                <div class="desc">Onluk bozma var</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(0,'borrow',this)">
+                                <div class="icon">🎲</div>
+                                <div class="label">Karışık</div>
+                                <div class="desc">Her ikisi de</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mini-label">Basamak Sayısı</div>
+                    <div class="cards-row">
+                        <div class="sel-card digit-card" data-val="1" onclick="selectPlayerDigit(0,this)">
+                            <div class="icon">1️⃣</div>
+                            <div class="label">Tek</div>
+                            <div class="desc">1 – 9</div>
+                        </div>
+                        <div class="sel-card digit-card" data-val="2" onclick="selectPlayerDigit(0,this)">
+                            <div class="icon">2️⃣</div>
+                            <div class="label">İki</div>
+                            <div class="desc">10 – 99</div>
+                        </div>
+                        <div class="sel-card digit-card" data-val="3" onclick="selectPlayerDigit(0,this)">
+                            <div class="icon">3️⃣</div>
+                            <div class="label">Üç</div>
+                            <div class="desc">100 – 999</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="player-config-card" data-player-config="1">
+                    <div class="player-config-title">
+                        <strong>Öğrenci 2</strong>
+                        <span>Sağ taraf ayarları</span>
+                    </div>
+                    <div class="mini-label">İşlem Türü</div>
+                    <div class="cards-row">
+                        <div class="sel-card" data-op="+" onclick="selectPlayerOp(1,this)">
+                            <div class="icon">➕</div>
+                            <div class="label">Toplama</div>
+                            <div class="desc">Toplama soruları</div>
+                        </div>
+                        <div class="sel-card" data-op="-" onclick="selectPlayerOp(1,this)">
+                            <div class="icon">➖</div>
+                            <div class="label">Çıkarma</div>
+                            <div class="desc">Çıkarma soruları</div>
+                        </div>
+                        <div class="sel-card" data-op="x" onclick="selectPlayerOp(1,this)">
+                            <div class="icon">✖️</div>
+                            <div class="label">Çarpma</div>
+                            <div class="desc">Çarpma soruları</div>
+                        </div>
+                    </div>
+                    <div class="player-sub-options" data-role="addOptions">
+                        <div class="mini-label">Elde Seçeneği</div>
+                        <div class="cards-row">
+                            <div class="sel-card opt-card" data-val="nocarry" onclick="selectPlayerOpt(1,'carry',this)">
+                                <div class="icon">✨</div>
+                                <div class="label">Eldesiz</div>
+                                <div class="desc">Elde yok</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="carry" onclick="selectPlayerOpt(1,'carry',this)">
+                                <div class="icon">🔢</div>
+                                <div class="label">Eldeli</div>
+                                <div class="desc">Elde var</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(1,'carry',this)">
+                                <div class="icon">🎲</div>
+                                <div class="label">Karışık</div>
+                                <div class="desc">Her ikisi de</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-sub-options" data-role="subOptions">
+                        <div class="mini-label">Onluk Bozma</div>
+                        <div class="cards-row">
+                            <div class="sel-card opt-card" data-val="noborrow" onclick="selectPlayerOpt(1,'borrow',this)">
+                                <div class="icon">✨</div>
+                                <div class="label">Bozmasız</div>
+                                <div class="desc">Onluk bozma yok</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="borrow" onclick="selectPlayerOpt(1,'borrow',this)">
+                                <div class="icon">🔄</div>
+                                <div class="label">Bozmalı</div>
+                                <div class="desc">Onluk bozma var</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(1,'borrow',this)">
+                                <div class="icon">🎲</div>
+                                <div class="label">Karışık</div>
+                                <div class="desc">Her ikisi de</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mini-label">Basamak Sayısı</div>
+                    <div class="cards-row">
+                        <div class="sel-card digit-card" data-val="1" onclick="selectPlayerDigit(1,this)">
+                            <div class="icon">1️⃣</div>
+                            <div class="label">Tek</div>
+                            <div class="desc">1 – 9</div>
+                        </div>
+                        <div class="sel-card digit-card" data-val="2" onclick="selectPlayerDigit(1,this)">
+                            <div class="icon">2️⃣</div>
+                            <div class="label">İki</div>
+                            <div class="desc">10 – 99</div>
+                        </div>
+                        <div class="sel-card digit-card" data-val="3" onclick="selectPlayerDigit(1,this)">
+                            <div class="icon">3️⃣</div>
+                            <div class="label">Üç</div>
+                            <div class="desc">100 – 999</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

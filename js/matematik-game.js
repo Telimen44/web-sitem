@@ -1,40 +1,162 @@
-let config = { op: null, digits: 1, carry: 'nocarry', borrow: 'noborrow', players: 1 };
+function makeQuestionConfig(overrides = {}) {
+    return {
+        op: null,
+        digits: 1,
+        carry: 'nocarry',
+        borrow: 'noborrow',
+        ...overrides
+    };
+}
 
-function selectOp(el) {
-    document.querySelectorAll('#opCards .sel-card').forEach(card => card.classList.remove('selected'));
-    el.classList.add('selected');
-    config.op = el.dataset.op;
+let config = {
+    ...makeQuestionConfig(),
+    players: 1,
+    playerConfigs: [makeQuestionConfig(), makeQuestionConfig()]
+};
+
+function getPlayerConfigCard(index) {
+    return document.querySelector(`[data-player-config="${index}"]`);
+}
+
+function renderSingleConfig() {
+    document.querySelectorAll('#opCards .sel-card').forEach(card => {
+        card.classList.toggle('selected', card.dataset.op === config.op);
+    });
+    document.querySelectorAll('#digitCards .sel-card').forEach(card => {
+        card.classList.toggle('selected', parseInt(card.dataset.val, 10) === config.digits);
+    });
+    document.querySelectorAll('#addOptions .sel-card').forEach(card => {
+        card.classList.toggle('selected', card.dataset.val === config.carry);
+    });
+    document.querySelectorAll('#subOptions .sel-card').forEach(card => {
+        card.classList.toggle('selected', card.dataset.val === config.borrow);
+    });
     document.getElementById('addOptions').classList.toggle('open', config.op === '+');
     document.getElementById('subOptions').classList.toggle('open', config.op === '-');
-    document.getElementById('startBtn').disabled = false;
+}
+
+function renderPlayerConfigCard(index) {
+    const playerConfig = config.playerConfigs[index];
+    const card = getPlayerConfigCard(index);
+    if (!card || !playerConfig) return;
+
+    card.querySelectorAll('[data-op]').forEach(item => {
+        item.classList.toggle('selected', item.dataset.op === playerConfig.op);
+    });
+    card.querySelectorAll('.digit-card[data-val]').forEach(item => {
+        item.classList.toggle('selected', parseInt(item.dataset.val, 10) === playerConfig.digits);
+    });
+
+    const addOptions = card.querySelector('[data-role="addOptions"]');
+    const subOptions = card.querySelector('[data-role="subOptions"]');
+    if (addOptions) {
+        addOptions.classList.toggle('open', playerConfig.op === '+');
+        addOptions.querySelectorAll('.sel-card[data-val]').forEach(item => {
+            item.classList.toggle('selected', item.dataset.val === playerConfig.carry);
+        });
+    }
+    if (subOptions) {
+        subOptions.classList.toggle('open', playerConfig.op === '-');
+        subOptions.querySelectorAll('.sel-card[data-val]').forEach(item => {
+            item.classList.toggle('selected', item.dataset.val === playerConfig.borrow);
+        });
+    }
+}
+
+function updateStartButtonState() {
+    const canStart = config.players === 1
+        ? Boolean(config.op)
+        : config.playerConfigs.every(playerConfig => Boolean(playerConfig.op));
+    document.getElementById('startBtn').disabled = !canStart;
+}
+
+function renderModeState() {
+    const singleBlock = document.getElementById('singleConfigBlock');
+    const twoPlayerConfigs = document.getElementById('twoPlayerConfigs');
+    const isTwoPlayer = config.players === 2;
+
+    singleBlock.classList.toggle('two-player-hidden', isTwoPlayer);
+    twoPlayerConfigs.classList.toggle('show', isTwoPlayer);
+
+    renderSingleConfig();
+    renderPlayerConfigCard(0);
+    renderPlayerConfigCard(1);
+    updateStartButtonState();
+}
+
+function selectOp(el) {
+    config.op = el.dataset.op;
+    renderModeState();
 }
 
 function selectOpt(type, el) {
-    el.parentElement.querySelectorAll('.sel-card').forEach(card => card.classList.remove('selected'));
-    el.classList.add('selected');
     config[type] = el.dataset.val;
+    renderModeState();
 }
 
 function selectDigit(el) {
-    document.querySelectorAll('#digitCards .sel-card').forEach(card => card.classList.remove('selected'));
-    el.classList.add('selected');
     config.digits = parseInt(el.dataset.val, 10);
+    renderModeState();
+}
+
+function selectPlayerOp(index, el) {
+    config.playerConfigs[index].op = el.dataset.op;
+    renderModeState();
+}
+
+function selectPlayerOpt(index, type, el) {
+    config.playerConfigs[index][type] = el.dataset.val;
+    renderModeState();
+}
+
+function selectPlayerDigit(index, el) {
+    config.playerConfigs[index].digits = parseInt(el.dataset.val, 10);
+    renderModeState();
 }
 
 function selectMode(el) {
     document.querySelectorAll('#modeCards .sel-card').forEach(card => card.classList.remove('selected'));
     el.classList.add('selected');
-    config.players = parseInt(el.dataset.players, 10);
+    const nextPlayers = parseInt(el.dataset.players, 10);
+    if (nextPlayers === 2 && config.players !== 2) {
+        config.playerConfigs = [
+            makeQuestionConfig({
+                op: config.op,
+                digits: config.digits,
+                carry: config.carry,
+                borrow: config.borrow
+            }),
+            makeQuestionConfig({
+                op: config.op,
+                digits: config.digits,
+                carry: config.carry,
+                borrow: config.borrow
+            })
+        ];
+    }
+    config.players = nextPlayers;
+    renderModeState();
+}
+
+function describeQuestionConfig(questionConfig) {
+    const opNames = { '+': 'Toplama', '-': 'Cikarma', 'x': 'Carpma' };
+    return `${opNames[questionConfig.op]} - ${questionConfig.digits} Basamak`;
 }
 
 function startGame() {
-    if (!config.op) return;
+    const canStart = config.players === 1
+        ? Boolean(config.op)
+        : config.playerConfigs.every(playerConfig => Boolean(playerConfig.op));
+    if (!canStart) return;
     document.getElementById('entryScreen').classList.add('hidden');
     document.getElementById('gameScreen').classList.add('active');
-    const opNames = { '+': 'Toplama', '-': 'Çıkarma', 'x': 'Çarpma' };
-    const modeLabel = config.players === 2 ? '2 Kişi' : 'Tek Kişi';
-    document.getElementById('configBadge').textContent = `${opNames[config.op]} · ${config.digits} Basamak · ${modeLabel}`;
-    Game.init({ ...config });
+    document.getElementById('configBadge').textContent = config.players === 2
+        ? '2 Kisi - Ogrenciye Gore Ayarli'
+        : `${describeQuestionConfig(config)} - Tek Kisi`;
+    Game.init({
+        ...config,
+        playerConfigs: config.playerConfigs.map(playerConfig => makeQuestionConfig(playerConfig))
+    });
 }
 
 document.getElementById('startBtn').disabled = true;
@@ -43,9 +165,14 @@ function applyQueryConfigFromUrl() {
     const params = new URLSearchParams(window.location.search);
     if (!params.toString()) return;
 
+    const playersCount = params.get('players');
+    if (playersCount) {
+        const modeCard = document.querySelector(`#modeCards .sel-card[data-players="${playersCount}"]`);
+        if (modeCard) selectMode(modeCard);
+    }
+
     const op = params.get('op');
     const digits = params.get('digits');
-    const playersCount = params.get('players');
     const carry = params.get('carry');
     const borrow = params.get('borrow');
 
@@ -53,26 +180,33 @@ function applyQueryConfigFromUrl() {
         const opCard = document.querySelector(`#opCards .sel-card[data-op="${op}"]`);
         if (opCard) selectOp(opCard);
     }
-
     if (digits) {
         const digitCard = document.querySelector(`#digitCards .sel-card[data-val="${digits}"]`);
         if (digitCard) selectDigit(digitCard);
     }
-
-    if (playersCount) {
-        const modeCard = document.querySelector(`#modeCards .sel-card[data-players="${playersCount}"]`);
-        if (modeCard) selectMode(modeCard);
-    }
-
     if (carry) {
         const carryCard = document.querySelector(`#addOptions .sel-card[data-val="${carry}"]`);
         if (carryCard) selectOpt('carry', carryCard);
     }
-
     if (borrow) {
         const borrowCard = document.querySelector(`#subOptions .sel-card[data-val="${borrow}"]`);
         if (borrowCard) selectOpt('borrow', borrowCard);
     }
+
+    for (let i = 0; i < 2; i++) {
+        const prefix = `p${i + 1}_`;
+        const playerOp = params.get(prefix + 'op');
+        const playerDigits = params.get(prefix + 'digits');
+        const playerCarry = params.get(prefix + 'carry');
+        const playerBorrow = params.get(prefix + 'borrow');
+
+        if (playerOp) config.playerConfigs[i].op = playerOp;
+        if (playerDigits) config.playerConfigs[i].digits = parseInt(playerDigits, 10);
+        if (playerCarry) config.playerConfigs[i].carry = playerCarry;
+        if (playerBorrow) config.playerConfigs[i].borrow = playerBorrow;
+    }
+
+    renderModeState();
 }
 
 const Game = (function () {
@@ -114,6 +248,13 @@ const Game = (function () {
 
     function getActivePlayerCount() {
         return cfg && cfg.players === 2 ? 2 : 1;
+    }
+
+    function getQuestionConfig(index) {
+        if (getActivePlayerCount() === 2 && cfg.playerConfigs && cfg.playerConfigs[index]) {
+            return cfg.playerConfigs[index];
+        }
+        return cfg;
     }
 
     function getPlayerPanel(index) {
@@ -310,18 +451,19 @@ const Game = (function () {
         }
     }
 
-    function getOpSymbol() {
-        return cfg.op === '+' ? '+' : cfg.op === '-' ? '−' : '×';
+    function getOpSymbol(questionConfig) {
+        return questionConfig.op === '+' ? '+' : questionConfig.op === '-' ? '-' : 'x';
     }
 
     function drawQuestion(player) {
+        const questionConfig = getQuestionConfig(player.index);
         const panelWidth = player.area.panelRight - player.area.panelLeft;
         const compact = getActivePlayerCount() === 2;
         const mob = panelWidth < 420;
         const fs = compact ? (mob ? 34 : 46) : (window.innerWidth < 500 ? 44 : 60);
         const lh = compact ? (mob ? 42 : 54) : (window.innerWidth < 500 ? 56 : 72);
-        const startY = compact ? (mob ? 126 : 120) : (window.innerWidth < 500 ? 120 : 100);
-        const op = getOpSymbol();
+        const startY = compact ? (mob ? 168 : 156) : (window.innerWidth < 500 ? 150 : 138);
+        const op = getOpSymbol(questionConfig);
         const s1 = String(player.num1);
         const s2 = String(player.num2);
 
@@ -445,7 +587,8 @@ const Game = (function () {
 
     function genQ(index, render = true) {
         const player = players[index];
-        if (!player) return;
+        const questionConfig = getQuestionConfig(index);
+        if (!player || !questionConfig) return;
 
         clearPlayerTimers(player);
         hideStatus(index);
@@ -455,27 +598,27 @@ const Game = (function () {
         player.strokes = [];
         player.tool = 'pen';
 
-        const d = cfg.digits;
+        const d = questionConfig.digits;
         const lo = d === 1 ? 1 : d === 2 ? 10 : 100;
         const hi = d === 1 ? 9 : d === 2 ? 99 : 999;
 
-        if (cfg.op === '+') {
+        if (questionConfig.op === '+') {
             for (let tries = 0; tries < 200; tries++) {
                 player.num1 = randInt(lo, hi);
                 player.num2 = randInt(lo, hi);
                 player.ans = player.num1 + player.num2;
-                if (cfg.carry === 'nocarry' && !hasCarry(player.num1, player.num2)) break;
-                if (cfg.carry === 'carry' && hasCarry(player.num1, player.num2)) break;
-                if (cfg.carry === 'mixed') break;
+                if (questionConfig.carry === 'nocarry' && !hasCarry(player.num1, player.num2)) break;
+                if (questionConfig.carry === 'carry' && hasCarry(player.num1, player.num2)) break;
+                if (questionConfig.carry === 'mixed') break;
             }
-        } else if (cfg.op === '-') {
+        } else if (questionConfig.op === '-') {
             for (let tries = 0; tries < 200; tries++) {
                 player.num1 = randInt(lo, hi);
                 player.num2 = randInt(lo, player.num1);
                 player.ans = player.num1 - player.num2;
-                if (cfg.borrow === 'noborrow' && !hasBorrow(player.num1, player.num2)) break;
-                if (cfg.borrow === 'borrow' && hasBorrow(player.num1, player.num2)) break;
-                if (cfg.borrow === 'mixed') break;
+                if (questionConfig.borrow === 'noborrow' && !hasBorrow(player.num1, player.num2)) break;
+                if (questionConfig.borrow === 'borrow' && hasBorrow(player.num1, player.num2)) break;
+                if (questionConfig.borrow === 'mixed') break;
             }
         } else {
             player.num1 = randInt(lo, hi);
@@ -932,26 +1075,34 @@ const Game = (function () {
             mode: getActivePlayerCount() === 2 ? 'two-player' : 'single-player',
             coordinateSystem: 'origin top-left, x right, y down',
             config: {
-                op: cfg ? cfg.op : null,
-                digits: cfg ? cfg.digits : null,
-                carry: cfg ? cfg.carry : null,
-                borrow: cfg ? cfg.borrow : null
+                players: cfg ? cfg.players : null,
+                shared: cfg ? {
+                    op: cfg.op,
+                    digits: cfg.digits,
+                    carry: cfg.carry,
+                    borrow: cfg.borrow
+                } : null,
+                playerConfigs: cfg && cfg.playerConfigs ? cfg.playerConfigs : []
             },
-            players: players.slice(0, getActivePlayerCount()).map(player => ({
-                name: player.name,
-                side: getActivePlayerCount() === 2 ? player.side : 'Tüm ekran',
-                question: `${player.num1} ${getOpSymbol()} ${player.num2}`,
-                answer: player.ans,
-                score: { correct: player.cntOk, wrong: player.cntBad },
-                tool: player.tool,
-                busy: player.busy,
-                strokeCount: getVisibleStrokes(player).length,
-                area: player.area ? {
-                    left: Math.round(player.area.panelLeft),
-                    right: Math.round(player.area.panelRight),
-                    center: Math.round(player.area.center)
-                } : null
-            }))
+            players: players.slice(0, getActivePlayerCount()).map(player => {
+                const questionConfig = getQuestionConfig(player.index);
+                return {
+                    name: player.name,
+                    side: getActivePlayerCount() === 2 ? player.side : 'Tum ekran',
+                    question: `${player.num1} ${getOpSymbol(questionConfig)} ${player.num2}`,
+                    answer: player.ans,
+                    score: { correct: player.cntOk, wrong: player.cntBad },
+                    tool: player.tool,
+                    busy: player.busy,
+                    strokeCount: getVisibleStrokes(player).length,
+                    questionConfig: questionConfig,
+                    area: player.area ? {
+                        left: Math.round(player.area.panelLeft),
+                        right: Math.round(player.area.panelRight),
+                        center: Math.round(player.area.center)
+                    } : null
+                };
+            })
         });
     }
 
@@ -963,7 +1114,11 @@ const Game = (function () {
 
     return {
         init: function (nextConfig) {
-            cfg = nextConfig;
+            cfg = {
+                ...makeQuestionConfig(nextConfig),
+                players: nextConfig.players || 1,
+                playerConfigs: (nextConfig.playerConfigs || [makeQuestionConfig(), makeQuestionConfig()]).map(playerConfig => makeQuestionConfig(playerConfig))
+            };
             canvas = document.getElementById('mainCanvas');
             ctx = canvas.getContext('2d');
             bindEvents();
@@ -979,6 +1134,7 @@ const Game = (function () {
     };
 })();
 
+renderModeState();
 applyQueryConfigFromUrl();
 if (new URLSearchParams(window.location.search).get('autostart') === '1') {
     startGame();
