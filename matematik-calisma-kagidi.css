@@ -338,6 +338,21 @@ input:focus-visible {
     font-weight: 700;
 }
 
+.mkg-sheet-footer {
+    margin-top: 14mm;
+    padding-top: 4mm;
+    border-top: 1px solid #dbe3ee;
+    text-align: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #64748b;
+    letter-spacing: 0.02em;
+}
+
+.mkg-sheet-footer-answer {
+    margin-top: 10mm;
+}
+
 @media (max-width: 1080px) {
     .mkg-layout {
         grid-template-columns: 1fr;

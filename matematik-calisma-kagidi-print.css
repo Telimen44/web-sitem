@@ -135,6 +135,20 @@
         margin: 0 0 4mm;
     }
 
+    .mkg-sheet-footer {
+        margin-top: 6mm !important;
+        padding-top: 2mm !important;
+        border-top: 1px solid #cbd5e1 !important;
+        text-align: center !important;
+        font-size: 8.6pt !important;
+        color: #475569 !important;
+        letter-spacing: 0.02em !important;
+    }
+
+    .mkg-sheet-footer-answer {
+        margin-top: 5mm !important;
+    }
+
     .mkg-answer-page {
         page-break-before: always;
         break-before: page;

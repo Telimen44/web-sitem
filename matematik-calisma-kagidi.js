@@ -2,6 +2,8 @@
 (function () {
     "use strict";
 
+    const WORKSHEET_SITE_LABEL = "telimenegitim.com";
+
     const CLASS_LEVELS = [
         { value: "1", label: "1. Sınıf" },
         { value: "2", label: "2. Sınıf" },
@@ -308,6 +310,7 @@
             : "";
 
         const questionsHtml = renderQuestionMatrix(worksheet);
+        const siteFooter = `<footer class="mkg-sheet-footer">${escapeHtml(WORKSHEET_SITE_LABEL)}</footer>`;
 
         const answerHtml = worksheet.settings.showAnswerKey
             ? `
@@ -316,6 +319,7 @@
                     <ol class="mkg-answer-list">
                         ${worksheet.questions.map((q, i) => `<li><strong>${i + 1})</strong> ${escapeHtml(q.answer)}</li>`).join("")}
                     </ol>
+                    <footer class="mkg-sheet-footer mkg-sheet-footer-answer">${escapeHtml(WORKSHEET_SITE_LABEL)}</footer>
                 </section>
             `
             : "";
@@ -335,6 +339,7 @@
                 <section class="mkg-question-grid mkg-layout-${escapeHtml(worksheet.layout)}">
                     ${questionsHtml}
                 </section>
+                ${siteFooter}
                 ${answerHtml}
             </article>
         `;
