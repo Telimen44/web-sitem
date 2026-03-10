@@ -301,7 +301,7 @@
         }
 
         renderGenerationSettings();
-        topicSettingsRoot.innerHTML = topic.settings.map(renderField).join("");
+        renderTopicSettings(topic);
         applySmartDefaults(classLevelSelect.value, topicSelect.value, selectedPresetId);
         renderPresetButtons();
         statusBox.textContent = "";
@@ -317,7 +317,10 @@
         rememberGenerationSettings();
 
         if (event.target && event.target.id === "mkg-field-generationType") {
+            const topic = TOPIC_REGISTRY[topicSelect.value];
+            const preservedTopicValues = collectRenderedTopicValues(topic);
             renderGenerationSettings();
+            renderTopicSettings(topic, preservedTopicValues);
             statusBox.textContent = "";
         }
     }
@@ -359,10 +362,13 @@
     }
 
     function getGenerationFieldDefinitions(topic) {
+        const questionsPerPageHelp = generationState.generationType === "pack"
+            ? "Paket modunda soru sayısı her sayfa için buradan belirlenir."
+            : "";
         return [
             selectField("generationType", "Üretim türü", GENERATION_TYPE_OPTIONS, generationState.generationType || "single"),
             numberField("pageCount", "Kaç sayfa oluşturulsun?", generationState.pageCount || 3, 2, 10),
-            numberField("questionsPerPage", "Her sayfada kaç soru olsun?", generationState.questionsPerPage || getDefaultQuestionsPerPage(topic), 6, 60),
+            numberField("questionsPerPage", "Her sayfada kaç soru olsun?", generationState.questionsPerPage || getDefaultQuestionsPerPage(topic), 6, 60, 1, questionsPerPageHelp),
             selectField("difficultyFlow", "Zorluk akışı", DIFFICULTY_FLOW_OPTIONS, generationState.difficultyFlow || "sabit"),
             selectField("answerKeyMode", "Cevap anahtarı düzeni", ANSWER_KEY_MODE_OPTIONS, generationState.answerKeyMode || "sonda-toplu")
         ];
@@ -411,6 +417,78 @@
             return field.id === "questionCount";
         });
         return questionField ? questionField.default : 24;
+    }
+
+    function getRenderedTopicFields(topic) {
+        if (!topic || !Array.isArray(topic.settings)) {
+            return [];
+        }
+
+        return topic.settings.reduce(function (acc, field) {
+            if (field.id === "questionCount") {
+                if (generationState.generationType === "pack") {
+                    return acc;
+                }
+
+                acc.push(Object.assign({}, field, {
+                    helperText: "Bu ayar tek etkinlik sayfasındaki toplam soru sayısını belirler."
+                }));
+                return acc;
+            }
+
+            acc.push(field);
+            return acc;
+        }, []);
+    }
+
+    function renderTopicSettings(topic, preservedValues) {
+        if (!topic) {
+            topicSettingsRoot.innerHTML = "";
+            return;
+        }
+
+        const modeInfo = getTopicSettingsModeInfo();
+        topicSettingsRoot.innerHTML = `
+            ${modeInfo}
+            ${getRenderedTopicFields(topic).map(renderField).join("")}
+        `;
+
+        if (!preservedValues) {
+            return;
+        }
+
+        Object.keys(preservedValues).forEach(function (fieldId) {
+            setFieldValue(fieldId, preservedValues[fieldId]);
+        });
+    }
+
+    function getTopicSettingsModeInfo() {
+        if (generationState.generationType !== "pack") {
+            return "";
+        }
+
+        return `
+            <div class="mkg-topic-mode-note" role="note">
+                Bu modda toplam soru sayısı yerine sayfa başına soru sayısı kullanılır.
+            </div>
+        `;
+    }
+
+    function collectRenderedTopicValues(topic) {
+        const domFields = (topic && Array.isArray(topic.settings) ? topic.settings : []).filter(function (field) {
+            return document.getElementById(`mkg-field-${field.id}`);
+        });
+        const values = collectSettings(domFields);
+
+        if (values.questionCount != null) {
+            generationState.questionsPerPage = values.questionCount;
+        }
+
+        if (generationState.generationType !== "pack" && values.questionCount == null && generationState.questionsPerPage != null) {
+            values.questionCount = generationState.questionsPerPage;
+        }
+
+        return values;
     }
 
     function renderPresetButtons() {
@@ -485,6 +563,10 @@
         }
         values.showAnswerKey = stickyFormState.showAnswerKey;
 
+        if (generationState.generationType === "pack" && values.questionCount != null) {
+            generationState.questionsPerPage = values.questionCount;
+        }
+
         Object.keys(values).forEach(function (fieldId) {
             setFieldValue(fieldId, values[fieldId]);
         });
@@ -506,7 +588,7 @@
     }
 
     function getTopicDefaultValues(topic) {
-        return topic.settings.reduce(function (acc, field) {
+        return getRenderedTopicFields(topic).reduce(function (acc, field) {
             acc[field.id] = field.default;
             return acc;
         }, {});
@@ -714,7 +796,7 @@
         const classLevel = classLevelSelect.value;
         rememberGenerationSettings();
         const generationSettings = collectSettings(getActiveGenerationFields());
-        const topicSettings = collectSettings(topic.settings);
+        const topicSettings = collectSettings(getRenderedTopicFields(topic));
         const settings = Object.assign({}, generationSettings, topicSettings);
 
         const context = {
@@ -1200,6 +1282,9 @@
 
     function renderField(field) {
         const inputId = `mkg-field-${field.id}`;
+        const helperText = field.helperText
+            ? `<p class="mkg-field-help">${escapeHtml(field.helperText)}</p>`
+            : "";
 
         if (field.type === "select") {
             const options = field.options
@@ -1210,6 +1295,7 @@
                 <div class="mkg-field">
                     <label for="${inputId}">${escapeHtml(field.label)}</label>
                     <select id="${inputId}" name="${escapeHtml(field.id)}">${options}</select>
+                    ${helperText}
                 </div>
             `;
         }
@@ -1222,6 +1308,7 @@
                         <input type="checkbox" id="${inputId}" name="${escapeHtml(field.id)}" ${field.default ? "checked" : ""}>
                         <span>Evet</span>
                     </label>
+                    ${helperText}
                 </div>
             `;
         }
@@ -1237,6 +1324,7 @@
             <div class="mkg-field">
                 <label for="${inputId}">${escapeHtml(field.label)}</label>
                 <input id="${inputId}" name="${escapeHtml(field.id)}" type="${inputType}" ${minAttr} ${maxAttr} ${stepAttr} ${placeholder} ${value}>
+                ${helperText}
             </div>
         `;
     }
@@ -2227,7 +2315,7 @@
         return options;
     }
 
-    function numberField(id, label, defaultValue, min, max, step) {
+    function numberField(id, label, defaultValue, min, max, step, helperText) {
         return {
             type: "number",
             id,
@@ -2235,7 +2323,8 @@
             default: defaultValue,
             min,
             max,
-            step: step || 1
+            step: step || 1,
+            helperText: helperText || ""
         };
     }
 

@@ -162,6 +162,26 @@ input:focus-visible {
     background: #ffffff;
 }
 
+.mkg-field-help {
+    margin: 6px 2px 0;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--mkg-muted);
+    font-weight: 700;
+}
+
+.mkg-topic-mode-note {
+    margin: 0 0 14px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #f8fbff;
+    border: 1px solid #d7e6f7;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: #516273;
+    font-weight: 700;
+}
+
 .mkg-checkbox-wrap {
     display: flex;
     align-items: center;
