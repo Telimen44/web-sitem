@@ -31,6 +31,15 @@
         const hasArithmetic = questions.some((question) => question && question.type === "operation");
 
         let minCellWidthMm = hasArithmetic ? 35 : 45;
+        if (topicId === "carpma") {
+            minCellWidthMm = 32;
+        }
+        if (topicId === "karisik-islemler") {
+            minCellWidthMm = 40;
+        }
+        if (topicId === "sayi-karsilastirma") {
+            minCellWidthMm = 42;
+        }
         if (topicId === "kesir-okuma" || topicId === "ritmik-sayma") {
             minCellWidthMm = 50;
         }
@@ -80,8 +89,25 @@
         return matrix;
     }
 
-    function renderOperationCell(item, escapeHtml) {
+    function getOperationKind(question) {
+        if (question && question.operationKind) {
+            return question.operationKind;
+        }
+        if (question && question.operator === "×") {
+            return "multiplication";
+        }
+        if (question && question.operator === "÷") {
+            return "division";
+        }
+        if (question && question.operator === "-") {
+            return "subtraction";
+        }
+        return "addition";
+    }
+
+    function renderStackedOperationCell(item, escapeHtml) {
         const question = item.question;
+        const operationKind = getOperationKind(question);
         const sign = question.operator === "-" ? "-" : question.operator;
         const maxDigits = Math.max(String(question.a).length, String(question.b).length);
         const digitWidth = clamp(maxDigits + 1, 3, 7);
@@ -94,7 +120,7 @@
             : "";
 
         return `
-            <article class="mwg-grid-cell mwg-grid-cell--operation" data-question-index="${item.index}">
+            <article class="mwg-grid-cell mwg-grid-cell--operation mwg-grid-cell--${operationKind}" data-question-index="${item.index}">
                 <div class="mwg-item-number">${item.index})</div>
                 <div class="mwg-op-block" style="--mwg-digit-width:${digitWidth}ch">
                     <div class="mwg-op-row">
@@ -112,7 +138,37 @@
         `;
     }
 
-    function renderDivisionCell(item, escapeHtml) {
+    function renderInlineOperationCell(item, escapeHtml) {
+        const question = item.question;
+        const operationKind = getOperationKind(question);
+        const operator = question.operator === "-" ? "&minus;" : escapeHtml(question.operator);
+        const remainderHtml = operationKind === "division" && question.remainderPlaceholder
+            ? `
+                <div class="mwg-inline-remainder">
+                    <span>kalan</span>
+                    <span class="mwg-inline-blank" aria-hidden="true"></span>
+                </div>
+            `
+            : "";
+
+        return `
+            <article class="mwg-grid-cell mwg-grid-cell--inline-op mwg-grid-cell--${operationKind}" data-question-index="${item.index}">
+                <div class="mwg-item-number">${item.index})</div>
+                <div class="mwg-inline-op-block">
+                    <div class="mwg-inline-op-expression">
+                        <span class="mwg-inline-op-value">${escapeHtml(String(question.a))}</span>
+                        <span class="mwg-inline-op-sign">${operator}</span>
+                        <span class="mwg-inline-op-value">${escapeHtml(String(question.b))}</span>
+                        <span class="mwg-inline-op-equals">=</span>
+                        <span class="mwg-inline-blank" aria-hidden="true"></span>
+                    </div>
+                    ${remainderHtml}
+                </div>
+            </article>
+        `;
+    }
+
+    function renderLongDivisionCell(item, escapeHtml) {
         const question = item.question;
         const dividend = escapeHtml(String(question.a));
         const divisor = escapeHtml(String(question.b));
@@ -137,6 +193,41 @@
         `;
     }
 
+    function renderComparisonCell(item, escapeHtml) {
+        const question = item.question;
+        return `
+            <article class="mwg-grid-cell mwg-grid-cell--comparison" data-question-index="${item.index}">
+                <div class="mwg-item-number">${item.index})</div>
+                <div class="mwg-compare-block">
+                    <span class="mwg-compare-value">${escapeHtml(String(question.left))}</span>
+                    <span class="mwg-compare-box" aria-hidden="true"></span>
+                    <span class="mwg-compare-value">${escapeHtml(String(question.right))}</span>
+                </div>
+            </article>
+        `;
+    }
+
+    function renderFractionCell(item, escapeHtml) {
+        const question = item.question;
+        const whole = Number(question.whole) || 0;
+
+        return `
+            <article class="mwg-grid-cell mwg-grid-cell--fraction" data-question-index="${item.index}">
+                <div class="mwg-item-number">${item.index})</div>
+                <div class="mwg-fraction-block">
+                    <div class="mwg-fraction-problem">
+                        ${whole ? `<span class="mwg-fraction-whole">${escapeHtml(String(whole))}</span>` : ""}
+                        <span class="mwg-fraction-stack">
+                            <span class="mwg-fraction-top">${escapeHtml(String(question.numerator))}</span>
+                            <span class="mwg-fraction-bottom">${escapeHtml(String(question.denominator))}</span>
+                        </span>
+                    </div>
+                    <div class="mwg-fraction-write-line" aria-hidden="true"></div>
+                </div>
+            </article>
+        `;
+    }
+
     function renderTextCell(item, escapeHtml) {
         const questionText = String(item.question.text || "").replace(/_{2,}/g, "_____");
         return `
@@ -150,11 +241,24 @@
     }
 
     function renderCell(item, escapeHtml) {
-        if (item.question && item.question.type === "operation") {
-            if (item.question.operator === "÷") {
-                return renderDivisionCell(item, escapeHtml);
+        const question = item.question || {};
+        if (question.type === "comparison") {
+            return renderComparisonCell(item, escapeHtml);
+        }
+        if (question.type === "fraction-reading") {
+            return renderFractionCell(item, escapeHtml);
+        }
+        if (question.type === "operation") {
+            const operationKind = getOperationKind(question);
+            if (operationKind === "division") {
+                return question.renderStyle === "long"
+                    ? renderLongDivisionCell(item, escapeHtml)
+                    : renderInlineOperationCell(item, escapeHtml);
             }
-            return renderOperationCell(item, escapeHtml);
+            if (operationKind === "multiplication" && question.renderStyle === "inline") {
+                return renderInlineOperationCell(item, escapeHtml);
+            }
+            return renderStackedOperationCell(item, escapeHtml);
         }
         return renderTextCell(item, escapeHtml);
     }

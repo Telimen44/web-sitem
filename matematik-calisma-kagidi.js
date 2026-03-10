@@ -13,10 +13,20 @@
 
     const TOPICS_BY_CLASS = {
         "1": ["ritmik-sayma", "onceki-sonraki", "aradaki-sayilar", "sayi-karsilastirma", "toplama", "cikarma"],
-        "2": ["toplama", "cikarma", "ritmik-sayma", "sayi-karsilastirma", "carpma"],
-        "3": ["toplama", "cikarma", "carpma", "ritmik-sayma", "kesir-okuma"],
-        "4": ["toplama", "cikarma", "carpma", "bolme", "kesir-okuma"]
+        "2": ["toplama", "cikarma", "ritmik-sayma", "sayi-karsilastirma", "carpma", "karisik-islemler"],
+        "3": ["toplama", "cikarma", "carpma", "ritmik-sayma", "kesir-okuma", "karisik-islemler"],
+        "4": ["toplama", "cikarma", "carpma", "bolme", "kesir-okuma", "karisik-islemler"]
     };
+
+    const PRESET_OPTIONS = [
+        { value: "kolay", label: "Kolay" },
+        { value: "orta", label: "Orta" },
+        { value: "zor", label: "Zor" },
+        { value: "gunluk-tekrar", label: "Günlük Tekrar" },
+        { value: "mini-yoklama", label: "Mini Yoklama" },
+        { value: "odev-kagidi", label: "Ödev Kağıdı" }
+    ];
+    const DEFAULT_PRESET_ID = "orta";
 
     const LAYOUT_OPTIONS = [
         { value: "altalta", label: "Alt alta" },
@@ -138,12 +148,29 @@
                     { value: "kalanli", label: "Evet" },
                     { value: "kalansiz", label: "Hayır" }
                 ], "kalansiz"),
+                selectField("divisionStyle", "Bölme görünümü", [
+                    { value: "short", label: "Kısa" },
+                    { value: "long", label: "Uzun bölme" },
+                    { value: "mixed", label: "Karışık" }
+                ], "short"),
                 numberField("questionCount", "Soru sayısı", 24, 6, 80),
                 selectField("layout", "İşlem düzeni", LAYOUT_OPTIONS, "altalta"),
                 textField("teacherName", "Öğretmen adı", "Opsiyonel"),
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
             ],
             generator: generateDivision
+        },
+        "karisik-islemler": {
+            label: "Karışık İşlemler",
+            title: "Karışık İşlemler Çalışma Kağıdı",
+            instruction: "Karışık işlemleri dikkatlice tamamlayınız.",
+            settings: [
+                numberField("questionCount", "Soru sayısı", 24, 8, 80),
+                selectField("layout", "İşlem düzeni", LAYOUT_OPTIONS, "altalta"),
+                textField("teacherName", "Öğretmen adı", "Opsiyonel"),
+                checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
+            ],
+            generator: generateMixedOperations
         },
         "kesir-okuma": {
             label: "Kesir Okuma",
@@ -163,6 +190,7 @@
     const classLevelSelect = document.getElementById("mkg-class-level");
     const topicSelect = document.getElementById("mkg-topic");
     const topicSettingsRoot = document.getElementById("mkg-topic-settings");
+    const presetRoot = document.getElementById("mkg-presets");
     const previewRoot = document.getElementById("mkg-preview-root");
     const statusBox = document.getElementById("mkg-status");
     const regenerateButton = document.getElementById("mkg-regenerate");
@@ -170,6 +198,11 @@
 
     let lastWorksheet = null;
     let previewScaleFrame = 0;
+    let selectedPresetId = DEFAULT_PRESET_ID;
+    let stickyFormState = {
+        teacherName: "",
+        showAnswerKey: true
+    };
 
     init();
 
@@ -180,6 +213,9 @@
 
         classLevelSelect.addEventListener("change", onClassChange);
         topicSelect.addEventListener("change", onTopicChange);
+        presetRoot.addEventListener("click", onPresetClick);
+        form.addEventListener("input", rememberStickyFields);
+        form.addEventListener("change", rememberStickyFields);
 
         form.addEventListener("submit", function (event) {
             event.preventDefault();
@@ -206,11 +242,13 @@
             });
         }
 
+        renderPresetButtons();
         onClassChange();
         queuePreviewScaleUpdate();
     }
 
     function onClassChange() {
+        rememberStickyFields();
         const classLevel = classLevelSelect.value;
         const topicIds = TOPICS_BY_CLASS[classLevel] || [];
         const previousTopic = topicSelect.value;
@@ -227,6 +265,7 @@
     }
 
     function onTopicChange() {
+        rememberStickyFields();
         const topic = TOPIC_REGISTRY[topicSelect.value];
         if (!topic) {
             topicSettingsRoot.innerHTML = "";
@@ -234,8 +273,281 @@
         }
 
         topicSettingsRoot.innerHTML = topic.settings.map(renderField).join("");
-        applyClassTopicDefaults(classLevelSelect.value, topicSelect.value);
+        applySmartDefaults(classLevelSelect.value, topicSelect.value, selectedPresetId);
+        renderPresetButtons();
         statusBox.textContent = "";
+    }
+
+    function renderPresetButtons() {
+        presetRoot.innerHTML = `
+            <div class="mkg-preset-head">
+                <span>Hızlı Hazır Modlar</span>
+                <small>${escapeHtml(getPresetLabel(selectedPresetId))} seçili</small>
+            </div>
+            <div class="mkg-preset-grid">
+                ${PRESET_OPTIONS.map((preset) => `
+                    <button
+                        type="button"
+                        class="mkg-preset-btn ${preset.value === selectedPresetId ? "is-active" : ""}"
+                        data-preset="${escapeHtml(preset.value)}"
+                    >
+                        ${escapeHtml(preset.label)}
+                    </button>
+                `).join("")}
+            </div>
+        `;
+    }
+
+    function onPresetClick(event) {
+        const button = event.target.closest("[data-preset]");
+        if (!button) {
+            return;
+        }
+
+        rememberStickyFields();
+        selectedPresetId = button.getAttribute("data-preset") || DEFAULT_PRESET_ID;
+        applySmartDefaults(classLevelSelect.value, topicSelect.value, selectedPresetId);
+        if (stickyFormState.teacherName) {
+            setFieldValue("teacherName", stickyFormState.teacherName);
+        }
+        setFieldValue("showAnswerKey", stickyFormState.showAnswerKey);
+        renderPresetButtons();
+        statusBox.textContent = `${getPresetLabel(selectedPresetId)} ayarları uygulandı.`;
+    }
+
+    function getPresetLabel(presetId) {
+        const preset = PRESET_OPTIONS.find((entry) => entry.value === presetId);
+        return preset ? preset.label : "Orta";
+    }
+
+    function applySmartDefaults(classLevel, topicId, presetId) {
+        const topic = TOPIC_REGISTRY[topicId];
+        if (!topic) {
+            return;
+        }
+
+        const values = Object.assign(
+            getTopicDefaultValues(topic),
+            buildPresetValues(classLevel, topicId, presetId)
+        );
+        if (stickyFormState.teacherName) {
+            values.teacherName = stickyFormState.teacherName;
+        }
+        values.showAnswerKey = stickyFormState.showAnswerKey;
+
+        Object.keys(values).forEach(function (fieldId) {
+            setFieldValue(fieldId, values[fieldId]);
+        });
+
+        rememberStickyFields();
+    }
+
+    function rememberStickyFields() {
+        const teacherInput = document.getElementById("mkg-field-teacherName");
+        const answerKeyInput = document.getElementById("mkg-field-showAnswerKey");
+
+        if (teacherInput) {
+            stickyFormState.teacherName = teacherInput.value;
+        }
+
+        if (answerKeyInput) {
+            stickyFormState.showAnswerKey = answerKeyInput.checked;
+        }
+    }
+
+    function getTopicDefaultValues(topic) {
+        return topic.settings.reduce(function (acc, field) {
+            acc[field.id] = field.default;
+            return acc;
+        }, {});
+    }
+
+    function buildPresetValues(classLevel, topicId, presetId) {
+        const profile = getPresetProfile(presetId);
+        const difficulty = profile.difficulty;
+        const values = {
+            questionCount: getSuggestedQuestionCount(topicId, profile)
+        };
+
+        if (topicId === "ritmik-sayma") {
+            const baseStep = clamp(Number(classLevel) + difficulty + 1, 2, 12);
+            values.maxNumber = [60, 120, 250, 500][Math.max(0, Number(classLevel) - 1)] || 120;
+            values.maxNumber += difficulty * 40;
+            values.step = presetId === "gunluk-tekrar" ? Math.max(2, baseStep - 1) : baseStep;
+            values.direction = difficulty >= 2 ? "backward" : "forward";
+            return values;
+        }
+
+        if (topicId === "onceki-sonraki" || topicId === "aradaki-sayilar") {
+            values.maxNumber = [40, 120, 300, 600][Math.max(0, Number(classLevel) - 1)] || 120;
+            values.maxNumber += difficulty * 60;
+            return values;
+        }
+
+        if (topicId === "sayi-karsilastirma") {
+            values.digitCount = String(getComparisonDigitCount(classLevel, difficulty));
+            return values;
+        }
+
+        if (topicId === "toplama") {
+            values.digitCount = String(getArithmeticDigitCount(classLevel, difficulty, "addition"));
+            values.carryMode = ["eldesiz", "mixed", "eldeli"][difficulty];
+            values.layout = "altalta";
+            return values;
+        }
+
+        if (topicId === "cikarma") {
+            values.digitCount = String(getArithmeticDigitCount(classLevel, difficulty, "subtraction"));
+            values.borrowMode = ["bozmasiz", "mixed", "bozmali"][difficulty];
+            values.layout = "altalta";
+            return values;
+        }
+
+        if (topicId === "carpma") {
+            values.factorMax = getMultiplicationFactorMax(classLevel, difficulty, presetId);
+            values.layout = difficulty >= 2 ? "double" : "altalta";
+            return values;
+        }
+
+        if (topicId === "bolme") {
+            const divisionDefaults = getDivisionPresetValues(classLevel, difficulty, presetId);
+            values.dividendDigits = divisionDefaults.dividendDigits;
+            values.divisorDigits = divisionDefaults.divisorDigits;
+            values.remainderMode = divisionDefaults.remainderMode;
+            values.divisionStyle = divisionDefaults.divisionStyle;
+            values.layout = "altalta";
+            return values;
+        }
+
+        if (topicId === "kesir-okuma") {
+            values.includeMixed = Number(classLevel) >= 4 && difficulty >= 1;
+            return values;
+        }
+
+        if (topicId === "karisik-islemler") {
+            values.layout = difficulty >= 2 ? "double" : "altalta";
+            return values;
+        }
+
+        return values;
+    }
+
+    function getPresetProfile(presetId) {
+        if (presetId === "kolay") {
+            return { difficulty: 0, volume: "medium" };
+        }
+        if (presetId === "zor") {
+            return { difficulty: 2, volume: "medium" };
+        }
+        if (presetId === "gunluk-tekrar") {
+            return { difficulty: 0, volume: "short" };
+        }
+        if (presetId === "mini-yoklama") {
+            return { difficulty: 1, volume: "short" };
+        }
+        if (presetId === "odev-kagidi") {
+            return { difficulty: 2, volume: "long" };
+        }
+        return { difficulty: 1, volume: "medium" };
+    }
+
+    function getSuggestedQuestionCount(topicId, profile) {
+        const isOperationTopic = topicId === "toplama"
+            || topicId === "cikarma"
+            || topicId === "carpma"
+            || topicId === "bolme"
+            || topicId === "karisik-islemler";
+        const baseCounts = isOperationTopic
+            ? { short: 12, medium: 24, long: 32 }
+            : { short: 10, medium: 18, long: 24 };
+        return baseCounts[profile.volume] || baseCounts.medium;
+    }
+
+    function getArithmeticDigitCount(classLevel, difficulty, operationKind) {
+        const matrix = operationKind === "subtraction"
+            ? {
+                "1": [1, 1, 2],
+                "2": [2, 2, 3],
+                "3": [2, 3, 4],
+                "4": [3, 4, 4]
+            }
+            : {
+                "1": [1, 2, 2],
+                "2": [2, 2, 3],
+                "3": [2, 3, 4],
+                "4": [3, 4, 4]
+            };
+        const digits = matrix[classLevel] || matrix["2"];
+        return digits[clamp(difficulty, 0, 2)];
+    }
+
+    function getComparisonDigitCount(classLevel, difficulty) {
+        const matrix = {
+            "1": [1, 1, 2],
+            "2": [2, 2, 3],
+            "3": [2, 3, 4],
+            "4": [3, 4, 4]
+        };
+        const digits = matrix[classLevel] || matrix["2"];
+        return digits[clamp(difficulty, 0, 2)];
+    }
+
+    function getMultiplicationFactorMax(classLevel, difficulty, presetId) {
+        const matrix = {
+            "2": [5, 5, 8],
+            "3": [6, 10, 12],
+            "4": [10, 12, 20]
+        };
+        const values = matrix[classLevel] || matrix["3"];
+        if (presetId === "gunluk-tekrar") {
+            return values[0];
+        }
+        return values[clamp(difficulty, 0, 2)];
+    }
+
+    function getDivisionPresetValues(classLevel, difficulty, presetId) {
+        if (classLevel !== "4") {
+            return {
+                dividendDigits: "2",
+                divisorDigits: "1",
+                remainderMode: "kalansiz",
+                divisionStyle: "short"
+            };
+        }
+
+        if (presetId === "gunluk-tekrar") {
+            return {
+                dividendDigits: "2",
+                divisorDigits: "1",
+                remainderMode: "kalansiz",
+                divisionStyle: "short"
+            };
+        }
+
+        if (presetId === "mini-yoklama") {
+            return {
+                dividendDigits: "3",
+                divisorDigits: "1",
+                remainderMode: "kalansiz",
+                divisionStyle: "short"
+            };
+        }
+
+        if (presetId === "odev-kagidi" || difficulty >= 2) {
+            return {
+                dividendDigits: "3",
+                divisorDigits: "2",
+                remainderMode: "kalanli",
+                divisionStyle: "long"
+            };
+        }
+
+        return {
+            dividendDigits: "3",
+            divisorDigits: "1",
+            remainderMode: "kalansiz",
+            divisionStyle: "short"
+        };
     }
 
     function generateAndRender() {
@@ -254,7 +566,8 @@
             topicLabel: topic.label,
             title: topic.title,
             instruction: topic.instruction,
-            settings
+            settings,
+            presetId: selectedPresetId
         });
 
         if (!result.questions.length) {
@@ -310,9 +623,10 @@
             return renderQuestionPage(worksheet, questionLayout, rowsHtml, pageIndex);
         });
 
+        const answerLayout = createAnswerLayoutModel(worksheet);
         const answerPages = worksheet.settings.showAnswerKey
-            ? paginateLayout(createAnswerLayoutModel(worksheet.questions), function (rowsHtml, pageIndex) {
-                return renderAnswerPage(rowsHtml, pageIndex);
+            ? paginateLayout(answerLayout, function (rowsHtml, pageIndex) {
+                return renderAnswerPage(answerLayout, rowsHtml, pageIndex);
             })
             : [];
 
@@ -379,16 +693,18 @@
         };
     }
 
-    function createAnswerLayoutModel(questions) {
+    function createAnswerLayoutModel(worksheet) {
+        const questions = worksheet.questions;
         const rowsHtml = [];
+        const columns = getAnswerKeyColumnCount(worksheet.topicId);
 
-        for (let index = 0; index < questions.length; index += 2) {
-            const rowItems = questions.slice(index, index + 2);
+        for (let index = 0; index < questions.length; index += columns) {
+            const rowItems = questions.slice(index, index + columns);
             const cells = rowItems.map(function (question, offset) {
                 return renderAnswerCell(question, index + offset + 1);
             });
 
-            while (cells.length < 2) {
+            while (cells.length < columns) {
                 cells.push('<div class="mkg-answer-cell mkg-answer-cell-empty" aria-hidden="true"></div>');
             }
 
@@ -401,20 +717,74 @@
 
         return {
             sectionClassName: "mkg-answer-grid",
-            sectionStyle: "--mkg-answer-cols:2",
+            sectionStyle: `--mkg-answer-cols:${columns}`,
             rowsHtml
         };
     }
 
     function renderAnswerCell(question, index) {
+        const display = formatAnswerKeyContent(question);
         return `
             <div class="mkg-answer-cell">
                 <div class="mkg-answer-item">
                     <span class="mkg-answer-number">${index})</span>
-                    <span class="mkg-answer-text">${escapeHtml(question.answer)}</span>
+                    <span class="mkg-answer-text">${display}</span>
                 </div>
             </div>
         `;
+    }
+
+    function getAnswerKeyColumnCount(topicId) {
+        if (topicId === "bolme" || topicId === "kesir-okuma" || topicId === "ritmik-sayma") {
+            return 2;
+        }
+        if (topicId === "karisik-islemler") {
+            return 2;
+        }
+        return 3;
+    }
+
+    function formatAnswerKeyContent(question) {
+        if (!question) {
+            return "";
+        }
+
+        if (question.type === "comparison") {
+            return `${escapeHtml(String(question.left))} ${escapeHtml(question.answer)} ${escapeHtml(String(question.right))}`;
+        }
+
+        if (question.type === "fraction-reading") {
+            return `${escapeHtml(formatFractionPrompt(question))} = ${escapeHtml(question.answer)}`;
+        }
+
+        if (question.type === "rhythmic-sequence") {
+            return escapeHtml(question.answer);
+        }
+
+        if (question.type === "prev-next-box") {
+            return `${escapeHtml(String(question.middleValue))} → ${escapeHtml(question.answer)}`;
+        }
+
+        if (question.type === "between-box") {
+            return `${escapeHtml(String(question.leftValue))} _ ${escapeHtml(String(question.rightValue))} → ${escapeHtml(question.answer)}`;
+        }
+
+        if (question.type === "operation") {
+            const operator = question.operator === "-" ? "−" : question.operator;
+            return `${escapeHtml(String(question.a))} ${escapeHtml(operator)} ${escapeHtml(String(question.b))} = ${escapeHtml(question.answer)}`;
+        }
+
+        return escapeHtml(question.answer);
+    }
+
+    function formatFractionPrompt(question) {
+        if (!question) {
+            return "";
+        }
+        if (question.whole) {
+            return `${question.whole} ${question.numerator}/${question.denominator}`;
+        }
+        return `${question.numerator}/${question.denominator}`;
     }
 
     function paginateLayout(layoutModel, buildPageHtml) {
@@ -479,13 +849,7 @@
         `;
     }
 
-    function renderAnswerPage(rowsHtml, pageIndex) {
-        const answerLayout = {
-            sectionClassName: "mkg-answer-grid",
-            sectionStyle: "--mkg-answer-cols:2",
-            rowsHtml: rowsHtml
-        };
-
+    function renderAnswerPage(answerLayout, rowsHtml, pageIndex) {
         return `
             <article class="mkg-sheet mkg-sheet--answer">
                 <div class="mkg-sheet-page" data-mkg-page-inner>
@@ -754,7 +1118,9 @@
                 }
                 usedKeys.add(key);
                 questions.push({
-                    type: "text",
+                    type: "comparison",
+                    left: pair.left,
+                    right: pair.right,
                     text: `${pair.left} ___ ${pair.right}`,
                     answer: sign,
                     key
@@ -780,20 +1146,12 @@
                 ? mixedPattern[index]
                 : carryMode === "eldeli";
 
-            const pair = pickAdditionPair(range, requireCarry, false, seen);
-            if (!pair) {
+            const question = createAdditionQuestion(range, requireCarry, seen);
+            if (!question) {
                 break;
             }
 
-            questions.push({
-                type: "operation",
-                operator: "+",
-                a: pair.a,
-                b: pair.b,
-                text: `${pair.a} + ${pair.b} = ____`,
-                answer: String(pair.a + pair.b),
-                key: pair.key
-            });
+            questions.push(question);
         }
 
         return buildWorksheet(context, questions, normalizeLayout(context.settings.layout));
@@ -813,20 +1171,12 @@
                 ? mixedPattern[index]
                 : borrowMode === "bozmali";
 
-            const pair = pickSubtractionPair(range, requireBorrow, false, false, seen);
-            if (!pair) {
+            const question = createSubtractionQuestion(range, requireBorrow, seen);
+            if (!question) {
                 break;
             }
 
-            questions.push({
-                type: "operation",
-                operator: "-",
-                a: pair.a,
-                b: pair.b,
-                text: `${pair.a} - ${pair.b} = ____`,
-                answer: String(pair.a - pair.b),
-                key: pair.key
-            });
+            questions.push(question);
         }
 
         return buildWorksheet(context, questions, normalizeLayout(context.settings.layout));
@@ -834,87 +1184,56 @@
 
     function generateMultiplication(context) {
         const min = 2;
-        let max = context.settings.factorMax;
-        max = Math.max(2, max);
-
+        const max = Math.max(2, context.settings.factorMax);
         const count = context.settings.questionCount;
+        const seen = new Set();
         const questions = generateUnique(count, function () {
-            const a = randomInt(min, max);
-            const b = randomInt(min, max);
-            const canonical = a <= b ? `${a}|${b}` : `${b}|${a}`;
-            return {
-                type: "operation",
-                operator: "×",
-                a,
-                b,
-                text: `${a} × ${b} = ____`,
-                answer: String(a * b),
-                key: canonical
-            };
+            return createMultiplicationQuestion(min, max, seen, context.settings.layout === "altalta" ? "stacked" : "inline");
         });
 
         return buildWorksheet(context, questions, normalizeLayout(context.settings.layout));
     }
 
     function generateDivision(context) {
-        const divisorDigits = clamp(Number.parseInt(context.settings.divisorDigits, 10) || 2, 1, 2);
-        const dividendDigits = clamp(Number.parseInt(context.settings.dividendDigits, 10) || 3, 2, 5);
-        const divisorRange = getDigitRange(divisorDigits);
-        const dividendRange = getDigitRange(dividendDigits);
-        const divisorMin = Math.max(2, divisorRange.min);
-        const divisorMax = Math.max(divisorMin, divisorRange.max);
-        const dividendMin = Math.max(2, dividendRange.min);
-        const dividendMax = Math.max(dividendMin, dividendRange.max);
-
         const count = context.settings.questionCount;
-        const withRemainder = context.settings.remainderMode === "kalanli";
-
+        const divisionConfig = getDivisionGenerationConfig(context.settings);
+        const seen = new Set();
         const questions = generateUnique(count, function () {
-            const divisor = randomInt(divisorMin, divisorMax);
-            const quotientMin = Math.max(1, Math.ceil((dividendMin - (withRemainder ? divisor - 1 : 0)) / divisor));
-            const quotientMax = Math.max(quotientMin, Math.floor(dividendMax / divisor));
-            if (quotientMin > quotientMax) {
-                return null;
-            }
-
-            const quotient = randomInt(quotientMin, quotientMax);
-            if (!withRemainder) {
-                const dividend = divisor * quotient;
-                if (dividend < dividendMin || dividend > dividendMax) {
-                    return null;
-                }
-                return {
-                    type: "operation",
-                    operator: "÷",
-                    a: dividend,
-                    b: divisor,
-                    text: `${dividend} ÷ ${divisor} = ____`,
-                    answer: String(quotient),
-                    key: `${dividend}|${divisor}|0`
-                };
-            }
-
-            if (divisor <= 1) {
-                return null;
-            }
-
-            const remainder = randomInt(1, divisor - 1);
-            const dividend = (divisor * quotient) + remainder;
-            if (dividend < dividendMin || dividend > dividendMax) {
-                return null;
-            }
-
-            return {
-                type: "operation",
-                operator: "÷",
-                a: dividend,
-                b: divisor,
-                remainderPlaceholder: true,
-                text: `${dividend} ÷ ${divisor} = ____ kalan ____`,
-                answer: `${quotient} kalan ${remainder}`,
-                key: `${dividend}|${divisor}|${remainder}`
-            };
+            return createDivisionQuestion(divisionConfig, seen);
         }, 12000);
+
+        return buildWorksheet(context, questions, normalizeLayout(context.settings.layout));
+    }
+
+    function generateMixedOperations(context) {
+        const operationKinds = getMixedOperationKinds(context.classLevel);
+        const pattern = buildBalancedOperationPattern(context.settings.questionCount, operationKinds);
+        const operationConfigs = getMixedOperationConfigs(context.classLevel, context.presetId);
+        const seenByKind = operationKinds.reduce(function (acc, kind) {
+            acc[kind] = new Set();
+            return acc;
+        }, {});
+        const questions = [];
+
+        for (let index = 0; index < pattern.length; index += 1) {
+            const kind = pattern[index];
+            const config = operationConfigs[kind];
+            let question = null;
+
+            if (kind === "addition") {
+                question = createAdditionQuestion(getDigitRange(config.digits), config.requireCarry, seenByKind[kind]);
+            } else if (kind === "subtraction") {
+                question = createSubtractionQuestion(getDigitRange(config.digits), config.requireBorrow, seenByKind[kind]);
+            } else if (kind === "multiplication") {
+                question = createMultiplicationQuestion(2, config.factorMax, seenByKind[kind], "inline");
+            } else if (kind === "division") {
+                question = createDivisionQuestion(config, seenByKind[kind]);
+            }
+
+            if (question) {
+                questions.push(question);
+            }
+        }
 
         return buildWorksheet(context, questions, normalizeLayout(context.settings.layout));
     }
@@ -930,7 +1249,10 @@
                 const whole = randomInt(1, 9);
                 const shown = `${whole} ${numerator}/${denominator}`;
                 return {
-                    type: "text",
+                    type: "fraction-reading",
+                    whole,
+                    numerator,
+                    denominator,
                     text: `${shown} = ____________________`,
                     answer: `${toTurkishNumber(whole)} tam ${toTurkishDenominator(denominator)} ${toTurkishNumber(numerator)}`,
                     key: `m|${whole}|${numerator}|${denominator}`
@@ -939,7 +1261,10 @@
 
             const shown = `${numerator}/${denominator}`;
             return {
-                type: "text",
+                type: "fraction-reading",
+                whole: 0,
+                numerator,
+                denominator,
                 text: `${shown} = ____________________`,
                 answer: `${toTurkishDenominator(denominator)} ${toTurkishNumber(numerator)}`,
                 key: `f|${numerator}|${denominator}`
@@ -956,6 +1281,7 @@
             topicId: context.topicId,
             topicLabel: context.topicLabel,
             layout,
+            presetId: context.presetId || DEFAULT_PRESET_ID,
             settings: context.settings,
             questions: rawQuestions
         };
@@ -989,12 +1315,7 @@
         for (let i = 0; i < count; i += 1) {
             pattern.push(pool[i % pool.length]);
         }
-        for (let i = pattern.length - 1; i > 0; i -= 1) {
-            const j = randomInt(0, i);
-            const temp = pattern[i];
-            pattern[i] = pattern[j];
-            pattern[j] = temp;
-        }
+        shuffleInPlace(pattern);
         return pattern;
     }
 
@@ -1008,13 +1329,58 @@
             pattern.push(i % 2 === 0);
         }
 
-        for (let i = pattern.length - 1; i > 0; i -= 1) {
-            const j = randomInt(0, i);
-            const temp = pattern[i];
-            pattern[i] = pattern[j];
-            pattern[j] = temp;
-        }
+        shuffleInPlace(pattern);
         return pattern;
+    }
+
+    function shuffleInPlace(items) {
+        for (let index = items.length - 1; index > 0; index -= 1) {
+            const swapIndex = randomInt(0, index);
+            const temp = items[index];
+            items[index] = items[swapIndex];
+            items[swapIndex] = temp;
+        }
+        return items;
+    }
+
+    function buildBalancedOperationPattern(count, kinds) {
+        const pattern = [];
+        for (let index = 0; index < count; index += 1) {
+            pattern.push(kinds[index % kinds.length]);
+        }
+        shuffleInPlace(pattern);
+        return pattern;
+    }
+
+    function getMixedOperationKinds(classLevel) {
+        if (classLevel === "4") {
+            return ["addition", "subtraction", "multiplication", "division"];
+        }
+        if (classLevel === "3") {
+            return ["addition", "subtraction", "multiplication"];
+        }
+        return ["addition", "subtraction"];
+    }
+
+    function getMixedOperationConfigs(classLevel, presetId) {
+        const profile = getPresetProfile(presetId);
+        return {
+            addition: {
+                digits: getArithmeticDigitCount(classLevel, profile.difficulty, "addition"),
+                requireCarry: profile.difficulty >= 1
+            },
+            subtraction: {
+                digits: getArithmeticDigitCount(classLevel, profile.difficulty, "subtraction"),
+                requireBorrow: profile.difficulty >= 1
+            },
+            multiplication: {
+                factorMax: getMultiplicationFactorMax(classLevel, profile.difficulty, presetId)
+            },
+            division: Object.assign(
+                getDivisionGenerationConfig(getDivisionPresetValues(classLevel, profile.difficulty, presetId)),
+                { renderStyle: profile.difficulty >= 2 ? "long" : "short" }
+            )
+        };
     }
 
     function normalizeMode(value, offMode, onMode) {
@@ -1022,6 +1388,146 @@
             return value;
         }
         return offMode;
+    }
+
+    function createAdditionQuestion(range, requireCarry, seen) {
+        const pair = pickAdditionPair(range, requireCarry, false, seen);
+        if (!pair) {
+            return null;
+        }
+
+        return {
+            type: "operation",
+            operationKind: "addition",
+            renderStyle: "stacked",
+            operator: "+",
+            a: pair.a,
+            b: pair.b,
+            text: `${pair.a} + ${pair.b} = ____`,
+            answer: String(pair.a + pair.b),
+            key: pair.key
+        };
+    }
+
+    function createSubtractionQuestion(range, requireBorrow, seen) {
+        const pair = pickSubtractionPair(range, requireBorrow, false, false, seen);
+        if (!pair) {
+            return null;
+        }
+
+        return {
+            type: "operation",
+            operationKind: "subtraction",
+            renderStyle: "stacked",
+            operator: "-",
+            a: pair.a,
+            b: pair.b,
+            text: `${pair.a} - ${pair.b} = ____`,
+            answer: String(pair.a - pair.b),
+            key: pair.key
+        };
+    }
+
+    function createMultiplicationQuestion(min, max, seen, renderStyle) {
+        for (let attempts = 0; attempts < 1400; attempts += 1) {
+            const a = randomInt(min, max);
+            const b = randomInt(min, max);
+            const canonical = a <= b ? `${a}|${b}` : `${b}|${a}`;
+            if (seen.has(canonical)) {
+                continue;
+            }
+            seen.add(canonical);
+            return {
+                type: "operation",
+                operationKind: "multiplication",
+                renderStyle: renderStyle || "inline",
+                operator: "×",
+                a,
+                b,
+                text: `${a} × ${b} = ____`,
+                answer: String(a * b),
+                key: canonical
+            };
+        }
+
+        return null;
+    }
+
+    function getDivisionGenerationConfig(settings) {
+        return {
+            dividendDigits: clamp(Number.parseInt(settings.dividendDigits, 10) || 3, 2, 5),
+            divisorDigits: clamp(Number.parseInt(settings.divisorDigits, 10) || 2, 1, 2),
+            withRemainder: settings.remainderMode === "kalanli",
+            divisionStyle: normalizeDivisionStyle(settings.divisionStyle),
+            remainderMode: settings.remainderMode === "kalanli" ? "kalanli" : "kalansiz"
+        };
+    }
+
+    function createDivisionQuestion(config, seen) {
+        const divisorRange = getDigitRange(config.divisorDigits);
+        const dividendRange = getDigitRange(config.dividendDigits);
+        const divisorMin = Math.max(2, divisorRange.min);
+        const divisorMax = Math.max(divisorMin, divisorRange.max);
+        const dividendMin = Math.max(2, dividendRange.min);
+        const dividendMax = Math.max(dividendMin, dividendRange.max);
+
+        for (let attempts = 0; attempts < 1800; attempts += 1) {
+            const divisor = randomInt(divisorMin, divisorMax);
+            const quotientMin = Math.max(1, Math.ceil((dividendMin - (config.withRemainder ? divisor - 1 : 0)) / divisor));
+            const quotientMax = Math.max(quotientMin, Math.floor(dividendMax / divisor));
+            if (quotientMin > quotientMax) {
+                continue;
+            }
+
+            const quotient = randomInt(quotientMin, quotientMax);
+            const remainder = config.withRemainder && divisor > 1
+                ? randomInt(1, divisor - 1)
+                : 0;
+            const dividend = (divisor * quotient) + remainder;
+
+            if (dividend < dividendMin || dividend > dividendMax) {
+                continue;
+            }
+
+            const key = `${dividend}|${divisor}|${remainder}|${config.divisionStyle}`;
+            if (seen.has(key)) {
+                continue;
+            }
+
+            seen.add(key);
+            return {
+                type: "operation",
+                operationKind: "division",
+                renderStyle: resolveDivisionRenderStyle(config.divisionStyle),
+                operator: "÷",
+                a: dividend,
+                b: divisor,
+                quotient,
+                remainder,
+                remainderPlaceholder: remainder > 0,
+                text: remainder > 0
+                    ? `${dividend} ÷ ${divisor} = ____ kalan ____`
+                    : `${dividend} ÷ ${divisor} = ____`,
+                answer: remainder > 0 ? `${quotient} kalan ${remainder}` : String(quotient),
+                key
+            };
+        }
+
+        return null;
+    }
+
+    function normalizeDivisionStyle(value) {
+        if (value === "long" || value === "mixed" || value === "short") {
+            return value;
+        }
+        return "short";
+    }
+
+    function resolveDivisionRenderStyle(style) {
+        if (style === "mixed") {
+            return Math.random() < 0.5 ? "long" : "short";
+        }
+        return style === "long" ? "long" : "short";
     }
 
     function pickAdditionPair(range, requireCarry, allowZeroOperand, seen) {
@@ -1217,44 +1723,6 @@
             return layoutValue;
         }
         return "single";
-    }
-
-    function applyClassTopicDefaults(classLevel, topicId) {
-        if (topicId === "carpma") {
-            const multiplicationDefaults = getMultiplicationDefaultsByClass(classLevel);
-            setFieldValue("factorMax", multiplicationDefaults.factorMax);
-            setFieldValue("layout", "altalta");
-            return;
-        }
-
-        if (topicId === "bolme") {
-            const divisionDefaults = getDivisionDefaultsByClass(classLevel);
-            setFieldValue("dividendDigits", divisionDefaults.dividendDigits);
-            setFieldValue("divisorDigits", divisionDefaults.divisorDigits);
-            setFieldValue("layout", "altalta");
-            return;
-        }
-
-        if (topicId === "kesir-okuma") {
-            setFieldValue("includeMixed", classLevel === "4");
-        }
-    }
-
-    function getMultiplicationDefaultsByClass(classLevel) {
-        if (classLevel === "2") {
-            return { factorMax: 5 };
-        }
-        if (classLevel === "4") {
-            return { factorMax: 20 };
-        }
-        return { factorMax: 10 };
-    }
-
-    function getDivisionDefaultsByClass(classLevel) {
-        if (classLevel === "4") {
-            return { dividendDigits: 3, divisorDigits: 2 };
-        }
-        return { dividendDigits: 2, divisorDigits: 1 };
     }
 
     function setFieldValue(fieldId, value) {

@@ -10,6 +10,9 @@
     --mwg-answer-line-width: 2px;
     --mwg-cell-min-height: 31mm;
     --mwg-text-cell-min-height: 24mm;
+    --mwg-compare-cell-min-height: 22mm;
+    --mwg-fraction-cell-min-height: 26mm;
+    --mwg-inline-cell-min-height: 22mm;
     --mwg-division-cell-min-height: 33mm;
     --mwg-rhythm-cell-min-height: 7.4mm;
     --mwg-prevnext-cell-min-height: 7.4mm;
@@ -63,11 +66,20 @@
     margin-top: 2mm;
 }
 
+.mwg-grid-cell--multiplication {
+    min-height: 26mm;
+}
+
 .mwg-grid-cell--division {
     border: none;
     background: transparent;
     min-height: var(--mwg-division-cell-min-height);
     padding-inline: 1.2mm;
+}
+
+.mwg-grid-cell--inline-op {
+    min-height: var(--mwg-inline-cell-min-height);
+    align-items: center;
 }
 
 .mwg-op-block {
@@ -116,6 +128,47 @@
     width: 11mm;
     border-bottom: var(--mwg-border-width) solid #1f2937;
     transform: translateY(-1px);
+}
+
+.mwg-inline-op-block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4mm;
+    justify-content: center;
+}
+
+.mwg-inline-op-expression {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.2mm;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 11.2pt;
+    font-weight: 700;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+.mwg-inline-op-sign,
+.mwg-inline-op-equals {
+    color: #0f172a;
+}
+
+.mwg-inline-blank {
+    display: inline-block;
+    min-width: 6ch;
+    border-bottom: var(--mwg-answer-line-width) solid #1f2937;
+    height: 0.95em;
+}
+
+.mwg-inline-remainder {
+    display: flex;
+    align-items: center;
+    gap: 1.4mm;
+    font-size: 8.5pt;
+    font-weight: 700;
+    color: #334155;
 }
 
 .mwg-division-block {
@@ -183,6 +236,90 @@
 
 .mwg-grid-cell--text {
     min-height: var(--mwg-text-cell-min-height);
+}
+
+.mwg-grid-cell--comparison {
+    min-height: var(--mwg-compare-cell-min-height);
+    align-items: center;
+}
+
+.mwg-compare-block {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 2mm;
+    align-items: center;
+}
+
+.mwg-compare-value {
+    text-align: center;
+    font-size: 12pt;
+    font-weight: 800;
+    color: #0f172a;
+    font-variant-numeric: tabular-nums lining-nums;
+}
+
+.mwg-compare-box {
+    width: 10mm;
+    height: 8mm;
+    border: var(--mwg-border-width) dashed var(--mwg-border-color);
+    border-radius: 6px;
+}
+
+.mwg-grid-cell--fraction {
+    min-height: var(--mwg-fraction-cell-min-height);
+    align-items: center;
+}
+
+.mwg-fraction-block {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 3mm;
+    align-items: center;
+}
+
+.mwg-fraction-problem {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.6mm;
+    justify-content: center;
+    min-width: 0;
+}
+
+.mwg-fraction-whole {
+    font-size: 12pt;
+    font-weight: 800;
+}
+
+.mwg-fraction-stack {
+    display: inline-grid;
+    grid-template-rows: auto auto;
+    justify-items: center;
+    min-width: 16mm;
+    font-size: 10.5pt;
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.mwg-fraction-top {
+    width: 100%;
+    padding-bottom: 0.6mm;
+    border-bottom: var(--mwg-border-width) solid #0f172a;
+    text-align: center;
+}
+
+.mwg-fraction-bottom {
+    padding-top: 0.6mm;
+    text-align: center;
+}
+
+.mwg-fraction-write-line {
+    width: 100%;
+    border-bottom: var(--mwg-answer-line-width) solid #1f2937;
+    min-height: 10mm;
 }
 
 .mwg-text-wrap {
