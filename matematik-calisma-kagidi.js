@@ -1490,9 +1490,9 @@
                 }
             }
 
-            const pageInner = measurePage.querySelector("[data-mkg-page-inner]");
-            const fillRatio = pageInner && pageInner.clientHeight > 0
-                ? Math.min(1, pageInner.scrollHeight / pageInner.clientHeight)
+            const pageMain = measurePage.querySelector(".mkg-sheet-main");
+            const fillRatio = pageMain && pageMain.clientHeight > 0
+                ? Math.min(1, pageMain.scrollHeight / pageMain.clientHeight)
                 : 0;
             pages.push({
                 pageIndex,
@@ -1639,6 +1639,10 @@
         const pageInner = pageElement.querySelector("[data-mkg-page-inner]");
         if (!pageInner) {
             return false;
+        }
+        const pageMain = pageElement.querySelector(".mkg-sheet-main");
+        if (pageMain && pageMain.scrollHeight > pageMain.clientHeight + 1) {
+            return true;
         }
         return pageInner.scrollHeight > pageInner.clientHeight + 1;
     }
