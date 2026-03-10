@@ -12,17 +12,20 @@
     --mkg-page-width: 210mm;
     --mkg-page-height: 297mm;
     --mkg-page-padding-inline: 10mm;
-    --mkg-page-padding-block: 12mm;
-    --mkg-page-padding: var(--mkg-page-padding-block) var(--mkg-page-padding-inline);
+    --mkg-page-padding-top: 10mm;
+    --mkg-page-padding-bottom: 6mm;
+    --mkg-page-padding: var(--mkg-page-padding-top) var(--mkg-page-padding-inline) var(--mkg-page-padding-bottom);
     --mkg-content-width: calc(var(--mkg-page-width) - (var(--mkg-page-padding-inline) * 2));
     --mkg-page-gap: 18px;
     --mkg-preview-scale: 1;
     --mkg-sheet-title-size: 16pt;
     --mkg-sheet-copy-size: 10.5pt;
-    --mkg-sheet-footer-size: 7pt;
+    --mkg-sheet-footer-size: 6pt;
     --mkg-sheet-section-gap: 4mm;
-    --mkg-sheet-footer-gap: 1.4mm;
-    --mkg-sheet-footer-min-height: 4.5mm;
+    --mkg-sheet-footer-gap: 0mm;
+    --mkg-sheet-footer-min-height: 0mm;
+    --mkg-sheet-footer-reserve: 2.2mm;
+    --mkg-sheet-footer-offset: 0.3mm;
 }
 
 *,
@@ -382,11 +385,10 @@ input:focus-visible {
 }
 
 .mkg-sheet-page {
+    position: relative;
     height: 100%;
-    display: grid;
-    grid-template-rows: minmax(0, 1fr) auto;
-    row-gap: var(--mkg-sheet-footer-gap);
     padding: var(--mkg-page-padding);
+    overflow: hidden;
 }
 
 .mkg-sheet-main {
@@ -395,6 +397,8 @@ input:focus-visible {
     flex-direction: column;
     gap: var(--mkg-sheet-section-gap);
     width: var(--mkg-content-width);
+    height: 100%;
+    padding-bottom: var(--mkg-sheet-footer-reserve);
 }
 
 .mkg-sheet-placeholder .mkg-sheet-page {
@@ -573,17 +577,21 @@ input:focus-visible {
 }
 
 .mkg-sheet-footer {
+    position: absolute;
+    left: 50%;
+    bottom: var(--mkg-sheet-footer-offset);
+    transform: translateX(-50%);
+    width: var(--mkg-content-width);
     min-height: var(--mkg-sheet-footer-min-height);
-    padding-top: 0.8mm;
-    border-top: 1px solid var(--mkg-line);
+    padding-top: 0;
     text-align: center;
     font-size: var(--mkg-sheet-footer-size);
     font-weight: 600;
-    line-height: 1.05;
+    line-height: 1;
     color: #64748b;
     letter-spacing: 0.02em;
-    background: #ffffff;
-    align-self: end;
+    background: transparent;
+    pointer-events: none;
 }
 
 .mkg-measure-root {
