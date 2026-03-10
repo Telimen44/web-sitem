@@ -21,6 +21,8 @@
     --mkg-sheet-copy-size: 10.5pt;
     --mkg-sheet-footer-size: 8.4pt;
     --mkg-sheet-section-gap: 4mm;
+    --mkg-sheet-footer-gap: 3mm;
+    --mkg-sheet-footer-min-height: 8mm;
 }
 
 *,
@@ -381,13 +383,13 @@ input:focus-visible {
 
 .mkg-sheet-page {
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+    row-gap: var(--mkg-sheet-footer-gap);
     padding: var(--mkg-page-padding);
 }
 
 .mkg-sheet-main {
-    flex: 1 1 auto;
     min-height: 0;
     display: flex;
     flex-direction: column;
@@ -571,14 +573,16 @@ input:focus-visible {
 }
 
 .mkg-sheet-footer {
-    margin-top: auto;
-    padding-top: 3mm;
+    min-height: var(--mkg-sheet-footer-min-height);
+    padding-top: 2.2mm;
     border-top: 1px solid var(--mkg-line);
     text-align: center;
     font-size: var(--mkg-sheet-footer-size);
     font-weight: 700;
     color: #64748b;
     letter-spacing: 0.02em;
+    background: #ffffff;
+    align-self: end;
 }
 
 .mkg-measure-root {
