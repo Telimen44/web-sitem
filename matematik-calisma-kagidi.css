@@ -30,14 +30,20 @@
 }
 
 html {
+    height: 100%;
     -webkit-text-size-adjust: 100%;
 }
 
 .mkg-body {
     margin: 0;
+    height: 100vh;
+    min-height: 100vh;
     font-family: "Nunito", sans-serif;
     background: var(--mkg-bg);
     color: var(--mkg-text);
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    overflow: hidden;
 }
 
 .mkg-topbar {
@@ -86,7 +92,10 @@ input:focus-visible {
     grid-template-columns: minmax(320px, 420px) 1fr;
     gap: 18px;
     padding: 0 20px 20px;
-    align-items: start;
+    align-items: stretch;
+    min-height: 0;
+    height: 100%;
+    overflow: hidden;
 }
 
 .mkg-controls {
@@ -94,9 +103,9 @@ input:focus-visible {
     border: 1px solid var(--mkg-line);
     border-radius: 16px;
     padding: 18px;
-    align-self: start;
-    position: sticky;
-    top: 10px;
+    align-self: stretch;
+    min-height: 0;
+    overflow: auto;
 }
 
 .mkg-field {
@@ -274,6 +283,10 @@ input:focus-visible {
     border-radius: 16px;
     padding: 12px;
     min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .mkg-preview-tools {
@@ -286,6 +299,8 @@ input:focus-visible {
     --mkg-preview-scale: 1;
     overflow: auto;
     padding: 6px 4px 14px;
+    min-height: 0;
+    flex: 1 1 auto;
 }
 
 .mkg-page-stack {
@@ -529,12 +544,28 @@ input:focus-visible {
 }
 
 @media (max-width: 1080px) {
+    .mkg-body {
+        height: auto;
+        overflow: auto;
+        grid-template-rows: auto auto;
+    }
+
     .mkg-layout {
         grid-template-columns: 1fr;
+        height: auto;
+        overflow: visible;
     }
 
     .mkg-controls {
-        position: static;
+        overflow: visible;
+    }
+
+    .mkg-preview-panel {
+        overflow: visible;
+    }
+
+    .mkg-preview-root {
+        flex: none;
     }
 }
 
