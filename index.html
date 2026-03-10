@@ -28,66 +28,20 @@
 
         /* Header */
         .header {
-            padding: 24px 16px;
+            padding: 20px 16px 10px;
             text-align: center;
         }
 
-        .header-dots {
+        .header-brand {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 0;
         }
 
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        .dot:nth-child(1) {
-            background: #a855f7;
-        }
-
-        .dot:nth-child(2) {
-            background: #ec4899;
-            animation-delay: 0.1s;
-        }
-
-        .dot:nth-child(3) {
-            background: #f97316;
-            animation-delay: 0.2s;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.7;
-                transform: scale(0.9);
-            }
-        }
-
-        .header h1 {
-            font-size: 2rem;
-            font-weight: 900;
-            background: linear-gradient(to right, #9333ea, #ec4899, #f97316);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
-        }
-
-        .header p {
-            color: #4b5563;
-            font-size: 1rem;
-            font-weight: 500;
+        .header-logo {
+            display: block;
+            width: min(100%, 235px);
+            height: auto;
         }
 
         /* Games Grid */
@@ -233,8 +187,8 @@
                 grid-template-columns: repeat(3, 1fr);
             }
 
-            .header h1 {
-                font-size: 3rem;
+            .header-logo {
+                width: min(100%, 270px);
             }
         }
 
@@ -1311,13 +1265,10 @@
 
     <!-- Header -->
     <header class="header">
-        <div class="header-dots">
-            <span class="dot"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+        <div class="header-brand">
+            <img class="header-logo" src="assets/images/telimenegitim-logo.png"
+                alt="Telimenegitim.com Özel Eğitim ve Oyun">
         </div>
-        <h1>🎮 Oyun Lobisi</h1>
-        <p>Eğlenerek öğrenmeye hazır mısın?</p>
     </header>
 
     <!-- Games Grid -->
