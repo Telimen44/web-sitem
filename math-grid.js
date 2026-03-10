@@ -321,30 +321,36 @@
 
     function createGridRows(numberedItems, columns, escapeHtml) {
         const matrix = buildQuestionMatrix(numberedItems, columns);
-        return matrix.map((rowItems) => {
-            const cells = rowItems.map((item) => {
-                if (!item) {
-                    return `<div class="mwg-grid-cell mwg-grid-cell-empty" aria-hidden="true"></div>`;
-                }
-                return renderCell(item, escapeHtml);
-            }).join("");
+        return {
+            rowsHtml: matrix.map((rowItems) => {
+                const cells = rowItems.map((item) => {
+                    if (!item) {
+                        return `<div class="mwg-grid-cell mwg-grid-cell-empty" aria-hidden="true"></div>`;
+                    }
+                    return renderCell(item, escapeHtml);
+                }).join("");
 
-            return `<div class="mwg-grid-row">${cells}</div>`;
-        });
+                return `<div class="mwg-grid-row">${cells}</div>`;
+            }),
+            rowItemCounts: matrix.map((rowItems) => rowItems.filter(Boolean).length)
+        };
     }
 
     function createTripletRows(numberedItems, mode, escapeHtml) {
         const matrix = buildQuestionMatrix(numberedItems, 3);
-        return matrix.map((rowItems) => {
-            const cells = rowItems.map((item) => {
-                if (!item) {
-                    return `<div class="mwg-prevnext-item mwg-prevnext-item-empty" aria-hidden="true"></div>`;
-                }
-                return renderTripletCell(item, escapeHtml, mode);
-            }).join("");
+        return {
+            rowsHtml: matrix.map((rowItems) => {
+                const cells = rowItems.map((item) => {
+                    if (!item) {
+                        return `<div class="mwg-prevnext-item mwg-prevnext-item-empty" aria-hidden="true"></div>`;
+                    }
+                    return renderTripletCell(item, escapeHtml, mode);
+                }).join("");
 
-            return `<div class="mwg-prevnext-row">${cells}</div>`;
-        });
+                return `<div class="mwg-prevnext-row">${cells}</div>`;
+            }),
+            rowItemCounts: matrix.map((rowItems) => rowItems.filter(Boolean).length)
+        };
     }
 
     function createLayoutModel(options) {
@@ -362,37 +368,44 @@
                 sectionStyle: styleMapToString({
                     "--mwg-print-cols": 1
                 }),
-                rowsHtml: numberedItems.map((item) => renderRhythmicRow(item, escapeHtml))
+                rowsHtml: numberedItems.map((item) => renderRhythmicRow(item, escapeHtml)),
+                rowItemCounts: numberedItems.map(() => 1)
             };
         }
 
         if (options.topicId === "onceki-sonraki") {
+            const rows = createTripletRows(numberedItems, "prevnext", escapeHtml);
             return {
                 sectionClassName: "mwg-prevnext-sheet",
                 sectionStyle: styleMapToString({
                     "--mwg-print-cols": 3
                 }),
-                rowsHtml: createTripletRows(numberedItems, "prevnext", escapeHtml)
+                rowsHtml: rows.rowsHtml,
+                rowItemCounts: rows.rowItemCounts
             };
         }
 
         if (options.topicId === "aradaki-sayilar") {
+            const rows = createTripletRows(numberedItems, "between", escapeHtml);
             return {
                 sectionClassName: "mwg-prevnext-sheet",
                 sectionStyle: styleMapToString({
                     "--mwg-print-cols": 3
                 }),
-                rowsHtml: createTripletRows(numberedItems, "between", escapeHtml)
+                rowsHtml: rows.rowsHtml,
+                rowItemCounts: rows.rowItemCounts
             };
         }
 
         const printColumns = estimatePrintColumns(options);
+        const gridRows = createGridRows(numberedItems, printColumns, escapeHtml);
         return {
             sectionClassName: "mwg-grid",
             sectionStyle: styleMapToString({
                 "--mwg-print-cols": printColumns
             }),
-            rowsHtml: createGridRows(numberedItems, printColumns, escapeHtml)
+            rowsHtml: gridRows.rowsHtml,
+            rowItemCounts: gridRows.rowItemCounts
         };
     }
 

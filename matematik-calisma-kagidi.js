@@ -52,6 +52,12 @@
         { value: "sonda-toplu", label: "Sonda toplu" }
     ];
 
+    const PLACEMENT_MODE_OPTIONS = [
+        { value: "tam-doldur", label: "Tam sayfa doldur" },
+        { value: "yuvarla", label: "En yakın uygun sayıya yuvarla" },
+        { value: "sabit", label: "Sabit soru sayısı" }
+    ];
+
     const TOPIC_REGISTRY = {
         "ritmik-sayma": {
             label: "Ritmik Sayma",
@@ -210,6 +216,7 @@
     const generationSettingsRoot = document.getElementById("mkg-generation-settings");
     const topicSettingsRoot = document.getElementById("mkg-topic-settings");
     const presetRoot = document.getElementById("mkg-presets");
+    const layoutGuidanceRoot = document.getElementById("mkg-layout-guidance");
     const previewRoot = document.getElementById("mkg-preview-root");
     const statusBox = document.getElementById("mkg-status");
     const regenerateButton = document.getElementById("mkg-regenerate");
@@ -217,6 +224,7 @@
 
     let lastWorksheet = null;
     let previewScaleFrame = 0;
+    let layoutGuidanceTimer = 0;
     let selectedPresetId = null;
     let stickyFormState = {
         teacherName: "",
@@ -224,6 +232,7 @@
     };
     let generationState = {
         generationType: "single",
+        placementMode: "tam-doldur",
         pageCount: 3,
         questionsPerPage: 24,
         difficultyFlow: "sabit",
@@ -271,6 +280,7 @@
         renderPresetButtons();
         onClassChange();
         queuePreviewScaleUpdate();
+        queueLayoutGuidanceUpdate();
     }
 
     function onClassChange() {
@@ -305,11 +315,13 @@
         applySmartDefaults(classLevelSelect.value, topicSelect.value, selectedPresetId);
         renderPresetButtons();
         statusBox.textContent = "";
+        queueLayoutGuidanceUpdate();
     }
 
     function onFormInput() {
         rememberStickyFields();
         rememberGenerationSettings();
+        queueLayoutGuidanceUpdate();
     }
 
     function onFormChange(event) {
@@ -322,6 +334,16 @@
             renderGenerationSettings();
             renderTopicSettings(topic, preservedTopicValues);
             statusBox.textContent = "";
+            queueLayoutGuidanceUpdate();
+            return;
+        }
+
+        if (event.target && event.target.id === "mkg-field-placementMode") {
+            const topic = TOPIC_REGISTRY[topicSelect.value];
+            const preservedTopicValues = collectRenderedTopicValues(topic);
+            renderGenerationSettings();
+            renderTopicSettings(topic, preservedTopicValues);
+            queueLayoutGuidanceUpdate();
         }
     }
 
@@ -333,8 +355,8 @@
         }
 
         const generationFields = getGenerationFieldDefinitions(topic);
-        const modeField = generationFields[0];
-        const packFields = generationFields.slice(1);
+        const baseFields = generationFields.slice(0, 2);
+        const packFields = generationFields.slice(2);
         const packFieldsHtml = generationState.generationType === "pack"
             ? `
                 <div class="mkg-generation-box">
@@ -347,8 +369,8 @@
 
         generationSettingsRoot.innerHTML = `
             <div class="mkg-generation-box">
-                <h3>Üretim Türü</h3>
-                ${renderField(modeField)}
+                <h3>Üretim Ayarları</h3>
+                ${baseFields.map(renderField).join("")}
             </div>
             ${packFieldsHtml}
         `;
@@ -362,16 +384,31 @@
     }
 
     function getGenerationFieldDefinitions(topic) {
-        const questionsPerPageHelp = generationState.generationType === "pack"
-            ? "Paket modunda soru sayısı her sayfa için buradan belirlenir."
-            : "";
-        return [
+        const fields = [
             selectField("generationType", "Üretim türü", GENERATION_TYPE_OPTIONS, generationState.generationType || "single"),
-            numberField("pageCount", "Kaç sayfa oluşturulsun?", generationState.pageCount || 3, 2, 10),
-            numberField("questionsPerPage", "Her sayfada kaç soru olsun?", generationState.questionsPerPage || getDefaultQuestionsPerPage(topic), 6, 60, 1, questionsPerPageHelp),
+            selectField("placementMode", "Soru yerleşim modu", PLACEMENT_MODE_OPTIONS, generationState.placementMode || "tam-doldur"),
             selectField("difficultyFlow", "Zorluk akışı", DIFFICULTY_FLOW_OPTIONS, generationState.difficultyFlow || "sabit"),
             selectField("answerKeyMode", "Cevap anahtarı düzeni", ANSWER_KEY_MODE_OPTIONS, generationState.answerKeyMode || "sonda-toplu")
         ];
+
+        if (generationState.generationType === "pack") {
+            fields.splice(2, 0, numberField("pageCount", "Kaç sayfa oluşturulsun?", generationState.pageCount || 3, 2, 10));
+            if (generationState.placementMode !== "tam-doldur") {
+                fields.splice(3, 0, numberField(
+                    "questionsPerPage",
+                    "Her sayfada kaç soru olsun?",
+                    generationState.questionsPerPage || getDefaultQuestionsPerPage(topic),
+                    6,
+                    60,
+                    1,
+                    generationState.placementMode === "yuvarla"
+                        ? "Paket modunda hedef sayı en uygun yerleşime göre ayarlanır."
+                        : "Paket modunda soru sayısı her sayfa için buradan belirlenir."
+                ));
+            }
+        }
+
+        return fields;
     }
 
     function syncGenerationStateForTopic() {
@@ -426,12 +463,15 @@
 
         return topic.settings.reduce(function (acc, field) {
             if (field.id === "questionCount") {
-                if (generationState.generationType === "pack") {
+                if (generationState.generationType === "pack" || generationState.placementMode === "tam-doldur") {
                     return acc;
                 }
 
                 acc.push(Object.assign({}, field, {
-                    helperText: "Bu ayar tek etkinlik sayfasındaki toplam soru sayısını belirler."
+                    label: generationState.placementMode === "yuvarla" ? "Hedef soru sayısı" : "Soru sayısı",
+                    helperText: generationState.placementMode === "yuvarla"
+                        ? "Sistem bu hedefi sayfaya en uygun sayıya yuvarlar."
+                        : "Bu ayar tek etkinlik sayfasındaki toplam soru sayısını belirler."
                 }));
                 return acc;
             }
@@ -534,6 +574,7 @@
         setFieldValue("showAnswerKey", stickyFormState.showAnswerKey);
         renderPresetButtons();
         statusBox.textContent = `${getPresetLabel(selectedPresetId)} ayarları uygulandı.`;
+        queueLayoutGuidanceUpdate();
     }
 
     function getPresetLabel(presetId) {
@@ -793,25 +834,12 @@
             return;
         }
 
-        const classLevel = classLevelSelect.value;
-        rememberGenerationSettings();
-        const generationSettings = collectSettings(getActiveGenerationFields());
-        const topicSettings = collectSettings(getRenderedTopicFields(topic));
-        const settings = Object.assign({}, generationSettings, topicSettings);
-
-        const context = {
-            classLevel,
-            topicId,
-            topicLabel: topic.label,
-            title: topic.title,
-            instruction: topic.instruction,
-            settings,
-            presetId: selectedPresetId
-        };
-        const result = generateWorksheetBundle(topic, context);
-        const requestedQuestionCount = settings.generationType === "pack"
-            ? settings.pageCount * settings.questionsPerPage
-            : settings.questionCount;
+        const context = collectCurrentWorksheetContext(topic);
+        const placementPlan = buildPlacementPlan(topic, context);
+        const result = generateWorksheetBundle(topic, context, placementPlan);
+        const requestedQuestionCount = placementPlan.pages.reduce(function (sum, page) {
+            return sum + (page.requestedCount || 0);
+        }, 0);
 
         if (!result.questions.length) {
             statusBox.textContent = "Bu ayarlarla soru üretilemedi. Lütfen seçenekleri değiştirin.";
@@ -837,15 +865,347 @@
         if (generationState.generationType === "pack") {
             return generationFields;
         }
-        return generationFields.slice(0, 1);
+        return generationFields.slice(0, 2);
     }
 
-    function generateWorksheetBundle(topic, context) {
-        if (context.settings.generationType !== "pack") {
-            return ensureWorksheetBundle(topic.generator(context), context);
+    function queueLayoutGuidanceUpdate() {
+        if (layoutGuidanceTimer) {
+            window.clearTimeout(layoutGuidanceTimer);
         }
 
-        return buildWorksheetPack(topic, context);
+        layoutGuidanceTimer = window.setTimeout(function () {
+            layoutGuidanceTimer = 0;
+            updateLayoutGuidance();
+        }, 90);
+    }
+
+    function updateLayoutGuidance() {
+        const topic = TOPIC_REGISTRY[topicSelect.value];
+        if (!topic || !layoutGuidanceRoot) {
+            return;
+        }
+
+        const context = collectCurrentWorksheetContext(topic);
+        if (!context) {
+            layoutGuidanceRoot.innerHTML = "";
+            return;
+        }
+
+        const placementPlan = buildPlacementPlan(topic, context);
+        layoutGuidanceRoot.innerHTML = renderLayoutGuidance(placementPlan);
+    }
+
+    function collectCurrentWorksheetContext(topic) {
+        if (!topic) {
+            return null;
+        }
+
+        rememberGenerationSettings();
+        const generationSettings = collectSettings(getActiveGenerationFields());
+        const topicSettings = collectSettings(getRenderedTopicFields(topic));
+        const settings = Object.assign({}, generationSettings, topicSettings);
+
+        return {
+            classLevel: classLevelSelect.value,
+            topicId: topicSelect.value,
+            topicLabel: topic.label,
+            title: topic.title,
+            instruction: topic.instruction,
+            settings,
+            presetId: selectedPresetId
+        };
+    }
+
+    function buildPlacementPlan(topic, context) {
+        if (context.settings.generationType === "pack") {
+            return buildPackPlacementPlan(topic, context);
+        }
+        return buildSinglePlacementPlan(topic, context);
+    }
+
+    function buildSinglePlacementPlan(topic, context) {
+        const placementMode = normalizePlacementMode(context.settings.placementMode);
+        const measurement = measurePageCapacity(topic, context, Object.assign({}, context.settings), context.presetId);
+        const requestedCount = clamp(Number(context.settings.questionCount) || getDefaultQuestionsPerPage(topic), 1, 120);
+        const effectiveCount = resolveQuestionCountForMode(placementMode, requestedCount, measurement.capacity, measurement.rowUnit);
+
+        return {
+            generationType: "single",
+            placementMode,
+            capacityMin: measurement.capacity,
+            capacityMax: measurement.capacity,
+            pages: [
+                Object.assign({}, measurement, {
+                    pageNumber: 1,
+                    requestedCount,
+                    effectiveCount
+                })
+            ]
+        };
+    }
+
+    function buildPackPlacementPlan(topic, context) {
+        const packSettings = normalizePackSettings(context.settings);
+        const placementMode = normalizePlacementMode(context.settings.placementMode);
+        const pages = [];
+
+        for (let pageIndex = 0; pageIndex < packSettings.pageCount; pageIndex += 1) {
+            const pagePresetId = getPackPagePresetId(packSettings.difficultyFlow, pageIndex, packSettings.pageCount, context.presetId);
+            const pageSettings = buildPackPageSettings(context, packSettings, pageIndex, pagePresetId);
+            const measurement = measurePageCapacity(topic, context, pageSettings, pagePresetId);
+            const requestedCount = clamp(Number(packSettings.questionsPerPage) || measurement.capacity || getDefaultQuestionsPerPage(topic), 1, 120);
+            const effectiveCount = resolveQuestionCountForMode(placementMode, requestedCount, measurement.capacity, measurement.rowUnit);
+
+            pages.push(Object.assign({}, measurement, {
+                pageNumber: pageIndex + 1,
+                requestedCount,
+                effectiveCount,
+                pageSettings,
+                pagePresetId,
+                difficultyLabel: getPackDifficultyLabel(packSettings.difficultyFlow, pageIndex, packSettings.pageCount, pagePresetId)
+            }));
+        }
+
+        const capacities = pages.map(function (page) {
+            return page.capacity;
+        });
+
+        return {
+            generationType: "pack",
+            placementMode,
+            capacityMin: capacities.length ? Math.min.apply(null, capacities) : 0,
+            capacityMax: capacities.length ? Math.max.apply(null, capacities) : 0,
+            pages
+        };
+    }
+
+    function normalizePlacementMode(value) {
+        if (value === "yuvarla" || value === "sabit" || value === "tam-doldur") {
+            return value;
+        }
+        return "tam-doldur";
+    }
+
+    function resolveQuestionCountForMode(placementMode, requestedCount, capacity, rowUnit) {
+        const safeCapacity = Math.max(0, capacity);
+        const safeRequested = Math.max(1, requestedCount);
+
+        if (placementMode === "tam-doldur") {
+            return safeCapacity;
+        }
+        if (placementMode === "yuvarla") {
+            return findNearestSuitableQuestionCount(safeRequested, safeCapacity, rowUnit);
+        }
+        return safeRequested;
+    }
+
+    function findNearestSuitableQuestionCount(targetCount, capacity, rowUnit) {
+        if (capacity <= 0) {
+            return 0;
+        }
+
+        const safeUnit = Math.max(1, rowUnit || 1);
+        const candidates = [];
+        for (let count = safeUnit; count <= capacity; count += safeUnit) {
+            candidates.push(count);
+        }
+        if (!candidates.length || candidates[candidates.length - 1] !== capacity) {
+            candidates.push(capacity);
+        }
+
+        let best = candidates[0];
+        let bestScore = Number.POSITIVE_INFINITY;
+
+        candidates.forEach(function (candidate) {
+            const distance = Math.abs(candidate - targetCount);
+            const tieBreaker = capacity - candidate;
+            const score = (distance * 1000) + tieBreaker;
+            if (score < bestScore) {
+                bestScore = score;
+                best = candidate;
+            }
+        });
+
+        return best;
+    }
+
+    function measurePageCapacity(topic, context, pageSettings, pagePresetId) {
+        const sampleCount = topic.id === "bolme" || context.topicId === "bolme" ? 3 : 2;
+        const samples = [];
+
+        for (let sampleIndex = 0; sampleIndex < sampleCount; sampleIndex += 1) {
+            samples.push(measureSinglePageCapacitySample(topic, context, pageSettings, pagePresetId));
+        }
+
+        samples.sort(function (left, right) {
+            return left.capacity - right.capacity;
+        });
+        return samples[0] || {
+            capacity: 0,
+            rowUnit: 1,
+            fillRatio: 0
+        };
+    }
+
+    function measureSinglePageCapacitySample(topic, context, pageSettings, pagePresetId) {
+        const probeSettings = Object.assign({}, pageSettings, {
+            generationType: "single",
+            placementMode: "sabit",
+            questionCount: getProbeQuestionCount(topic, pageSettings),
+            showAnswerKey: false
+        });
+        const probeContext = Object.assign({}, context, {
+            presetId: pagePresetId || context.presetId,
+            settings: probeSettings
+        });
+        const probeBundle = ensureWorksheetBundle(topic.generator(probeContext), probeContext);
+        const probePage = probeBundle.pages[0];
+
+        if (!probePage || !probePage.questions.length) {
+            return {
+                capacity: 0,
+                rowUnit: 1,
+                fillRatio: 0
+            };
+        }
+
+        const layoutModel = createQuestionLayoutModel(probePage);
+        const measureBundle = {
+            mode: "single",
+            settings: probeContext.settings
+        };
+        const measuredPages = measureLayoutPages(layoutModel, function (rowsHtml, pageIndex) {
+            return renderQuestionPage(measureBundle, probePage, layoutModel, rowsHtml, pageIndex);
+        });
+        const firstPage = measuredPages[0];
+        const rowItemCounts = Array.isArray(layoutModel.rowItemCounts)
+            ? layoutModel.rowItemCounts
+            : layoutModel.rowsHtml.map(function () { return 1; });
+        const usedRowIndexes = firstPage ? firstPage.rowIndexes : [];
+        const capacity = usedRowIndexes.reduce(function (sum, rowIndex) {
+            return sum + (rowItemCounts[rowIndex] || 1);
+        }, 0);
+        const rowUnit = getDominantRowUnit(rowItemCounts, usedRowIndexes);
+        const safeCapacity = context.topicId === "bolme" && capacity > rowUnit
+            ? capacity - rowUnit
+            : capacity;
+
+        return {
+            capacity: safeCapacity,
+            rowUnit,
+            fillRatio: firstPage ? firstPage.fillRatio : 0
+        };
+    }
+
+    function getProbeQuestionCount(topic, pageSettings) {
+        const baseCount = Math.max(
+            getDefaultQuestionsPerPage(topic),
+            Number(pageSettings.questionsPerPage) || 0,
+            Number(pageSettings.questionCount) || 0,
+            24
+        );
+        return clamp(baseCount * 4, 24, 160);
+    }
+
+    function getDominantRowUnit(rowItemCounts, rowIndexes) {
+        if (!rowIndexes.length) {
+            return 1;
+        }
+
+        const counts = {};
+        let bestValue = rowItemCounts[rowIndexes[0]] || 1;
+        let bestHits = 0;
+
+        rowIndexes.forEach(function (rowIndex) {
+            const value = Math.max(1, rowItemCounts[rowIndex] || 1);
+            counts[value] = (counts[value] || 0) + 1;
+            if (counts[value] > bestHits) {
+                bestHits = counts[value];
+                bestValue = value;
+            }
+        });
+
+        return bestValue;
+    }
+
+    function renderLayoutGuidance(placementPlan) {
+        if (!placementPlan || !placementPlan.pages.length) {
+            return "";
+        }
+
+        const capacityText = placementPlan.capacityMin === placementPlan.capacityMax
+            ? `Bu düzenle sayfa başına yaklaşık ${placementPlan.capacityMax} soru sığar.`
+            : `Bu düzenle sayfa başına yaklaşık ${placementPlan.capacityMin}-${placementPlan.capacityMax} soru sığar.`;
+        const detailText = getPlacementGuidanceDetail(placementPlan);
+
+        return `
+            <div class="mkg-guidance-card">
+                <h3 class="mkg-guidance-title">Yerleşim Bilgisi</h3>
+                <p class="mkg-guidance-primary">${escapeHtml(capacityText)}</p>
+                ${detailText ? `<p class="mkg-guidance-secondary">${escapeHtml(detailText)}</p>` : ""}
+            </div>
+        `;
+    }
+
+    function getPlacementGuidanceDetail(placementPlan) {
+        if (placementPlan.placementMode === "tam-doldur") {
+            return "Tam sayfa doldurma modunda sistem en uygun sayıyı otomatik belirler.";
+        }
+
+        if (placementPlan.placementMode === "yuvarla") {
+            const firstPage = placementPlan.pages[0];
+            if (!firstPage) {
+                return "";
+            }
+            if (placementPlan.capacityMin !== placementPlan.capacityMax) {
+                const adjustedCounts = placementPlan.pages.map(function (page) {
+                    return page.effectiveCount;
+                });
+                const minCount = Math.min.apply(null, adjustedCounts);
+                const maxCount = Math.max.apply(null, adjustedCounts);
+                return minCount === maxCount
+                    ? `Hedef sayı sayfa yapısına göre ${minCount} soruya uyarlanır.`
+                    : `Hedef sayı sayfa yapısına göre ${minCount}-${maxCount} soruya uyarlanır.`;
+            }
+            if (firstPage.requestedCount !== firstPage.effectiveCount) {
+                return `Seçilen sayı en uygun yerleşim için ${firstPage.effectiveCount} soruya ayarlandı.`;
+            }
+            return "Seçilen sayı bu düzen için zaten uygun görünüyor.";
+        }
+
+        if (placementPlan.placementMode === "sabit") {
+            const anyOverflow = placementPlan.pages.some(function (page) {
+                return page.requestedCount > page.capacity;
+            });
+            if (anyOverflow) {
+                return "Seçilen sayı bir sonraki sayfaya taşma oluşturabilir.";
+            }
+
+            const anyBlank = placementPlan.pages.some(function (page) {
+                return page.requestedCount < Math.max(1, page.capacity - page.rowUnit);
+            });
+            if (anyBlank) {
+                return "Seçilen sayı sayfada boşluk bırakabilir.";
+            }
+
+            return "Seçilen sayı bu düzen için dengeli görünüyor.";
+        }
+
+        return "";
+    }
+
+    function generateWorksheetBundle(topic, context, placementPlan) {
+        if (context.settings.generationType !== "pack") {
+            const singlePagePlan = placementPlan && placementPlan.pages[0] ? placementPlan.pages[0] : null;
+            const resolvedContext = Object.assign({}, context, {
+                settings: Object.assign({}, context.settings, {
+                    questionCount: singlePagePlan ? singlePagePlan.effectiveCount : context.settings.questionCount
+                })
+            });
+            return ensureWorksheetBundle(topic.generator(resolvedContext), resolvedContext);
+        }
+
+        return buildWorksheetPack(topic, context, placementPlan);
     }
 
     function collectSettings(fields) {
@@ -980,6 +1340,9 @@
         return {
             sectionClassName: "mkg-question-grid",
             sectionStyle: "",
+            rowItemCounts: worksheet.questions.map(function () {
+                return 1;
+            }),
             rowsHtml: worksheet.questions.map(function (question, index) {
                 return renderQuestion(question, index + 1, worksheet.layout);
             })
@@ -1080,7 +1443,7 @@
         return `${question.numerator}/${question.denominator}`;
     }
 
-    function paginateLayout(layoutModel, buildPageHtml) {
+    function measureLayoutPages(layoutModel, buildPageHtml) {
         if (!layoutModel || !Array.isArray(layoutModel.rowsHtml) || !layoutModel.rowsHtml.length) {
             return [];
         }
@@ -1096,10 +1459,18 @@
 
             const blockContainer = measurePage.querySelector("[data-mkg-block-container]");
             if (!blockContainer) {
-                pages.push(buildPageHtml(layoutModel.rowsHtml.slice(cursor), pageIndex));
+                pages.push({
+                    pageIndex,
+                    rowsHtml: layoutModel.rowsHtml.slice(cursor),
+                    rowIndexes: layoutModel.rowsHtml.map(function (_, index) {
+                        return index;
+                    }).slice(cursor),
+                    fillRatio: 1
+                });
                 break;
             }
             const pageRows = [];
+            const rowIndexes = [];
 
             while (cursor < layoutModel.rowsHtml.length) {
                 const blockNode = appendHtmlBlock(blockContainer, layoutModel.rowsHtml[cursor]);
@@ -1111,6 +1482,7 @@
                 }
 
                 pageRows.push(layoutModel.rowsHtml[cursor]);
+                rowIndexes.push(cursor);
                 cursor += 1;
 
                 if (overflowed) {
@@ -1118,12 +1490,27 @@
                 }
             }
 
-            pages.push(buildPageHtml(pageRows, pageIndex));
+            const pageInner = measurePage.querySelector("[data-mkg-page-inner]");
+            const fillRatio = pageInner && pageInner.clientHeight > 0
+                ? Math.min(1, pageInner.scrollHeight / pageInner.clientHeight)
+                : 0;
+            pages.push({
+                pageIndex,
+                rowsHtml: pageRows,
+                rowIndexes,
+                fillRatio
+            });
             pageIndex += 1;
         }
 
         measureRoot.replaceChildren();
         return pages;
+    }
+
+    function paginateLayout(layoutModel, buildPageHtml) {
+        return measureLayoutPages(layoutModel, buildPageHtml).map(function (page) {
+            return buildPageHtml(page.rowsHtml, page.pageIndex);
+        });
     }
 
     function renderQuestionPage(bundle, page, layoutModel, rowsHtml, pageIndex) {
@@ -1641,15 +2028,19 @@
         };
     }
 
-    function buildWorksheetPack(topic, context) {
+    function buildWorksheetPack(topic, context, placementPlan) {
         const packSettings = normalizePackSettings(context.settings);
         const pages = [];
         const answerSections = [];
         let flatQuestions = [];
+        const planPages = placementPlan && Array.isArray(placementPlan.pages) ? placementPlan.pages : [];
 
-        for (let pageIndex = 0; pageIndex < packSettings.pageCount; pageIndex += 1) {
-            const pagePresetId = getPackPagePresetId(packSettings.difficultyFlow, pageIndex, packSettings.pageCount, context.presetId);
-            const pageSettings = buildPackPageSettings(context, packSettings, pageIndex, pagePresetId);
+        for (let pageIndex = 0; pageIndex < planPages.length; pageIndex += 1) {
+            const pagePlan = planPages[pageIndex];
+            const pagePresetId = pagePlan.pagePresetId || getPackPagePresetId(packSettings.difficultyFlow, pageIndex, packSettings.pageCount, context.presetId);
+            const pageSettings = Object.assign({}, pagePlan.pageSettings || buildPackPageSettings(context, packSettings, pageIndex, pagePresetId), {
+                questionCount: pagePlan.effectiveCount
+            });
             const pageContext = Object.assign({}, context, {
                 presetId: pagePresetId,
                 settings: pageSettings
@@ -1664,7 +2055,7 @@
                 pageNumber: pageIndex + 1,
                 pageTitle: `${context.classLevel}. Sınıf - ${context.title}`,
                 pageLabel: `${pageIndex + 1}. Sayfa / ${packSettings.pageCount}`,
-                difficultyLabel: getPackDifficultyLabel(packSettings.difficultyFlow, pageIndex, packSettings.pageCount, pagePresetId)
+                difficultyLabel: pagePlan.difficultyLabel || getPackDifficultyLabel(packSettings.difficultyFlow, pageIndex, packSettings.pageCount, pagePresetId)
             });
 
             pages.push(page);

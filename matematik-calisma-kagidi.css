@@ -142,6 +142,37 @@ input:focus-visible {
     font-weight: 700;
 }
 
+.mkg-layout-guidance {
+    margin: 14px 0 10px;
+}
+
+.mkg-guidance-card {
+    padding: 12px 14px;
+    border: 1px solid #d8e4f3;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ffffff 0%, #f6faff 100%);
+}
+
+.mkg-guidance-title {
+    margin: 0 0 6px;
+    font-size: 0.95rem;
+    color: #1e293b;
+    font-weight: 800;
+}
+
+.mkg-guidance-primary,
+.mkg-guidance-secondary {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--mkg-muted);
+    font-weight: 700;
+}
+
+.mkg-guidance-secondary {
+    margin-top: 6px;
+}
+
 .mkg-field label {
     display: block;
     font-weight: 800;
