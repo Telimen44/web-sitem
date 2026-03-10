@@ -34,6 +34,24 @@
         { value: "double", label: "Çift sütun" }
     ];
 
+    const GENERATION_TYPE_OPTIONS = [
+        { value: "single", label: "Tek Etkinlik" },
+        { value: "pack", label: "Çoklu Etkinlik Paketi" }
+    ];
+
+    const DIFFICULTY_FLOW_OPTIONS = [
+        { value: "sabit", label: "Sabit" },
+        { value: "kolaydan-zora", label: "Kolaydan zora" },
+        { value: "karisik", label: "Karışık" },
+        { value: "tekrar-paketi", label: "Tekrar paketi" }
+    ];
+
+    const ANSWER_KEY_MODE_OPTIONS = [
+        { value: "yok", label: "Yok" },
+        { value: "her-sayfadan-sonra", label: "Her sayfadan sonra" },
+        { value: "sonda-toplu", label: "Sonda toplu" }
+    ];
+
     const TOPIC_REGISTRY = {
         "ritmik-sayma": {
             label: "Ritmik Sayma",
@@ -189,6 +207,7 @@
     const form = document.getElementById("mkg-form");
     const classLevelSelect = document.getElementById("mkg-class-level");
     const topicSelect = document.getElementById("mkg-topic");
+    const generationSettingsRoot = document.getElementById("mkg-generation-settings");
     const topicSettingsRoot = document.getElementById("mkg-topic-settings");
     const presetRoot = document.getElementById("mkg-presets");
     const previewRoot = document.getElementById("mkg-preview-root");
@@ -203,6 +222,13 @@
         teacherName: "",
         showAnswerKey: true
     };
+    let generationState = {
+        generationType: "single",
+        pageCount: 3,
+        questionsPerPage: 24,
+        difficultyFlow: "sabit",
+        answerKeyMode: "sonda-toplu"
+    };
 
     init();
 
@@ -214,8 +240,8 @@
         classLevelSelect.addEventListener("change", onClassChange);
         topicSelect.addEventListener("change", onTopicChange);
         presetRoot.addEventListener("click", onPresetClick);
-        form.addEventListener("input", rememberStickyFields);
-        form.addEventListener("change", rememberStickyFields);
+        form.addEventListener("input", onFormInput);
+        form.addEventListener("change", onFormChange);
 
         form.addEventListener("submit", function (event) {
             event.preventDefault();
@@ -266,16 +292,125 @@
 
     function onTopicChange() {
         rememberStickyFields();
+        syncGenerationStateForTopic();
         const topic = TOPIC_REGISTRY[topicSelect.value];
         if (!topic) {
+            generationSettingsRoot.innerHTML = "";
             topicSettingsRoot.innerHTML = "";
             return;
         }
 
+        renderGenerationSettings();
         topicSettingsRoot.innerHTML = topic.settings.map(renderField).join("");
         applySmartDefaults(classLevelSelect.value, topicSelect.value, selectedPresetId);
         renderPresetButtons();
         statusBox.textContent = "";
+    }
+
+    function onFormInput() {
+        rememberStickyFields();
+        rememberGenerationSettings();
+    }
+
+    function onFormChange(event) {
+        rememberStickyFields();
+        rememberGenerationSettings();
+
+        if (event.target && event.target.id === "mkg-field-generationType") {
+            renderGenerationSettings();
+            statusBox.textContent = "";
+        }
+    }
+
+    function renderGenerationSettings() {
+        const topic = TOPIC_REGISTRY[topicSelect.value];
+        if (!topic) {
+            generationSettingsRoot.innerHTML = "";
+            return;
+        }
+
+        const generationFields = getGenerationFieldDefinitions(topic);
+        const modeField = generationFields[0];
+        const packFields = generationFields.slice(1);
+        const packFieldsHtml = generationState.generationType === "pack"
+            ? `
+                <div class="mkg-generation-box">
+                    <h3>Paket Ayarları</h3>
+                    <p class="mkg-pack-note">Paket modunda her sayfa ayrı etkinlik sayfası gibi üretilir. Cevap anahtarı düzeni bu bölümden yönetilir.</p>
+                    ${packFields.map(renderField).join("")}
+                </div>
+            `
+            : "";
+
+        generationSettingsRoot.innerHTML = `
+            <div class="mkg-generation-box">
+                <h3>Üretim Türü</h3>
+                ${renderField(modeField)}
+            </div>
+            ${packFieldsHtml}
+        `;
+
+        generationFields.forEach(function (field) {
+            const stateValue = generationState[field.id];
+            if (stateValue !== undefined && stateValue !== null && stateValue !== "") {
+                setFieldValue(field.id, stateValue);
+            }
+        });
+    }
+
+    function getGenerationFieldDefinitions(topic) {
+        return [
+            selectField("generationType", "Üretim türü", GENERATION_TYPE_OPTIONS, generationState.generationType || "single"),
+            numberField("pageCount", "Kaç sayfa oluşturulsun?", generationState.pageCount || 3, 2, 10),
+            numberField("questionsPerPage", "Her sayfada kaç soru olsun?", generationState.questionsPerPage || getDefaultQuestionsPerPage(topic), 6, 60),
+            selectField("difficultyFlow", "Zorluk akışı", DIFFICULTY_FLOW_OPTIONS, generationState.difficultyFlow || "sabit"),
+            selectField("answerKeyMode", "Cevap anahtarı düzeni", ANSWER_KEY_MODE_OPTIONS, generationState.answerKeyMode || "sonda-toplu")
+        ];
+    }
+
+    function syncGenerationStateForTopic() {
+        const topic = TOPIC_REGISTRY[topicSelect.value];
+        const topicDefault = getDefaultQuestionsPerPage(topic);
+
+        if (!Number.isFinite(Number(generationState.questionsPerPage))) {
+            generationState.questionsPerPage = topicDefault;
+            return;
+        }
+
+        generationState.questionsPerPage = clamp(Number(generationState.questionsPerPage) || topicDefault, 6, 60);
+    }
+
+    function rememberGenerationSettings() {
+        const topic = TOPIC_REGISTRY[topicSelect.value];
+        const generationFields = getGenerationFieldDefinitions(topic || { settings: [] });
+
+        generationFields.forEach(function (field) {
+            const input = document.getElementById(`mkg-field-${field.id}`);
+            if (!input) {
+                return;
+            }
+
+            if (field.type === "number") {
+                const numericValue = Number.parseInt(input.value, 10);
+                generationState[field.id] = Number.isFinite(numericValue) ? numericValue : field.default;
+                return;
+            }
+
+            generationState[field.id] = field.type === "checkbox"
+                ? input.checked
+                : String(input.value || "").trim();
+        });
+    }
+
+    function getDefaultQuestionsPerPage(topic) {
+        if (!topic || !Array.isArray(topic.settings)) {
+            return 24;
+        }
+
+        const questionField = topic.settings.find(function (field) {
+            return field.id === "questionCount";
+        });
+        return questionField ? questionField.default : 24;
     }
 
     function renderPresetButtons() {
@@ -577,9 +712,12 @@
         }
 
         const classLevel = classLevelSelect.value;
-        const settings = collectSettings(topic.settings);
+        rememberGenerationSettings();
+        const generationSettings = collectSettings(getActiveGenerationFields());
+        const topicSettings = collectSettings(topic.settings);
+        const settings = Object.assign({}, generationSettings, topicSettings);
 
-        const result = topic.generator({
+        const context = {
             classLevel,
             topicId,
             topicLabel: topic.label,
@@ -587,15 +725,21 @@
             instruction: topic.instruction,
             settings,
             presetId: selectedPresetId
-        });
+        };
+        const result = generateWorksheetBundle(topic, context);
+        const requestedQuestionCount = settings.generationType === "pack"
+            ? settings.pageCount * settings.questionsPerPage
+            : settings.questionCount;
 
         if (!result.questions.length) {
             statusBox.textContent = "Bu ayarlarla soru üretilemedi. Lütfen seçenekleri değiştirin.";
             return;
         }
 
-        if (result.questions.length < settings.questionCount) {
+        if (result.questions.length < requestedQuestionCount) {
             statusBox.textContent = "Benzersiz soru havuzu sınırlı olduğu için daha az soru üretildi.";
+        } else if (result.mode === "pack") {
+            statusBox.textContent = `${result.pages.length} sayfalık etkinlik paketi hazır.`;
         } else {
             statusBox.textContent = "Çalışma kağıdı hazır.";
         }
@@ -603,6 +747,23 @@
         lastWorksheet = result;
         regenerateButton.disabled = false;
         renderWorksheet(result);
+    }
+
+    function getActiveGenerationFields() {
+        const topic = TOPIC_REGISTRY[topicSelect.value];
+        const generationFields = getGenerationFieldDefinitions(topic);
+        if (generationState.generationType === "pack") {
+            return generationFields;
+        }
+        return generationFields.slice(0, 1);
+    }
+
+    function generateWorksheetBundle(topic, context) {
+        if (context.settings.generationType !== "pack") {
+            return ensureWorksheetBundle(topic.generator(context), context);
+        }
+
+        return buildWorksheetPack(topic, context);
     }
 
     function collectSettings(fields) {
@@ -637,26 +798,57 @@
     }
 
     function renderWorksheet(worksheet) {
-        const questionLayout = createQuestionLayoutModel(worksheet);
-        const questionPages = paginateLayout(questionLayout, function (rowsHtml, pageIndex) {
-            return renderQuestionPage(worksheet, questionLayout, rowsHtml, pageIndex);
+        const bundle = ensureWorksheetBundle(worksheet, {
+            classLevel: classLevelSelect.value,
+            topicId: worksheet.topicId,
+            topicLabel: worksheet.topicLabel,
+            title: worksheet.title,
+            instruction: worksheet.instruction,
+            settings: worksheet.settings,
+            presetId: worksheet.presetId
+        });
+        const previewPages = [];
+        const questionSections = Array.isArray(bundle.pages) ? bundle.pages : [];
+        const answerSections = Array.isArray(bundle.answerKeyPages) ? bundle.answerKeyPages : [];
+
+        questionSections.forEach(function (page) {
+            const questionLayout = createQuestionLayoutModel(page);
+            const questionPages = paginateLayout(questionLayout, function (rowsHtml, pageIndex) {
+                return renderQuestionPage(bundle, page, questionLayout, rowsHtml, pageIndex);
+            });
+            previewPages.push.apply(previewPages, questionPages);
+
+            if (bundle.answerKeyMode === "her-sayfadan-sonra") {
+                const answerSection = answerSections.find(function (section) {
+                    return section.sourcePageNumber === page.logicalPageNumber;
+                });
+                if (answerSection) {
+                    previewPages.push.apply(previewPages, createRenderedAnswerPages(bundle, answerSection));
+                }
+            }
         });
 
-        const answerLayout = createAnswerLayoutModel(worksheet);
-        const answerPages = worksheet.settings.showAnswerKey
-            ? paginateLayout(answerLayout, function (rowsHtml, pageIndex) {
-                return renderAnswerPage(answerLayout, rowsHtml, pageIndex);
-            })
-            : [];
+        if (bundle.answerKeyMode === "sonda-toplu") {
+            answerSections.forEach(function (section) {
+                previewPages.push.apply(previewPages, createRenderedAnswerPages(bundle, section));
+            });
+        }
 
         previewRoot.innerHTML = `
             <div class="mkg-page-stack">
-                ${questionPages.concat(answerPages).map(renderPreviewPageFrame).join("")}
+                ${previewPages.map(renderPreviewPageFrame).join("")}
             </div>
         `;
         previewRoot.scrollTop = 0;
         previewRoot.scrollLeft = 0;
         queuePreviewScaleUpdate();
+    }
+
+    function createRenderedAnswerPages(bundle, answerSection) {
+        const answerLayout = createAnswerLayoutModel(answerSection);
+        return paginateLayout(answerLayout, function (rowsHtml, pageIndex) {
+            return renderAnswerPage(bundle, answerSection, answerLayout, rowsHtml, pageIndex);
+        });
     }
 
     function renderQuestion(question, index, layout) {
@@ -712,10 +904,10 @@
         };
     }
 
-    function createAnswerLayoutModel(worksheet) {
-        const questions = worksheet.questions;
+    function createAnswerLayoutModel(answerSection) {
+        const questions = answerSection.questions;
         const rowsHtml = [];
-        const columns = getAnswerKeyColumnCount(worksheet.topicId);
+        const columns = getAnswerKeyColumnCount(answerSection.topicId);
 
         for (let index = 0; index < questions.length; index += columns) {
             const rowItems = questions.slice(index, index + columns);
@@ -852,8 +1044,8 @@
         return pages;
     }
 
-    function renderQuestionPage(worksheet, layoutModel, rowsHtml, pageIndex) {
-        const headerHtml = pageIndex === 0 ? renderWorksheetHeader(worksheet) : "";
+    function renderQuestionPage(bundle, page, layoutModel, rowsHtml, pageIndex) {
+        const headerHtml = pageIndex === 0 ? renderWorksheetHeader(bundle, page) : renderContinuationHeader(page);
 
         return `
             <article class="mkg-sheet mkg-sheet--worksheet">
@@ -868,13 +1060,18 @@
         `;
     }
 
-    function renderAnswerPage(answerLayout, rowsHtml, pageIndex) {
+    function renderAnswerPage(bundle, answerSection, answerLayout, rowsHtml, pageIndex) {
+        const sourceLabel = answerSection.sourceLabel
+            ? `<p class="mkg-answer-source">${escapeHtml(answerSection.sourceLabel)}</p>`
+            : "";
         return `
             <article class="mkg-sheet mkg-sheet--answer">
                 <div class="mkg-sheet-page" data-mkg-page-inner>
                     <div class="mkg-sheet-main">
                         <header class="mkg-sheet-header mkg-sheet-header--answer">
-                            <h2>Cevap Anahtarı</h2>
+                            <p class="mkg-sheet-kicker">${bundle.mode === "pack" ? "Etkinlik Paketi" : "Çalışma Kağıdı"}</p>
+                            <h2>${pageIndex === 0 ? "Cevap Anahtarı" : "Cevap Anahtarı (Devam)"}</h2>
+                            ${sourceLabel}
                         </header>
                         ${renderSection(answerLayout, rowsHtml, 'data-mkg-block-container')}
                     </div>
@@ -884,20 +1081,42 @@
         `;
     }
 
-    function renderWorksheetHeader(worksheet) {
-        const teacherLine = worksheet.settings.teacherName
-            ? `<div class="mkg-meta-line mkg-meta-line--teacher">Öğretmen: ${escapeHtml(worksheet.settings.teacherName)}</div>`
+    function renderWorksheetHeader(bundle, page) {
+        const teacherLine = bundle.settings.teacherName
+            ? `<div class="mkg-meta-line mkg-meta-line--teacher">Öğretmen: ${escapeHtml(bundle.settings.teacherName)}</div>`
             : "";
+        const packMetaLine = bundle.mode === "pack"
+            ? `
+                <div class="mkg-meta-line mkg-meta-line--pack">
+                    <span>${escapeHtml(page.pageLabel || `Paket sayfası ${page.logicalPageNumber}`)}</span>
+                    <span>${escapeHtml(page.difficultyLabel || "Sabit akış")}</span>
+                </div>
+            `
+            : "";
+        const kicker = bundle.mode === "pack"
+            ? '<p class="mkg-sheet-kicker">Çoklu Etkinlik Paketi</p>'
+            : '<p class="mkg-sheet-kicker">Tek Etkinlik</p>';
 
         return `
             <header class="mkg-sheet-header">
-                <h2>${escapeHtml(worksheet.title)}</h2>
+                ${kicker}
+                <h2>${escapeHtml(page.pageTitle || bundle.title)}</h2>
                 <div class="mkg-meta-line">
                     <span>Öğrenci Adı: ____________________</span>
                     <span>Tarih: ____ / ____ / ______</span>
                 </div>
+                ${packMetaLine}
                 ${teacherLine}
-                <p class="mkg-instruction">${escapeHtml(worksheet.instruction)}</p>
+                <p class="mkg-instruction">${escapeHtml(page.instruction || bundle.instruction)}</p>
+            </header>
+        `;
+    }
+
+    function renderContinuationHeader(page) {
+        return `
+            <header class="mkg-sheet-header">
+                <p class="mkg-sheet-kicker">${escapeHtml(page.pageLabel || "Devam sayfası")}</p>
+                <h2>${escapeHtml(page.pageTitle || "Çalışma Kağıdı")} (Devam)</h2>
             </header>
         `;
     }
@@ -1294,16 +1513,258 @@
     }
 
     function buildWorksheet(context, rawQuestions, layout) {
+        const safePresetId = context.presetId || DEFAULT_PRESET_ID;
+        const page = buildWorksheetPage(context, rawQuestions, layout, {
+            pageNumber: 1,
+            pageTitle: `${context.classLevel}. Sınıf - ${context.title}`,
+            pageLabel: "Etkinlik sayfası",
+            difficultyLabel: context.presetId ? `${getPresetLabel(context.presetId)} düzeyi` : "Standart düzey"
+        });
+
         return {
             title: `${context.classLevel}. Sınıf - ${context.title}`,
             instruction: context.instruction,
             topicId: context.topicId,
             topicLabel: context.topicLabel,
             layout,
+            presetId: safePresetId,
+            settings: context.settings,
+            mode: "single",
+            questions: rawQuestions,
+            pages: [page],
+            answerKeyMode: context.settings.showAnswerKey ? "sonda-toplu" : "yok",
+            answerKeyPages: context.settings.showAnswerKey ? [buildAnswerSection(page, false)] : []
+        };
+    }
+
+    function buildWorksheetPage(context, questions, layout, options) {
+        return {
+            topicId: context.topicId,
+            topicLabel: context.topicLabel,
+            layout,
+            instruction: options && options.instruction ? options.instruction : context.instruction,
+            pageTitle: options && options.pageTitle ? options.pageTitle : `${context.classLevel}. Sınıf - ${context.title}`,
+            pageLabel: options && options.pageLabel ? options.pageLabel : "",
+            difficultyLabel: options && options.difficultyLabel ? options.difficultyLabel : "",
+            logicalPageNumber: options && options.pageNumber ? options.pageNumber : 1,
+            questions: Array.isArray(questions) ? questions : [],
+            settings: context.settings,
+            presetId: context.presetId || DEFAULT_PRESET_ID
+        };
+    }
+
+    function buildWorksheetPack(topic, context) {
+        const packSettings = normalizePackSettings(context.settings);
+        const pages = [];
+        const answerSections = [];
+        let flatQuestions = [];
+
+        for (let pageIndex = 0; pageIndex < packSettings.pageCount; pageIndex += 1) {
+            const pagePresetId = getPackPagePresetId(packSettings.difficultyFlow, pageIndex, packSettings.pageCount, context.presetId);
+            const pageSettings = buildPackPageSettings(context, packSettings, pageIndex, pagePresetId);
+            const pageContext = Object.assign({}, context, {
+                presetId: pagePresetId,
+                settings: pageSettings
+            });
+            const generated = ensureWorksheetBundle(topic.generator(pageContext), pageContext);
+            const basePage = generated.pages[0];
+            if (!basePage || !basePage.questions.length) {
+                continue;
+            }
+
+            const page = buildWorksheetPage(pageContext, basePage.questions, basePage.layout || generated.layout, {
+                pageNumber: pageIndex + 1,
+                pageTitle: `${context.classLevel}. Sınıf - ${context.title}`,
+                pageLabel: `${pageIndex + 1}. Sayfa / ${packSettings.pageCount}`,
+                difficultyLabel: getPackDifficultyLabel(packSettings.difficultyFlow, pageIndex, packSettings.pageCount, pagePresetId)
+            });
+
+            pages.push(page);
+            flatQuestions = flatQuestions.concat(page.questions);
+
+            if (packSettings.answerKeyMode !== "yok") {
+                answerSections.push(buildAnswerSection(page, true));
+            }
+        }
+
+        return {
+            title: `${context.classLevel}. Sınıf - ${context.title}`,
+            instruction: context.instruction,
+            topicId: context.topicId,
+            topicLabel: context.topicLabel,
+            layout: pages[0] ? pages[0].layout : normalizeLayout(context.settings.layout),
             presetId: context.presetId || DEFAULT_PRESET_ID,
             settings: context.settings,
-            questions: rawQuestions
+            mode: "pack",
+            questions: flatQuestions,
+            pages,
+            answerKeyMode: packSettings.answerKeyMode,
+            answerKeyPages: answerSections
         };
+    }
+
+    function ensureWorksheetBundle(result, context) {
+        if (!result) {
+            return buildWorksheet(context, [], normalizeLayout(context.settings.layout));
+        }
+
+        if (Array.isArray(result.pages) && Array.isArray(result.answerKeyPages)) {
+            return result;
+        }
+
+        const page = buildWorksheetPage(context, result.questions || [], result.layout || normalizeLayout(context.settings.layout), {
+            pageNumber: 1,
+            pageTitle: result.title || `${context.classLevel}. Sınıf - ${context.title}`,
+            pageLabel: "Etkinlik sayfası",
+            difficultyLabel: context.presetId ? `${getPresetLabel(context.presetId)} düzeyi` : "Standart düzey"
+        });
+        const showAnswerKey = result.settings ? result.settings.showAnswerKey : context.settings.showAnswerKey;
+
+        return Object.assign({}, result, {
+            mode: result.mode || "single",
+            questions: Array.isArray(result.questions) ? result.questions : [],
+            pages: [page],
+            answerKeyMode: showAnswerKey ? "sonda-toplu" : "yok",
+            answerKeyPages: showAnswerKey ? [buildAnswerSection(page, false)] : []
+        });
+    }
+
+    function buildAnswerSection(page, includeSourceLabel) {
+        return {
+            topicId: page.topicId,
+            sourcePageNumber: page.logicalPageNumber,
+            sourceLabel: includeSourceLabel
+                ? `${page.pageLabel || `${page.logicalPageNumber}. Sayfa`} - ${page.difficultyLabel || "Cevaplar"}`
+                : "",
+            questions: page.questions
+        };
+    }
+
+    function normalizePackSettings(settings) {
+        return {
+            pageCount: clamp(Number(settings.pageCount) || 3, 2, 10),
+            questionsPerPage: clamp(Number(settings.questionsPerPage) || Number(settings.questionCount) || 24, 6, 60),
+            difficultyFlow: normalizeDifficultyFlow(settings.difficultyFlow),
+            answerKeyMode: normalizeAnswerKeyMode(settings.answerKeyMode)
+        };
+    }
+
+    function normalizeDifficultyFlow(value) {
+        if (value === "kolaydan-zora" || value === "karisik" || value === "tekrar-paketi" || value === "sabit") {
+            return value;
+        }
+        return "sabit";
+    }
+
+    function normalizeAnswerKeyMode(value) {
+        if (value === "yok" || value === "her-sayfadan-sonra" || value === "sonda-toplu") {
+            return value;
+        }
+        return "sonda-toplu";
+    }
+
+    function buildPackPageSettings(context, packSettings, pageIndex, pagePresetId) {
+        const pageSettings = Object.assign({}, context.settings, {
+            questionCount: packSettings.questionsPerPage,
+            showAnswerKey: packSettings.answerKeyMode !== "yok"
+        });
+        const difficultyStep = getPackDifficultyStep(packSettings.difficultyFlow, pageIndex, packSettings.pageCount);
+
+        applyTopicDifficultyStep(pageSettings, context.classLevel, context.topicId, difficultyStep, pagePresetId);
+        return pageSettings;
+    }
+
+    function getPackDifficultyStep(flow, pageIndex, pageCount) {
+        if (flow === "kolaydan-zora") {
+            const ratio = pageCount <= 1 ? 0 : pageIndex / (pageCount - 1);
+            return clamp(Math.round(ratio * 2), 0, 2);
+        }
+        if (flow === "karisik") {
+            return [0, 2, 1][pageIndex % 3];
+        }
+        if (flow === "tekrar-paketi") {
+            return [0, 1, 0, 1, 2][pageIndex % 5];
+        }
+        return 1;
+    }
+
+    function getPackPagePresetId(flow, pageIndex, pageCount, activePresetId) {
+        if (flow === "sabit") {
+            return activePresetId || DEFAULT_PRESET_ID;
+        }
+
+        const difficultyStep = getPackDifficultyStep(flow, pageIndex, pageCount);
+        return ["kolay", "orta", "zor"][difficultyStep] || DEFAULT_PRESET_ID;
+    }
+
+    function getPackDifficultyLabel(flow, pageIndex, pageCount, pagePresetId) {
+        if (flow === "tekrar-paketi") {
+            return `Tekrar akışı - ${getPresetLabel(pagePresetId)}`;
+        }
+        if (flow === "karisik") {
+            return `Karışık akış - ${getPresetLabel(pagePresetId)}`;
+        }
+        if (flow === "kolaydan-zora") {
+            return `Kolaydan zora - ${getPresetLabel(pagePresetId)}`;
+        }
+        return pagePresetId ? `${getPresetLabel(pagePresetId)} düzeyi` : "Sabit düzey";
+    }
+
+    function applyTopicDifficultyStep(settings, classLevel, topicId, difficultyStep, pagePresetId) {
+        if (topicId === "ritmik-sayma") {
+            settings.maxNumber = [60, 120, 250, 500][Math.max(0, Number(classLevel) - 1)] || 120;
+            settings.maxNumber += difficultyStep * 40;
+            settings.step = clamp(Number(settings.step) || (Number(classLevel) + 2), 1, 20) + (difficultyStep === 2 ? 1 : 0);
+            settings.direction = difficultyStep >= 2 ? "backward" : "forward";
+            return;
+        }
+
+        if (topicId === "onceki-sonraki" || topicId === "aradaki-sayilar") {
+            settings.maxNumber = [40, 120, 300, 600][Math.max(0, Number(classLevel) - 1)] || 120;
+            settings.maxNumber += difficultyStep * 60;
+            return;
+        }
+
+        if (topicId === "sayi-karsilastirma") {
+            settings.digitCount = String(getComparisonDigitCount(classLevel, difficultyStep));
+            return;
+        }
+
+        if (topicId === "toplama") {
+            settings.digitCount = String(getArithmeticDigitCount(classLevel, difficultyStep, "addition"));
+            settings.carryMode = ["eldesiz", "mixed", "eldeli"][difficultyStep];
+            return;
+        }
+
+        if (topicId === "cikarma") {
+            settings.digitCount = String(getArithmeticDigitCount(classLevel, difficultyStep, "subtraction"));
+            settings.borrowMode = ["bozmasiz", "mixed", "bozmali"][difficultyStep];
+            return;
+        }
+
+        if (topicId === "carpma") {
+            settings.factorMax = getMultiplicationFactorMax(classLevel, difficultyStep, pagePresetId);
+            settings.layout = difficultyStep >= 2 ? "double" : settings.layout;
+            return;
+        }
+
+        if (topicId === "bolme") {
+            const divisionDefaults = getDivisionPresetValues(classLevel, difficultyStep, pagePresetId);
+            settings.dividendDigits = divisionDefaults.dividendDigits;
+            settings.divisorDigits = divisionDefaults.divisorDigits;
+            settings.remainderMode = divisionDefaults.remainderMode;
+            settings.divisionStyle = divisionDefaults.divisionStyle;
+            return;
+        }
+
+        if (topicId === "kesir-okuma") {
+            settings.includeMixed = Number(classLevel) >= 4 && difficultyStep >= 1;
+            return;
+        }
+
+        if (topicId === "karisik-islemler") {
+            settings.layout = difficultyStep >= 2 ? "double" : "altalta";
+        }
     }
 
     function generateUnique(targetCount, producer, maxAttempts) {
