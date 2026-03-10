@@ -19,10 +19,10 @@
     --mkg-preview-scale: 1;
     --mkg-sheet-title-size: 16pt;
     --mkg-sheet-copy-size: 10.5pt;
-    --mkg-sheet-footer-size: 8.4pt;
+    --mkg-sheet-footer-size: 7pt;
     --mkg-sheet-section-gap: 4mm;
-    --mkg-sheet-footer-gap: 3mm;
-    --mkg-sheet-footer-min-height: 8mm;
+    --mkg-sheet-footer-gap: 1.4mm;
+    --mkg-sheet-footer-min-height: 4.5mm;
 }
 
 *,
@@ -574,11 +574,12 @@ input:focus-visible {
 
 .mkg-sheet-footer {
     min-height: var(--mkg-sheet-footer-min-height);
-    padding-top: 2.2mm;
+    padding-top: 0.8mm;
     border-top: 1px solid var(--mkg-line);
     text-align: center;
     font-size: var(--mkg-sheet-footer-size);
-    font-weight: 700;
+    font-weight: 600;
+    line-height: 1.05;
     color: #64748b;
     letter-spacing: 0.02em;
     background: #ffffff;
