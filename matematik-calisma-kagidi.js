@@ -198,7 +198,7 @@
 
     let lastWorksheet = null;
     let previewScaleFrame = 0;
-    let selectedPresetId = DEFAULT_PRESET_ID;
+    let selectedPresetId = null;
     let stickyFormState = {
         teacherName: "",
         showAnswerKey: true
@@ -282,7 +282,7 @@
         presetRoot.innerHTML = `
             <div class="mkg-preset-head">
                 <span>Hızlı Hazır Modlar</span>
-                <small>${escapeHtml(getPresetLabel(selectedPresetId))} seçili</small>
+                <small>${escapeHtml(getPresetSummaryText(selectedPresetId))}</small>
             </div>
             <div class="mkg-preset-grid">
                 ${PRESET_OPTIONS.map((preset) => `
@@ -305,7 +305,15 @@
         }
 
         rememberStickyFields();
-        selectedPresetId = button.getAttribute("data-preset") || DEFAULT_PRESET_ID;
+        const clickedPresetId = button.getAttribute("data-preset") || "";
+        if (clickedPresetId === selectedPresetId) {
+            selectedPresetId = null;
+            renderPresetButtons();
+            statusBox.textContent = "Hazır mod kaldırıldı. Mevcut ayarlar korunuyor.";
+            return;
+        }
+
+        selectedPresetId = clickedPresetId || null;
         applySmartDefaults(classLevelSelect.value, topicSelect.value, selectedPresetId);
         if (stickyFormState.teacherName) {
             setFieldValue("teacherName", stickyFormState.teacherName);
@@ -316,8 +324,15 @@
     }
 
     function getPresetLabel(presetId) {
+        if (!presetId) {
+            return "Hazır mod yok";
+        }
         const preset = PRESET_OPTIONS.find((entry) => entry.value === presetId);
         return preset ? preset.label : "Orta";
+    }
+
+    function getPresetSummaryText(presetId) {
+        return presetId ? `${getPresetLabel(presetId)} seçili` : "İsteğe bağlı";
     }
 
     function applySmartDefaults(classLevel, topicId, presetId) {
@@ -363,6 +378,10 @@
     }
 
     function buildPresetValues(classLevel, topicId, presetId) {
+        if (!presetId) {
+            return {};
+        }
+
         const profile = getPresetProfile(presetId);
         const difficulty = profile.difficulty;
         const values = {
