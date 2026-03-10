@@ -16,12 +16,19 @@
             .replace(/'/g, "&#39;");
     }
 
+    function styleMapToString(styleMap) {
+        return Object.keys(styleMap)
+            .filter((key) => styleMap[key] !== undefined && styleMap[key] !== null && styleMap[key] !== "")
+            .map((key) => `${key}:${styleMap[key]}`)
+            .join("; ");
+    }
+
     function estimatePrintColumns(options) {
         const layout = options.layout || "double";
         const topicId = options.topicId || "";
         const questions = Array.isArray(options.questions) ? options.questions : [];
         const questionCount = Number(options.questionCount) || questions.length || 1;
-        const hasArithmetic = questions.some((q) => q && q.type === "operation");
+        const hasArithmetic = questions.some((question) => question && question.type === "operation");
 
         let minCellWidthMm = hasArithmetic ? 35 : 45;
         if (topicId === "kesir-okuma" || topicId === "ritmik-sayma") {
@@ -53,21 +60,6 @@
         }
 
         return clamp(columns, 2, 5);
-    }
-
-    function estimateScreenColumns(printColumns) {
-        const width = global.innerWidth || 1200;
-
-        if (width < 560) {
-            return 1;
-        }
-        if (width < 900) {
-            return Math.min(2, printColumns);
-        }
-        if (width < 1180) {
-            return Math.min(3, printColumns);
-        }
-        return printColumns;
     }
 
     function buildQuestionMatrix(items, columns) {
@@ -180,34 +172,10 @@
 
         return `
             <article class="mwg-rhythm-row" data-question-index="${item.index}">
+                <div class="mwg-item-number">${item.index})</div>
                 <div class="mwg-rhythm-track">${cellsHtml}</div>
             </article>
         `;
-    }
-
-    function renderRhythmicSheet(options, escapeHtml) {
-        const questions = Array.isArray(options.questions) ? options.questions : [];
-        const numberedItems = questions.map((question, index) => ({
-            question,
-            index: index + 1
-        }));
-
-        return `
-            <section class="mwg-rhythm-sheet">
-                ${numberedItems.map((item) => renderRhythmicRow(item, escapeHtml)).join("")}
-            </section>
-        `;
-    }
-
-    function getPreviousNextScreenColumns() {
-        const width = global.innerWidth || 1200;
-        if (width < 560) {
-            return 1;
-        }
-        if (width < 900) {
-            return 2;
-        }
-        return 3;
     }
 
     function renderTripletCell(item, escapeHtml, mode) {
@@ -230,6 +198,7 @@
 
         return `
             <article class="mwg-prevnext-item" data-question-index="${item.index}">
+                <div class="mwg-item-number">${item.index})</div>
                 <div class="mwg-prevnext-track">
                     <span class="mwg-prevnext-box ${isBetween ? "mwg-prevnext-box--filled" : ""}">${left}</span>
                     <span class="mwg-prevnext-box ${isBetween ? "" : "mwg-prevnext-box--middle"}">${middle}</span>
@@ -239,83 +208,114 @@
         `;
     }
 
-    function renderTripletSheet(options, escapeHtml, mode) {
-        const questions = Array.isArray(options.questions) ? options.questions : [];
-        const numberedItems = questions.map((question, index) => ({
+    function buildNumberedItems(questions) {
+        return questions.map((question, index) => ({
             question,
             index: index + 1
         }));
-
-        const printColumns = 3;
-        const screenColumns = getPreviousNextScreenColumns();
-        const matrix = buildQuestionMatrix(numberedItems, printColumns);
-
-        const rowsHtml = matrix.map((rowItems) => {
-            const cells = rowItems.map((item) => {
-                if (!item) {
-                    return `<div class="mwg-prevnext-item mwg-prevnext-item-empty" aria-hidden="true"></div>`;
-                }
-                return renderTripletCell(item, escapeHtml, mode);
-            }).join("");
-            return `<div class="mwg-prevnext-row">${cells}</div>`;
-        }).join("");
-
-        return `
-            <section class="mwg-prevnext-sheet" style="--mwg-prevnext-screen-cols:${screenColumns}; --mwg-prevnext-print-cols:${printColumns};">
-                ${rowsHtml}
-            </section>
-        `;
     }
 
-    function renderMatrix(options) {
-        const escapeHtml = options.escapeHtml || defaultEscape;
-        const questions = Array.isArray(options.questions) ? options.questions : [];
-        if (!questions.length) {
-            return "";
-        }
-
-        if (options.topicId === "ritmik-sayma") {
-            return renderRhythmicSheet(options, escapeHtml);
-        }
-
-        if (options.topicId === "onceki-sonraki") {
-            return renderTripletSheet(options, escapeHtml, "prevnext");
-        }
-
-        if (options.topicId === "aradaki-sayilar") {
-            return renderTripletSheet(options, escapeHtml, "between");
-        }
-
-        const printColumns = estimatePrintColumns(options);
-        const screenColumns = estimateScreenColumns(printColumns);
-
-        const numberedItems = questions.map((question, index) => ({
-            question,
-            index: index + 1
-        }));
-        const matrix = buildQuestionMatrix(numberedItems, printColumns);
-
-        const rowsHtml = matrix.map((rowItems) => {
+    function createGridRows(numberedItems, columns, escapeHtml) {
+        const matrix = buildQuestionMatrix(numberedItems, columns);
+        return matrix.map((rowItems) => {
             const cells = rowItems.map((item) => {
                 if (!item) {
                     return `<div class="mwg-grid-cell mwg-grid-cell-empty" aria-hidden="true"></div>`;
                 }
                 return renderCell(item, escapeHtml);
             }).join("");
-            return `<div class="mwg-grid-row">${cells}</div>`;
-        }).join("");
 
+            return `<div class="mwg-grid-row">${cells}</div>`;
+        });
+    }
+
+    function createTripletRows(numberedItems, mode, escapeHtml) {
+        const matrix = buildQuestionMatrix(numberedItems, 3);
+        return matrix.map((rowItems) => {
+            const cells = rowItems.map((item) => {
+                if (!item) {
+                    return `<div class="mwg-prevnext-item mwg-prevnext-item-empty" aria-hidden="true"></div>`;
+                }
+                return renderTripletCell(item, escapeHtml, mode);
+            }).join("");
+
+            return `<div class="mwg-prevnext-row">${cells}</div>`;
+        });
+    }
+
+    function createLayoutModel(options) {
+        const escapeHtml = options.escapeHtml || defaultEscape;
+        const questions = Array.isArray(options.questions) ? options.questions : [];
+        if (!questions.length) {
+            return null;
+        }
+
+        const numberedItems = buildNumberedItems(questions);
+
+        if (options.topicId === "ritmik-sayma") {
+            return {
+                sectionClassName: "mwg-rhythm-sheet",
+                sectionStyle: styleMapToString({
+                    "--mwg-print-cols": 1
+                }),
+                rowsHtml: numberedItems.map((item) => renderRhythmicRow(item, escapeHtml))
+            };
+        }
+
+        if (options.topicId === "onceki-sonraki") {
+            return {
+                sectionClassName: "mwg-prevnext-sheet",
+                sectionStyle: styleMapToString({
+                    "--mwg-print-cols": 3
+                }),
+                rowsHtml: createTripletRows(numberedItems, "prevnext", escapeHtml)
+            };
+        }
+
+        if (options.topicId === "aradaki-sayilar") {
+            return {
+                sectionClassName: "mwg-prevnext-sheet",
+                sectionStyle: styleMapToString({
+                    "--mwg-print-cols": 3
+                }),
+                rowsHtml: createTripletRows(numberedItems, "between", escapeHtml)
+            };
+        }
+
+        const printColumns = estimatePrintColumns(options);
+        return {
+            sectionClassName: "mwg-grid",
+            sectionStyle: styleMapToString({
+                "--mwg-print-cols": printColumns
+            }),
+            rowsHtml: createGridRows(numberedItems, printColumns, escapeHtml)
+        };
+    }
+
+    function renderLayoutSegment(model, rowsHtml) {
+        if (!model) {
+            return "";
+        }
+
+        const rows = Array.isArray(rowsHtml) ? rowsHtml : model.rowsHtml;
+        const styleAttr = model.sectionStyle ? ` style="${model.sectionStyle}"` : "";
         return `
-            <section class="mwg-grid" style="--mwg-screen-cols:${screenColumns}; --mwg-print-cols:${printColumns};">
-                ${rowsHtml}
+            <section class="${model.sectionClassName}"${styleAttr}>
+                ${rows.join("")}
             </section>
         `;
     }
 
+    function renderMatrix(options) {
+        const model = createLayoutModel(options);
+        return renderLayoutSegment(model);
+    }
+
     global.MathWorksheetGrid = {
         estimatePrintColumns,
-        estimateScreenColumns,
         buildQuestionMatrix,
+        createLayoutModel,
+        renderLayoutSegment,
         renderMatrix
     };
 }(window));

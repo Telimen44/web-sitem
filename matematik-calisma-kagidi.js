@@ -14,8 +14,8 @@
     const TOPICS_BY_CLASS = {
         "1": ["ritmik-sayma", "onceki-sonraki", "aradaki-sayilar", "sayi-karsilastirma", "toplama", "cikarma"],
         "2": ["toplama", "cikarma", "ritmik-sayma", "sayi-karsilastirma", "carpma"],
-        "3": ["toplama", "cikarma", "carpma", "ritmik-sayma"],
-        "4": ["toplama", "cikarma", "carpma", "bolme"]
+        "3": ["toplama", "cikarma", "carpma", "ritmik-sayma", "kesir-okuma"],
+        "4": ["toplama", "cikarma", "carpma", "bolme", "kesir-okuma"]
     };
 
     const LAYOUT_OPTIONS = [
@@ -144,6 +144,18 @@
                 checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
             ],
             generator: generateDivision
+        },
+        "kesir-okuma": {
+            label: "Kesir Okuma",
+            title: "Kesir Okuma Çalışma Kağıdı",
+            instruction: "Verilen kesirleri yazıyla okuyunuz.",
+            settings: [
+                numberField("questionCount", "Soru sayısı", 18, 6, 40),
+                checkboxField("includeMixed", "Tam sayılı kesirler olsun mu", false),
+                textField("teacherName", "Öğretmen adı", "Opsiyonel"),
+                checkboxField("showAnswerKey", "Cevap anahtarı olsun mu", true)
+            ],
+            generator: generateFractionReading
         }
     };
 
@@ -157,6 +169,7 @@
     const printButton = document.getElementById("mkg-print");
 
     let lastWorksheet = null;
+    let previewScaleFrame = 0;
 
     init();
 
@@ -181,13 +194,20 @@
             window.print();
         });
 
-        window.addEventListener("resize", function () {
-            if (lastWorksheet) {
-                renderWorksheet(lastWorksheet);
-            }
-        });
+        window.addEventListener("resize", queuePreviewScaleUpdate);
+
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(function () {
+                if (lastWorksheet) {
+                    renderWorksheet(lastWorksheet);
+                    return;
+                }
+                queuePreviewScaleUpdate();
+            });
+        }
 
         onClassChange();
+        queuePreviewScaleUpdate();
     }
 
     function onClassChange() {
@@ -285,60 +305,25 @@
     }
 
     function renderWorksheet(worksheet) {
-        const teacherLine = worksheet.settings.teacherName
-            ? `<div class="mkg-meta-line mkg-meta-line--teacher">Öğretmen: ${escapeHtml(worksheet.settings.teacherName)}</div>`
-            : "";
+        const questionLayout = createQuestionLayoutModel(worksheet);
+        const questionPages = paginateLayout(questionLayout, function (rowsHtml, pageIndex) {
+            return renderQuestionPage(worksheet, questionLayout, rowsHtml, pageIndex);
+        });
 
-        const questionsHtml = renderQuestionMatrix(worksheet);
-        const siteFooter = `<footer class="mkg-sheet-footer">${escapeHtml(WORKSHEET_SITE_LABEL)}</footer>`;
-
-        const answerHtml = worksheet.settings.showAnswerKey
-            ? `
-                <section class="mkg-answer-page">
-                    <h3>Cevap Anahtarı</h3>
-                    <ol class="mkg-answer-list">
-                        ${worksheet.questions.map((q, i) => `<li><strong>${i + 1})</strong> ${escapeHtml(q.answer)}</li>`).join("")}
-                    </ol>
-                    <footer class="mkg-sheet-footer mkg-sheet-footer-answer">${escapeHtml(WORKSHEET_SITE_LABEL)}</footer>
-                </section>
-            `
-            : "";
+        const answerPages = worksheet.settings.showAnswerKey
+            ? paginateLayout(createAnswerLayoutModel(worksheet.questions), function (rowsHtml, pageIndex) {
+                return renderAnswerPage(rowsHtml, pageIndex);
+            })
+            : [];
 
         previewRoot.innerHTML = `
-            <article class="mkg-sheet">
-                <header class="mkg-sheet-header">
-                    <h2>${escapeHtml(worksheet.title)}</h2>
-                    <div class="mkg-meta-line">
-                        <span>Öğrenci Adı: ____________________</span>
-                        <span>Tarih: ____ / ____ / ______</span>
-                    </div>
-                    ${teacherLine}
-                    <p class="mkg-instruction">${escapeHtml(worksheet.instruction)}</p>
-                </header>
-
-                <section class="mkg-question-grid mkg-layout-${escapeHtml(worksheet.layout)}">
-                    ${questionsHtml}
-                </section>
-                ${siteFooter}
-                ${answerHtml}
-            </article>
+            <div class="mkg-page-stack">
+                ${questionPages.concat(answerPages).map(renderPreviewPageFrame).join("")}
+            </div>
         `;
-    }
-
-    function renderQuestionMatrix(worksheet) {
-        if (window.MathWorksheetGrid && typeof window.MathWorksheetGrid.renderMatrix === "function") {
-            return window.MathWorksheetGrid.renderMatrix({
-                questions: worksheet.questions,
-                questionCount: worksheet.questions.length,
-                layout: worksheet.layout,
-                topicId: worksheet.topicId,
-                escapeHtml
-            });
-        }
-
-        return worksheet.questions.map(function (question, index) {
-            return renderQuestion(question, index + 1, worksheet.layout);
-        }).join("");
+        previewRoot.scrollTop = 0;
+        previewRoot.scrollLeft = 0;
+        queuePreviewScaleUpdate();
     }
 
     function renderQuestion(question, index, layout) {
@@ -372,6 +357,243 @@
                 <div class="mkg-question-text">${escapeHtml(question.text)}</div>
             </div>
         `;
+    }
+
+    function createQuestionLayoutModel(worksheet) {
+        if (window.MathWorksheetGrid && typeof window.MathWorksheetGrid.createLayoutModel === "function") {
+            return window.MathWorksheetGrid.createLayoutModel({
+                questions: worksheet.questions,
+                questionCount: worksheet.questions.length,
+                layout: worksheet.layout,
+                topicId: worksheet.topicId,
+                escapeHtml
+            });
+        }
+
+        return {
+            sectionClassName: "mkg-question-grid",
+            sectionStyle: "",
+            rowsHtml: worksheet.questions.map(function (question, index) {
+                return renderQuestion(question, index + 1, worksheet.layout);
+            })
+        };
+    }
+
+    function createAnswerLayoutModel(questions) {
+        const rowsHtml = [];
+
+        for (let index = 0; index < questions.length; index += 2) {
+            const rowItems = questions.slice(index, index + 2);
+            const cells = rowItems.map(function (question, offset) {
+                return renderAnswerCell(question, index + offset + 1);
+            });
+
+            while (cells.length < 2) {
+                cells.push('<div class="mkg-answer-cell mkg-answer-cell-empty" aria-hidden="true"></div>');
+            }
+
+            rowsHtml.push(`
+                <div class="mkg-answer-row">
+                    ${cells.join("")}
+                </div>
+            `);
+        }
+
+        return {
+            sectionClassName: "mkg-answer-grid",
+            sectionStyle: "--mkg-answer-cols:2",
+            rowsHtml
+        };
+    }
+
+    function renderAnswerCell(question, index) {
+        return `
+            <div class="mkg-answer-cell">
+                <div class="mkg-answer-item">
+                    <span class="mkg-answer-number">${index})</span>
+                    <span class="mkg-answer-text">${escapeHtml(question.answer)}</span>
+                </div>
+            </div>
+        `;
+    }
+
+    function paginateLayout(layoutModel, buildPageHtml) {
+        if (!layoutModel || !Array.isArray(layoutModel.rowsHtml) || !layoutModel.rowsHtml.length) {
+            return [];
+        }
+
+        const measureRoot = ensureMeasureRoot();
+        const pages = [];
+        let cursor = 0;
+        let pageIndex = 0;
+
+        while (cursor < layoutModel.rowsHtml.length) {
+            const measurePage = createElementFromHtml(buildPageHtml([], pageIndex));
+            measureRoot.replaceChildren(measurePage);
+
+            const blockContainer = measurePage.querySelector("[data-mkg-block-container]");
+            if (!blockContainer) {
+                pages.push(buildPageHtml(layoutModel.rowsHtml.slice(cursor), pageIndex));
+                break;
+            }
+            const pageRows = [];
+
+            while (cursor < layoutModel.rowsHtml.length) {
+                const blockNode = appendHtmlBlock(blockContainer, layoutModel.rowsHtml[cursor]);
+                const overflowed = isPageOverflowing(measurePage);
+
+                if (overflowed && pageRows.length > 0) {
+                    blockNode.remove();
+                    break;
+                }
+
+                pageRows.push(layoutModel.rowsHtml[cursor]);
+                cursor += 1;
+
+                if (overflowed) {
+                    break;
+                }
+            }
+
+            pages.push(buildPageHtml(pageRows, pageIndex));
+            pageIndex += 1;
+        }
+
+        measureRoot.replaceChildren();
+        return pages;
+    }
+
+    function renderQuestionPage(worksheet, layoutModel, rowsHtml, pageIndex) {
+        const headerHtml = pageIndex === 0 ? renderWorksheetHeader(worksheet) : "";
+
+        return `
+            <article class="mkg-sheet mkg-sheet--worksheet">
+                <div class="mkg-sheet-page" data-mkg-page-inner>
+                    <div class="mkg-sheet-main">
+                        ${headerHtml}
+                        ${renderSection(layoutModel, rowsHtml, 'data-mkg-block-container')}
+                    </div>
+                    ${renderSheetFooter()}
+                </div>
+            </article>
+        `;
+    }
+
+    function renderAnswerPage(rowsHtml, pageIndex) {
+        const answerLayout = {
+            sectionClassName: "mkg-answer-grid",
+            sectionStyle: "--mkg-answer-cols:2",
+            rowsHtml: rowsHtml
+        };
+
+        return `
+            <article class="mkg-sheet mkg-sheet--answer">
+                <div class="mkg-sheet-page" data-mkg-page-inner>
+                    <div class="mkg-sheet-main">
+                        <header class="mkg-sheet-header mkg-sheet-header--answer">
+                            <h2>Cevap Anahtarı</h2>
+                        </header>
+                        ${renderSection(answerLayout, rowsHtml, 'data-mkg-block-container')}
+                    </div>
+                    ${renderSheetFooter()}
+                </div>
+            </article>
+        `;
+    }
+
+    function renderWorksheetHeader(worksheet) {
+        const teacherLine = worksheet.settings.teacherName
+            ? `<div class="mkg-meta-line mkg-meta-line--teacher">Öğretmen: ${escapeHtml(worksheet.settings.teacherName)}</div>`
+            : "";
+
+        return `
+            <header class="mkg-sheet-header">
+                <h2>${escapeHtml(worksheet.title)}</h2>
+                <div class="mkg-meta-line">
+                    <span>Öğrenci Adı: ____________________</span>
+                    <span>Tarih: ____ / ____ / ______</span>
+                </div>
+                ${teacherLine}
+                <p class="mkg-instruction">${escapeHtml(worksheet.instruction)}</p>
+            </header>
+        `;
+    }
+
+    function renderSheetFooter() {
+        return `<footer class="mkg-sheet-footer">${escapeHtml(WORKSHEET_SITE_LABEL)}</footer>`;
+    }
+
+    function renderSection(layoutModel, rowsHtml, extraAttributes) {
+        const styleAttr = layoutModel.sectionStyle ? ` style="${layoutModel.sectionStyle}"` : "";
+        const attrText = extraAttributes ? ` ${extraAttributes}` : "";
+
+        return `
+            <section class="${layoutModel.sectionClassName}"${styleAttr}${attrText}>
+                ${rowsHtml.join("")}
+            </section>
+        `;
+    }
+
+    function renderPreviewPageFrame(pageHtml) {
+        return `<div class="mkg-page-frame">${pageHtml}</div>`;
+    }
+
+    function ensureMeasureRoot() {
+        let measureRoot = document.getElementById("mkg-measure-root");
+        if (!measureRoot) {
+            measureRoot = document.createElement("div");
+            measureRoot.id = "mkg-measure-root";
+            measureRoot.className = "mkg-measure-root";
+            document.body.appendChild(measureRoot);
+        }
+        return measureRoot;
+    }
+
+    function createElementFromHtml(html) {
+        const template = document.createElement("template");
+        template.innerHTML = String(html || "").trim();
+        return template.content.firstElementChild;
+    }
+
+    function appendHtmlBlock(container, html) {
+        const block = createElementFromHtml(html);
+        if (!block) {
+            return document.createElement("div");
+        }
+        container.appendChild(block);
+        return block;
+    }
+
+    function isPageOverflowing(pageElement) {
+        const pageInner = pageElement.querySelector("[data-mkg-page-inner]");
+        if (!pageInner) {
+            return false;
+        }
+        return pageInner.scrollHeight > pageInner.clientHeight + 1;
+    }
+
+    function queuePreviewScaleUpdate() {
+        if (previewScaleFrame) {
+            window.cancelAnimationFrame(previewScaleFrame);
+        }
+
+        previewScaleFrame = window.requestAnimationFrame(function () {
+            previewScaleFrame = 0;
+            updatePreviewScale();
+        });
+    }
+
+    function updatePreviewScale() {
+        const sheet = previewRoot.querySelector(".mkg-sheet");
+        if (!sheet) {
+            previewRoot.style.setProperty("--mkg-preview-scale", "1");
+            return;
+        }
+
+        const availableWidth = Math.max(previewRoot.clientWidth - 4, 0);
+        const pageWidth = sheet.offsetWidth || availableWidth || 1;
+        const scale = availableWidth > 0 ? Math.min(1, availableWidth / pageWidth) : 1;
+        previewRoot.style.setProperty("--mkg-preview-scale", scale.toFixed(4));
     }
 
     function renderField(field) {
@@ -1010,6 +1232,11 @@
             setFieldValue("dividendDigits", divisionDefaults.dividendDigits);
             setFieldValue("divisorDigits", divisionDefaults.divisorDigits);
             setFieldValue("layout", "altalta");
+            return;
+        }
+
+        if (topicId === "kesir-okuma") {
+            setFieldValue("includeMixed", classLevel === "4");
         }
     }
 
