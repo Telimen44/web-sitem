@@ -251,6 +251,7 @@
         presetRoot.addEventListener("click", onPresetClick);
         form.addEventListener("input", onFormInput);
         form.addEventListener("change", onFormChange);
+        form.addEventListener("wheel", onNumberFieldWheel, { passive: false });
 
         form.addEventListener("submit", function (event) {
             event.preventDefault();
@@ -344,6 +345,18 @@
             renderGenerationSettings();
             renderTopicSettings(topic, preservedTopicValues);
             queueLayoutGuidanceUpdate();
+        }
+    }
+
+    function onNumberFieldWheel(event) {
+        const target = event.target;
+        if (!target || target.tagName !== "INPUT" || target.type !== "number") {
+            return;
+        }
+
+        // Keep page scrolling from incrementing focused spinbuttons unexpectedly.
+        if (document.activeElement === target) {
+            event.preventDefault();
         }
     }
 
@@ -1230,7 +1243,6 @@
                 } else {
                     data[field.id] = field.default;
                 }
-                input.value = data[field.id];
                 return;
             }
 
