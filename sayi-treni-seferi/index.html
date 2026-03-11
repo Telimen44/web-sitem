@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sayı Treni Seferi | Telimen Eğitim</title>
+    <meta name="description"
+        content="Sayıları tanıma, nesne sayma, eksik sayıları bulma ve ritmik sayma becerilerini geliştiren sınıf dostu Türkçe eğitim oyunu.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="sayi-treni.css">
+</head>
+
+<body>
+    <div id="counting-expedition-app" class="ce-app">
+        <div class="ce-sky">
+            <span class="ce-cloud ce-cloud-1"></span>
+            <span class="ce-cloud ce-cloud-2"></span>
+            <span class="ce-cloud ce-cloud-3"></span>
+            <span class="ce-star ce-star-1"></span>
+            <span class="ce-star ce-star-2"></span>
+            <span class="ce-star ce-star-3"></span>
+            <span class="ce-star ce-star-4"></span>
+        </div>
+
+        <header class="ce-shell ce-topbar">
+            <a class="ce-home-btn" href="../index.html" aria-label="Ana sayfaya dön">
+                <span aria-hidden="true">←</span>
+                <span>Ana Sayfa</span>
+            </a>
+
+            <div class="ce-brand">
+                <p class="ce-brand-kicker">Sınıf görevi</p>
+                <h1>Sayı Treni Seferi</h1>
+                <p class="ce-brand-sub">Ritimli raylarda sayıları keşfet, sırayı tamamla, treni hedefe ulaştır.</p>
+            </div>
+
+            <div class="ce-topbar-actions">
+                <button id="soundToggleBtn" class="ce-icon-btn" type="button" aria-label="Ses ayarını değiştir">🔊</button>
+                <button id="fullscreenBtn" class="ce-icon-btn" type="button" aria-label="Tam ekran aç">⤢</button>
+            </div>
+        </header>
+
+        <main class="ce-shell ce-main">
+            <section id="appScreen" class="ce-screen" aria-live="polite"></section>
+        </main>
+
+        <div id="feedbackToast" class="ce-toast" aria-live="assertive" aria-atomic="true"></div>
+        <div id="particleLayer" class="ce-particles" aria-hidden="true"></div>
+    </div>
+
+    <script src="sayi-treni.js"></script>
+</body>
+
+</html>
