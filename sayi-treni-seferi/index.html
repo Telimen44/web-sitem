@@ -26,30 +26,38 @@
             <span class="ce-star ce-star-4"></span>
         </div>
 
-        <header class="ce-shell ce-topbar">
-            <a class="ce-home-btn" href="../index.html" aria-label="Ana sayfaya dön">
-                <span aria-hidden="true">←</span>
-                <span>Ana Sayfa</span>
-            </a>
+        <div class="ce-stage-shell">
+            <div id="fitStage" class="ce-stage">
+                <header class="ce-shell ce-topbar">
+                    <a id="homeBtn" class="ce-home-btn" href="../index.html" aria-label="Ana sayfaya dön">
+                        <span aria-hidden="true">←</span>
+                        <span>Ana Sayfa</span>
+                    </a>
 
-            <div class="ce-brand">
-                <p class="ce-brand-kicker">Sınıf görevi</p>
-                <h1>Sayı Treni Seferi</h1>
-                <p class="ce-brand-sub">Ritimli raylarda sayıları keşfet, sırayı tamamla, treni hedefe ulaştır.</p>
+                    <div class="ce-brand">
+                        <p class="ce-brand-kicker">Sınıf görevi</p>
+                        <h1>Sayı Treni Seferi</h1>
+                        <p class="ce-brand-sub">Ritimli raylarda sayıları keşfet, sırayı tamamla, treni hedefe ulaştır.</p>
+                    </div>
+
+                    <div class="ce-topbar-actions">
+                        <button id="contrastToggleBtn" class="ce-icon-btn" type="button" aria-label="Yüksek kontrastı aç">◐</button>
+                        <button id="pauseToggleBtn" class="ce-icon-btn" type="button" aria-label="Oyunu duraklat" aria-pressed="false">⏸</button>
+                        <button id="settingsToggleBtn" class="ce-icon-btn" type="button" aria-label="Ayarları aç">⚙</button>
+                        <button id="soundToggleBtn" class="ce-icon-btn" type="button" aria-label="Ses ayarını değiştir">🔊</button>
+                        <button id="fullscreenBtn" class="ce-icon-btn" type="button" aria-label="Tam ekran aç">⤢</button>
+                    </div>
+                </header>
+
+                <main class="ce-shell ce-main">
+                    <section id="appScreen" class="ce-screen" aria-live="polite"></section>
+                </main>
+
+                <div id="modalLayer" class="ce-modal-layer" aria-live="polite"></div>
+                <div id="feedbackToast" class="ce-toast" aria-live="assertive" aria-atomic="true"></div>
+                <div id="particleLayer" class="ce-particles" aria-hidden="true"></div>
             </div>
-
-            <div class="ce-topbar-actions">
-                <button id="soundToggleBtn" class="ce-icon-btn" type="button" aria-label="Ses ayarını değiştir">🔊</button>
-                <button id="fullscreenBtn" class="ce-icon-btn" type="button" aria-label="Tam ekran aç">⤢</button>
-            </div>
-        </header>
-
-        <main class="ce-shell ce-main">
-            <section id="appScreen" class="ce-screen" aria-live="polite"></section>
-        </main>
-
-        <div id="feedbackToast" class="ce-toast" aria-live="assertive" aria-atomic="true"></div>
-        <div id="particleLayer" class="ce-particles" aria-hidden="true"></div>
+        </div>
     </div>
 
     <script src="sayi-treni.js"></script>
