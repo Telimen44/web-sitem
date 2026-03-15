@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Güneş Sistemi Simülasyonu | Telimen Eğitim</title>
-    <meta name="description" content="3D interaktif Güneş Sistemi simülasyonu - Gezegenleri keşfedin!">
+    <title>GÃ¼neÅŸ Sistemi SimÃ¼lasyonu | Telimen EÄŸitim</title>
+    <meta name="description" content="3D interaktif GÃ¼neÅŸ Sistemi simÃ¼lasyonu - Gezegenleri keÅŸfedin!">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -453,19 +453,19 @@
     <!-- Loading Screen -->
     <div class="loading" id="loading">
         <div class="loading-spinner"></div>
-        <h2>🌌 Güneş Sistemi</h2>
-        <p>Yükleniyor...</p>
+        <h2>ğŸŒŒ GÃ¼neÅŸ Sistemi</h2>
+        <p>YÃ¼kleniyor...</p>
     </div>
 
     <!-- Title -->
     <div class="title-overlay">
-        <h1>🌌 Güneş Sistemi</h1>
-        <p>Gezegenlere tıklayarak keşfedin</p>
+        <h1>ğŸŒŒ GÃ¼neÅŸ Sistemi</h1>
+        <p>Gezegenlere tÄ±klayarak keÅŸfedin</p>
     </div>
 
     <!-- Back Button -->
     <a href="index.html" class="back-btn">
-        ← Ana Sayfa
+        â† Ana Sayfa
     </a>
 
     <!-- Planet Quick Select -->
@@ -473,33 +473,33 @@
 
     <!-- Controls Panel -->
     <div class="controls-panel">
-        <h3>⚡ Hız Ayarı</h3>
+        <h3>âš¡ HÄ±z AyarÄ±</h3>
         <input type="range" class="speed-slider" id="speedSlider" min="0" max="5" step="0.1" value="1">
         <div class="speed-value" id="speedValue">1.0x</div>
         <button class="pause-btn" id="pauseBtn">
-            <span id="pauseIcon">⏸️</span>
+            <span id="pauseIcon">â¸ï¸</span>
             <span id="pauseText">Durdur</span>
         </button>
     </div>
 
     <!-- Info Panel -->
     <div class="info-panel" id="infoPanel">
-        <button class="close-btn" id="closeBtn">✕</button>
-        <h2 id="planetName">Güneş</h2>
+        <button class="close-btn" id="closeBtn">âœ•</button>
+        <h2 id="planetName">GÃ¼neÅŸ</h2>
         <div class="info-row">
-            <span class="info-label">Kütle</span>
+            <span class="info-label">KÃ¼tle</span>
             <span class="info-value" id="planetMass">-</span>
         </div>
         <div class="info-row">
-            <span class="info-label">Yerçekimi</span>
+            <span class="info-label">YerÃ§ekimi</span>
             <span class="info-value" id="planetGravity">-</span>
         </div>
         <div class="info-row">
-            <span class="info-label">Güneşe Uzaklık</span>
+            <span class="info-label">GÃ¼neÅŸe UzaklÄ±k</span>
             <span class="info-value" id="planetDistance">-</span>
         </div>
         <div class="info-description">
-            <strong>📖 Bilgi</strong>
+            <strong>ğŸ“– Bilgi</strong>
             <span id="planetDescription">-</span>
         </div>
     </div>
@@ -519,11 +519,11 @@
         const planetData = [
             {
                 id: 'gunes',
-                name: 'Güneş',
-                mass: '1.99 × 10³⁰ kg',
-                gravity: '274 m/s²',
+                name: 'GÃ¼neÅŸ',
+                mass: '1.99 Ã— 10Â³â° kg',
+                gravity: '274 m/sÂ²',
                 distance: '0 km (Merkez)',
-                description: 'Güneş sistemimizin merkezindeki yıldızdır. Hidrojen ve helyumdan oluşur ve nükleer füzyon ile enerji üretir. Yüzey sıcaklığı yaklaşık 5.500°C\'dir.',
+                description: 'GÃ¼neÅŸ sistemimizin merkezindeki yÄ±ldÄ±zdÄ±r. Hidrojen ve helyumdan oluÅŸur ve nÃ¼kleer fÃ¼zyon ile enerji Ã¼retir. YÃ¼zey sÄ±caklÄ±ÄŸÄ± yaklaÅŸÄ±k 5.500Â°C\'dir.',
                 radius: 4,
                 orbitRadius: 0,
                 orbitSpeed: 0,
@@ -532,11 +532,11 @@
             },
             {
                 id: 'merkur',
-                name: 'Merkür',
-                mass: '3.30 × 10²³ kg',
-                gravity: '3.7 m/s²',
+                name: 'MerkÃ¼r',
+                mass: '3.30 Ã— 10Â²Â³ kg',
+                gravity: '3.7 m/sÂ²',
                 distance: '57.9 milyon km',
-                description: 'Güneş\'e en yakın gezegendir. Yüzeyi kraterlerle kaplıdır ve atmosferi yok denecek kadar incedir. Gündüz 430°C\'ye çıkarken gece -180°C\'ye düşer.',
+                description: 'GÃ¼neÅŸ\'e en yakÄ±n gezegendir. YÃ¼zeyi kraterlerle kaplÄ±dÄ±r ve atmosferi yok denecek kadar incedir. GÃ¼ndÃ¼z 430Â°C\'ye Ã§Ä±karken gece -180Â°C\'ye dÃ¼ÅŸer.',
                 radius: 0.4,
                 orbitRadius: 8,
                 orbitSpeed: 4.15,
@@ -545,11 +545,11 @@
             },
             {
                 id: 'venus',
-                name: 'Venüs',
-                mass: '4.87 × 10²⁴ kg',
-                gravity: '8.87 m/s²',
+                name: 'VenÃ¼s',
+                mass: '4.87 Ã— 10Â²â´ kg',
+                gravity: '8.87 m/sÂ²',
                 distance: '108.2 milyon km',
-                description: 'Dünya\'nın "ikizi" olarak bilinir. Kalın karbondioksit atmosferi nedeniyle sera etkisi yaşar ve yüzey sıcaklığı 465°C\'ye ulaşır.',
+                description: 'DÃ¼nya\'nÄ±n "ikizi" olarak bilinir. KalÄ±n karbondioksit atmosferi nedeniyle sera etkisi yaÅŸar ve yÃ¼zey sÄ±caklÄ±ÄŸÄ± 465Â°C\'ye ulaÅŸÄ±r.',
                 radius: 0.9,
                 orbitRadius: 12,
                 orbitSpeed: 1.62,
@@ -558,11 +558,11 @@
             },
             {
                 id: 'dunya',
-                name: 'Dünya',
-                mass: '5.97 × 10²⁴ kg',
-                gravity: '9.81 m/s²',
+                name: 'DÃ¼nya',
+                mass: '5.97 Ã— 10Â²â´ kg',
+                gravity: '9.81 m/sÂ²',
                 distance: '149.6 milyon km',
-                description: 'Yaşamı barındıran tek bilinen gezegendir. Yüzeyinin %71\'i suyla kaplıdır ve oksijen içeren atmosferi canlılar için hayati öneme sahiptir.',
+                description: 'YaÅŸamÄ± barÄ±ndÄ±ran tek bilinen gezegendir. YÃ¼zeyinin %71\'i suyla kaplÄ±dÄ±r ve oksijen iÃ§eren atmosferi canlÄ±lar iÃ§in hayati Ã¶neme sahiptir.',
                 radius: 1,
                 orbitRadius: 16,
                 orbitSpeed: 1,
@@ -575,10 +575,10 @@
             {
                 id: 'mars',
                 name: 'Mars',
-                mass: '6.42 × 10²³ kg',
-                gravity: '3.71 m/s²',
+                mass: '6.42 Ã— 10Â²Â³ kg',
+                gravity: '3.71 m/sÂ²',
                 distance: '227.9 milyon km',
-                description: 'Kızıl Gezegen olarak bilinir. Yüzeyindeki demir oksit (pas) nedeniyle kırmızı görünür. Güneş sistemi\'nin en yüksek dağı Olympus Mons burada bulunur.',
+                description: 'KÄ±zÄ±l Gezegen olarak bilinir. YÃ¼zeyindeki demir oksit (pas) nedeniyle kÄ±rmÄ±zÄ± gÃ¶rÃ¼nÃ¼r. GÃ¼neÅŸ sistemi\'nin en yÃ¼ksek daÄŸÄ± Olympus Mons burada bulunur.',
                 radius: 0.55,
                 orbitRadius: 22,
                 orbitSpeed: 0.53,
@@ -587,11 +587,11 @@
             },
             {
                 id: 'jupiter',
-                name: 'Jüpiter',
-                mass: '1.90 × 10²⁷ kg',
-                gravity: '24.79 m/s²',
+                name: 'JÃ¼piter',
+                mass: '1.90 Ã— 10Â²â· kg',
+                gravity: '24.79 m/sÂ²',
                 distance: '778.5 milyon km',
-                description: 'Güneş sistemi\'nin en büyük gezegenidir. Ünlü Büyük Kırmızı Leke, 300 yılı aşkın süredir devam eden devasa bir fırtınadır.',
+                description: 'GÃ¼neÅŸ sistemi\'nin en bÃ¼yÃ¼k gezegenidir. ÃœnlÃ¼ BÃ¼yÃ¼k KÄ±rmÄ±zÄ± Leke, 300 yÄ±lÄ± aÅŸkÄ±n sÃ¼redir devam eden devasa bir fÄ±rtÄ±nadÄ±r.',
                 radius: 2.8,
                 orbitRadius: 36,
                 orbitSpeed: 0.084,
@@ -600,11 +600,11 @@
             },
             {
                 id: 'saturn',
-                name: 'Satürn',
-                mass: '5.68 × 10²⁶ kg',
-                gravity: '10.44 m/s²',
+                name: 'SatÃ¼rn',
+                mass: '5.68 Ã— 10Â²â¶ kg',
+                gravity: '10.44 m/sÂ²',
                 distance: '1.43 milyar km',
-                description: 'Muhteşem halka sistemiyle ünlüdür. Halkaları buz ve kaya parçacıklarından oluşur. Yoğunluğu o kadar düşüktür ki suda yüzebilir.',
+                description: 'MuhteÅŸem halka sistemiyle Ã¼nlÃ¼dÃ¼r. HalkalarÄ± buz ve kaya parÃ§acÄ±klarÄ±ndan oluÅŸur. YoÄŸunluÄŸu o kadar dÃ¼ÅŸÃ¼ktÃ¼r ki suda yÃ¼zebilir.',
                 radius: 2.4,
                 orbitRadius: 50,
                 orbitSpeed: 0.034,
@@ -615,11 +615,11 @@
             },
             {
                 id: 'uranus',
-                name: 'Uranüs',
-                mass: '8.68 × 10²⁵ kg',
-                gravity: '8.87 m/s²',
+                name: 'UranÃ¼s',
+                mass: '8.68 Ã— 10Â²âµ kg',
+                gravity: '8.87 m/sÂ²',
                 distance: '2.87 milyar km',
-                description: 'Buz devi olarak sınıflandırılır ve yan yatmış şekilde döner. Metan gazı nedeniyle turkuaz renktedir. 27 uydusu bulunmaktadır.',
+                description: 'Buz devi olarak sÄ±nÄ±flandÄ±rÄ±lÄ±r ve yan yatmÄ±ÅŸ ÅŸekilde dÃ¶ner. Metan gazÄ± nedeniyle turkuaz renktedir. 27 uydusu bulunmaktadÄ±r.',
                 radius: 1.8,
                 orbitRadius: 65,
                 orbitSpeed: 0.012,
@@ -628,11 +628,11 @@
             },
             {
                 id: 'neptun',
-                name: 'Neptün',
-                mass: '1.02 × 10²⁶ kg',
-                gravity: '11.15 m/s²',
+                name: 'NeptÃ¼n',
+                mass: '1.02 Ã— 10Â²â¶ kg',
+                gravity: '11.15 m/sÂ²',
                 distance: '4.50 milyar km',
-                description: 'Güneş sistemi\'nin en uzak gezegenidir. Rüzgarları saatte 2000 km hıza ulaşabilir. Mavi rengi atmosferindeki metandan kaynaklanır.',
+                description: 'GÃ¼neÅŸ sistemi\'nin en uzak gezegenidir. RÃ¼zgarlarÄ± saatte 2000 km hÄ±za ulaÅŸabilir. Mavi rengi atmosferindeki metandan kaynaklanÄ±r.',
                 radius: 1.7,
                 orbitRadius: 80,
                 orbitSpeed: 0.006,
@@ -1317,7 +1317,7 @@
             // Pause button
             document.getElementById('pauseBtn').addEventListener('click', () => {
                 isPaused = !isPaused;
-                document.getElementById('pauseIcon').textContent = isPaused ? '▶️' : '⏸️';
+                document.getElementById('pauseIcon').textContent = isPaused ? 'â–¶ï¸' : 'â¸ï¸';
                 document.getElementById('pauseText').textContent = isPaused ? 'Devam Et' : 'Durdur';
                 document.getElementById('pauseBtn').classList.toggle('paused', isPaused);
             });
@@ -1378,7 +1378,7 @@
             // Check sun
             const sunIntersect = raycaster.intersectObject(sun);
             if (sunIntersect.length > 0) {
-                tooltip.textContent = 'Güneş';
+                tooltip.textContent = 'GÃ¼neÅŸ';
                 tooltip.style.left = event.clientX + 'px';
                 tooltip.style.top = event.clientY + 'px';
                 tooltip.classList.add('visible');
@@ -1515,6 +1515,11 @@
         // ============================================
         init();
     </script>
+<script>
+(function(){
+  document.addEventListener("contextmenu", function(e){ e.preventDefault(); }, { capture: true });
+})();
+</script>
 </body>
 
 </html>

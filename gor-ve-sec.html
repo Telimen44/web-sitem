@@ -1536,6 +1536,12 @@
             $('settings-modal').style.display = 'flex';
         };
     </script>
+<script>
+(function(){
+  document.addEventListener("contextmenu", function(e){ e.preventDefault(); }, { capture: true });
+})();
+</script>
 </body>
 
 </html>
+

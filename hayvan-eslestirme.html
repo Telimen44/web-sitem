@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Eşini Bul - Telimen Eğitim</title>
+    <title>EÅŸini Bul - Telimen EÄŸitim</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap"
         rel="stylesheet">
@@ -100,7 +100,7 @@
             padding: 20px;
         }
 
-        /* --- Ayar Ekranı --- */
+        /* --- Ayar EkranÄ± --- */
         .config-screen {
             background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
@@ -194,7 +194,7 @@
             box-shadow: 0 12px 35px rgba(0, 184, 148, 0.5);
         }
 
-        /* --- Oyun Alanı --- */
+        /* --- Oyun AlanÄ± --- */
         .game-area {
             display: none;
             flex-direction: column;
@@ -233,7 +233,7 @@
             padding: 10px;
         }
 
-        /* --- 3D Kart Tasarımı (YÜKSEK KONTRAST) --- */
+        /* --- 3D Kart TasarÄ±mÄ± (YÃœKSEK KONTRAST) --- */
         .memory-card {
             width: 110px;
             height: 110px;
@@ -244,7 +244,7 @@
             border-radius: 16px;
         }
 
-        /* Dinamik Kart Boyutları - Ekranı dolduracak şekilde */
+        /* Dinamik Kart BoyutlarÄ± - EkranÄ± dolduracak ÅŸekilde */
         .cards-grid.size-12 .memory-card {
             width: 160px;
             height: 160px;
@@ -317,7 +317,7 @@
             gap: 6px;
         }
 
-        /* Emoji boyutları */
+        /* Emoji boyutlarÄ± */
         .cards-grid.size-12 .emoji {
             font-size: 6.5rem;
         }
@@ -350,7 +350,7 @@
             font-size: 3.5rem;
         }
 
-        /* Soru işareti boyutları */
+        /* Soru iÅŸareti boyutlarÄ± */
         .cards-grid.size-12 .front-face {
             font-size: 5.5rem;
         }
@@ -383,7 +383,7 @@
             font-size: 3rem;
         }
 
-        /* 44-60 Kart boyutları */
+        /* 44-60 Kart boyutlarÄ± */
         .cards-grid.size-44 .memory-card {
             width: 95px;
             height: 95px;
@@ -492,7 +492,7 @@
         }
 
         .memory-card.matched::after {
-            content: '✓';
+            content: 'âœ“';
             position: absolute;
             top: 5px;
             right: 10px;
@@ -565,7 +565,7 @@
             left: 0;
         }
 
-        /* KART ARKASI - BEYAZ (Yüksek Kontrast!) */
+        /* KART ARKASI - BEYAZ (YÃ¼ksek Kontrast!) */
         .front-face {
             background: linear-gradient(145deg, #ffffff, #f1f2f6);
             color: #5f27cd;
@@ -590,7 +590,7 @@
                     transparent 12px);
         }
 
-        /* KART ÖN YÜZ - AÇILINCA */
+        /* KART Ã–N YÃœZ - AÃ‡ILINCA */
         .back-face {
             background: linear-gradient(145deg, #ffffff, #f8f9fa);
             transform: rotateY(180deg);
@@ -800,7 +800,7 @@
                 font-size: 1.6rem;
             }
 
-            /* 44-60 için 900px responsive */
+            /* 44-60 iÃ§in 900px responsive */
             .cards-grid.size-44 .memory-card {
                 width: 55px;
                 height: 55px;
@@ -972,7 +972,7 @@
                 font-size: 1.3rem;
             }
 
-            /* 44-60 için 700px responsive */
+            /* 44-60 iÃ§in 700px responsive */
             .cards-grid.size-44 .memory-card {
                 width: 42px;
                 height: 42px;
@@ -1179,7 +1179,7 @@
                 font-size: 1rem;
             }
 
-            /* 44-60 için 450px responsive */
+            /* 44-60 iÃ§in 450px responsive */
             .cards-grid.size-44 .memory-card {
                 width: 32px;
                 height: 32px;
@@ -1255,33 +1255,33 @@
 <body>
 
     <header>
-        <h1>🃏 Eşini Bul</h1>
+        <h1>ğŸƒ EÅŸini Bul</h1>
         <div class="header-buttons">
-            <button class="tts-toggle" id="tts-toggle" title="Seslendirme Aç/Kapat">
-                <span class="icon">🔊</span>
+            <button class="tts-toggle" id="tts-toggle" title="Seslendirme AÃ§/Kapat">
+                <span class="icon">ğŸ”Š</span>
                 <span class="label">Seslendirme</span>
             </button>
-            <a href="index.html" class="home-btn">🏠 Çıkış</a>
+            <a href="index.html" class="home-btn">ğŸ  Ã‡Ä±kÄ±ÅŸ</a>
         </div>
     </header>
 
     <div class="container">
-        <!-- Ayar Ekranı -->
+        <!-- Ayar EkranÄ± -->
         <div class="config-screen" id="config-screen">
-            <h2>🎮 Oyunu Hazırla</h2>
+            <h2>ğŸ® Oyunu HazÄ±rla</h2>
 
             <div class="option-group">
-                <h3>📚 Kategori Seç</h3>
+                <h3>ğŸ“š Kategori SeÃ§</h3>
                 <div class="btn-group" id="cat-btns">
-                    <button class="opt-btn selected" data-cat="animals">🦁 Hayvanlar</button>
-                    <button class="opt-btn" data-cat="fruits">🍎 Meyveler</button>
-                    <button class="opt-btn" data-cat="vehicles">🚗 Taşıtlar</button>
-                    <button class="opt-btn" data-cat="objects">⚽ Eşyalar</button>
+                    <button class="opt-btn selected" data-cat="animals">ğŸ¦ Hayvanlar</button>
+                    <button class="opt-btn" data-cat="fruits">ğŸ Meyveler</button>
+                    <button class="opt-btn" data-cat="vehicles">ğŸš— TaÅŸÄ±tlar</button>
+                    <button class="opt-btn" data-cat="objects">âš½ EÅŸyalar</button>
                 </div>
             </div>
 
             <div class="option-group">
-                <h3>🎯 Zorluk Seç</h3>
+                <h3>ğŸ¯ Zorluk SeÃ§</h3>
                 <div class="btn-group" id="size-btns">
                     <button class="opt-btn selected" data-size="12">12 Kart</button>
                     <button class="opt-btn" data-size="16">16 Kart</button>
@@ -1299,169 +1299,169 @@
                 </div>
             </div>
 
-            <button class="start-btn" id="start-btn">BAŞLA ▶</button>
+            <button class="start-btn" id="start-btn">BAÅLA â–¶</button>
         </div>
 
-        <!-- Oyun Alanı -->
+        <!-- Oyun AlanÄ± -->
         <div class="game-area" id="game-area">
             <div class="hud">
-                <span>⏱️ <span id="timer">0:00</span></span>
-                <span>🎯 Hamle: <span id="moves">0</span></span>
+                <span>â±ï¸ <span id="timer">0:00</span></span>
+                <span>ğŸ¯ Hamle: <span id="moves">0</span></span>
             </div>
             <div class="cards-grid" id="grid"></div>
         </div>
     </div>
 
-    <!-- Kazanma Modalı -->
+    <!-- Kazanma ModalÄ± -->
     <div id="win-modal">
         <div class="modal-content">
-            <div class="stars" id="stars">⭐⭐⭐</div>
-            <h2 class="win-title">HARİKASIN!</h2>
+            <div class="stars" id="stars">â­â­â­</div>
+            <h2 class="win-title">HARÄ°KASIN!</h2>
             <p class="modal-stats">
-                ⏱️ Süre: <strong id="final-time">0:00</strong><br>
-                🎯 Hamle: <strong id="final-moves">0</strong>
+                â±ï¸ SÃ¼re: <strong id="final-time">0:00</strong><br>
+                ğŸ¯ Hamle: <strong id="final-moves">0</strong>
             </p>
-            <button class="replay-btn" id="replay-btn">🔄 Tekrar Oyna</button>
+            <button class="replay-btn" id="replay-btn">ğŸ”„ Tekrar Oyna</button>
         </div>
     </div>
 
     <script>
         // ============================================
-        // GÖRSEL VERİTABANI (Emoji Tabanlı - 30 öğe)
+        // GÃ–RSEL VERÄ°TABANI (Emoji TabanlÄ± - 30 Ã¶ÄŸe)
         // ============================================
         const categories = {
             animals: [
-                { name: 'Aslan', emoji: '🦁' },
-                { name: 'Fil', emoji: '🐘' },
-                { name: 'Zürafa', emoji: '🦒' },
-                { name: 'Zebra', emoji: '🦓' },
-                { name: 'Maymun', emoji: '🐵' },
-                { name: 'Köpek', emoji: '🐶' },
-                { name: 'Kedi', emoji: '🐱' },
-                { name: 'Tavşan', emoji: '🐰' },
-                { name: 'Ayı', emoji: '🐻' },
-                { name: 'Panda', emoji: '🐼' },
-                { name: 'Kaplan', emoji: '🐯' },
-                { name: 'Tilki', emoji: '🦊' },
-                { name: 'Kurt', emoji: '🐺' },
-                { name: 'Domuz', emoji: '🐷' },
-                { name: 'İnek', emoji: '🐮' },
-                { name: 'Fare', emoji: '🐭' },
-                { name: 'Koala', emoji: '🐨' },
-                { name: 'Penguen', emoji: '🐧' },
-                { name: 'Civciv', emoji: '🐥' },
-                { name: 'Baykuş', emoji: '🦉' },
-                { name: 'Kurbağa', emoji: '🐸' },
-                { name: 'Yunus', emoji: '🐬' },
-                { name: 'Balina', emoji: '🐳' },
-                { name: 'Köpekbalığı', emoji: '🦈' },
-                { name: 'Ahtapot', emoji: '🐙' },
-                { name: 'Kaplumbağa', emoji: '🐢' },
-                { name: 'Yılan', emoji: '🐍' },
-                { name: 'Timsah', emoji: '🐊' },
-                { name: 'Kartal', emoji: '🦅' },
-                { name: 'Papağan', emoji: '🦜' }
+                { name: 'Aslan', emoji: 'ğŸ¦' },
+                { name: 'Fil', emoji: 'ğŸ˜' },
+                { name: 'ZÃ¼rafa', emoji: 'ğŸ¦’' },
+                { name: 'Zebra', emoji: 'ğŸ¦“' },
+                { name: 'Maymun', emoji: 'ğŸµ' },
+                { name: 'KÃ¶pek', emoji: 'ğŸ¶' },
+                { name: 'Kedi', emoji: 'ğŸ±' },
+                { name: 'TavÅŸan', emoji: 'ğŸ°' },
+                { name: 'AyÄ±', emoji: 'ğŸ»' },
+                { name: 'Panda', emoji: 'ğŸ¼' },
+                { name: 'Kaplan', emoji: 'ğŸ¯' },
+                { name: 'Tilki', emoji: 'ğŸ¦Š' },
+                { name: 'Kurt', emoji: 'ğŸº' },
+                { name: 'Domuz', emoji: 'ğŸ·' },
+                { name: 'Ä°nek', emoji: 'ğŸ®' },
+                { name: 'Fare', emoji: 'ğŸ­' },
+                { name: 'Koala', emoji: 'ğŸ¨' },
+                { name: 'Penguen', emoji: 'ğŸ§' },
+                { name: 'Civciv', emoji: 'ğŸ¥' },
+                { name: 'BaykuÅŸ', emoji: 'ğŸ¦‰' },
+                { name: 'KurbaÄŸa', emoji: 'ğŸ¸' },
+                { name: 'Yunus', emoji: 'ğŸ¬' },
+                { name: 'Balina', emoji: 'ğŸ³' },
+                { name: 'KÃ¶pekbalÄ±ÄŸÄ±', emoji: 'ğŸ¦ˆ' },
+                { name: 'Ahtapot', emoji: 'ğŸ™' },
+                { name: 'KaplumbaÄŸa', emoji: 'ğŸ¢' },
+                { name: 'YÄ±lan', emoji: 'ğŸ' },
+                { name: 'Timsah', emoji: 'ğŸŠ' },
+                { name: 'Kartal', emoji: 'ğŸ¦…' },
+                { name: 'PapaÄŸan', emoji: 'ğŸ¦œ' }
             ],
             fruits: [
-                { name: 'Elma', emoji: '🍎' },
-                { name: 'Muz', emoji: '🍌' },
-                { name: 'Portakal', emoji: '🍊' },
-                { name: 'Üzüm', emoji: '🍇' },
-                { name: 'Çilek', emoji: '🍓' },
-                { name: 'Karpuz', emoji: '🍉' },
-                { name: 'Kiraz', emoji: '🍒' },
-                { name: 'Şeftali', emoji: '🍑' },
-                { name: 'Armut', emoji: '🍐' },
-                { name: 'Limon', emoji: '🍋' },
-                { name: 'Ananas', emoji: '🍍' },
-                { name: 'Kavun', emoji: '🍈' },
-                { name: 'Hindistan Cevizi', emoji: '🥥' },
-                { name: 'Avokado', emoji: '🥑' },
-                { name: 'Mango', emoji: '🥭' },
-                { name: 'Kivi', emoji: '🥝' },
-                { name: 'Yaban Mersini', emoji: '🫐' },
-                { name: 'Domates', emoji: '🍅' },
-                { name: 'Patlıcan', emoji: '🍆' },
-                { name: 'Havuç', emoji: '🥕' },
-                { name: 'Mısır', emoji: '🌽' },
-                { name: 'Biber', emoji: '🌶️' },
-                { name: 'Salatalık', emoji: '🥒' },
-                { name: 'Brokoli', emoji: '🥦' },
-                { name: 'Sarımsak', emoji: '🧄' },
-                { name: 'Soğan', emoji: '🧅' },
-                { name: 'Patates', emoji: '🥔' },
-                { name: 'Mantar', emoji: '🍄' },
-                { name: 'Fıstık', emoji: '🥜' },
-                { name: 'Kestane', emoji: '🌰' }
+                { name: 'Elma', emoji: 'ğŸ' },
+                { name: 'Muz', emoji: 'ğŸŒ' },
+                { name: 'Portakal', emoji: 'ğŸŠ' },
+                { name: 'ÃœzÃ¼m', emoji: 'ğŸ‡' },
+                { name: 'Ã‡ilek', emoji: 'ğŸ“' },
+                { name: 'Karpuz', emoji: 'ğŸ‰' },
+                { name: 'Kiraz', emoji: 'ğŸ’' },
+                { name: 'Åeftali', emoji: 'ğŸ‘' },
+                { name: 'Armut', emoji: 'ğŸ' },
+                { name: 'Limon', emoji: 'ğŸ‹' },
+                { name: 'Ananas', emoji: 'ğŸ' },
+                { name: 'Kavun', emoji: 'ğŸˆ' },
+                { name: 'Hindistan Cevizi', emoji: 'ğŸ¥¥' },
+                { name: 'Avokado', emoji: 'ğŸ¥‘' },
+                { name: 'Mango', emoji: 'ğŸ¥­' },
+                { name: 'Kivi', emoji: 'ğŸ¥' },
+                { name: 'Yaban Mersini', emoji: 'ğŸ«' },
+                { name: 'Domates', emoji: 'ğŸ…' },
+                { name: 'PatlÄ±can', emoji: 'ğŸ†' },
+                { name: 'HavuÃ§', emoji: 'ğŸ¥•' },
+                { name: 'MÄ±sÄ±r', emoji: 'ğŸŒ½' },
+                { name: 'Biber', emoji: 'ğŸŒ¶ï¸' },
+                { name: 'SalatalÄ±k', emoji: 'ğŸ¥’' },
+                { name: 'Brokoli', emoji: 'ğŸ¥¦' },
+                { name: 'SarÄ±msak', emoji: 'ğŸ§„' },
+                { name: 'SoÄŸan', emoji: 'ğŸ§…' },
+                { name: 'Patates', emoji: 'ğŸ¥”' },
+                { name: 'Mantar', emoji: 'ğŸ„' },
+                { name: 'FÄ±stÄ±k', emoji: 'ğŸ¥œ' },
+                { name: 'Kestane', emoji: 'ğŸŒ°' }
             ],
             vehicles: [
-                { name: 'Araba', emoji: '🚗' },
-                { name: 'Otobüs', emoji: '🚌' },
-                { name: 'Uçak', emoji: '✈️' },
-                { name: 'Gemi', emoji: '🚢' },
-                { name: 'Tren', emoji: '🚂' },
-                { name: 'Bisiklet', emoji: '🚲' },
-                { name: 'Motosiklet', emoji: '🏍️' },
-                { name: 'Helikopter', emoji: '🚁' },
-                { name: 'Roket', emoji: '🚀' },
-                { name: 'Taksi', emoji: '🚕' },
-                { name: 'Ambulans', emoji: '🚑' },
-                { name: 'İtfaiye', emoji: '🚒' },
-                { name: 'Polis', emoji: '🚓' },
-                { name: 'Kamyon', emoji: '🚚' },
-                { name: 'Traktör', emoji: '🚜' },
-                { name: 'Metro', emoji: '🚇' },
-                { name: 'Tramvay', emoji: '🚊' },
-                { name: 'Kayak', emoji: '🛷' },
-                { name: 'Yelkenli', emoji: '⛵' },
-                { name: 'Scooter', emoji: '🛴' },
-                { name: 'Minibüs', emoji: '🚐' },
-                { name: 'Spor Araba', emoji: '🏎️' },
-                { name: 'Kano', emoji: '🛶' },
-                { name: 'Ufo', emoji: '🛸' },
-                { name: 'Paraşüt', emoji: '🪂' },
-                { name: 'Teleferik', emoji: '🚠' },
-                { name: 'Feribot', emoji: '⛴️' },
-                { name: 'Tekerlekli Sandalye', emoji: '🦽' },
-                { name: 'Sepetli Bisiklet', emoji: '🛺' },
-                { name: 'Hız Treni', emoji: '🚄' }
+                { name: 'Araba', emoji: 'ğŸš—' },
+                { name: 'OtobÃ¼s', emoji: 'ğŸšŒ' },
+                { name: 'UÃ§ak', emoji: 'âœˆï¸' },
+                { name: 'Gemi', emoji: 'ğŸš¢' },
+                { name: 'Tren', emoji: 'ğŸš‚' },
+                { name: 'Bisiklet', emoji: 'ğŸš²' },
+                { name: 'Motosiklet', emoji: 'ğŸï¸' },
+                { name: 'Helikopter', emoji: 'ğŸš' },
+                { name: 'Roket', emoji: 'ğŸš€' },
+                { name: 'Taksi', emoji: 'ğŸš•' },
+                { name: 'Ambulans', emoji: 'ğŸš‘' },
+                { name: 'Ä°tfaiye', emoji: 'ğŸš’' },
+                { name: 'Polis', emoji: 'ğŸš“' },
+                { name: 'Kamyon', emoji: 'ğŸšš' },
+                { name: 'TraktÃ¶r', emoji: 'ğŸšœ' },
+                { name: 'Metro', emoji: 'ğŸš‡' },
+                { name: 'Tramvay', emoji: 'ğŸšŠ' },
+                { name: 'Kayak', emoji: 'ğŸ›·' },
+                { name: 'Yelkenli', emoji: 'â›µ' },
+                { name: 'Scooter', emoji: 'ğŸ›´' },
+                { name: 'MinibÃ¼s', emoji: 'ğŸš' },
+                { name: 'Spor Araba', emoji: 'ğŸï¸' },
+                { name: 'Kano', emoji: 'ğŸ›¶' },
+                { name: 'Ufo', emoji: 'ğŸ›¸' },
+                { name: 'ParaÅŸÃ¼t', emoji: 'ğŸª‚' },
+                { name: 'Teleferik', emoji: 'ğŸš ' },
+                { name: 'Feribot', emoji: 'â›´ï¸' },
+                { name: 'Tekerlekli Sandalye', emoji: 'ğŸ¦½' },
+                { name: 'Sepetli Bisiklet', emoji: 'ğŸ›º' },
+                { name: 'HÄ±z Treni', emoji: 'ğŸš„' }
             ],
             objects: [
-                { name: 'Top', emoji: '⚽' },
-                { name: 'Basketbol', emoji: '🏀' },
-                { name: 'Kitap', emoji: '📚' },
-                { name: 'Saat', emoji: '⏰' },
-                { name: 'Telefon', emoji: '📱' },
-                { name: 'Bilgisayar', emoji: '💻' },
-                { name: 'Kamera', emoji: '📷' },
-                { name: 'Şemsiye', emoji: '☂️' },
-                { name: 'Anahtar', emoji: '🔑' },
-                { name: 'Ampul', emoji: '💡' },
-                { name: 'Hediye', emoji: '🎁' },
-                { name: 'Kalem', emoji: '✏️' },
-                { name: 'Gözlük', emoji: '👓' },
-                { name: 'Çanta', emoji: '👜' },
-                { name: 'Şapka', emoji: '🎩' },
-                { name: 'Müzik', emoji: '🎵' },
-                { name: 'Yıldız', emoji: '⭐' },
-                { name: 'Kalp', emoji: '❤️' },
-                { name: 'Gökkuşağı', emoji: '🌈' },
-                { name: 'Çiçek', emoji: '🌸' },
-                { name: 'Güneş', emoji: '☀️' },
-                { name: 'Ay', emoji: '🌙' },
-                { name: 'Bulut', emoji: '☁️' },
-                { name: 'Şimşek', emoji: '⚡' },
-                { name: 'Kar Tanesi', emoji: '❄️' },
-                { name: 'Ateş', emoji: '🔥' },
-                { name: 'Su Damlası', emoji: '💧' },
-                { name: 'Elmas', emoji: '💎' },
-                { name: 'Taç', emoji: '👑' },
-                { name: 'Balon', emoji: '🎈' }
+                { name: 'Top', emoji: 'âš½' },
+                { name: 'Basketbol', emoji: 'ğŸ€' },
+                { name: 'Kitap', emoji: 'ğŸ“š' },
+                { name: 'Saat', emoji: 'â°' },
+                { name: 'Telefon', emoji: 'ğŸ“±' },
+                { name: 'Bilgisayar', emoji: 'ğŸ’»' },
+                { name: 'Kamera', emoji: 'ğŸ“·' },
+                { name: 'Åemsiye', emoji: 'â˜‚ï¸' },
+                { name: 'Anahtar', emoji: 'ğŸ”‘' },
+                { name: 'Ampul', emoji: 'ğŸ’¡' },
+                { name: 'Hediye', emoji: 'ğŸ' },
+                { name: 'Kalem', emoji: 'âœï¸' },
+                { name: 'GÃ¶zlÃ¼k', emoji: 'ğŸ‘“' },
+                { name: 'Ã‡anta', emoji: 'ğŸ‘œ' },
+                { name: 'Åapka', emoji: 'ğŸ©' },
+                { name: 'MÃ¼zik', emoji: 'ğŸµ' },
+                { name: 'YÄ±ldÄ±z', emoji: 'â­' },
+                { name: 'Kalp', emoji: 'â¤ï¸' },
+                { name: 'GÃ¶kkuÅŸaÄŸÄ±', emoji: 'ğŸŒˆ' },
+                { name: 'Ã‡iÃ§ek', emoji: 'ğŸŒ¸' },
+                { name: 'GÃ¼neÅŸ', emoji: 'â˜€ï¸' },
+                { name: 'Ay', emoji: 'ğŸŒ™' },
+                { name: 'Bulut', emoji: 'â˜ï¸' },
+                { name: 'ÅimÅŸek', emoji: 'âš¡' },
+                { name: 'Kar Tanesi', emoji: 'â„ï¸' },
+                { name: 'AteÅŸ', emoji: 'ğŸ”¥' },
+                { name: 'Su DamlasÄ±', emoji: 'ğŸ’§' },
+                { name: 'Elmas', emoji: 'ğŸ’' },
+                { name: 'TaÃ§', emoji: 'ğŸ‘‘' },
+                { name: 'Balon', emoji: 'ğŸˆ' }
             ]
         };
 
         // ============================================
-        // TTS KONTROL SİSTEMİ
+        // TTS KONTROL SÄ°STEMÄ°
         // ============================================
         let ttsEnabled = true;
         const ttsToggleBtn = document.getElementById('tts-toggle');
@@ -1470,15 +1470,15 @@
             ttsEnabled = !ttsEnabled;
             if (ttsEnabled) {
                 ttsToggleBtn.classList.remove('off');
-                ttsToggleBtn.querySelector('.icon').textContent = '🔊';
+                ttsToggleBtn.querySelector('.icon').textContent = 'ğŸ”Š';
             } else {
                 ttsToggleBtn.classList.add('off');
-                ttsToggleBtn.querySelector('.icon').textContent = '🔇';
+                ttsToggleBtn.querySelector('.icon').textContent = 'ğŸ”‡';
             }
         });
 
         // ============================================
-        // SES SİSTEMİ (AudioContext API - Harici Dosya Yok!)
+        // SES SÄ°STEMÄ° (AudioContext API - Harici Dosya Yok!)
         // ============================================
         let audioContext = null;
 
@@ -1491,7 +1491,7 @@
             }
         }
 
-        // Kart Çevirme Sesi (Hafif Click)
+        // Kart Ã‡evirme Sesi (Hafif Click)
         function playFlipSound() {
             if (!audioContext) return;
             const osc = audioContext.createOscillator();
@@ -1511,7 +1511,7 @@
             osc.stop(audioContext.currentTime + 0.08);
         }
 
-        // Doğru Eşleşme Sesi (Neşeli Ding - Major Akor)
+        // DoÄŸru EÅŸleÅŸme Sesi (NeÅŸeli Ding - Major Akor)
         function playMatchSound() {
             if (!audioContext) return;
             const notes = [523.25, 659.25, 783.99]; // C5, E5, G5 (Major akor)
@@ -1536,7 +1536,7 @@
             });
         }
 
-        // Yanlış Eşleşme Sesi (Tok Buzz)
+        // YanlÄ±ÅŸ EÅŸleÅŸme Sesi (Tok Buzz)
         function playErrorSound() {
             if (!audioContext) return;
             const osc = audioContext.createOscillator();
@@ -1581,7 +1581,7 @@
         }
 
         // ============================================
-        // KONUŞMA SİSTEMİ (TTS - Kontrollü)
+        // KONUÅMA SÄ°STEMÄ° (TTS - KontrollÃ¼)
         // ============================================
         let _ttsVoice = null;
         let _ttsVoicesLoaded = false;
@@ -1592,7 +1592,7 @@
             const googleVoice = trVoices.find(v => v.name.includes('Google'));
             _ttsVoice = googleVoice || trVoices[0] || null;
             _ttsVoicesLoaded = true;
-            if (_ttsVoice) console.log('🗣️ Voice:', _ttsVoice.name);
+            if (_ttsVoice) console.log('ğŸ—£ï¸ Voice:', _ttsVoice.name);
         }
 
         const AI_AUDIO_BASE = 'assets/audio/gor-ve-sec';
@@ -1601,15 +1601,15 @@
 
         function normalizeAudioKey(str) {
             return String(str || '')
-                .replace(/I/g, 'ı')
-                .replace(/İ/g, 'i')
+                .replace(/I/g, 'Ä±')
+                .replace(/Ä°/g, 'i')
                 .toLowerCase()
-                .replace(/ç/g, 'c')
-                .replace(/ğ/g, 'g')
-                .replace(/ı/g, 'i')
-                .replace(/ö/g, 'o')
-                .replace(/ş/g, 's')
-                .replace(/ü/g, 'u')
+                .replace(/Ã§/g, 'c')
+                .replace(/ÄŸ/g, 'g')
+                .replace(/Ä±/g, 'i')
+                .replace(/Ã¶/g, 'o')
+                .replace(/ÅŸ/g, 's')
+                .replace(/Ã¼/g, 'u')
                 .replace(/[^a-z0-9]/g, '');
         }
 
@@ -1664,14 +1664,14 @@
             speakWithChildFriendlyVoice(name);
         }
 
-        // Sesleri hazırla (Chrome async fix)
+        // Sesleri hazÄ±rla (Chrome async fix)
         if (window.speechSynthesis) {
             window.speechSynthesis.onvoiceschanged = _loadTTSVoice;
             _loadTTSVoice();
         }
 
         // ============================================
-        // OYUN DEĞİŞKENLERİ
+        // OYUN DEÄÄ°ÅKENLERÄ°
         // ============================================
         let selectedCat = 'animals';
         let selectedSize = 12;
@@ -1684,8 +1684,8 @@
         let time = 0;
         let timerInterval = null;
 
-        // ZAMANLAMA SABİTLERİ
-        const WRONG_CARD_DISPLAY_TIME = 1500; // 1.5 saniye bekle (yanlış eşleşmede)
+        // ZAMANLAMA SABÄ°TLERÄ°
+        const WRONG_CARD_DISPLAY_TIME = 1500; // 1.5 saniye bekle (yanlÄ±ÅŸ eÅŸleÅŸmede)
 
         // DOM Elementleri
         const grid = document.getElementById('grid');
@@ -1698,7 +1698,7 @@
         const replayBtn = document.getElementById('replay-btn');
 
         // ============================================
-        // BUTON OLAY DİNLEYİCİLERİ
+        // BUTON OLAY DÄ°NLEYÄ°CÄ°LERÄ°
         // ============================================
         document.querySelectorAll('#cat-btns .opt-btn').forEach(btn => {
             btn.addEventListener('click', function () {
@@ -1720,7 +1720,7 @@
         replayBtn.addEventListener('click', () => location.reload());
 
         // ============================================
-        // BENZERSİZ RASTGELE SEÇİM (Unique Random)
+        // BENZERSÄ°Z RASTGELE SEÃ‡Ä°M (Unique Random)
         // ============================================
         function getUniqueRandomItems(array, count) {
             const shuffled = [...array];
@@ -1741,7 +1741,7 @@
         }
 
         // ============================================
-        // OYUN BAŞLATMA
+        // OYUN BAÅLATMA
         // ============================================
         function startGame() {
             initAudio();
@@ -1755,13 +1755,13 @@
             moveDisplay.textContent = '0';
             timerDisplay.textContent = '0:00';
 
-            // Eski boyut sınıflarını temizle
+            // Eski boyut sÄ±nÄ±flarÄ±nÄ± temizle
             grid.className = 'cards-grid';
 
-            // Boyut sınıfını ekle
+            // Boyut sÄ±nÄ±fÄ±nÄ± ekle
             grid.classList.add(`size-${selectedSize}`);
 
-            // Sütun sayısını belirle
+            // SÃ¼tun sayÄ±sÄ±nÄ± belirle
             let cols = 4;
             if (selectedSize === 12) cols = 4;
             else if (selectedSize === 16) cols = 4;
@@ -1778,7 +1778,7 @@
             else if (selectedSize === 60) cols = 10;
             grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
-            // === BENZERSİZ ÇİFT SEÇİMİ ===
+            // === BENZERSÄ°Z Ã‡Ä°FT SEÃ‡Ä°MÄ° ===
             const items = categories[selectedCat];
             const pairsNeeded = selectedSize / 2;
 
@@ -1798,12 +1798,12 @@
                 card.classList.add('memory-card');
                 card.dataset.name = item.name;
 
-                // Ön Yüz (Kapalı - BEYAZ)
+                // Ã–n YÃ¼z (KapalÄ± - BEYAZ)
                 const frontFace = document.createElement('div');
                 frontFace.classList.add('front-face');
-                frontFace.innerHTML = '❓';
+                frontFace.innerHTML = 'â“';
 
-                // Arka Yüz (BÜYÜK Emoji)
+                // Arka YÃ¼z (BÃœYÃœK Emoji)
                 const backFace = document.createElement('div');
                 backFace.classList.add('back-face');
                 backFace.innerHTML = `<span class="emoji">${item.emoji}</span>`;
@@ -1819,7 +1819,7 @@
         }
 
         // ============================================
-        // KART ÇEVİRME
+        // KART Ã‡EVÄ°RME
         // ============================================
         function flipCard() {
             if (lockBoard) return;
@@ -1842,7 +1842,7 @@
         }
 
         // ============================================
-        // EŞLEŞME KONTROLÜ
+        // EÅLEÅME KONTROLÃœ
         // ============================================
         function checkForMatch() {
             const isMatch = firstCard.dataset.name === secondCard.dataset.name;
@@ -1863,7 +1863,7 @@
                 firstCard.classList.add('matched');
                 secondCard.classList.add('matched');
 
-                // İsmi seslendir (TTS - sadece aktifse)
+                // Ä°smi seslendir (TTS - sadece aktifse)
                 speakName(firstCard.dataset.name);
 
                 matchedPairs++;
@@ -1878,14 +1878,14 @@
         function unflipCards() {
             lockBoard = true;
 
-            // Hemen yanlış efekti göster
+            // Hemen yanlÄ±ÅŸ efekti gÃ¶ster
             setTimeout(() => {
                 playErrorSound();
                 firstCard.classList.add('wrong');
                 secondCard.classList.add('wrong');
             }, 300);
 
-            // 1.5 SANİYE BEKLE - Çocuk kartların yerini ezberlesin!
+            // 1.5 SANÄ°YE BEKLE - Ã‡ocuk kartlarÄ±n yerini ezberlesin!
             setTimeout(() => {
                 firstCard.classList.remove('flipped', 'wrong');
                 secondCard.classList.remove('flipped', 'wrong');
@@ -1946,18 +1946,18 @@
                 document.getElementById('final-time').textContent = timerDisplay.textContent;
                 document.getElementById('final-moves').textContent = moves;
 
-                let stars = '⭐';
+                let stars = 'â­';
                 const optimalMoves = selectedSize;
                 if (moves <= optimalMoves) {
-                    stars = '⭐⭐⭐';
+                    stars = 'â­â­â­';
                 } else if (moves <= optimalMoves * 1.5) {
-                    stars = '⭐⭐';
+                    stars = 'â­â­';
                 }
                 document.getElementById('stars').textContent = stars;
 
                 winModal.style.display = 'flex';
 
-                // Tebrik mesajı (TTS aktifse)
+                // Tebrik mesajÄ± (TTS aktifse)
                 setTimeout(() => {
                     speakName('Tebrikler! Hepsini buldun!');
                 }, 500);
@@ -1965,6 +1965,12 @@
             }, 600);
         }
     </script>
+<script>
+(function(){
+  document.addEventListener("contextmenu", function(e){ e.preventDefault(); }, { capture: true });
+})();
+</script>
 </body>
 
 </html>
+

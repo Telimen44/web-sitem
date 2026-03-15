@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sihirli Orman Hazineleri - 3D Eğitim Oyunu</title>
+    <title>Sihirli Orman Hazineleri - 3D EÄŸitim Oyunu</title>
     <script src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/cannon@0.6.2/build/cannon.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
@@ -168,10 +168,10 @@
 
     <div class="ui-overlay">
         <div class="glass ui-element p-5 m-4 max-w-md flex items-center gap-4">
-            <div class="mascot bounce text-6xl">🦊</div>
+            <div class="mascot bounce text-6xl">ğŸ¦Š</div>
             <div class="flex-1">
                 <h2 class="text-2xl font-black text-white mb-1" id="levelTitle">Seviye 1</h2>
-                <p class="text-lg text-yellow-100 font-bold" id="question">Ağaçta kaç elma var?</p>
+                <p class="text-lg text-yellow-100 font-bold" id="question">AÄŸaÃ§ta kaÃ§ elma var?</p>
             </div>
             <div class="text-center">
                 <div class="text-3xl font-black text-yellow-300" id="score">0</div>
@@ -180,7 +180,7 @@
         </div>
 
         <button onclick="game.speak()"
-            class="ui-element fixed top-5 right-5 w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-2xl shadow-lg hover:scale-110 transition">🔊</button>
+            class="ui-element fixed top-5 right-5 w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-2xl shadow-lg hover:scale-110 transition">ğŸ”Š</button>
 
         <div id="answerButtons"></div>
 
@@ -188,7 +188,7 @@
             style="transform: translate(-50%, -50%); z-index: 200;">
             <button onclick="game.nextLevel()"
                 class="rainbow-glow bg-gradient-to-r from-green-400 via-blue-500 to-purple-500 px-12 py-6 rounded-full text-3xl font-black text-white cursor-pointer pulse-grow shadow-2xl">
-                🎉 DEVAM ET! 🎉
+                ğŸ‰ DEVAM ET! ğŸ‰
             </button>
         </div>
 
@@ -203,12 +203,12 @@
             raycaster: new THREE.Raycaster(), mouse: new THREE.Vector2(),
             basketCenter: new THREE.Vector3(0, 1.5, 0),
 
-            encouragements: ['🌟 HARİKA!', '👏 SÜPER!', '🎉 MÜKEMMEL!', '⭐ AFERIN!', '🏆 ŞAMPİYON!', '💪 BRAVO!'],
+            encouragements: ['ğŸŒŸ HARÄ°KA!', 'ğŸ‘ SÃœPER!', 'ğŸ‰ MÃœKEMMEL!', 'â­ AFERIN!', 'ğŸ† ÅAMPÄ°YON!', 'ğŸ’ª BRAVO!'],
 
             levels: [
-                { name: '🍎 Elma Ağacı', question: 'Ağaçta kaç elma var?', count: 5, type: 'tree' },
-                { name: '🍓 Çilek Sepeti', question: 'Çileklere dokun!', count: 6, type: 'basket' },
-                { name: '🐠 Akvaryum', question: 'Kaç balık var?', count: 7, type: 'aquarium' }
+                { name: 'ğŸ Elma AÄŸacÄ±', question: 'AÄŸaÃ§ta kaÃ§ elma var?', count: 5, type: 'tree' },
+                { name: 'ğŸ“ Ã‡ilek Sepeti', question: 'Ã‡ileklere dokun!', count: 6, type: 'basket' },
+                { name: 'ğŸ  Akvaryum', question: 'KaÃ§ balÄ±k var?', count: 7, type: 'aquarium' }
             ],
 
             init() {
@@ -220,8 +220,8 @@
                 this.animate();
                 this.setupEvents();
                 setTimeout(() => {
-                    this.showEncouragement('🎮 MERHABA!');
-                    this.speak('Merhaba! Haydi oynayalım!');
+                    this.showEncouragement('ğŸ® MERHABA!');
+                    this.speak('Merhaba! Haydi oynayalÄ±m!');
                 }, 500);
             },
 
@@ -295,7 +295,7 @@
 
                 document.getElementById('levelTitle').textContent = `Seviye ${num}: ${level.name}`;
                 document.getElementById('question').textContent = level.question;
-                document.querySelector('.mascot').textContent = ['🦊', '🐰', '🐸'][num - 1];
+                document.querySelector('.mascot').textContent = ['ğŸ¦Š', 'ğŸ°', 'ğŸ¸'][num - 1];
 
                 const colors = [0x87CEEB, 0xffb6c1, 0x1a5276];
                 this.scene.background = new THREE.Color(colors[num - 1]);
@@ -619,7 +619,7 @@
                     this.score += 100;
                     this.stars++;
                     document.getElementById('score').textContent = this.score;
-                    document.getElementById('stars').textContent = '⭐'.repeat(this.stars);
+                    document.getElementById('stars').textContent = 'â­'.repeat(this.stars);
 
                     this.showEncouragement(this.encouragements[Math.floor(Math.random() * this.encouragements.length)]);
                     this.playSuccessSound();
@@ -648,7 +648,7 @@
                 if (this.currentLevel < 3) {
                     this.loadLevel(this.currentLevel + 1);
                 } else {
-                    this.showEncouragement('🏆 TEBRİKLER!');
+                    this.showEncouragement('ğŸ† TEBRÄ°KLER!');
                     this.speak('Tebrikler! Oyunu bitirdin!');
                     setTimeout(() => {
                         this.loadLevel(1);
@@ -729,7 +729,7 @@
                 const googleVoice = trVoices.find(v => v.name.includes('Google'));
                 this._ttsVoice = googleVoice || trVoices[0] || null;
                 this._ttsVoicesLoaded = true;
-                if (this._ttsVoice) console.log('🗣️ Voice:', this._ttsVoice.name);
+                if (this._ttsVoice) console.log('ğŸ—£ï¸ Voice:', this._ttsVoice.name);
             },
 
             _ttsAudioPlayer: null,
@@ -737,15 +737,15 @@
 
             normalizeAudioKey(text) {
                 return String(text || '')
-                    .replace(/I/g, 'ı')
-                    .replace(/İ/g, 'i')
+                    .replace(/I/g, 'Ä±')
+                    .replace(/Ä°/g, 'i')
                     .toLowerCase()
-                    .replace(/ç/g, 'c')
-                    .replace(/ğ/g, 'g')
-                    .replace(/ı/g, 'i')
-                    .replace(/ö/g, 'o')
-                    .replace(/ş/g, 's')
-                    .replace(/ü/g, 'u')
+                    .replace(/Ã§/g, 'c')
+                    .replace(/ÄŸ/g, 'g')
+                    .replace(/Ä±/g, 'i')
+                    .replace(/Ã¶/g, 'o')
+                    .replace(/ÅŸ/g, 's')
+                    .replace(/Ã¼/g, 'u')
                     .replace(/[^a-z0-9]/g, '');
             },
 
@@ -910,6 +910,12 @@
         };
 
     </script>
+<script>
+(function(){
+  document.addEventListener("contextmenu", function(e){ e.preventDefault(); }, { capture: true });
+})();
+</script>
 </body>
 
 </html>
+
