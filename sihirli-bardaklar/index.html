@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sihirli Bardaklar: Topu Bul</title>
+  <meta name="description" content="Sihirli Bardaklar oyununda topu takip et ve doğru bardağı seç! 8 seviyeli dikkat ve takip oyunu." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:      #7c3aed;
+      --purple-dark: #5b21b6;
+      --purple-light:#a78bfa;
+      --gold:        #f59e0b;
+      --gold-dark:   #b45309;
+      --gold-light:  #fde68a;
+      --bg-stage:    #1a0a2e;
+      --text-light:  #f5f3ff;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg-stage);
+      color: var(--text-light);
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* ── STAGE ── */
+    #stage {
+      position: relative;
+      width: 100vw; height: 100vh;
+      overflow: hidden;
+    }
+    #stage-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 100%, #3b0764 0%, #1a0a2e 70%);
+    }
+    .stage-floor {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 30%;
+      background: linear-gradient(to top, #4c1d95 0%, #2e1065 60%, transparent 100%);
+      border-radius: 50% 50% 0 0 / 20% 20% 0 0;
+    }
+    .curtain {
+      position: absolute; top: 0; bottom: 0; width: 22%;
+      background: linear-gradient(to right, #7f1d1d, #991b1b 40%, #7f1d1d);
+    }
+    .curtain-left  { left: 0; }
+    .curtain-right { right: 0; }
+    .curtain-left::after, .curtain-right::after {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(90deg,
+        rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 4px,
+        transparent 4px, transparent 20px);
+    }
+    .curtain-top {
+      position: absolute; top: 0; left: 0; right: 0; height: 80px; z-index: 2;
+      background: linear-gradient(to bottom, #7f1d1d, #991b1b);
+      clip-path: polygon(0 0,100% 0,95% 100%,85% 70%,75% 100%,65% 70%,55% 100%,45% 70%,35% 100%,25% 70%,15% 100%,5% 70%,0 100%);
+    }
+    .spotlight {
+      position: absolute; top: 0; width: 200px; height: 60%;
+      opacity: 0.08; pointer-events: none;
+    }
+    .spotlight-left {
+      left: 22%;
+      background: linear-gradient(to bottom, #fff 0%, transparent 100%);
+      clip-path: polygon(30% 0%,70% 0%,100% 100%,0% 100%);
+      transform: rotate(-5deg);
+    }
+    .spotlight-right {
+      right: 22%;
+      background: linear-gradient(to bottom, #fff 0%, transparent 100%);
+      clip-path: polygon(30% 0%,70% 0%,100% 100%,0% 100%);
+      transform: rotate(5deg);
+    }
+    .star-field { position: absolute; inset: 0; pointer-events: none; }
+    .star {
+      position: absolute; border-radius: 50%; background: white;
+      animation: twinkle var(--dur,3s) infinite alternate;
+    }
+    @keyframes twinkle {
+      from { opacity: 0.2; transform: scale(1); }
+      to   { opacity: 1;   transform: scale(1.4); }
+    }
+    .audience { position: absolute; bottom: 0; left: 0; right: 0; pointer-events: none; }
+    svg.audience-svg { width: 100%; height: auto; display: block; }
+
+    /* ── HUD ── */
+    #hud {
+      position: absolute; top: 16px; right: 24px;
+      display: flex; gap: 16px; z-index: 100;
+    }
+    .hud-pill {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(124,58,237,0.85);
+      border: 2px solid var(--purple-light);
+      border-radius: 50px; padding: 8px 18px;
+      font-size: 1.1rem; font-weight: 800;
+      box-shadow: 0 0 20px rgba(167,139,250,0.4);
+      backdrop-filter: blur(6px);
+    }
+    .hud-pill .icon { font-size: 1.3rem; }
+
+    /* ── INSTRUCTION BAR ── */
+    #instruction-bar {
+      position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+      background: rgba(124,58,237,0.85);
+      border: 2px solid var(--purple-light); border-radius: 50px;
+      padding: 10px 32px; font-size: 1.1rem; font-weight: 700;
+      box-shadow: 0 0 24px rgba(167,139,250,0.4); backdrop-filter: blur(6px);
+      z-index: 100; white-space: nowrap; transition: opacity 0.3s;
+    }
+
+    /* ── GAME AREA ── */
+    #game-area {
+      position: absolute;
+      left: 22%; right: 22%;
+      top: 100px; bottom: 120px;
+    }
+
+    /* ── CUPS ── */
+    .cup-wrapper {
+      position: absolute;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .cup-wrapper.disabled { cursor: default; }
+    .cup-body svg {
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.7));
+      transition: transform 0.15s, filter 0.2s;
+    }
+    .cup-wrapper:hover:not(.disabled) .cup-body svg {
+      transform: scale(1.05);
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.7)) brightness(1.2);
+    }
+
+    /* ── BALL ── */
+    /* Topun kendi CSS sınıfı — gameArea'da bağımsız bir eleman */
+    .ball {
+      position: absolute;
+      border-radius: 50%;
+      background: conic-gradient(
+        #ef4444 0deg 60deg, #f97316 60deg 120deg,
+        #eab308 120deg 180deg, #22c55e 180deg 240deg,
+        #3b82f6 240deg 300deg, #a855f7 300deg 360deg
+      );
+      box-shadow: 0 0 18px rgba(255,255,255,0.5), inset -4px -4px 10px rgba(0,0,0,0.4);
+      pointer-events: none;
+      z-index: 1; /* bardakların (z:10) ALTINDA */
+    }
+    .ball::after {
+      content: ''; position: absolute;
+      top: 12%; left: 18%; width: 35%; height: 25%;
+      background: rgba(255,255,255,0.45);
+      border-radius: 50%; transform: rotate(-30deg);
+    }
+
+    /* ── CUP ANIMATIONS ── */
+    @keyframes shimmer-ring {
+      0%   { box-shadow: 0 0 0 0px rgba(253,230,138,0.8); }
+      100% { box-shadow: 0 0 0 36px rgba(253,230,138,0); }
+    }
+    .cup-winner { animation: shimmer-ring 0.7s ease-out 3; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-10px); }
+      40% { transform: translateX(10px); }
+      60% { transform: translateX(-7px); }
+      80% { transform: translateX(7px); }
+    }
+    .cup-shake { animation: shake 0.5s ease; }
+
+    /* ── OVERLAYS ── */
+    .overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 200; background: rgba(10,4,30,0.82);
+      backdrop-filter: blur(6px); transition: opacity 0.4s;
+    }
+    .overlay.hidden { opacity: 0; pointer-events: none; }
+
+    .overlay-card {
+      background: linear-gradient(135deg, rgba(91,33,182,0.95), rgba(30,12,60,0.95));
+      border: 2px solid var(--purple-light); border-radius: 28px;
+      padding: 40px 60px; text-align: center;
+      box-shadow: 0 0 60px rgba(167,139,250,0.4), 0 0 120px rgba(124,58,237,0.2);
+      max-width: 520px; width: 90%;
+    }
+    .overlay-title {
+      font-family: 'Fredoka One', cursive; font-size: 2.6rem;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .overlay-subtitle { font-size: 1.15rem; color: #c4b5fd; margin-bottom: 28px; line-height: 1.6; }
+
+    #countdown-num {
+      font-family: 'Fredoka One', cursive; font-size: 6rem;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      animation: pulse-num 0.9s ease-in-out;
+    }
+    @keyframes pulse-num {
+      0%   { transform: scale(0.4); opacity: 0; }
+      60%  { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 36px; border: none; border-radius: 50px;
+      font-family: 'Nunito', sans-serif; font-size: 1.1rem; font-weight: 800;
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover  { transform: translateY(-3px); }
+    .btn:active { transform: translateY(0); }
+    .btn-primary  { background: linear-gradient(135deg,var(--gold),var(--gold-dark)); color:#1a0a2e; box-shadow:0 8px 30px rgba(245,158,11,0.5); }
+    .btn-secondary{ background: linear-gradient(135deg,var(--purple),var(--purple-dark)); color:white; box-shadow:0 8px 30px rgba(124,58,237,0.5); }
+    .btn-group { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+
+    .result-icon { font-size: 4rem; margin-bottom: 8px; }
+    .result-points {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,158,11,0.2); border: 2px solid var(--gold);
+      border-radius: 50px; padding: 8px 24px;
+      font-size: 1.3rem; font-weight: 800; color: var(--gold-light);
+      margin-bottom: 24px;
+    }
+
+    /* ── PARTICLES ── */
+    #particle-canvas { position:absolute; inset:0; pointer-events:none; z-index:150; }
+
+    /* ── FLOAT TEXT ── */
+    @keyframes float-up {
+      0%   { opacity:0; transform:translateX(-50%) translateY(40px) scale(0.7); }
+      20%  { opacity:1; transform:translateX(-50%) translateY(0)    scale(1.1); }
+      80%  { opacity:1; transform:translateX(-50%) translateY(0)    scale(1);   }
+      100% { opacity:0; transform:translateX(-50%) translateY(-40px) scale(0.9); }
+    }
+    .float-text {
+      position:absolute; left:50%; top:38%;
+      transform:translateX(-50%);
+      font-family:'Fredoka One',cursive; font-size:3.2rem;
+      pointer-events:none; z-index:180;
+      animation: float-up 2.2s ease forwards;
+      white-space:nowrap;
+    }
+
+    /* ── PROGRESS DOTS ── */
+    .level-progress { display:flex; gap:6px; justify-content:center; margin-top:16px; }
+    .level-dot {
+      width:12px; height:12px; border-radius:50%;
+      background:rgba(255,255,255,0.2); border:2px solid rgba(255,255,255,0.3);
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .level-dot.done   { background:var(--gold);         border-color:var(--gold-dark); }
+    .level-dot.active { background:var(--purple-light); border-color:white; }
+
+    @media (max-width: 640px) {
+      #game-area { left:5%; right:5%; }
+      .curtain { width:6%; }
+      .overlay-card { padding:24px 20px; }
+      .overlay-title { font-size:1.8rem; }
+    }
+
+    /* ── HOME BUTTON ── */
+    .home-btn {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      z-index: 1000;
+      background: rgba(124, 58, 237, 0.85);
+      border: 2px solid var(--purple-light);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: white;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter: blur(6px);
+    }
+    .home-btn:hover {
+      transform: scale(1.1) rotate(-5deg);
+      background: var(--purple);
+      box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
+    }
+    .home-btn svg {
+      width: 26px;
+      height: 26px;
+      stroke: white;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
+</head>
+<body>
+
+<div id="stage">
+  <!-- Ana Sayfa Butonu -->
+  <a href="../index.html" class="home-btn" title="Ana Sayfaya Dön">
+    <svg viewBox="0 0 24 24">
+      <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+      <polyline points="9 22 9 12 15 12 15 22"></polyline>
+    </svg>
+  </a>
+
+  <div id="stage-bg"></div>
+  <div class="star-field" id="stars"></div>
+
+  <div class="curtain curtain-left"></div>
+  <div class="curtain curtain-right"></div>
+  <div class="curtain-top"></div>
+  <div class="stage-floor"></div>
+
+  <div class="spotlight spotlight-left"></div>
+  <div class="spotlight spotlight-right"></div>
+
+  <!-- Seyirci silüetleri -->
+  <div class="audience">
+    <svg class="audience-svg" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg">
+      <g fill="#0d0520" opacity="0.9">
+        <ellipse cx="60"  cy="90" rx="22" ry="28"/><ellipse cx="120" cy="85" rx="20" ry="25"/>
+        <ellipse cx="180" cy="92" rx="22" ry="28"/><ellipse cx="240" cy="88" rx="20" ry="26"/>
+        <ellipse cx="300" cy="90" rx="22" ry="28"/><ellipse cx="360" cy="86" rx="20" ry="25"/>
+        <ellipse cx="420" cy="91" rx="22" ry="28"/><ellipse cx="480" cy="88" rx="20" ry="26"/>
+        <ellipse cx="540" cy="90" rx="22" ry="28"/><ellipse cx="600" cy="86" rx="20" ry="25"/>
+        <ellipse cx="660" cy="91" rx="22" ry="28"/><ellipse cx="720" cy="88" rx="20" ry="26"/>
+        <ellipse cx="780" cy="90" rx="22" ry="28"/><ellipse cx="840" cy="86" rx="20" ry="25"/>
+        <ellipse cx="900" cy="91" rx="22" ry="28"/><ellipse cx="960" cy="88" rx="20" ry="26"/>
+        <ellipse cx="1020" cy="90" rx="22" ry="28"/><ellipse cx="1080" cy="86" rx="20" ry="25"/>
+        <ellipse cx="1140" cy="91" rx="22" ry="28"/>
+        <rect x="30"  y="100" width="60" height="25" rx="12"/>
+        <rect x="90"  y="96"  width="60" height="25" rx="12"/>
+        <rect x="150" y="102" width="60" height="25" rx="12"/>
+        <rect x="210" y="98"  width="60" height="25" rx="12"/>
+        <rect x="270" y="100" width="60" height="25" rx="12"/>
+        <rect x="330" y="96"  width="60" height="25" rx="12"/>
+        <rect x="390" y="102" width="60" height="25" rx="12"/>
+        <rect x="450" y="98"  width="60" height="25" rx="12"/>
+        <rect x="510" y="100" width="60" height="25" rx="12"/>
+        <rect x="570" y="96"  width="60" height="25" rx="12"/>
+        <rect x="630" y="102" width="60" height="25" rx="12"/>
+        <rect x="690" y="98"  width="60" height="25" rx="12"/>
+        <rect x="750" y="100" width="60" height="25" rx="12"/>
+        <rect x="810" y="96"  width="60" height="25" rx="12"/>
+        <rect x="870" y="102" width="60" height="25" rx="12"/>
+        <rect x="930" y="98"  width="60" height="25" rx="12"/>
+        <rect x="990" y="100" width="60" height="25" rx="12"/>
+        <rect x="1050" y="96" width="60" height="25" rx="12"/>
+        <rect x="1110" y="102" width="60" height="25" rx="12"/>
+        <rect x="0" y="118" width="1200" height="10"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div class="hud-pill"><span class="icon">🪙</span><span id="score-display">0</span></div>
+    <div class="hud-pill"><span class="icon">🎯</span><span id="level-display">1/8</span></div>
+  </div>
+
+  <div id="instruction-bar">Sihirli Bardaklar'a Hoş Geldin!</div>
+  <div id="game-area"></div>
+  <canvas id="particle-canvas"></canvas>
+</div>
+
+<!-- OVERLAYS -->
+<div class="overlay" id="intro-screen">
+  <div class="overlay-card">
+    <div class="overlay-title">🎩 Sihirli Bardaklar</div>
+    <div class="overlay-subtitle">Topu takip et ve hangi bardağın altında olduğunu bul!<br/>8 seviye, artan zorluk.</div>
+    <div class="level-progress" id="intro-progress"></div>
+    <br/>
+    <div id="countdown-area" style="display:none;">
+      <div id="countdown-num">3</div>
+    </div>
+    <div id="intro-btn-area">
+      <button class="btn btn-primary" onclick="startGame()">🎮 Oyunu Başlat</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay hidden" id="result-screen">
+  <div class="overlay-card">
+    <div class="result-icon" id="result-icon">🎉</div>
+    <div class="overlay-title" id="result-title">Kazandın!</div>
+    <div class="overlay-subtitle" id="result-subtitle">Harika!</div>
+    <div class="result-points" id="result-points" style="display:none;">
+      <span>🪙</span><span id="result-pts-val">+25</span>
+    </div>
+    <div class="btn-group" id="result-btns"></div>
+  </div>
+</div>
+
+<div class="overlay hidden" id="final-screen">
+  <div class="overlay-card">
+    <div class="result-icon">🏆</div>
+    <div class="overlay-title">Tebrikler!</div>
+    <div class="overlay-subtitle" id="final-subtitle">Tüm seviyeleri tamamladın!</div>
+    <div class="result-points"><span>🪙</span><span id="final-score">0</span></div>
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="restartAll()">🔄 Tekrar Oyna</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   AUDIO
+============================================================ */
+let audioCtx = null;
+function ensureAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext||window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+function playTone(freq, type='sine', dur=0.15, vol=0.3, delay=0) {
+  ensureAudio();
+  const t   = audioCtx.currentTime + delay;
+  const osc = audioCtx.createOscillator();
+  const gain= audioCtx.createGain();
+  osc.connect(gain); gain.connect(audioCtx.destination);
+  osc.frequency.setValueAtTime(freq, t); osc.type = type;
+  gain.gain.setValueAtTime(vol, t);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + dur);
+  osc.start(t); osc.stop(t + dur);
+}
+function playCountdownBeep(n) {
+  if (n > 0) playTone(440 + n*80,'sine',0.2,0.4);
+  else [0,0.08,0.16].forEach((d,i)=> playTone(600+i*120,'triangle',0.15,0.4,d));
+}
+function playShuffleSound() { playTone(320,'sine',0.07,0.1); }
+function playCoinSound() { [0,0.06,0.12,0.2].forEach((d,i)=> playTone(600+i*200,'sine',0.12,0.35,d)); }
+function playWinSound()  { [523,659,784,1047].forEach((f,i)=> playTone(f,'sine',0.25,0.4,i*0.15)); }
+function playLoseSound() { [0,0.12].forEach((d,i)=> playTone(220-i*60,'sawtooth',0.25,0.4,d)); }
+function playCurtainSound() {
+  ensureAudio();
+  const t=audioCtx.currentTime, osc=audioCtx.createOscillator(), g=audioCtx.createGain();
+  osc.connect(g); g.connect(audioCtx.destination);
+  osc.frequency.setValueAtTime(80,t); osc.frequency.linearRampToValueAtTime(400,t+0.6);
+  osc.type='sawtooth'; g.gain.setValueAtTime(0.2,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.7);
+  osc.start(t); osc.stop(t+0.8);
+}
+function playRevealSound() { [0,0.07,0.14].forEach((d,i)=> playTone(700+i*250,'sine',0.15,0.35,d)); }
+
+/* ============================================================
+   STARS
+============================================================ */
+(function() {
+  const sf = document.getElementById('stars');
+  for (let i=0;i<60;i++) {
+    const s=document.createElement('div'); s.className='star';
+    const sz=Math.random()*3+1;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*60}%;--dur:${(Math.random()*3+2).toFixed(1)}s;animation-delay:${(Math.random()*3).toFixed(1)}s;`;
+    sf.appendChild(s);
+  }
+})();
+
+/* ============================================================
+   LEVEL CONFIG  — özel eğitim / ilkokul hızları
+   speed = ms (her hareket animasyon süresi)   moves = yer değiştirme sayısı
+============================================================ */
+const LEVELS = [
+  { n:1, cups:3, speed:1600, moves:4,  reward:25  },
+  { n:2, cups:3, speed:1300, moves:5,  reward:25  },
+  { n:3, cups:3, speed:1050, moves:7,  reward:25  },
+  { n:4, cups:4, speed:1100, moves:6,  reward:50  },
+  { n:5, cups:4, speed:900,  moves:8,  reward:50  },
+  { n:6, cups:4, speed:720,  moves:10, reward:50  },
+  { n:7, cups:5, speed:680,  moves:10, reward:100 },
+  { n:8, cups:5, speed:520,  moves:14, reward:100 },
+];
+
+/* ============================================================
+   GAME STATE
+   state.ballCup → topun olduğu bardağa DOĞRUDAN nesne referansı.
+   Index takibi yok; swap sonrası güncelleme gerekmez.
+============================================================ */
+const state = {
+  level: 0, score: 0, phase: 'intro',
+  cups: [],
+  ballCup: null,   // ← nesne referansı (index değil)
+  canPick: false,
+};
+
+/* DOM */
+const gameArea       = document.getElementById('game-area');
+const instructionBar = document.getElementById('instruction-bar');
+const scoreDisplay   = document.getElementById('score-display');
+const levelDisplay   = document.getElementById('level-display');
+const particleCanvas = document.getElementById('particle-canvas');
+const pcx            = particleCanvas.getContext('2d');
+
+/* ============================================================
+   PARTICLES
+============================================================ */
+let particles=[];
+function resizeCanvas(){ particleCanvas.width=window.innerWidth; particleCanvas.height=window.innerHeight; }
+window.addEventListener('resize',resizeCanvas); resizeCanvas();
+
+function spawnParticles(x,y,count,colors){
+  for(let i=0;i<count;i++){
+    const angle=Math.random()*Math.PI*2, speed=Math.random()*6+2;
+    particles.push({x,y,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed-3,
+      life:1,decay:Math.random()*0.02+0.012,size:Math.random()*8+4,
+      color:colors[Math.floor(Math.random()*colors.length)],
+      rotation:Math.random()*360,rotSpeed:(Math.random()-0.5)*10});
+  }
+}
+function animParticles(){
+  pcx.clearRect(0,0,particleCanvas.width,particleCanvas.height);
+  particles=particles.filter(p=>p.life>0);
+  particles.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy; p.vy+=0.18;
+    p.life-=p.decay; p.rotation+=p.rotSpeed;
+    pcx.save(); pcx.globalAlpha=p.life;
+    pcx.translate(p.x,p.y); pcx.rotate(p.rotation*Math.PI/180);
+    pcx.fillStyle=p.color; pcx.fillRect(-p.size/2,-p.size/2,p.size,p.size);
+    pcx.restore();
+  });
+  requestAnimationFrame(animParticles);
+}
+animParticles();
+
+/* ============================================================
+   PROGRESS DOTS
+============================================================ */
+function buildProgressDots(el){
+  el.innerHTML='';
+  LEVELS.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='level-dot'+(i<state.level?' done':i===state.level?' active':'');
+    el.appendChild(d);
+  });
+}
+
+/* ============================================================
+   CUP SVG
+============================================================ */
+function makeStar(ns,cx,cy,r,color,opacity=1){
+  const pts=[];
+  for(let i=0;i<10;i++){
+    const a=(i*Math.PI/5)-Math.PI/2, rad=i%2===0?r:r*0.4;
+    pts.push(`${cx+rad*Math.cos(a)},${cy+rad*Math.sin(a)}`);
+  }
+  const pol=document.createElementNS(ns,'polygon');
+  pol.setAttribute('points',pts.join(' ')); pol.setAttribute('fill',color); pol.setAttribute('opacity',opacity);
+  return pol;
+}
+
+function makeCupSVG(w,h){
+  const rTop=w*0.45, rBot=w*0.50, ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg');
+  svg.setAttribute('width',w); svg.setAttribute('height',h); svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
+
+  const defs=document.createElementNS(ns,'defs');
+  const lg=document.createElementNS(ns,'linearGradient');
+  lg.setAttribute('id','cupGrad'); lg.setAttribute('x1','0%'); lg.setAttribute('y1','0%');
+  lg.setAttribute('x2','100%'); lg.setAttribute('y2','0%');
+  [['0%','#9f7aea'],['40%','#7c3aed'],['80%','#5b21b6'],['100%','#4c1d95']].forEach(([off,col])=>{
+    const s=document.createElementNS(ns,'stop'); s.setAttribute('offset',off); s.setAttribute('stop-color',col); lg.appendChild(s);
+  });
+  defs.appendChild(lg);
+  const rg=document.createElementNS(ns,'radialGradient'); rg.setAttribute('id','rimGrad');
+  [['0%','#c4b5fd'],['100%','#7c3aed']].forEach(([off,col])=>{
+    const s=document.createElementNS(ns,'stop'); s.setAttribute('offset',off); s.setAttribute('stop-color',col); rg.appendChild(s);
+  });
+  defs.appendChild(rg); svg.appendChild(defs);
+
+  const bodyTop=18, bodyBot=h-22, bodyH=bodyBot-bodyTop, cx=w/2;
+  const path=document.createElementNS(ns,'path');
+  path.setAttribute('d',`M${cx-rTop},${bodyTop} Q${cx},${bodyTop-8} ${cx+rTop},${bodyTop} L${cx+rBot},${bodyBot} Q${cx},${bodyBot+8} ${cx-rBot},${bodyBot} Z`);
+  path.setAttribute('fill','url(#cupGrad)'); svg.appendChild(path);
+
+  const hl=document.createElementNS(ns,'path');
+  hl.setAttribute('d',`M${cx-rTop*0.5},${bodyTop+4} L${cx-rBot*0.4},${bodyBot-4} Q${cx-rBot*0.2},${bodyBot} ${cx},${bodyBot-2} L${cx},${bodyTop+2} Z`);
+  hl.setAttribute('fill','rgba(255,255,255,0.08)'); svg.appendChild(hl);
+
+  [[cx,bodyTop+bodyH*0.25,9],[cx-rTop*0.5,bodyTop+bodyH*0.55,7],
+   [cx+rTop*0.5,bodyTop+bodyH*0.55,7],[cx,bodyTop+bodyH*0.75,8]].forEach(([sx,sy,sr])=>{
+    svg.appendChild(makeStar(ns,sx,sy,sr,'#fbbf24',0.9));
+  });
+
+  const rimEl=document.createElementNS(ns,'ellipse');
+  rimEl.setAttribute('cx',cx); rimEl.setAttribute('cy',bodyTop); rimEl.setAttribute('rx',rTop); rimEl.setAttribute('ry',10);
+  rimEl.setAttribute('fill','url(#rimGrad)'); rimEl.setAttribute('opacity','0.9'); svg.appendChild(rimEl);
+
+  const baseEl=document.createElementNS(ns,'ellipse');
+  baseEl.setAttribute('cx',cx); baseEl.setAttribute('cy',bodyBot); baseEl.setAttribute('rx',rBot); baseEl.setAttribute('ry',12);
+  baseEl.setAttribute('fill','#4c1d95'); svg.appendChild(baseEl);
+
+  const rim2=document.createElementNS(ns,'ellipse');
+  rim2.setAttribute('cx',cx); rim2.setAttribute('cy',bodyTop); rim2.setAttribute('rx',rTop); rim2.setAttribute('ry',10);
+  rim2.setAttribute('fill','none'); rim2.setAttribute('stroke','#fbbf24'); rim2.setAttribute('stroke-width','2.5');
+  svg.appendChild(rim2);
+  return svg;
+}
+
+/* ============================================================
+   LAYOUT
+============================================================ */
+function getCupLayout(numCups){
+  const areaW=gameArea.offsetWidth  || window.innerWidth*0.56;
+  const areaH=gameArea.offsetHeight || window.innerHeight*0.75;
+  const cupW =Math.min(120, areaW/(numCups+0.5));
+  const cupH =cupW*1.5;
+  const ballR=cupW*0.28;
+  const gap  =Math.min(38,(areaW-numCups*cupW)/(numCups+1));
+  const totalW=numCups*cupW+(numCups-1)*gap;
+  const startX=(areaW-totalW)/2;
+  const midY  =areaH/2-cupH/2;
+  const positions=[];
+  for(let i=0;i<numCups;i++) positions.push({x:startX+i*(cupW+gap),y:midY,w:cupW,h:cupH});
+  return {positions,ballR};
+}
+
+/* ============================================================
+   BALL ELEMENT
+   gameArea'da bardaklardan BAĞIMSIZ bir elemandır.
+   z-index:1  →  bardakların (z-index:10) altında kalır.
+   Kupa kalkarken top YERİNDE DURUR → gerçek sihir efekti!
+============================================================ */
+let ballEl = null;
+
+function createBallEl(ballR){
+  if(ballEl) ballEl.remove();
+  ballEl = document.createElement('div');
+  ballEl.className = 'ball';
+  const size = ballR*2;
+  ballEl.style.cssText = `width:${size}px;height:${size}px;opacity:0;transition:opacity 0.35s;`;
+  gameArea.appendChild(ballEl);
+}
+
+/* Topu state.ballCup'ın altına (zemine) konumlandır */
+function positionBall(){
+  if(!ballEl || !state.ballCup) return;
+  const c = state.ballCup;
+  ballEl.style.width  = c.ballR*2 + 'px';
+  ballEl.style.height = c.ballR*2 + 'px';
+  ballEl.style.left   = (c.x + c.w/2 - c.ballR) + 'px';
+  // Bardağın taban noktasından biraz yukarıda
+  ballEl.style.top    = (c.baseY + c.h - c.ballR*2.1) + 'px';
+}
+
+function showBall(){ positionBall(); ballEl.style.opacity='1'; }
+function hideBall(){ ballEl.style.opacity='0'; }
+
+/* ============================================================
+   CUP CREATION
+============================================================ */
+function createCups(numCups){
+  gameArea.innerHTML='';
+  ballEl=null;
+  state.cups=[];
+  const {positions,ballR}=getCupLayout(numCups);
+
+  // Önce top oluşturulsun (z-index:1)
+  createBallEl(ballR);
+
+  positions.forEach((pos,i)=>{
+    const wrapper=document.createElement('div');
+    wrapper.className='cup-wrapper disabled';
+    wrapper.style.cssText=`left:${pos.x}px;top:${pos.y}px;width:${pos.w}px;`;
+
+    const cupBody=document.createElement('div');
+    cupBody.className='cup-body';
+    cupBody.appendChild(makeCupSVG(pos.w,pos.h));
+    wrapper.appendChild(cupBody);
+
+    // Tıklama — closure ile yakalanmış i, ASLA değişmez
+    wrapper.addEventListener('click', ()=>onCupClick(i));
+    gameArea.appendChild(wrapper);
+
+    state.cups.push({
+      wrapper, cupBody,
+      x:pos.x, baseX:pos.x, baseY:pos.y,
+      w:pos.w, h:pos.h, ballR,
+    });
+  });
+}
+
+/* ============================================================
+   CUP RAISE / LOWER  (nesne referansıyla)
+============================================================ */
+function raiseCup(cup, amount=140, dur=420){
+  cup.wrapper.style.transition=`top ${dur}ms ease-out`;
+  cup.wrapper.style.top=(cup.baseY-amount)+'px';
+}
+function lowerCup(cup, dur=400){
+  cup.wrapper.style.transition=`top ${dur}ms ease-in`;
+  cup.wrapper.style.top=cup.baseY+'px';
+}
+
+/* ============================================================
+   SWAP CUPS  — sadece yatay hareket, sade ve net
+   ballCup nesne referansı swap'tan etkilenmez → HATA YOK
+============================================================ */
+async function swapCups(cupA, cupB, dur){
+  const xa=cupA.x, xb=cupB.x;
+  cupA.wrapper.style.transition=`left ${dur}ms ease-in-out`;
+  cupB.wrapper.style.transition=`left ${dur}ms ease-in-out`;
+  cupA.wrapper.style.left=xb+'px';
+  cupB.wrapper.style.left=xa+'px';
+  await sleep(dur+50);
+  cupA.x=xb; cupA.baseX=xb;
+  cupB.x=xa; cupB.baseX=xa;
+  // state.ballCup referansı değişmez — nesne aynı nesne ✓
+}
+
+/* ============================================================
+   SLEEP
+============================================================ */
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+/* ============================================================
+   START GAME
+============================================================ */
+function startGame(){
+  ensureAudio();
+  state.level=0; state.score=0; updateHUD();
+  startLevel();
+}
+function restartAll(){
+  document.getElementById('final-screen').classList.add('hidden');
+  startGame();
+}
+
+/* ============================================================
+   START LEVEL
+============================================================ */
+async function startLevel(){
+  const lv=LEVELS[state.level];
+  showOverlay('intro');
+  buildProgressDots(document.getElementById('intro-progress'));
+  document.getElementById('intro-btn-area').style.display='none';
+  document.getElementById('countdown-area').style.display='block';
+  instructionBar.textContent='Topun nereye gittiğini takip et!';
+  updateHUD();
+
+  for(let n=3;n>=0;n--){
+    const el=document.getElementById('countdown-num');
+    el.textContent=n===0?'Başla!':n;
+    el.style.animation='none'; el.offsetHeight; el.style.animation='';
+    playCountdownBeep(n);
+    await sleep(950);
+  }
+
+  playCurtainSound();
+  await sleep(300);
+  hideOverlay('intro');
+  await sleep(400);
+
+  // Bardakları oluştur
+  createCups(lv.cups);
+
+  // Topu rastgele bir bardağa ata — NESNE referansıyla
+  state.ballCup = state.cups[Math.floor(Math.random()*lv.cups)];
+
+  state.phase='show';
+  await sleep(300);
+
+  // ── TOP GÖSTERİMİ ──
+  instructionBar.textContent='👁️ Topu gör ve aklına kaydet!';
+  raiseCup(state.ballCup, 145, 440);  // bardak kalkar
+  await sleep(480);
+  showBall();          // top zeminde belirir
+  playRevealSound();
+  await sleep(2400);   // öğrenci topu görür
+
+  hideBall();
+  lowerCup(state.ballCup, 420);       // bardak iner, topu örter
+  await sleep(520);
+
+  // ── KARIŞTIRMA ──
+  state.phase='shuffle';
+  await doShuffle(lv);
+
+  // ── SEÇİM ──
+  state.phase='pick';
+  state.canPick=true;
+  instructionBar.textContent='🔍 Top hangi bardağın altında? Tıkla!';
+  state.cups.forEach(c=>c.wrapper.classList.remove('disabled'));
+}
+
+/* ============================================================
+   SHUFFLE ENGINE
+   ÖNEMLİ: state.ballCup doğrudan nesne referansıdır.
+   swapCups yalnızca CSS pozisyonunu değiştirir; hangi nesne
+   ballCup olduğu ASLA değişmez → index güncellemeye gerek yok.
+============================================================ */
+async function doShuffle(lv){
+  instructionBar.textContent='🌀 Dikkatli takip et!';
+  const cups=state.cups, n=cups.length;
+  const dur=lv.speed, moves=lv.moves;
+  let lastA=-1, lastB=-1;
+
+  for(let m=0;m<moves;m++){
+    let a,b;
+    do {
+      a=Math.floor(Math.random()*n);
+      b=Math.floor(Math.random()*n);
+    } while(a===b ||(a===lastA&&b===lastB)||(a===lastB&&b===lastA));
+    lastA=a; lastB=b;
+
+    playShuffleSound();
+    await swapCups(cups[a], cups[b], dur);
+    await sleep(Math.floor(dur*0.2)); // hamleler arası kısa duraklama
+  }
+}
+
+/* ============================================================
+   CLICK HANDLER
+   i = orijinal creation index (closure, değişmez)
+   state.cups[i] = her zaman aynı cup nesnesi
+   Doğruluk: state.cups[i] === state.ballCup  (nesne karşılaştırması)
+============================================================ */
+async function onCupClick(i){
+  if(!state.canPick) return;
+  state.canPick=false;
+  state.phase='result';
+  state.cups.forEach(c=>c.wrapper.classList.add('disabled'));
+
+  const clickedCup = state.cups[i];
+  const correct    = (clickedCup === state.ballCup); // doğrudan nesne karşılaştırması
+
+  if(correct){
+    // ── DOĞRU ──
+    raiseCup(clickedCup, 150, 440);
+    await sleep(480);
+    showBall();         // top doğru yerde zeminde belirir
+    playRevealSound();
+    clickedCup.cupBody.classList.add('cup-winner');
+
+    state.score += LEVELS[state.level].reward;
+    updateHUD();
+
+    const r=clickedCup.wrapper.getBoundingClientRect();
+    spawnParticles(r.left+r.width/2, r.top+r.height*0.6, 60,
+      ['#fbbf24','#f59e0b','#a78bfa','#7c3aed','#10b981','#ef4444','#fde68a']);
+    await sleep(400);
+    playCoinSound();
+    spawnFloatText('🎉 Kazandın!','#fde68a');
+    await sleep(2100);
+
+    if(state.level < LEVELS.length-1) showResultScreen(true);
+    else showFinalScreen();
+
+  } else {
+    // ── YANLIŞ ──
+    raiseCup(clickedCup, 150, 400);
+    await sleep(440);
+    // Seçilen boş — salla
+    clickedCup.wrapper.classList.add('cup-shake');
+    playLoseSound();
+    await sleep(600);
+    lowerCup(clickedCup, 350);
+    clickedCup.wrapper.classList.remove('cup-shake');
+    await sleep(450);
+
+    // Doğru bardağı göster
+    raiseCup(state.ballCup, 150, 440);
+    await sleep(480);
+    showBall();         // top doğru yerde belirir
+    playRevealSound();
+    state.ballCup.wrapper.style.filter='drop-shadow(0 0 28px #ef4444)';
+    await sleep(900);
+    state.ballCup.wrapper.style.filter='';
+
+    spawnFloatText('😢 Kaybettin!','#ef4444');
+    await sleep(1900);
+    showResultScreen(false);
+  }
+}
+
+/* ============================================================
+   FLOAT TEXT
+============================================================ */
+function spawnFloatText(text,color){
+  const el=document.createElement('div');
+  el.className='float-text'; el.textContent=text;
+  el.style.color=color; el.style.textShadow=`0 0 30px ${color}`;
+  document.getElementById('stage').appendChild(el);
+  setTimeout(()=>el.remove(),2500);
+}
+
+/* ============================================================
+   RESULT / FINAL SCREENS
+============================================================ */
+function showResultScreen(won){
+  document.getElementById('result-icon').textContent = won?'🎉':'😢';
+  document.getElementById('result-title').textContent = won?'Kazandın!':'Olmadı!';
+  document.getElementById('result-subtitle').textContent = won
+    ? `Seviye ${state.level+1} tamamlandı! Harika iş!`
+    : 'Topu bu sefer kaçırdın. Daha dikkatlice takip et!';
+  const pts=document.getElementById('result-points');
+  pts.style.display = won?'inline-flex':'none';
+  document.getElementById('result-pts-val').textContent=`+${LEVELS[state.level].reward}`;
+  document.getElementById('result-btns').innerHTML = won
+    ? `<button class="btn btn-primary" onclick="nextLevel()">➡️ Sıradaki Seviye</button>`
+    : `<button class="btn btn-secondary" onclick="retryLevel()">🔄 Tekrar Dene</button>
+       <button class="btn btn-primary"   onclick="nextLevel(true)">⏩ Sonraki</button>`;
+  showOverlay('result');
+}
+function nextLevel(skip=false){
+  hideOverlay('result');
+  if(state.level < LEVELS.length-1){ state.level++; setTimeout(startLevel,500); }
+  else showFinalScreen();
+}
+function retryLevel(){ hideOverlay('result'); setTimeout(startLevel,500); }
+
+function showFinalScreen(){
+  document.getElementById('final-score').textContent=state.score;
+  document.getElementById('final-subtitle').textContent=`Tüm 8 seviyeyi tamamladın! Puanın: ${state.score} 🪙`;
+  showOverlay('final');
+  spawnParticles(window.innerWidth/2,window.innerHeight/2,120,
+    ['#fbbf24','#f59e0b','#a78bfa','#7c3aed','#10b981','#ef4444','#fde68a','#fff']);
+  playWinSound();
+}
+
+/* ============================================================
+   OVERLAY UTILS
+============================================================ */
+function showOverlay(name){
+  ['intro','result','final'].forEach(n=>{
+    document.getElementById(n+'-screen').classList[n===name?'remove':'add']('hidden');
+  });
+}
+function hideOverlay(name){
+  document.getElementById(name+'-screen').classList.add('hidden');
+}
+
+/* ============================================================
+   HUD
+============================================================ */
+function updateHUD(){
+  scoreDisplay.textContent=state.score;
+  levelDisplay.textContent=`${state.level+1}/8`;
+}
+
+/* ============================================================
+   INIT
+============================================================ */
+buildProgressDots(document.getElementById('intro-progress'));
+document.getElementById('intro-btn-area').style.display='block';
+document.getElementById('countdown-area').style.display='none';
+</script>
+</body>
+</html>
