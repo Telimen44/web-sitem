@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Anlam KÃ¶prÃ¼sÃ¼</title>
+  <title>Anlam Köprüsü</title>
   <style>
     :root{
       --bg1:#eef6ff;--bg2:#fff8ef;--ink:#1f3553;--muted:#637896;--blue:#4c93f7;--orange:#f7b052;--ok:#31a85c;--bad:#e85b66;
@@ -108,15 +108,15 @@
   <main class="app">
     <section class="start" id="startScreen">
       <div class="start-card">
-        <h1>Modunu SeÃ§ ve BaÅŸla</h1>
+        <h1>Modunu Seç ve Başla</h1>
         <div class="start-grid">
-          <button class="mode-btn ant" id="startAntonyms" type="button" aria-label="ZÄ±t anlamlÄ± modunda baÅŸla">
-            <strong>ZÄ±t AnlamlÄ±</strong>
-            <span>BÃ¼yÃ¼k-kÃ¼Ã§Ã¼k, sÄ±cak-soÄŸuk gibi ters anlamlarÄ± eÅŸleÅŸtir.</span>
+          <button class="mode-btn ant" id="startAntonyms" type="button" aria-label="Zıt anlamlı modunda başla">
+            <strong>Zıt Anlamlı</strong>
+            <span>Büyük-küçük, sıcak-soğuk gibi ters anlamları eşleştir.</span>
           </button>
-          <button class="mode-btn syn" id="startSynonyms" type="button" aria-label="EÅŸ anlamlÄ± modunda baÅŸla">
-            <strong>EÅŸ AnlamlÄ±</strong>
-            <span>Cevap-yanÄ±t, hÄ±zlÄ±-Ã§abuk gibi yakÄ±n anlamlarÄ± eÅŸleÅŸtir.</span>
+          <button class="mode-btn syn" id="startSynonyms" type="button" aria-label="Eş anlamlı modunda başla">
+            <strong>Eş Anlamlı</strong>
+            <span>Cevap-yanıt, hızlı-çabuk gibi yakın anlamları eşleştir.</span>
           </button>
         </div>
       </div>
@@ -125,11 +125,11 @@
     <section class="game hidden" id="gameShell">
       <header class="top">
         <div>
-          <h2>Anlam KÃ¶prÃ¼sÃ¼</h2>
-          <p class="tip" id="instructionText">Soldaki noktadan tut, doÄŸru kelimeye sÃ¼rÃ¼kle.</p>
+          <h2>Anlam Köprüsü</h2>
+          <p class="tip" id="instructionText">Soldaki noktadan tut, doğru kelimeye sürükle.</p>
         </div>
         <div class="top-tools">
-          <div class="mode-pill"><span class="dot" aria-hidden="true"></span><span id="modeLabel">ZÄ±t AnlamlÄ±</span></div>
+          <div class="mode-pill"><span class="dot" aria-hidden="true"></span><span id="modeLabel">Zıt Anlamlı</span></div>
           <button class="icon-btn" id="topSoundBtn" type="button" aria-label="Sesi kapat">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 9v6h4l5 4V5L8 9H4z"></path>
@@ -168,8 +168,8 @@
 
       <footer class="foot">
         <button class="b p" id="newGameBtn" type="button">Yeni Oyun</button>
-        <button class="b s" id="resetBtn" type="button">SÄ±fÄ±rla</button>
-        <button class="b w" id="modeBtn" type="button">Mod DeÄŸiÅŸtir</button>
+        <button class="b s" id="resetBtn" type="button">Sıfırla</button>
+        <button class="b w" id="modeBtn" type="button">Mod Değiştir</button>
       </footer>
     </section>
   </main>
@@ -177,28 +177,28 @@
   <div class="toast" id="toast"></div>
   <div class="win" id="finishPop" aria-live="polite">
     <h3 id="finishTitle">Harika!</h3>
-    <p id="finishText">TÃ¼m eÅŸleÅŸmeleri tamamladÄ±n.</p>
-    <div class="mini" id="finishMini">Yeni tur hazÄ±r</div>
+    <p id="finishText">Tüm eşleşmeleri tamamladın.</p>
+    <div class="mini" id="finishMini">Yeni tur hazır</div>
     <button class="winb" id="finishActionBtn" type="button">Yeni Tur</button>
   </div>
   <div class="sr" id="liveRegion" aria-live="polite"></div>
 
   <script>
     const MODES={
-      antonyms:{label:"ZÄ±t AnlamlÄ±",pairs:[
-        ["bÃ¼yÃ¼k","kÃ¼Ã§Ã¼k"],["uzun","kÄ±sa"],["sÄ±cak","soÄŸuk"],["hÄ±zlÄ±","yavaÅŸ"],["aÃ§Ä±k","kapalÄ±"],["temiz","kirli"],["yeni","eski"],["gece","gÃ¼ndÃ¼z"],["doÄŸru","yanlÄ±ÅŸ"],["dolu","boÅŸ"],
-        ["sert","yumuÅŸak"],["ince","kalÄ±n"],["mutlu","Ã¼zgÃ¼n"],["kolay","zor"],["erken","geÃ§"],["Ã¼st","alt"],["iÃ§","dÄ±ÅŸ"],["yakÄ±n","uzak"],["az","Ã§ok"],["aÄŸÄ±r","hafif"],
-        ["genÃ§","yaÅŸlÄ±"],["geniÅŸ","dar"],["Ä±slak","kuru"],["sessiz","gÃ¼rÃ¼ltÃ¼lÃ¼"],["ileri","geri"],["dÃ¼z","eÄŸri"],["giriÅŸ","Ã§Ä±kÄ±ÅŸ"],["baÅŸlangÄ±Ã§","bitiÅŸ"],["sÄ±k","seyrek"],["tok","aÃ§"],
-        ["zengin","yoksul"],["canlÄ±","cansÄ±z"]
+      antonyms:{label:"Zıt Anlamlı",pairs:[
+        ["büyük","küçük"],["uzun","kısa"],["sıcak","soğuk"],["hızlı","yavaş"],["açık","kapalı"],["temiz","kirli"],["yeni","eski"],["gece","gündüz"],["doğru","yanlış"],["dolu","boş"],
+        ["sert","yumuşak"],["ince","kalın"],["mutlu","üzgün"],["kolay","zor"],["erken","geç"],["üst","alt"],["iç","dış"],["yakın","uzak"],["az","çok"],["ağır","hafif"],
+        ["genç","yaşlı"],["geniş","dar"],["ıslak","kuru"],["sessiz","gürültülü"],["ileri","geri"],["düz","eğri"],["giriş","çıkış"],["başlangıç","bitiş"],["sık","seyrek"],["tok","aç"],
+        ["zengin","yoksul"],["canlı","cansız"]
       ]},
-      synonyms:{label:"EÅŸ AnlamlÄ±",pairs:[
-        ["cevap","yanÄ±t"],["siyah","kara"],["kalp","yÃ¼rek"],["Ã¶ykÃ¼","hikaye"],["konuk","misafir"],["hÄ±zlÄ±","Ã§abuk"],["neden","sebep"],["ilave","ek"],["doktor","hekim"],["gÃ¶rev","iÅŸ"],
-        ["yÄ±l","sene"],["beyaz","ak"],["Ã¶ÄŸrenci","talebe"],["ÅŸehir","kent"],["araÃ§","taÅŸÄ±t"],["yaÅŸam","hayat"],["kelime","sÃ¶zcÃ¼k"],["gÃ¼zel","hoÅŸ"],["akÄ±llÄ±","zeki"],["kÃ¼Ã§Ã¼k","minik"],
-        ["bÃ¼yÃ¼k","kocaman"],["yardÄ±m","destek"],["ev","konut"],["okul","mektep"],["anÄ±","hatÄ±ra"],["Ã¶dÃ¼l","armaÄŸan"],["baÅŸ","kafa"],["yurt","vatan"],["sÄ±nav","imtihan"],["uyarÄ±","ikaz"],
-        ["Ã¶zgÃ¼r","serbest"],["dÃ¼ÅŸ","rÃ¼ya"]
+      synonyms:{label:"Eş Anlamlı",pairs:[
+        ["cevap","yanıt"],["siyah","kara"],["kalp","yürek"],["öykü","hikaye"],["konuk","misafir"],["hızlı","çabuk"],["neden","sebep"],["ilave","ek"],["doktor","hekim"],["görev","iş"],
+        ["yıl","sene"],["beyaz","ak"],["öğrenci","talebe"],["şehir","kent"],["araç","taşıt"],["yaşam","hayat"],["kelime","sözcük"],["güzel","hoş"],["akıllı","zeki"],["küçük","minik"],
+        ["büyük","kocaman"],["yardım","destek"],["ev","konut"],["okul","mektep"],["anı","hatıra"],["ödül","armağan"],["baş","kafa"],["yurt","vatan"],["sınav","imtihan"],["uyarı","ikaz"],
+        ["özgür","serbest"],["düş","rüya"]
       ]}
     };
-    const SUCCESS=["Harika!","SÃ¼per!","Tebrikler!"];
+    const SUCCESS=["Harika!","Süper!","Tebrikler!"];
     const state={mode:"antonyms",started:false,pairs:[],left:[],right:[],connections:[],mistakes:[],dragging:null,hoverRightId:null,guidedRightId:null,snap:null,flashes:{left:{},right:{}},complete:false,soundOn:true,modeDeck:{antonyms:[],synonyms:[]},recentPool:{antonyms:[],synonyms:[]},raf:0,timeouts:[]};
     const els={
       start:document.getElementById("startScreen"),startAnt:document.getElementById("startAntonyms"),startSyn:document.getElementById("startSynonyms"),
@@ -221,15 +221,15 @@
     function toast(t,d=950){els.toast.textContent=t;els.toast.classList.add("show");clearTimeout(els.toast._t);els.toast._t=setTimeout(()=>els.toast.classList.remove("show"),d)}
     function syncSoundUI(){
       els.topSound.classList.toggle("off",!state.soundOn);
-      els.topSound.setAttribute("aria-label",state.soundOn?"Sesi kapat":"Sesi aÃ§");
+      els.topSound.setAttribute("aria-label",state.soundOn?"Sesi kapat":"Sesi aç");
     }
     function isFullscreen(){return !!document.fullscreenElement}
     function syncFullscreenUI(){
       const on=isFullscreen();
       els.topFullscreen.classList.toggle("on",on);
-      els.topFullscreen.setAttribute("aria-label",on?"Tam ekrandan Ã§Ä±k":"Tam ekran");
+      els.topFullscreen.setAttribute("aria-label",on?"Tam ekrandan çık":"Tam ekran");
     }
-    function updateShell(){els.start.classList.toggle("hidden",state.started);els.game.classList.toggle("hidden",!state.started);els.modeLabel.textContent=MODES[state.mode].label;els.tip.textContent="Soldaki noktadan tut, doÄŸru kelimeye sÃ¼rÃ¼kle.";syncSoundUI();syncFullscreenUI()}
+    function updateShell(){els.start.classList.toggle("hidden",state.started);els.game.classList.toggle("hidden",!state.started);els.modeLabel.textContent=MODES[state.mode].label;els.tip.textContent="Soldaki noktadan tut, doğru kelimeye sürükle.";syncSoundUI();syncFullscreenUI()}
     function clearWin(){els.win.classList.remove("show")}
 
     function refillModeDeck(mode){
@@ -279,7 +279,7 @@
       const c=["card",side,ok?"ok":"",a?"active":"",t?"target":"",g?"guide":"",bad?"bad":""].filter(Boolean).join(" ");
       const chip=state.flashes[side][id]==="bad"?'<span class="chip bad" aria-hidden="true">X</span>':"";
       const pin=["pin",side,t?"hot":"",g?"guide":""].filter(Boolean).join(" ");
-      if(side==="left")return `<article class="${c}" data-side="${side}" data-id="${id}" style="--index:${i}"><div class="word">${chip}<div class="label">${p.left}</div></div><button class="${pin}" type="button" data-left="${id}" data-pin="left:${id}" aria-label="${p.left} kelimesini baÄŸla" ${ok?"disabled":""}></button></article>`;
+      if(side==="left")return `<article class="${c}" data-side="${side}" data-id="${id}" style="--index:${i}"><div class="word">${chip}<div class="label">${p.left}</div></div><button class="${pin}" type="button" data-left="${id}" data-pin="left:${id}" aria-label="${p.left} kelimesini bağla" ${ok?"disabled":""}></button></article>`;
       return `<article class="${c}" data-side="${side}" data-id="${id}" style="--index:${i}"><button class="${pin}" type="button" data-right="${id}" data-pin="right:${id}" aria-label="${p.right} kelimesini hedefle" ${ok?"disabled":""}></button><div class="word">${chip}<div class="label">${p.right}</div></div></article>`;
     }
 
@@ -299,7 +299,7 @@
     function draw(){
       const out=[];
       state.connections.forEach(l=>{const a=pinPoint("left",l.leftId),b=pinPoint("right",l.rightId);if(!a||!b)return;out.push(`<path d="${bez(a,b)}" fill="none" stroke="${green()}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"></path>`)});
-      state.mistakes.forEach(l=>{const a=pinPoint("left",l.leftId),b=pinPoint("right",l.rightId);if(!a||!b)return;out.push(`<g tabindex="0" role="button" aria-label="YanlÄ±ÅŸ Ã§izgiyi sil" data-m="${l.id}" style="pointer-events:auto;cursor:pointer"><path d="${bez(a,b)}" fill="none" stroke="transparent" stroke-width="28" stroke-linecap="round"></path><path d="${bez(a,b)}" fill="none" stroke="${red()}" stroke-width="8" stroke-linecap="round" stroke-dasharray="14 12"></path>${badge((a.x+b.x)/2,(a.y+b.y)/2,"X",red())}</g>`)});
+      state.mistakes.forEach(l=>{const a=pinPoint("left",l.leftId),b=pinPoint("right",l.rightId);if(!a||!b)return;out.push(`<g tabindex="0" role="button" aria-label="Yanlış çizgiyi sil" data-m="${l.id}" style="pointer-events:auto;cursor:pointer"><path d="${bez(a,b)}" fill="none" stroke="transparent" stroke-width="28" stroke-linecap="round"></path><path d="${bez(a,b)}" fill="none" stroke="${red()}" stroke-width="8" stroke-linecap="round" stroke-dasharray="14 12"></path>${badge((a.x+b.x)/2,(a.y+b.y)/2,"X",red())}</g>`)});
       if(state.dragging){const br=els.board.getBoundingClientRect(),a={x:state.dragging.startX,y:state.dragging.startY},p={x:state.dragging.currentX-br.left,y:state.dragging.currentY-br.top},b=state.snap||p,col=state.guidedRightId?"#45b56a":"#4c93f7";out.push(`<path d="${bez(a,b)}" fill="none" stroke="${col}" stroke-width="8" stroke-linecap="round" stroke-dasharray="13 10"></path>`)}
       els.line.innerHTML=out.join("");
       els.line.querySelectorAll("[data-m]").forEach(n=>{const rm=()=>removeMistake(n.dataset.m);n.addEventListener("click",rm);n.addEventListener("keydown",(e)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();rm()}})});
@@ -346,18 +346,18 @@
       document.querySelectorAll(".pin[data-right]").forEach(p=>{const id=p.dataset.right;p.classList.toggle("hot",state.hoverRightId===id);p.classList.toggle("guide",state.guidedRightId===id)});
     }
 
-    function winRound(){state.complete=true;const w=SUCCESS[Math.floor(Math.random()*SUCCESS.length)];els.winTitle.textContent=w;els.winText.textContent="TÃ¼m eÅŸleÅŸmeleri tamamladÄ±n. HazÄ±rsan yeni tura geÃ§.";els.winMini.textContent=state.pairs.length+" eÅŸleÅŸme bitti";els.winBtn.textContent="Yeni Tur";els.win.classList.add("show");soundWin();confetti();toast(w,1000);announce(w)}
+    function winRound(){state.complete=true;const w=SUCCESS[Math.floor(Math.random()*SUCCESS.length)];els.winTitle.textContent=w;els.winText.textContent="Tüm eşleşmeleri tamamladın. Hazırsan yeni tura geç.";els.winMini.textContent=state.pairs.length+" eşleşme bitti";els.winBtn.textContent="Yeni Tur";els.win.classList.add("show");soundWin();confetti();toast(w,1000);announce(w)}
     function connect(leftId,rightId){
       if(state.complete||leftConn(leftId)||rightUsed(rightId))return;const p=byId(leftId);p.attempts+=1;
-      if(leftId===rightId){state.connections.push({leftId,rightId});soundOk();sparks("right",rightId);flash("left",leftId,"ok",250);flash("right",rightId,"ok",250);renderBoard();toast("DoÄŸru eÅŸleÅŸme",820);announce("DoÄŸru eÅŸleÅŸme");if(state.connections.length===state.pairs.length)winRound();return}
-      const id="w-"+Math.random().toString(36).slice(2,7);state.mistakes.push({id,leftId,rightId});soundBad();flash("left",leftId,"bad",300);flash("right",rightId,"bad",300);renderBoard();toast("Tekrar dene",760);announce("YanlÄ±ÅŸ eÅŸleÅŸme");const tm=setTimeout(()=>removeMistake(id),850);state.timeouts.push(tm);
+      if(leftId===rightId){state.connections.push({leftId,rightId});soundOk();sparks("right",rightId);flash("left",leftId,"ok",250);flash("right",rightId,"ok",250);renderBoard();toast("Doğru eşleşme",820);announce("Doğru eşleşme");if(state.connections.length===state.pairs.length)winRound();return}
+      const id="w-"+Math.random().toString(36).slice(2,7);state.mistakes.push({id,leftId,rightId});soundBad();flash("left",leftId,"bad",300);flash("right",rightId,"bad",300);renderBoard();toast("Tekrar dene",760);announce("Yanlış eşleşme");const tm=setTimeout(()=>removeMistake(id),850);state.timeouts.push(tm);
     }
 
     function buildRound(){if(!state.started)return;clearTimers();state.complete=false;state.connections=[];state.mistakes=[];state.dragging=null;clearHints();state.flashes={left:{},right:{}};clearWin();makeRound();updateShell();renderBoard();drawSoon()}
-    function resetRound(){if(!state.started)return;clearTimers();state.complete=false;state.connections=[];state.mistakes=[];state.dragging=null;clearHints();state.flashes={left:{},right:{}};clearWin();renderBoard();drawSoon();toast("Tur sÄ±fÄ±rlandÄ±",820);announce("Tur sÄ±fÄ±rlandÄ±")}
-    function switchMode(){state.mode=state.mode==="antonyms"?"synonyms":"antonyms";if(!state.started){updateShell();return}buildRound();toast(MODES[state.mode].label+" modu",880);announce(MODES[state.mode].label+" modu aÃ§Ä±ldÄ±")}
-    function startGame(mode,silent){state.mode=mode;state.started=true;resetModeCycle(mode);updateShell();buildRound();if(!silent){toast(MODES[state.mode].label+" baÅŸladÄ±",880);announce(MODES[state.mode].label+" baÅŸladÄ±")}}
-    function toggleSound(){state.soundOn=!state.soundOn;syncSoundUI();toast(state.soundOn?"Ses aÃ§Ä±ldÄ±":"Ses kapatÄ±ldÄ±",900)}
+    function resetRound(){if(!state.started)return;clearTimers();state.complete=false;state.connections=[];state.mistakes=[];state.dragging=null;clearHints();state.flashes={left:{},right:{}};clearWin();renderBoard();drawSoon();toast("Tur sıfırlandı",820);announce("Tur sıfırlandı")}
+    function switchMode(){state.mode=state.mode==="antonyms"?"synonyms":"antonyms";if(!state.started){updateShell();return}buildRound();toast(MODES[state.mode].label+" modu",880);announce(MODES[state.mode].label+" modu açıldı")}
+    function startGame(mode,silent){state.mode=mode;state.started=true;resetModeCycle(mode);updateShell();buildRound();if(!silent){toast(MODES[state.mode].label+" başladı",880);announce(MODES[state.mode].label+" başladı")}}
+    function toggleSound(){state.soundOn=!state.soundOn;syncSoundUI();toast(state.soundOn?"Ses açıldı":"Ses kapatıldı",900)}
     function toggleFullscreen(){
       if(!document.fullscreenElement){
         if(document.documentElement.requestFullscreen){
@@ -371,7 +371,7 @@
       setTimeout(syncFullscreenUI,60);
     }
 
-    function stateText(){return JSON.stringify({note:"Koordinatlar oyun tahtasÄ±na gÃ¶re; x saÄŸa, y aÅŸaÄŸÄ± artar.",started:state.started,mode:state.mode,modeLabel:MODES[state.mode].label,complete:state.complete,soundOn:state.soundOn,left:state.left.map(id=>({id,word:byId(id).left,locked:!!leftConn(id)})),right:state.right.map(id=>({id,word:byId(id).right,locked:rightUsed(id)})),correctLines:state.connections.map(l=>({leftId:l.leftId,rightId:l.rightId})),wrongLines:state.mistakes.map(l=>({leftId:l.leftId,rightId:l.rightId})),dragging:state.dragging?{leftId:state.dragging.leftId,hoverRightId:state.hoverRightId,guidedRightId:state.guidedRightId}:null})}
+    function stateText(){return JSON.stringify({note:"Koordinatlar oyun tahtasına göre; x sağa, y aşağı artar.",started:state.started,mode:state.mode,modeLabel:MODES[state.mode].label,complete:state.complete,soundOn:state.soundOn,left:state.left.map(id=>({id,word:byId(id).left,locked:!!leftConn(id)})),right:state.right.map(id=>({id,word:byId(id).right,locked:rightUsed(id)})),correctLines:state.connections.map(l=>({leftId:l.leftId,rightId:l.rightId})),wrongLines:state.mistakes.map(l=>({leftId:l.leftId,rightId:l.rightId})),dragging:state.dragging?{leftId:state.dragging.leftId,hoverRightId:state.hoverRightId,guidedRightId:state.guidedRightId}:null})}
     window.render_game_to_text=stateText; window.advanceTime=function advanceTime(){drawSoon();return stateText()};
 
     function applyQuery(){const q=new URLSearchParams(window.location.search),m=q.get("mode"),a=q.get("autostart");if(m&&MODES[m])state.mode=m;if(a==="1"){startGame(state.mode,true);return}updateShell()}

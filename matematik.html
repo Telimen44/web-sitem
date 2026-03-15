@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Matematik Defteri | Ã–zel EÄŸitim</title>
+    <title>Matematik Defteri | Özel Eğitim</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
@@ -841,46 +841,46 @@
                     <path
                         d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1h-2z" />
                 </svg></a>
-            <div style="font-size:3rem;margin-top:10px">ğŸ“</div>
+            <div style="font-size:3rem;margin-top:10px">📐</div>
             <div class="entry-title">Matematik Defteri</div>
-            <div class="entry-subtitle">Ä°ÅŸlem tÃ¼rÃ¼nÃ¼ ve ayarlarÄ± seÃ§</div>
+            <div class="entry-subtitle">İşlem türünü ve ayarları seç</div>
 
             <div class="entry-config-block" id="singleConfigBlock">
-                <div class="section-label">Ä°ÅŸlem TÃ¼rÃ¼</div>
+                <div class="section-label">İşlem Türü</div>
                 <div class="cards-row" id="opCards">
                     <div class="sel-card" data-op="+" onclick="selectOp(this)">
-                        <div class="icon">â•</div>
+                        <div class="icon">➕</div>
                         <div class="label">Toplama</div>
-                        <div class="desc">SayÄ±larÄ± topla</div>
+                        <div class="desc">Sayıları topla</div>
                     </div>
                     <div class="sel-card" data-op="-" onclick="selectOp(this)">
-                        <div class="icon">â–</div>
-                        <div class="label">Ã‡Ä±karma</div>
-                        <div class="desc">FarkÄ± bul</div>
+                        <div class="icon">➖</div>
+                        <div class="label">Çıkarma</div>
+                        <div class="desc">Farkı bul</div>
                     </div>
                     <div class="sel-card" data-op="x" onclick="selectOp(this)">
-                        <div class="icon">âœ–ï¸</div>
-                        <div class="label">Ã‡arpma</div>
-                        <div class="desc">Ã‡arpÄ±m hesapla</div>
+                        <div class="icon">✖️</div>
+                        <div class="label">Çarpma</div>
+                        <div class="desc">Çarpım hesapla</div>
                     </div>
                 </div>
 
                 <div class="sub-options" id="addOptions">
-                    <div class="section-label">Elde SeÃ§eneÄŸi</div>
+                    <div class="section-label">Elde Seçeneği</div>
                     <div class="cards-row">
                         <div class="sel-card opt-card selected" data-val="nocarry" onclick="selectOpt('carry',this)">
-                            <div class="icon">âœ¨</div>
+                            <div class="icon">✨</div>
                             <div class="label">Eldesiz</div>
                             <div class="desc">Elde yok</div>
                         </div>
                         <div class="sel-card opt-card" data-val="carry" onclick="selectOpt('carry',this)">
-                            <div class="icon">ğŸ”¢</div>
+                            <div class="icon">🔢</div>
                             <div class="label">Eldeli</div>
                             <div class="desc">Elde var</div>
                         </div>
                         <div class="sel-card opt-card" data-val="mixed" onclick="selectOpt('carry',this)">
-                            <div class="icon">ğŸ²</div>
-                            <div class="label">KarÄ±ÅŸÄ±k</div>
+                            <div class="icon">🎲</div>
+                            <div class="label">Karışık</div>
                             <div class="desc">Her ikisi de</div>
                         </div>
                     </div>
@@ -890,39 +890,39 @@
                     <div class="section-label">Onluk Bozma</div>
                     <div class="cards-row">
                         <div class="sel-card opt-card selected" data-val="noborrow" onclick="selectOpt('borrow',this)">
-                            <div class="icon">âœ¨</div>
-                            <div class="label">BozmasÄ±z</div>
+                            <div class="icon">✨</div>
+                            <div class="label">Bozmasız</div>
                             <div class="desc">Onluk bozma yok</div>
                         </div>
                         <div class="sel-card opt-card" data-val="borrow" onclick="selectOpt('borrow',this)">
-                            <div class="icon">ğŸ”„</div>
-                            <div class="label">BozmalÄ±</div>
+                            <div class="icon">🔄</div>
+                            <div class="label">Bozmalı</div>
                             <div class="desc">Onluk bozma var</div>
                         </div>
                         <div class="sel-card opt-card" data-val="mixed" onclick="selectOpt('borrow',this)">
-                            <div class="icon">ğŸ²</div>
-                            <div class="label">KarÄ±ÅŸÄ±k</div>
+                            <div class="icon">🎲</div>
+                            <div class="label">Karışık</div>
                             <div class="desc">Her ikisi de</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="section-label" style="margin-top:20px">Basamak SayÄ±sÄ±</div>
+                <div class="section-label" style="margin-top:20px">Basamak Sayısı</div>
                 <div class="cards-row" id="digitCards">
                     <div class="sel-card digit-card selected" data-val="1" onclick="selectDigit(this)">
-                        <div class="icon">1ï¸âƒ£</div>
+                        <div class="icon">1️⃣</div>
                         <div class="label">Tek</div>
-                        <div class="desc">1 â€“ 9</div>
+                        <div class="desc">1 – 9</div>
                     </div>
                     <div class="sel-card digit-card" data-val="2" onclick="selectDigit(this)">
-                        <div class="icon">2ï¸âƒ£</div>
-                        <div class="label">Ä°ki</div>
-                        <div class="desc">10 â€“ 99</div>
+                        <div class="icon">2️⃣</div>
+                        <div class="label">İki</div>
+                        <div class="desc">10 – 99</div>
                     </div>
                     <div class="sel-card digit-card" data-val="3" onclick="selectDigit(this)">
-                        <div class="icon">3ï¸âƒ£</div>
-                        <div class="label">ÃœÃ§</div>
-                        <div class="desc">100 â€“ 999</div>
+                        <div class="icon">3️⃣</div>
+                        <div class="label">Üç</div>
+                        <div class="desc">100 – 999</div>
                     </div>
                 </div>
             </div>
@@ -930,57 +930,57 @@
             <div class="section-label" style="margin-top:20px">Oyun Modu</div>
             <div class="cards-row" id="modeCards">
                 <div class="sel-card digit-card selected" data-players="1" onclick="selectMode(this)">
-                    <div class="icon">ğŸ‘¤</div>
-                    <div class="label">Tek KiÅŸi</div>
-                    <div class="desc">TÃ¼m tahta tek Ã¶ÄŸrenciye</div>
+                    <div class="icon">👤</div>
+                    <div class="label">Tek Kişi</div>
+                    <div class="desc">Tüm tahta tek öğrenciye</div>
                 </div>
                 <div class="sel-card digit-card" data-players="2" onclick="selectMode(this)">
-                    <div class="icon">ğŸ‘¥</div>
-                    <div class="label">2 KiÅŸi</div>
-                    <div class="desc">Sol ve saÄŸ aynÄ± anda</div>
+                    <div class="icon">👥</div>
+                    <div class="label">2 Kişi</div>
+                    <div class="desc">Sol ve sağ aynı anda</div>
                 </div>
             </div>
 
             <div class="two-player-configs" id="twoPlayerConfigs">
                 <div class="player-config-card" data-player-config="0">
                     <div class="player-config-title">
-                        <strong>Ã–ÄŸrenci 1</strong>
-                        <span>Sol taraf ayarlarÄ±</span>
+                        <strong>Öğrenci 1</strong>
+                        <span>Sol taraf ayarları</span>
                     </div>
-                    <div class="mini-label">Ä°ÅŸlem TÃ¼rÃ¼</div>
+                    <div class="mini-label">İşlem Türü</div>
                     <div class="cards-row">
                         <div class="sel-card" data-op="+" onclick="selectPlayerOp(0,this)">
-                            <div class="icon">â•</div>
+                            <div class="icon">➕</div>
                             <div class="label">Toplama</div>
-                            <div class="desc">Toplama sorularÄ±</div>
+                            <div class="desc">Toplama soruları</div>
                         </div>
                         <div class="sel-card" data-op="-" onclick="selectPlayerOp(0,this)">
-                            <div class="icon">â–</div>
-                            <div class="label">Ã‡Ä±karma</div>
-                            <div class="desc">Ã‡Ä±karma sorularÄ±</div>
+                            <div class="icon">➖</div>
+                            <div class="label">Çıkarma</div>
+                            <div class="desc">Çıkarma soruları</div>
                         </div>
                         <div class="sel-card" data-op="x" onclick="selectPlayerOp(0,this)">
-                            <div class="icon">âœ–ï¸</div>
-                            <div class="label">Ã‡arpma</div>
-                            <div class="desc">Ã‡arpma sorularÄ±</div>
+                            <div class="icon">✖️</div>
+                            <div class="label">Çarpma</div>
+                            <div class="desc">Çarpma soruları</div>
                         </div>
                     </div>
                     <div class="player-sub-options" data-role="addOptions">
-                        <div class="mini-label">Elde SeÃ§eneÄŸi</div>
+                        <div class="mini-label">Elde Seçeneği</div>
                         <div class="cards-row">
                             <div class="sel-card opt-card" data-val="nocarry" onclick="selectPlayerOpt(0,'carry',this)">
-                                <div class="icon">âœ¨</div>
+                                <div class="icon">✨</div>
                                 <div class="label">Eldesiz</div>
                                 <div class="desc">Elde yok</div>
                             </div>
                             <div class="sel-card opt-card" data-val="carry" onclick="selectPlayerOpt(0,'carry',this)">
-                                <div class="icon">ğŸ”¢</div>
+                                <div class="icon">🔢</div>
                                 <div class="label">Eldeli</div>
                                 <div class="desc">Elde var</div>
                             </div>
                             <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(0,'carry',this)">
-                                <div class="icon">ğŸ²</div>
-                                <div class="label">KarÄ±ÅŸÄ±k</div>
+                                <div class="icon">🎲</div>
+                                <div class="label">Karışık</div>
                                 <div class="desc">Her ikisi de</div>
                             </div>
                         </div>
@@ -989,80 +989,80 @@
                         <div class="mini-label">Onluk Bozma</div>
                         <div class="cards-row">
                             <div class="sel-card opt-card" data-val="noborrow" onclick="selectPlayerOpt(0,'borrow',this)">
-                                <div class="icon">âœ¨</div>
-                                <div class="label">BozmasÄ±z</div>
+                                <div class="icon">✨</div>
+                                <div class="label">Bozmasız</div>
                                 <div class="desc">Onluk bozma yok</div>
                             </div>
                             <div class="sel-card opt-card" data-val="borrow" onclick="selectPlayerOpt(0,'borrow',this)">
-                                <div class="icon">ğŸ”„</div>
-                                <div class="label">BozmalÄ±</div>
+                                <div class="icon">🔄</div>
+                                <div class="label">Bozmalı</div>
                                 <div class="desc">Onluk bozma var</div>
                             </div>
                             <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(0,'borrow',this)">
-                                <div class="icon">ğŸ²</div>
-                                <div class="label">KarÄ±ÅŸÄ±k</div>
+                                <div class="icon">🎲</div>
+                                <div class="label">Karışık</div>
                                 <div class="desc">Her ikisi de</div>
                             </div>
                         </div>
                     </div>
-                    <div class="mini-label">Basamak SayÄ±sÄ±</div>
+                    <div class="mini-label">Basamak Sayısı</div>
                     <div class="cards-row">
                         <div class="sel-card digit-card" data-val="1" onclick="selectPlayerDigit(0,this)">
-                            <div class="icon">1ï¸âƒ£</div>
+                            <div class="icon">1️⃣</div>
                             <div class="label">Tek</div>
-                            <div class="desc">1 â€“ 9</div>
+                            <div class="desc">1 – 9</div>
                         </div>
                         <div class="sel-card digit-card" data-val="2" onclick="selectPlayerDigit(0,this)">
-                            <div class="icon">2ï¸âƒ£</div>
-                            <div class="label">Ä°ki</div>
-                            <div class="desc">10 â€“ 99</div>
+                            <div class="icon">2️⃣</div>
+                            <div class="label">İki</div>
+                            <div class="desc">10 – 99</div>
                         </div>
                         <div class="sel-card digit-card" data-val="3" onclick="selectPlayerDigit(0,this)">
-                            <div class="icon">3ï¸âƒ£</div>
-                            <div class="label">ÃœÃ§</div>
-                            <div class="desc">100 â€“ 999</div>
+                            <div class="icon">3️⃣</div>
+                            <div class="label">Üç</div>
+                            <div class="desc">100 – 999</div>
                         </div>
                     </div>
                 </div>
                 <div class="player-config-card" data-player-config="1">
                     <div class="player-config-title">
-                        <strong>Ã–ÄŸrenci 2</strong>
-                        <span>SaÄŸ taraf ayarlarÄ±</span>
+                        <strong>Öğrenci 2</strong>
+                        <span>Sağ taraf ayarları</span>
                     </div>
-                    <div class="mini-label">Ä°ÅŸlem TÃ¼rÃ¼</div>
+                    <div class="mini-label">İşlem Türü</div>
                     <div class="cards-row">
                         <div class="sel-card" data-op="+" onclick="selectPlayerOp(1,this)">
-                            <div class="icon">â•</div>
+                            <div class="icon">➕</div>
                             <div class="label">Toplama</div>
-                            <div class="desc">Toplama sorularÄ±</div>
+                            <div class="desc">Toplama soruları</div>
                         </div>
                         <div class="sel-card" data-op="-" onclick="selectPlayerOp(1,this)">
-                            <div class="icon">â–</div>
-                            <div class="label">Ã‡Ä±karma</div>
-                            <div class="desc">Ã‡Ä±karma sorularÄ±</div>
+                            <div class="icon">➖</div>
+                            <div class="label">Çıkarma</div>
+                            <div class="desc">Çıkarma soruları</div>
                         </div>
                         <div class="sel-card" data-op="x" onclick="selectPlayerOp(1,this)">
-                            <div class="icon">âœ–ï¸</div>
-                            <div class="label">Ã‡arpma</div>
-                            <div class="desc">Ã‡arpma sorularÄ±</div>
+                            <div class="icon">✖️</div>
+                            <div class="label">Çarpma</div>
+                            <div class="desc">Çarpma soruları</div>
                         </div>
                     </div>
                     <div class="player-sub-options" data-role="addOptions">
-                        <div class="mini-label">Elde SeÃ§eneÄŸi</div>
+                        <div class="mini-label">Elde Seçeneği</div>
                         <div class="cards-row">
                             <div class="sel-card opt-card" data-val="nocarry" onclick="selectPlayerOpt(1,'carry',this)">
-                                <div class="icon">âœ¨</div>
+                                <div class="icon">✨</div>
                                 <div class="label">Eldesiz</div>
                                 <div class="desc">Elde yok</div>
                             </div>
                             <div class="sel-card opt-card" data-val="carry" onclick="selectPlayerOpt(1,'carry',this)">
-                                <div class="icon">ğŸ”¢</div>
+                                <div class="icon">🔢</div>
                                 <div class="label">Eldeli</div>
                                 <div class="desc">Elde var</div>
                             </div>
                             <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(1,'carry',this)">
-                                <div class="icon">ğŸ²</div>
-                                <div class="label">KarÄ±ÅŸÄ±k</div>
+                                <div class="icon">🎲</div>
+                                <div class="label">Karışık</div>
                                 <div class="desc">Her ikisi de</div>
                             </div>
                         </div>
@@ -1071,50 +1071,50 @@
                         <div class="mini-label">Onluk Bozma</div>
                         <div class="cards-row">
                             <div class="sel-card opt-card" data-val="noborrow" onclick="selectPlayerOpt(1,'borrow',this)">
-                                <div class="icon">âœ¨</div>
-                                <div class="label">BozmasÄ±z</div>
+                                <div class="icon">✨</div>
+                                <div class="label">Bozmasız</div>
                                 <div class="desc">Onluk bozma yok</div>
                             </div>
                             <div class="sel-card opt-card" data-val="borrow" onclick="selectPlayerOpt(1,'borrow',this)">
-                                <div class="icon">ğŸ”„</div>
-                                <div class="label">BozmalÄ±</div>
+                                <div class="icon">🔄</div>
+                                <div class="label">Bozmalı</div>
                                 <div class="desc">Onluk bozma var</div>
                             </div>
                             <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(1,'borrow',this)">
-                                <div class="icon">ğŸ²</div>
-                                <div class="label">KarÄ±ÅŸÄ±k</div>
+                                <div class="icon">🎲</div>
+                                <div class="label">Karışık</div>
                                 <div class="desc">Her ikisi de</div>
                             </div>
                         </div>
                     </div>
-                    <div class="mini-label">Basamak SayÄ±sÄ±</div>
+                    <div class="mini-label">Basamak Sayısı</div>
                     <div class="cards-row">
                         <div class="sel-card digit-card" data-val="1" onclick="selectPlayerDigit(1,this)">
-                            <div class="icon">1ï¸âƒ£</div>
+                            <div class="icon">1️⃣</div>
                             <div class="label">Tek</div>
-                            <div class="desc">1 â€“ 9</div>
+                            <div class="desc">1 – 9</div>
                         </div>
                         <div class="sel-card digit-card" data-val="2" onclick="selectPlayerDigit(1,this)">
-                            <div class="icon">2ï¸âƒ£</div>
-                            <div class="label">Ä°ki</div>
-                            <div class="desc">10 â€“ 99</div>
+                            <div class="icon">2️⃣</div>
+                            <div class="label">İki</div>
+                            <div class="desc">10 – 99</div>
                         </div>
                         <div class="sel-card digit-card" data-val="3" onclick="selectPlayerDigit(1,this)">
-                            <div class="icon">3ï¸âƒ£</div>
-                            <div class="label">ÃœÃ§</div>
-                            <div class="desc">100 â€“ 999</div>
+                            <div class="icon">3️⃣</div>
+                            <div class="label">Üç</div>
+                            <div class="desc">100 – 999</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <button class="start-btn" id="startBtn" onclick="startGame()">ğŸš€ BAÅLA</button>
+            <button class="start-btn" id="startBtn" onclick="startGame()">🚀 BAŞLA</button>
         </div>
 
         <!-- ===== GAME SCREEN ===== -->
         <div id="gameScreen">
             <canvas id="mainCanvas"></canvas>
-            <button class="game-home-btn" id="gameBackBtn" title="Geri DÃ¶n"><svg viewBox="0 0 24 24"
+            <button class="game-home-btn" id="gameBackBtn" title="Geri Dön"><svg viewBox="0 0 24 24"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M15 19l-7-7 7-7" />
                 </svg></button>
@@ -1123,12 +1123,12 @@
                 <div class="player-panel player-panel-left" data-player="0">
                     <div class="player-top">
                         <div class="player-chip">
-                            <div class="player-name" data-role="name">Ã–ÄŸrenci 1</div>
-                            <div class="player-side" data-role="side">TÃ¼m ekran</div>
+                            <div class="player-name" data-role="name">Öğrenci 1</div>
+                            <div class="player-side" data-role="side">Tüm ekran</div>
                         </div>
                         <div class="score-group">
-                            <div class="score-item score-correct"><span>âœ…</span><span data-role="correct">0</span></div>
-                            <div class="score-item score-wrong"><span>âŒ</span><span data-role="wrong">0</span></div>
+                            <div class="score-item score-correct"><span>✅</span><span data-role="correct">0</span></div>
+                            <div class="score-item score-wrong"><span>❌</span><span data-role="wrong">0</span></div>
                         </div>
                     </div>
                     <div class="status-indicator" data-role="status"></div>
@@ -1136,22 +1136,22 @@
                         <div class="feedback-icon" data-role="feedback-icon"></div>
                     </div>
                     <div class="controls" data-role="controls">
-                        <button class="check-btn" data-action="check">âœ“ Kontrol</button>
+                        <button class="check-btn" data-action="check">✓ Kontrol</button>
                         <div class="divider"></div>
-                        <button class="action-btn" data-action="tool" title="Silgi">ğŸ§¼</button>
-                        <button class="action-btn erase-btn" data-action="clear" title="Temizle">ğŸ—‘ï¸</button>
-                        <button class="action-btn next-btn" data-action="next" title="Sonraki Soru">â¡ï¸</button>
+                        <button class="action-btn" data-action="tool" title="Silgi">🧼</button>
+                        <button class="action-btn erase-btn" data-action="clear" title="Temizle">🗑️</button>
+                        <button class="action-btn next-btn" data-action="next" title="Sonraki Soru">➡️</button>
                     </div>
                 </div>
                 <div class="player-panel player-panel-right" data-player="1">
                     <div class="player-top">
                         <div class="player-chip">
-                            <div class="player-name" data-role="name">Ã–ÄŸrenci 2</div>
-                            <div class="player-side" data-role="side">SaÄŸ taraf</div>
+                            <div class="player-name" data-role="name">Öğrenci 2</div>
+                            <div class="player-side" data-role="side">Sağ taraf</div>
                         </div>
                         <div class="score-group">
-                            <div class="score-item score-correct"><span>âœ…</span><span data-role="correct">0</span></div>
-                            <div class="score-item score-wrong"><span>âŒ</span><span data-role="wrong">0</span></div>
+                            <div class="score-item score-correct"><span>✅</span><span data-role="correct">0</span></div>
+                            <div class="score-item score-wrong"><span>❌</span><span data-role="wrong">0</span></div>
                         </div>
                     </div>
                     <div class="status-indicator" data-role="status"></div>
@@ -1159,11 +1159,11 @@
                         <div class="feedback-icon" data-role="feedback-icon"></div>
                     </div>
                     <div class="controls" data-role="controls">
-                        <button class="check-btn" data-action="check">âœ“ Kontrol</button>
+                        <button class="check-btn" data-action="check">✓ Kontrol</button>
                         <div class="divider"></div>
-                        <button class="action-btn" data-action="tool" title="Silgi">ğŸ§¼</button>
-                        <button class="action-btn erase-btn" data-action="clear" title="Temizle">ğŸ—‘ï¸</button>
-                        <button class="action-btn next-btn" data-action="next" title="Sonraki Soru">â¡ï¸</button>
+                        <button class="action-btn" data-action="tool" title="Silgi">🧼</button>
+                        <button class="action-btn erase-btn" data-action="clear" title="Temizle">🗑️</button>
+                        <button class="action-btn next-btn" data-action="next" title="Sonraki Soru">➡️</button>
                     </div>
                 </div>
             </div>
@@ -1204,8 +1204,8 @@
             if (!config.op) return;
             document.getElementById('entryScreen').classList.add('hidden');
             document.getElementById('gameScreen').classList.add('active');
-            const opNames = { '+': 'Toplama', '-': 'Ã‡Ä±karma', 'x': 'Ã‡arpma' };
-            const badge = opNames[config.op] + ' Â· ' + config.digits + ' Basamak';
+            const opNames = { '+': 'Toplama', '-': 'Çıkarma', 'x': 'Çarpma' };
+            const badge = opNames[config.op] + ' · ' + config.digits + ' Basamak';
             document.getElementById('configBadge').textContent = badge;
             Game.init(config);
         }
@@ -1239,7 +1239,7 @@
 
             function drawGrid() { const w = innerWidth, h = innerHeight; ctx.fillStyle = GRID_BG; ctx.fillRect(0, 0, w, h); ctx.strokeStyle = GRID_C; ctx.lineWidth = .5; for (let x = 0; x <= w; x += GRID) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke() } for (let y = 0; y <= h; y += GRID) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke() } ctx.strokeStyle = '#e8a0a0'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(60, 0); ctx.lineTo(60, h); ctx.stroke() }
 
-            function drawQ() { const w = innerWidth, mob = w < 500, fs = mob ? 44 : 60, lh = mob ? 56 : 72; ctx.font = `800 ${fs}px 'Nunito',sans-serif`; ctx.textBaseline = 'top'; const s1 = num1 + '', s2 = num2 + '', op = cfg.op === '+' ? '+' : cfg.op === '-' ? 'âˆ’' : 'Ã—'; const mw = ctx.measureText('0'.repeat(Math.max(s1.length, s2.length))).width, ow = ctx.measureText(op + ' ').width, tw = ow + mw; const cx = w / 2, re = cx + tw / 2, sy = mob ? 120 : 100; ctx.textAlign = 'right'; ctx.fillStyle = '#2c3e7a'; ctx.fillText(s1, re, sy); ctx.fillStyle = '#c0392b'; ctx.textAlign = 'left'; ctx.fillText(op, re - tw, sy + lh); ctx.fillStyle = '#2c3e7a'; ctx.textAlign = 'right'; ctx.fillText(s2, re, sy + lh); const ly = sy + lh * 2 + 8; ctx.strokeStyle = '#4a4a4a'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(re - tw - 16, ly); ctx.lineTo(re + 16, ly); ctx.stroke(); const hy = ly + 22; ctx.font = `600 ${mob ? 13 : 15}px 'Nunito',sans-serif`; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(0,0,0,.18)'; ctx.fillText('âœï¸ CevabÄ±nÄ± yaz, sonra "âœ“ Kontrol" bas', cx, hy); qBottom = hy + 30 }
+            function drawQ() { const w = innerWidth, mob = w < 500, fs = mob ? 44 : 60, lh = mob ? 56 : 72; ctx.font = `800 ${fs}px 'Nunito',sans-serif`; ctx.textBaseline = 'top'; const s1 = num1 + '', s2 = num2 + '', op = cfg.op === '+' ? '+' : cfg.op === '-' ? '−' : '×'; const mw = ctx.measureText('0'.repeat(Math.max(s1.length, s2.length))).width, ow = ctx.measureText(op + ' ').width, tw = ow + mw; const cx = w / 2, re = cx + tw / 2, sy = mob ? 120 : 100; ctx.textAlign = 'right'; ctx.fillStyle = '#2c3e7a'; ctx.fillText(s1, re, sy); ctx.fillStyle = '#c0392b'; ctx.textAlign = 'left'; ctx.fillText(op, re - tw, sy + lh); ctx.fillStyle = '#2c3e7a'; ctx.textAlign = 'right'; ctx.fillText(s2, re, sy + lh); const ly = sy + lh * 2 + 8; ctx.strokeStyle = '#4a4a4a'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(re - tw - 16, ly); ctx.lineTo(re + 16, ly); ctx.stroke(); const hy = ly + 22; ctx.font = `600 ${mob ? 13 : 15}px 'Nunito',sans-serif`; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(0,0,0,.18)'; ctx.fillText('✍️ Cevabını yaz, sonra "✓ Kontrol" bas', cx, hy); qBottom = hy + 30 }
 
             function drawS() { ctx.strokeStyle = PEN_C; ctx.lineWidth = PEN_W; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; strokes.forEach(s => { if (s.x.length < 2) return; ctx.beginPath(); ctx.moveTo(s.x[0], s.y[0]); for (let i = 1; i < s.x.length; i++) { const mx = (s.x[i - 1] + s.x[i]) / 2, my = (s.y[i - 1] + s.y[i]) / 2; ctx.quadraticCurveTo(s.x[i - 1], s.y[i - 1], mx, my) } ctx.lineTo(s.x[s.x.length - 1], s.y[s.y.length - 1]); ctx.stroke() }) }
 
@@ -1327,10 +1327,10 @@
             function recCluster(cl) { return new Promise(res => { const t = cl.map(i => [i.s.x.map(Math.round), i.s.y.map(Math.round)]); let mnX = 1e9, mxX = -1e9, mnY = 1e9, mxY = -1e9; cl.forEach(i => { i.s.x.forEach(x => { mnX = Math.min(mnX, x); mxX = Math.max(mxX, x) }); i.s.y.forEach(y => { mnY = Math.min(mnY, y); mxY = Math.max(mxY, y) }) }); try { handwriting.recognize(t, { width: Math.max(mxX - mnX + 40, 80), height: Math.max(mxY - mnY + 40, 80), language: 'en', numOfReturn: 5 }, function (r, e) { if (e || !r || !r.length) { res(null); return } for (let x of r) { const d = x.replace(/[^0-9]/g, ''); if (d.length > 0) { res(d); return } } res(null) }) } catch (e) { res(null) } }) }
 
             async function doCheck() {
-                if (!strokes.length) { showS('âœï¸ Ã–nce cevabÄ±nÄ± yaz!', 'error'); setTimeout(() => hideS(), 1500); return }
+                if (!strokes.length) { showS('✏️ Önce cevabını yaz!', 'error'); setTimeout(() => hideS(), 1500); return }
                 if (busy) return; busy = true;
                 document.getElementById('btnCheck').disabled = true;
-                showS('âœï¸ TanÄ±nÄ±yor...', 'info');
+                showS('✍️ Tanınıyor...', 'info');
 
                 // Use only bottom-most strokes for recognition
                 const relevantStrokes = getBottomStrokes();
@@ -1340,17 +1340,17 @@
                 let num = ''; let ok = true;
                 for (const d of results) { if (d === null) { ok = false; break } num += d }
                 document.getElementById('btnCheck').disabled = false;
-                if (!ok || num === '') { busy = false; showS('ğŸ¤” TanÄ±namadÄ±, tekrar yaz', 'error'); setTimeout(() => hideS(), 2000); return }
+                if (!ok || num === '') { busy = false; showS('🤔 Tanınamadı, tekrar yaz', 'error'); setTimeout(() => hideS(), 2000); return }
                 const rec = parseInt(num, 10);
-                showS('YazdÄ±ÄŸÄ±n: ' + rec, 'info');
+                showS('Yazdığın: ' + rec, 'info');
                 setTimeout(() => { hideS(); if (rec === ans) onOk(); else onBad(rec) }, 800);
             }
 
             function showS(t, c) { const e = document.getElementById('statusIndicator'); e.textContent = t; e.className = 'status-indicator show ' + (c || 'info') }
             function hideS() { document.getElementById('statusIndicator').classList.remove('show') }
 
-            function onOk() { busy = true; cntOk++; document.getElementById('correctCount').textContent = cntOk; showFB('âœ…', '#22c55e'); playOk(); particles(); setTimeout(() => { hideFB(); genQ() }, 2000) }
-            function onBad(v) { busy = true; cntBad++; document.getElementById('wrongCount').textContent = cntBad; showFB('âŒ', '#ef4444'); playBad(); showS(v + ' deÄŸil, tekrar dene!', 'error'); canvas.style.animation = 'none'; void canvas.offsetHeight; canvas.style.animation = 'shake .5s ease'; setTimeout(() => { hideFB(); hideS(); busy = false; strokes = []; scene(); canvas.style.animation = 'none' }, 1800) }
+            function onOk() { busy = true; cntOk++; document.getElementById('correctCount').textContent = cntOk; showFB('✅', '#22c55e'); playOk(); particles(); setTimeout(() => { hideFB(); genQ() }, 2000) }
+            function onBad(v) { busy = true; cntBad++; document.getElementById('wrongCount').textContent = cntBad; showFB('❌', '#ef4444'); playBad(); showS(v + ' değil, tekrar dene!', 'error'); canvas.style.animation = 'none'; void canvas.offsetHeight; canvas.style.animation = 'shake .5s ease'; setTimeout(() => { hideFB(); hideS(); busy = false; strokes = []; scene(); canvas.style.animation = 'none' }, 1800) }
 
             function showFB(e, c) { const o = document.getElementById('feedbackOverlay'), i = document.getElementById('feedbackIcon'); i.textContent = e; o.style.backgroundColor = c + '12'; o.classList.add('show'); i.style.animation = 'none'; void i.offsetHeight; i.style.animation = 'feedbackPop .6s cubic-bezier(.34,1.56,.64,1)' }
             function hideFB() { document.getElementById('feedbackOverlay').classList.remove('show') }
@@ -1374,7 +1374,7 @@
                     // Reset tool state on init
                     tool = 'pen';
                     btnEraserTool.style.background = '';
-                    btnEraserTool.innerHTML = 'ğŸ§¼';
+                    btnEraserTool.innerHTML = '🧼';
                     btnEraserTool.title = "Silgi";
 
                     // Remove existing listeners to prevent duplicates (simple cloning trick)
@@ -1386,12 +1386,12 @@
                         if (tool === 'pen') {
                             tool = 'eraser';
                             newBtn.style.background = '#eab308'; // Active color
-                            newBtn.innerHTML = 'âœï¸'; // Show pen icon
-                            newBtn.title = "Kalem Moduna GeÃ§";
+                            newBtn.innerHTML = '✏️'; // Show pen icon
+                            newBtn.title = "Kalem Moduna Geç";
                         } else {
                             tool = 'pen';
                             newBtn.style.background = '';
-                            newBtn.innerHTML = 'ğŸ§¼';
+                            newBtn.innerHTML = '🧼';
                             newBtn.title = "Silgi";
                         }
                     });

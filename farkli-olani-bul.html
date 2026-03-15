@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FarklÄ± OlanÄ± Bul - Telimen EÄŸitim</title>
+    <title>Farklı Olanı Bul - Telimen Eğitim</title>
 
     <!-- React & Babel -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
@@ -38,7 +38,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* AkÄ±llÄ± Tahta Zoom Kilidi */
+        /* Akıllı Tahta Zoom Kilidi */
         html,
         body,
         button {
@@ -297,18 +297,18 @@
         // ============================================
         // EMOJI SETS
         // ============================================
-        const EASY_EMOJIS = ['ğŸ¶', 'ğŸ±', 'ğŸ°', 'ğŸ¦Š', 'ğŸ»', 'ğŸ¼', 'ğŸ¨', 'ğŸ¦', 'ğŸ¯', 'ğŸ®'];
-        const MEDIUM_EMOJIS = ['ğŸ', 'ğŸŠ', 'ğŸ‹', 'ğŸ‡', 'ğŸ“', 'ğŸ¥•', 'ğŸŒ½', 'ğŸ¥¦', 'ğŸ•', 'ğŸ”'];
-        const HARD_EMOJIS = ['â­', 'ğŸ’', 'ğŸ”¥', 'ğŸ’§', 'ğŸŒ™', 'â˜€ï¸', 'â„ï¸', 'ğŸŒ¸', 'ğŸ€', 'ğŸŒˆ'];
+        const EASY_EMOJIS = ['🐶', '🐱', '🐰', '🦊', '🐻', '🐼', '🐨', '🦁', '🐯', '🐮'];
+        const MEDIUM_EMOJIS = ['🍎', '🍊', '🍋', '🍇', '🍓', '🥕', '🌽', '🥦', '🍕', '🍔'];
+        const HARD_EMOJIS = ['⭐', '💎', '🔥', '💧', '🌙', '☀️', '❄️', '🌸', '🍀', '🌈'];
 
         // Alternative emojis for "completely different icon" variation
         const DIFFERENT_EMOJIS = {
-            'ğŸ¶': 'ğŸ±', 'ğŸ±': 'ğŸ°', 'ğŸ°': 'ğŸ¦Š', 'ğŸ¦Š': 'ğŸ»', 'ğŸ»': 'ğŸ¼',
-            'ğŸ¼': 'ğŸ¨', 'ğŸ¨': 'ğŸ¦', 'ğŸ¦': 'ğŸ¯', 'ğŸ¯': 'ğŸ®', 'ğŸ®': 'ğŸ¶',
-            'ğŸ': 'ğŸŠ', 'ğŸŠ': 'ğŸ‹', 'ğŸ‹': 'ğŸ‡', 'ğŸ‡': 'ğŸ“', 'ğŸ“': 'ğŸ¥•',
-            'ğŸ¥•': 'ğŸŒ½', 'ğŸŒ½': 'ğŸ¥¦', 'ğŸ¥¦': 'ğŸ•', 'ğŸ•': 'ğŸ”', 'ğŸ”': 'ğŸ',
-            'â­': 'ğŸ’', 'ğŸ’': 'ğŸ”¥', 'ğŸ”¥': 'ğŸ’§', 'ğŸ’§': 'ğŸŒ™', 'ğŸŒ™': 'â˜€ï¸',
-            'â˜€ï¸': 'â„ï¸', 'â„ï¸': 'ğŸŒ¸', 'ğŸŒ¸': 'ğŸ€', 'ğŸ€': 'ğŸŒˆ', 'ğŸŒˆ': 'â­'
+            '🐶': '🐱', '🐱': '🐰', '🐰': '🦊', '🦊': '🐻', '🐻': '🐼',
+            '🐼': '🐨', '🐨': '🦁', '🦁': '🐯', '🐯': '🐮', '🐮': '🐶',
+            '🍎': '🍊', '🍊': '🍋', '🍋': '🍇', '🍇': '🍓', '🍓': '🥕',
+            '🥕': '🌽', '🌽': '🥦', '🥦': '🍕', '🍕': '🍔', '🍔': '🍎',
+            '⭐': '💎', '💎': '🔥', '🔥': '💧', '💧': '🌙', '🌙': '☀️',
+            '☀️': '❄️', '❄️': '🌸', '🌸': '🍀', '🍀': '🌈', '🌈': '⭐'
         };
 
         // Game configuration
@@ -335,9 +335,9 @@
                         ${enabled
                             ? 'bg-emerald-500 text-white'
                             : 'bg-gray-300 text-gray-500'}`}
-                    title={enabled ? 'Sesi Kapat' : 'Sesi AÃ§'}
+                    title={enabled ? 'Sesi Kapat' : 'Sesi Aç'}
                 >
-                    {enabled ? 'ğŸ”Š' : 'ğŸ”‡'}
+                    {enabled ? '🔊' : '🔇'}
                 </motion.button>
             );
         };
@@ -650,7 +650,7 @@
                     setScore(prev => prev + 25);
                     setTimeLeft(prev => Math.min(prev + ALL_SAME_BONUS, INITIAL_TIME + 30));
                     setLevel(prev => prev + 1);
-                    addFloatingText(`+${ALL_SAME_BONUS} sn ğŸ‰`, '#8b5cf6', x, y);
+                    addFloatingText(`+${ALL_SAME_BONUS} sn 🎉`, '#8b5cf6', x, y);
                     setShowConfetti(true);
                     setTimeout(() => generateRound(), 500);
                 } else {
@@ -718,17 +718,17 @@
                             className="text-center"
                         >
                             <h1 className="text-5xl md:text-6xl font-bold text-emerald-700 mb-4 font-fredoka">
-                                FarklÄ± OlanÄ± Bul
+                                Farklı Olanı Bul
                             </h1>
                             <p className="text-xl text-emerald-600 mb-8 font-fredoka">
-                                Dikkatli ol, farklÄ± olanÄ± hemen bul!
+                                Dikkatli ol, farklı olanı hemen bul!
                             </p>
 
                             <div className="bg-white/70 backdrop-blur-md rounded-3xl p-6 mb-8 shadow-xl max-w-md mx-auto">
                                 <div className="flex justify-around text-center">
                                     <div>
-                                        <p className="text-gray-500 text-sm">En YÃ¼ksek Skor</p>
-                                        <p className="text-3xl font-bold text-emerald-600">ğŸ† {highScore}</p>
+                                        <p className="text-gray-500 text-sm">En Yüksek Skor</p>
+                                        <p className="text-3xl font-bold text-emerald-600">🏆 {highScore}</p>
                                     </div>
                                 </div>
                             </div>
@@ -741,7 +741,7 @@
                                     font-bold text-2xl py-4 px-12 rounded-full shadow-lg
                                     hover:shadow-xl transition-all font-fredoka"
                             >
-                                ğŸ® Oyuna BaÅŸla
+                                🎮 Oyuna Başla
                             </motion.button>
 
                             <motion.a
@@ -750,7 +750,7 @@
                                 className="block mt-6 text-emerald-600 hover:text-emerald-700 
                                     font-medium text-lg font-fredoka"
                             >
-                                ğŸ  Ana Sayfa
+                                🏠 Ana Sayfa
                             </motion.a>
                         </motion.div>
                     </div>
@@ -771,7 +771,7 @@
                             className="text-center bg-white/80 backdrop-blur-md rounded-3xl p-8 shadow-2xl max-w-md"
                         >
                             <h2 className="text-4xl font-bold text-gray-700 mb-2 font-fredoka">
-                                â° SÃ¼re Doldu!
+                                ⏰ Süre Doldu!
                             </h2>
 
                             {isNewHighScore && (
@@ -780,18 +780,18 @@
                                     animate={{ scale: 1 }}
                                     className="text-2xl text-amber-500 font-bold mb-4"
                                 >
-                                    ğŸ‰ Yeni Rekor! ğŸ‰
+                                    🎉 Yeni Rekor! 🎉
                                 </motion.p>
                             )}
 
                             <div className="my-6 space-y-3">
                                 <div className="bg-emerald-100 rounded-2xl p-4">
                                     <p className="text-gray-500 text-sm">Skorun</p>
-                                    <p className="text-4xl font-bold text-emerald-600">ğŸ† {score}</p>
+                                    <p className="text-4xl font-bold text-emerald-600">🏆 {score}</p>
                                 </div>
                                 <div className="bg-teal-100 rounded-2xl p-4">
-                                    <p className="text-gray-500 text-sm">UlaÅŸÄ±lan Seviye</p>
-                                    <p className="text-3xl font-bold text-teal-600">ğŸ“Š Level {level}</p>
+                                    <p className="text-gray-500 text-sm">Ulaşılan Seviye</p>
+                                    <p className="text-3xl font-bold text-teal-600">📊 Level {level}</p>
                                 </div>
                             </div>
 
@@ -803,7 +803,7 @@
                                     className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white 
                                         font-bold text-xl py-3 px-8 rounded-full shadow-lg font-fredoka"
                                 >
-                                    ğŸ”„ Tekrar Oyna
+                                    🔄 Tekrar Oyna
                                 </motion.button>
 
                                 <motion.a
@@ -812,7 +812,7 @@
                                     className="text-emerald-600 hover:text-emerald-700 
                                         font-medium text-lg font-fredoka"
                                 >
-                                    ğŸ  Ana Sayfa
+                                    🏠 Ana Sayfa
                                 </motion.a>
                             </div>
                         </motion.div>
@@ -850,16 +850,16 @@
                             rounded-2xl px-6 py-3 shadow-lg">
                             <div className="text-center">
                                 <p className="text-xs text-gray-500">SKOR</p>
-                                <p className="text-2xl font-bold text-emerald-600">ğŸ† {score}</p>
+                                <p className="text-2xl font-bold text-emerald-600">🏆 {score}</p>
                             </div>
                             <div className="text-center">
-                                <p className="text-xs text-gray-500">SEVÄ°YE</p>
-                                <p className="text-2xl font-bold text-teal-600">ğŸ“Š {level}</p>
+                                <p className="text-xs text-gray-500">SEVİYE</p>
+                                <p className="text-2xl font-bold text-teal-600">📊 {level}</p>
                             </div>
                             <div className="text-center">
-                                <p className="text-xs text-gray-500">SÃœRE</p>
+                                <p className="text-xs text-gray-500">SÜRE</p>
                                 <p className={`text-2xl font-bold ${timeLeft <= 10 ? 'text-red-500' : 'text-blue-600'}`}>
-                                    â±ï¸ {timeLeft}
+                                    ⏱️ {timeLeft}
                                 </p>
                             </div>
                         </div>
@@ -876,7 +876,7 @@
                         className={`text-2xl font-bold mb-4 font-fredoka ${isShowingAnswer ? 'text-amber-600' : 'text-emerald-700'
                             }`}
                     >
-                        {isShowingAnswer ? 'ğŸ‘€ Ä°ÅŸte FarklÄ± Olan!' : 'ğŸ” FarklÄ± OlanÄ± Bul!'}
+                        {isShowingAnswer ? '👀 İşte Farklı Olan!' : '🔍 Farklı Olanı Bul!'}
                     </motion.h2>
 
                     {/* Grid */}
@@ -917,7 +917,7 @@
                                     ? 'opacity-50 cursor-not-allowed'
                                     : 'hover:shadow-xl hover:from-orange-600 hover:via-amber-600 hover:to-yellow-600'}`}
                         >
-                            ğŸ¤·â€â™‚ï¸ HEPSÄ° AYNI!
+                            🤷‍♂️ HEPSİ AYNI!
                         </motion.button>
                     </div>
 
@@ -926,7 +926,7 @@
                         href="index.html"
                         className="mt-4 text-emerald-600 hover:text-emerald-700 font-medium font-fredoka"
                     >
-                        ğŸ  Ana Sayfa
+                        🏠 Ana Sayfa
                     </a>
                 </div>
             );
