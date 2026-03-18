@@ -1,0 +1,29 @@
+{
+  "name": "web-sitem",
+  "version": "1.0.0",
+  "description": "Telimen Eğitim - Özel eğitim materyalleri, akademik bilgiler ve eğitici oyunlar platformu",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "test": "echo \"No tests specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Telimen44/web-sitem.git"
+  },
+  "keywords": [
+    "education",
+    "turkish",
+    "learning",
+    "games"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Telimen44/web-sitem/issues"
+  },
+  "homepage": "https://github.com/Telimen44/web-sitem#readme",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
