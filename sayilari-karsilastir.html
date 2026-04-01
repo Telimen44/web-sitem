@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sayıları Karşılaştır - Özel Eğitim</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+        
+        .bounce-short { animation: bounce-short 0.5s ease-in-out; }
+        @keyframes bounce-short { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        
+        .shake-hard { animation: shake-hard 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake-hard {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-15px) rotate(-3deg); }
+            40%, 80% { transform: translateX(15px) rotate(3deg); }
+        }
+
+        .pop-in { animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes pop-in { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        
+        .card-correct { 
+            border-color: #22c55e !important; 
+            background-color: #dcfce7 !important; 
+            color: #15803d !important;
+            transform: scale(1.1) !important;
+            box-shadow: 0 0 40px rgba(34, 197, 94, 0.6) !important;
+            z-index: 20;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .card-wrong { 
+            border-color: #ef4444 !important; 
+            background-color: #fee2e2 !important; 
+            color: #b91c1c !important;
+            box-shadow: inset 0 0 25px rgba(239, 68, 68, 0.3) !important;
+        }
+
+        .card-dimmed {
+            opacity: 0.4 !important;
+            transform: scale(0.9) !important;
+            filter: grayscale(80%);
+            transition: all 0.4s ease;
+        }
+
+        /* Sabit ve Sakin Arka Plan */
+        .theme-sky { background: linear-gradient(135deg, #bae6fd, #e0f2fe); }
+    </style>
+</head>
+<body id="game-body" class="theme-sky min-h-screen flex flex-col items-center justify-center p-4 md:p-8 font-sans select-none">
+
+    <div class="bg-white rounded-[3rem] shadow-2xl p-8 md:p-12 max-w-5xl w-full text-center relative overflow-hidden">
+        
+        <div id="header-area" class="hidden w-full mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <button onclick="showMenu()" class="text-xl bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-8 rounded-full transition font-bold">Menü</button>
+                <span class="text-2xl font-bold text-gray-400">Soru: <span id="q-count">1</span>/10</span>
+            </div>
+            <div class="w-full bg-gray-100 rounded-full h-6">
+                <div id="progress-bar" class="bg-green-500 h-6 rounded-full transition-all duration-500 ease-out" style="width: 10%"></div>
+            </div>
+        </div>
+
+        <div id="menu-screen" class="space-y-8 py-8">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-sky-600 mb-12">Ne Oynamak İstersin?</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <button onclick="selectMode('buyuk')" class="w-full text-3xl md:text-4xl font-bold text-white bg-green-500 hover:bg-green-400 rounded-3xl py-12 shadow-lg transition active:scale-95">Büyük Olanı Bul</button>
+                <button onclick="selectMode('kucuk')" class="w-full text-3xl md:text-4xl font-bold text-white bg-blue-500 hover:bg-blue-400 rounded-3xl py-12 shadow-lg transition active:scale-95">Küçük Olanı Bul</button>
+                <button onclick="selectMode('esit')" class="w-full text-3xl md:text-4xl font-bold text-white bg-purple-500 hover:bg-purple-400 rounded-3xl py-12 shadow-lg transition active:scale-95">Sayılar Eşit mi?</button>
+            </div>
+        </div>
+
+        <div id="difficulty-screen" class="hidden space-y-8 py-8">
+            <h1 class="text-5xl md:text-6xl font-extrabold text-sky-600 mb-12">Zorluk Seç</h1>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <button onclick="startGame(10)" class="w-full text-3xl font-bold text-white bg-teal-500 hover:bg-teal-400 rounded-3xl py-12 shadow-lg active:scale-95">1 - 10 (Kolay)</button>
+                <button onclick="startGame(50)" class="w-full text-3xl font-bold text-white bg-orange-500 hover:bg-orange-400 rounded-3xl py-12 shadow-lg active:scale-95">1 - 50 (Orta)</button>
+                <button onclick="startGame(100)" class="w-full text-3xl font-bold text-white bg-rose-500 hover:bg-rose-400 rounded-3xl py-12 shadow-lg active:scale-95">1 - 100 (Zor)</button>
+            </div>
+            <button onclick="showMenu()" class="text-2xl text-gray-500 font-bold underline mt-8 p-4 cursor-pointer inline-block">Geri Dön</button>
+        </div>
+
+        <div id="game-screen" class="hidden py-4">
+            <div class="flex justify-center items-center gap-6 mb-12 h-16">
+                <h2 id="question-text" class="text-4xl md:text-5xl font-extrabold">...</h2>
+                <button onclick="playQuestionAudio()" class="text-5xl hover:scale-110 active:scale-90 transition-transform" title="Dinle">🔊</button>
+            </div>
+            
+            <div class="flex justify-center items-stretch gap-8 md:gap-16 mb-12">
+                <div id="card1" onclick="handleCardClick(1)" class="cursor-pointer transition-transform outline-none flex flex-col items-center group relative w-5/12">
+                    <div id="num-box-1" class="text-8xl md:text-[10rem] font-black text-sky-700 bg-sky-50 border-[6px] border-sky-200 w-full py-16 flex items-center justify-center rounded-[2.5rem] shadow-md transition-all duration-300 group-active:scale-95">?</div>
+                    <!-- Elmalar buraya gelecek -->
+                    <div id="items1" class="mt-6 grid gap-2 w-full justify-center transition-all duration-300" style="grid-template-columns: repeat(5, minmax(0, max-content));"></div>
+                </div>
+                
+                <div class="flex items-center justify-center w-2/12">
+                    <div id="operator" class="text-6xl md:text-7xl font-bold text-gray-300 transition-all duration-300">ve</div>
+                </div>
+                
+                <div id="card2" onclick="handleCardClick(2)" class="cursor-pointer transition-transform outline-none flex flex-col items-center group relative w-5/12">
+                    <div id="num-box-2" class="text-8xl md:text-[10rem] font-black text-sky-700 bg-sky-50 border-[6px] border-sky-200 w-full py-16 flex items-center justify-center rounded-[2.5rem] shadow-md transition-all duration-300 group-active:scale-95">?</div>
+                    <!-- Elmalar buraya gelecek -->
+                    <div id="items2" class="mt-6 grid gap-2 w-full justify-center transition-all duration-300" style="grid-template-columns: repeat(5, minmax(0, max-content));"></div>
+                </div>
+            </div>
+
+            <div id="equal-buttons" class="hidden grid-cols-2 gap-8 mb-8 max-w-4xl mx-auto">
+                <button id="btn-equal-true" onclick="handleEqualClick(true)" class="flex flex-col items-center justify-center gap-2 text-4xl font-bold text-white bg-teal-500 hover:bg-teal-400 active:scale-95 rounded-[2rem] py-6 shadow-xl transition-all">
+                    <span class="text-5xl">✔</span>
+                    <span>Evet</span>
+                </button>
+                <button id="btn-equal-false" onclick="handleEqualClick(false)" class="flex flex-col items-center justify-center gap-2 text-4xl font-bold text-white bg-rose-500 hover:bg-rose-400 active:scale-95 rounded-[2rem] py-6 shadow-xl transition-all">
+                    <span class="text-5xl">✖</span>
+                    <span>Hayır</span>
+                </button>
+            </div>
+            
+            <div id="message" class="text-3xl font-bold text-gray-400 min-h-[3rem] mt-6">Hadi seç bakalım!</div>
+        </div>
+
+        <div id="result-screen" class="hidden py-16">
+            <h1 class="text-6xl md:text-8xl font-black text-orange-500 mb-8 pop-in">HARİKA!</h1>
+            <div id="star-rating" class="text-7xl md:text-9xl mb-12 text-yellow-400 pop-in" style="animation-delay: 0.2s;">⭐⭐⭐</div>
+            <p class="text-4xl font-bold text-gray-700 mb-16 pop-in" style="animation-delay: 0.4s;">Hepsini bitirdin!</p>
+            <div class="flex justify-center gap-8 pop-in" style="animation-delay: 0.6s;">
+                <button onclick="startGame(maxNum)" class="bg-sky-500 text-white font-bold py-6 px-12 rounded-[2rem] text-3xl shadow-lg active:scale-95">Tekrar Oyna</button>
+                <button onclick="showMenu()" class="bg-gray-200 text-gray-700 font-bold py-6 px-12 rounded-[2rem] text-3xl active:scale-95">Menüye Dön</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentMode = '', maxNum = 10, score = 0, questionCount = 0;
+        let num1, num2, isWaiting = false, scoreAddedForQuestion = false;
+        
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(isCorrect) {
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            
+            if(isCorrect) {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); 
+                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1); 
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.4);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+            } else {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
+        function playQuestionAudio(customText = null) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const text = customText || document.getElementById('question-text').innerText;
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'tr-TR'; utterance.rate = 0.85; // Biraz daha yavaş ve anlaşılır
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function showMenu() {
+            document.querySelectorAll('.bg-white > div').forEach(d => d.classList.add('hidden'));
+            document.getElementById('menu-screen').classList.remove('hidden');
+        }
+
+        function selectMode(mode) {
+            currentMode = mode;
+            document.getElementById('menu-screen').classList.add('hidden');
+            document.getElementById('difficulty-screen').classList.remove('hidden');
+        }
+
+        function startGame(difficulty) {
+            maxNum = difficulty; score = 0; questionCount = 1;
+            document.querySelectorAll('.bg-white > div').forEach(d => d.classList.add('hidden'));
+            document.getElementById('game-screen').classList.remove('hidden');
+            document.getElementById('header-area').classList.remove('hidden');
+            setupUI(); generateQuestion();
+            setTimeout(playQuestionAudio, 500);
+        }
+
+        function setupUI() {
+            const texts = { buyuk: 'Hangisi daha BÜYÜK?', kucuk: 'Hangisi daha KÜÇÜK?', esit: 'Sayılar EŞİT mi?' };
+            const colors = { buyuk: 'text-green-600', kucuk: 'text-blue-600', esit: 'text-purple-600' };
+            const qEl = document.getElementById('question-text');
+            qEl.innerText = texts[currentMode];
+            qEl.className = `text-4xl md:text-5xl font-extrabold ${colors[currentMode]}`;
+        }
+
+        function resetCardStyles() {
+            const elements = ['num-box-1', 'num-box-2', 'btn-equal-true', 'btn-equal-false'];
+            elements.forEach(id => {
+                const el = document.getElementById(id);
+                el.classList.remove('card-correct', 'card-wrong', 'shake-hard');
+                if(id.startsWith('num-box')) el.parentElement.classList.remove('card-dimmed');
+            });
+            
+            const operator = document.getElementById('operator');
+            operator.innerText = 've';
+            operator.className = 'text-6xl md:text-7xl font-bold text-gray-300 transition-all duration-300';
+        }
+
+        function generateQuestion() {
+            if (questionCount > 10) return endGame();
+            
+            resetCardStyles();
+
+            document.getElementById('q-count').innerText = questionCount;
+            document.getElementById('progress-bar').style.width = (questionCount * 10) + '%';
+            document.getElementById('message').innerText = 'Hadi seç bakalım!';
+            document.getElementById('message').className = 'text-3xl font-bold text-gray-400 mt-6';
+            
+            setupUI();
+            if (currentMode === 'esit') {
+                document.getElementById('equal-buttons').style.display = 'grid';
+                document.getElementById('card1').style.pointerEvents = 'none';
+                document.getElementById('card2').style.pointerEvents = 'none';
+            } else {
+                document.getElementById('equal-buttons').style.display = 'none';
+                document.getElementById('card1').style.pointerEvents = 'auto';
+                document.getElementById('card2').style.pointerEvents = 'auto';
+            }
+
+            scoreAddedForQuestion = false;
+
+            if (currentMode === 'esit') {
+                num1 = Math.floor(Math.random() * maxNum) + 1;
+                num2 = Math.random() < 0.4 ? num1 : Math.floor(Math.random() * maxNum) + 1;
+            } else {
+                do { num1 = Math.floor(Math.random() * maxNum) + 1; num2 = Math.floor(Math.random() * maxNum) + 1; } while (num1 === num2);
+            }
+            
+            document.getElementById('num-box-1').innerText = num1;
+            document.getElementById('num-box-2').innerText = num2;
+            
+            drawVisualItems(num1, 'items1'); drawVisualItems(num2, 'items2');
+            isWaiting = false;
+        }
+
+        function drawVisualItems(num, elementId) {
+            const container = document.getElementById(elementId);
+            container.innerHTML = '';
+            // Sadece 10'a kadar olan seviyede elmalar çıkar
+            if (maxNum !== 10) return;
+            
+            for (let i = 0; i < num; i++) {
+                const item = document.createElement('div');
+                item.innerText = '🍎'; // Soyut noktalar yerine somut elma
+                item.className = 'text-3xl md:text-4xl';
+                container.appendChild(item);
+            }
+        }
+
+        function showOperatorFeedback() {
+            const op = document.getElementById('operator');
+            if (num1 > num2) { op.innerText = '>'; op.style.color = '#ef4444'; }
+            else if (num1 < num2) { op.innerText = '<'; op.style.color = '#ef4444'; }
+            else { op.innerText = '='; op.style.color = '#22c55e'; }
+            op.className = 'text-[7rem] md:text-[10rem] font-black transition-all duration-300 pop-in';
+        }
+
+        function handleCardClick(id) {
+            if (isWaiting) return;
+            const isCorrect = currentMode === 'buyuk' ? (id === 1 ? num1 > num2 : num2 > num1) : (id === 1 ? num1 < num2 : num2 < num1);
+            const targetId = `num-box-${id}`;
+            const otherId = `num-box-${id === 1 ? 2 : 1}`;
+            processAnswer(isCorrect, document.getElementById(targetId), document.getElementById(otherId));
+        }
+
+        function handleEqualClick(val) {
+            if (isWaiting) return;
+            const isEqual = (num1 === num2);
+            const isCorrect = (val === isEqual);
+            const target = document.getElementById(val ? 'btn-equal-true' : 'btn-equal-false');
+            const other = document.getElementById(val ? 'btn-equal-false' : 'btn-equal-true');
+            processAnswer(isCorrect, target, other, true);
+        }
+
+        function processAnswer(correct, targetElement, otherElement, isFromEqualButton = false) {
+            isWaiting = true;
+            const msg = document.getElementById('message');
+            
+            if (correct) {
+                if(!isFromEqualButton) {
+                    targetElement.classList.add('card-correct');
+                    otherElement.parentElement.classList.add('card-dimmed');
+                } else {
+                    targetElement.classList.add('card-correct');
+                    otherElement.style.opacity = '0.4';
+                }
+
+                showOperatorFeedback(); 
+
+                if (!scoreAddedForQuestion) score += 10;
+                playSound(true);
+                
+                msg.innerText = 'Harika! Doğru bildin 🌟'; 
+                msg.className = 'text-4xl font-bold text-green-500 bounce-short mt-6';
+                
+                const rect = targetElement.getBoundingClientRect();
+                const x = (rect.left + rect.width / 2) / window.innerWidth;
+                const y = (rect.top + rect.height / 2) / window.innerHeight;
+                confetti({ particleCount: 50, spread: 70, origin: { x: x, y: y }, zIndex: 100 });
+
+                setTimeout(() => { 
+                    if(isFromEqualButton) otherElement.style.opacity = '1';
+                    questionCount++; 
+                    generateQuestion(); 
+                }, 2000);
+
+            } else {
+                scoreAddedForQuestion = true; 
+                playSound(false);
+                targetElement.classList.add('card-wrong', 'shake-hard');
+                
+                showOperatorFeedback(); 
+                
+                msg.innerText = 'Dikkatli bak! 🤔'; 
+                msg.className = 'text-4xl font-bold text-red-500 mt-6';
+                
+                setTimeout(() => { 
+                    targetElement.classList.remove('card-wrong', 'shake-hard');
+                    const op = document.getElementById('operator');
+                    op.innerText = 've';
+                    op.className = 'text-6xl md:text-7xl font-bold text-gray-300 transition-all duration-300';
+                    
+                    msg.innerText = 'Hadi tekrar düşün!'; 
+                    msg.className = 'text-3xl font-bold text-gray-400 mt-6';
+                    isWaiting = false; 
+                }, 1500);
+            }
+        }
+
+        function endGame() {
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('header-area').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+            
+            let stars = '';
+            if(score >= 80) stars = '⭐⭐⭐';
+            else if(score >= 50) stars = '⭐⭐';
+            else stars = '⭐';
+            
+            document.getElementById('star-rating').innerText = stars;
+            confetti({ particleCount: 300, spread: 150, origin: { y: 0.6 } });
+            playQuestionAudio('Tebrikler! Oyunu tamamladın.');
+        }
+    </script>
+</body>
+</html>
