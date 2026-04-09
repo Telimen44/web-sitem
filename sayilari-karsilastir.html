@@ -797,22 +797,22 @@
         (() => {
             const MODE_META = {
                 buyuk: {
-                    label: 'Hangisi daha BUYUK?',
+                    label: 'Hangisi daha BÜYÜK?',
                     colorClass: 'text-green-600',
-                    badge: 'Buyuk',
-                    hint: 'Iki karti karsilastir ve daha buyuk sayiyi sec.'
+                    badge: 'Büyük',
+                    hint: 'İki kartı karşılaştır ve daha büyük sayıyı seç.'
                 },
                 kucuk: {
-                    label: 'Hangisi daha KUCUK?',
+                    label: 'Hangisi daha KÜÇÜK?',
                     colorClass: 'text-blue-600',
-                    badge: 'Kucuk',
-                    hint: 'Iki karti karsilastir ve daha kucuk sayiyi sec.'
+                    badge: 'Küçük',
+                    hint: 'İki kartı karşılaştır ve daha küçük sayıyı seç.'
                 },
                 esit: {
-                    label: 'Sayilar ESIT mi?',
+                    label: 'Sayılar EŞİT mi?',
                     colorClass: 'text-purple-600',
-                    badge: 'Esit mi?',
-                    hint: 'Sayi ve nesne miktarlari ayniysa Evet, degilse Hayir.'
+                    badge: 'Eşit mi?',
+                    hint: 'Sayı ve nesne miktarları aynıysa Evet, değilse Hayır.'
                 }
             };
 
@@ -822,6 +822,7 @@
             const ROUND_COUNT = 10;
             const MIXED_MODES = ['buyuk', 'kucuk', 'esit'];
             let activeMode = '';
+            let selectedMinNum = 1;
             let selectedMaxNum = 10;
             let dynamicMaxNum = 10;
             let soundEnabled = true;
@@ -850,7 +851,7 @@
                     button.id = 'mixed-mode-btn';
                     button.type = 'button';
                     button.className = 'w-full text-3xl md:text-4xl font-bold text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-3xl py-12 shadow-lg transition active:scale-95';
-                    button.textContent = 'Karisik Mod';
+                    button.textContent = 'Karışık Mod';
                     button.addEventListener('click', () => selectMode('karisik'));
                     menuGrid.appendChild(button);
                 }
@@ -861,7 +862,7 @@
                     const note = document.createElement('p');
                     note.id = 'adaptive-note';
                     note.className = 'text-lg md:text-xl text-gray-500 font-semibold';
-                    note.textContent = 'Uyumlu zorluk acik. Oyun seni yormadan adim adim ilerler.';
+                    note.textContent = 'Uyumlu zorluk açık. Oyun seni yormadan adım adım ilerler.';
                     backButton.insertAdjacentElement('beforebegin', note);
                 }
 
@@ -872,15 +873,15 @@
                         replayButton.id = 'replay-btn-main';
                         replayButton.type = 'button';
                         replayButton.innerHTML = '&#128264;';
-                        replayButton.title = 'Yonergeyi yeniden dinle';
-                        replayButton.setAttribute('aria-label', 'Yonergeyi yeniden dinle');
+                        replayButton.title = 'Yönergeyi yeniden dinle';
+                        replayButton.setAttribute('aria-label', 'Yönergeyi yeniden dinle');
                     }
 
                     if (!document.getElementById('hint-text')) {
                         const hint = document.createElement('p');
                         hint.id = 'hint-text';
                         hint.className = 'text-lg md:text-xl text-slate-500 font-semibold';
-                        hint.textContent = 'Kartlara bak, sayilari karsilastir ve dogru cevabi sec.';
+                        hint.textContent = 'Kartlara bak, sayıları karşılaştır ve doğru cevabı seç.';
                         questionArea.appendChild(hint);
                     }
                 }
@@ -901,14 +902,28 @@
                 }
             }
 
+            function getDifficultyConfig() {
+                if (selectedMaxNum <= 10) {
+                    return { min: 1, startMax: 10, step: 1, adaptive: false };
+                }
+
+                if (selectedMaxNum <= 50) {
+                    return { min: 11, startMax: 25, step: 5, adaptive: true };
+                }
+
+                return { min: 51, startMax: 70, step: 10, adaptive: true };
+            }
+
+            function getQuestionMin() {
+                return selectedMinNum;
+            }
+
             function getBaseMinRange() {
-                return Math.min(10, selectedMaxNum || 10);
+                return getDifficultyConfig().startMax;
             }
 
             function getAdaptiveStep() {
-                if (selectedMaxNum <= 10) return 1;
-                if (selectedMaxNum <= 50) return 5;
-                return 10;
+                return getDifficultyConfig().step;
             }
 
             function getQuestionLimit() {
@@ -929,8 +944,8 @@
 
                 const meta = getModeMeta(activeMode || currentMode || 'buyuk');
                 const supportText = getQuestionLimit() <= 10
-                    ? ' Somut nesneler de yardimci olacak.'
-                    : ' Onluk gruplar ve birler sana yardimci olacak.';
+                    ? ' Somut nesneler de yardımcı olacak.'
+                    : ' Onluk gruplar ve birler sana yardımcı olacak.';
                 hint.textContent = `${meta.hint}${supportText}`;
             }
 
@@ -953,15 +968,15 @@
                 }
 
                 if (difficultyBadge) {
-                    difficultyBadge.textContent = `1-${getQuestionLimit()}`;
-                    difficultyBadge.title = `Soru araligi. Hedef ust sinir ${selectedMaxNum}`;
+                    difficultyBadge.textContent = `${getQuestionMin()}-${getQuestionLimit()}`;
+                    difficultyBadge.title = `Soru aralığı. Hedef üst sınır ${selectedMaxNum}`;
                 }
 
                 if (adaptiveBadge) {
                     adaptiveBadge.textContent = selectedMaxNum === getBaseMinRange() ? '=' : '↕';
                     adaptiveBadge.title = selectedMaxNum === getBaseMinRange()
                         ? 'Sabit zorluk'
-                        : 'Uyumlu zorluk acik';
+                        : 'Uyumlu zorluk açık';
                 }
 
                 if (streakBadge) {
@@ -976,13 +991,13 @@
 
                 if (soundButton) {
                     soundButton.innerHTML = soundEnabled ? '&#128266;' : '&#128263;';
-                    soundButton.title = soundEnabled ? 'Sesi kapat' : 'Sesi ac';
+                    soundButton.title = soundEnabled ? 'Sesi kapat' : 'Sesi aç';
                     soundButton.setAttribute('aria-label', soundButton.title);
                 }
 
                 if (smartboardButton) {
                     smartboardButton.innerHTML = smartboardMode ? '&#128204;' : '&#128187;';
-                    smartboardButton.title = smartboardMode ? 'Tahta modu acik' : 'Tahta modu kapali';
+                    smartboardButton.title = smartboardMode ? 'Tahta modu açık' : 'Tahta modu kapalı';
                     smartboardButton.setAttribute('aria-label', smartboardButton.title);
                 }
 
@@ -998,8 +1013,20 @@
             }
 
             function updateCardLabelsEnhanced() {
-                document.getElementById('card1').setAttribute('aria-label', `Birinci sayi karti: ${num1}`);
-                document.getElementById('card2').setAttribute('aria-label', `Ikinci sayi karti: ${num2}`);
+                document.getElementById('card1').setAttribute('aria-label', `Birinci sayı kartı: ${num1}`);
+                document.getElementById('card2').setAttribute('aria-label', `İkinci sayı kartı: ${num2}`);
+            }
+
+            function getRandomInRange(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            function getDifferentRandomInRange(min, max, disallowed) {
+                let value;
+                do {
+                    value = getRandomInRange(min, max);
+                } while (value === disallowed);
+                return value;
             }
 
             function createVisualToken(text, className) {
@@ -1093,18 +1120,18 @@
                 const totalAttempts = stats.correct + stats.incorrect;
                 const accuracy = totalAttempts === 0 ? 0 : Math.round((stats.correct / totalAttempts) * 100);
                 const summaryLines = [
-                    `<p class="font-bold text-2xl mb-4">Kisa Oyun Ozeti</p>`,
-                    `<p><strong>Dogru cevap:</strong> ${stats.correct} / ${ROUND_COUNT}</p>`,
-                    `<p><strong>Yanlis deneme:</strong> ${stats.incorrect}</p>`,
-                    `<p><strong>Basari orani:</strong> %${accuracy}</p>`,
-                    `<p><strong>En uzun dogru serisi:</strong> ${stats.highestStreak}</p>`,
-                    `<p><strong>Kullanilan aralik:</strong> 1-${selectedMaxNum}</p>`,
-                    `<p><strong>Ulasilan son soru araligi:</strong> 1-${dynamicMaxNum}</p>`,
-                    `<p><strong>Gosterilen ipucu sayisi:</strong> ${stats.hintsShown}</p>`
+                    `<p class="font-bold text-2xl mb-4">Kısa Oyun Özeti</p>`,
+                    `<p><strong>Doğru cevap:</strong> ${stats.correct} / ${ROUND_COUNT}</p>`,
+                    `<p><strong>Yanlış deneme:</strong> ${stats.incorrect}</p>`,
+                    `<p><strong>Başarı oranı:</strong> %${accuracy}</p>`,
+                    `<p><strong>En uzun doğru serisi:</strong> ${stats.highestStreak}</p>`,
+                    `<p><strong>Seçilen zorluk:</strong> ${selectedMinNum}-${selectedMaxNum}</p>`,
+                    `<p><strong>Ulaşılan son soru aralığı:</strong> ${selectedMinNum}-${dynamicMaxNum}</p>`,
+                    `<p><strong>Gösterilen ipucu sayısı:</strong> ${stats.hintsShown}</p>`
                 ];
 
                 if (currentMode === 'karisik') {
-                    summaryLines.push(`<p><strong>Karisik mod dagilimi:</strong> Buyuk ${stats.mode.buyuk.correct}/${stats.mode.buyuk.correct + stats.mode.buyuk.incorrect || 0}, Kucuk ${stats.mode.kucuk.correct}/${stats.mode.kucuk.correct + stats.mode.kucuk.incorrect || 0}, Esit ${stats.mode.esit.correct}/${stats.mode.esit.correct + stats.mode.esit.incorrect || 0}</p>`);
+                    summaryLines.push(`<p><strong>Karışık mod dağılımı:</strong> Büyük ${stats.mode.buyuk.correct}/${stats.mode.buyuk.correct + stats.mode.buyuk.incorrect || 0}, Küçük ${stats.mode.kucuk.correct}/${stats.mode.kucuk.correct + stats.mode.kucuk.incorrect || 0}, Eşit ${stats.mode.esit.correct}/${stats.mode.esit.correct + stats.mode.esit.incorrect || 0}</p>`);
                 }
 
                 return summaryLines.join('');
@@ -1166,7 +1193,9 @@
                 cancelSpeech();
                 ensureUiEnhancements();
                 selectedMaxNum = difficulty;
-                dynamicMaxNum = getBaseMinRange();
+                const config = getDifficultyConfig();
+                selectedMinNum = config.min;
+                dynamicMaxNum = config.startMax;
                 maxNum = difficulty;
                 score = 0;
                 questionCount = 1;
@@ -1220,7 +1249,7 @@
                 document.getElementById('progress-bar').style.width = `${(questionCount / ROUND_COUNT) * 100}%`;
 
                 const message = document.getElementById('message');
-                message.innerText = 'Hadi sec bakalim!';
+                message.innerText = 'Hadi seç bakalım!';
                 message.className = 'text-3xl font-bold text-gray-400 mt-6';
 
                 setupUI();
@@ -1238,13 +1267,16 @@
 
                 scoreAddedForQuestion = false;
 
+                const questionMin = getQuestionMin();
+                const questionMax = getQuestionLimit();
+
                 if (activeMode === 'esit') {
-                    num1 = Math.floor(Math.random() * maxNum) + 1;
-                    num2 = Math.random() < 0.45 ? num1 : getDifferentRandomNumber(maxNum, num1);
+                    num1 = getRandomInRange(questionMin, questionMax);
+                    num2 = Math.random() < 0.45 ? num1 : getDifferentRandomInRange(questionMin, questionMax, num1);
                 } else {
                     do {
-                        num1 = Math.floor(Math.random() * maxNum) + 1;
-                        num2 = Math.floor(Math.random() * maxNum) + 1;
+                        num1 = getRandomInRange(questionMin, questionMax);
+                        num2 = getRandomInRange(questionMin, questionMax);
                     } while (num1 === num2);
                 }
 
@@ -1301,7 +1333,7 @@
                     playSound(true);
 
                     const streakMilestone = correctStreak >= 3 && correctStreak % 3 === 0;
-                    message.innerText = streakMilestone ? 'Super! Seri yaptin!' : 'Harika! Dogru bildin!';
+                    message.innerText = streakMilestone ? 'Süper! Seri yaptın!' : 'Harika! Doğru bildin!';
                     message.className = 'text-4xl font-bold text-green-500 bounce-short mt-6';
 
                     const rect = targetElement.getBoundingClientRect();
@@ -1341,14 +1373,14 @@
 
                 setTimeout(() => {
                     showHelpfulHint(isFromEqualButton);
-                    message.innerText = activeMode === 'esit' ? 'Ipuclari incele. Evet mi, Hayir mi?' : 'Ipuclari incele ve tekrar dene!';
+                    message.innerText = activeMode === 'esit' ? 'İpuçlarını incele. Evet mi, Hayır mı?' : 'İpuçlarını incele ve tekrar dene!';
                     message.className = 'text-3xl font-bold text-amber-500 mt-6';
                 }, 650);
 
                 setTimeout(() => {
                     adjustDifficulty(false);
                     resetCardStyles();
-                    message.innerText = 'Hadi tekrar dusun!';
+                    message.innerText = 'Hadi tekrar düşün!';
                     message.className = 'text-3xl font-bold text-gray-400 mt-6';
                     isWaiting = false;
                     updateHeaderBadges();
