@@ -121,15 +121,48 @@
             display: none !important;
         }
 
-        #game-screen > div:first-child > button {
-            min-width: 180px;
-            padding: 0.85rem 1.4rem;
+        #replay-btn-header,
+        #sound-toggle-btn,
+        #smartboard-toggle-btn,
+        #replay-btn-main {
+            width: 3.25rem;
+            height: 3.25rem;
+            min-width: 3.25rem;
+            padding: 0;
             border-radius: 999px;
             background: #e0f2fe;
             color: #0369a1;
-            font-size: 1.1rem;
+            font-size: 1.35rem;
             font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             box-shadow: 0 10px 25px rgba(14, 165, 233, 0.15);
+        }
+
+        #sound-toggle-btn {
+            background: #d1fae5;
+            color: #047857;
+        }
+
+        #smartboard-toggle-btn {
+            background: #ede9fe;
+            color: #6d28d9;
+        }
+
+        #replay-btn-main {
+            width: 3.6rem;
+            height: 3.6rem;
+            min-width: 3.6rem;
+            font-size: 1.45rem;
+        }
+
+        #mode-badge,
+        #difficulty-badge,
+        #adaptive-badge,
+        #streak-badge {
+            font-size: 0.92rem;
+            padding: 0.55rem 0.9rem;
         }
 
         #equal-buttons button {
@@ -272,9 +305,9 @@
                 <button onclick="selectMode('karisik')" class="w-full text-3xl md:text-4xl font-bold text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-3xl py-12 shadow-lg transition active:scale-95">KarÄ±ÅŸÄ±k Mod</button>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
-                <button id="replay-btn-header" onclick="playQuestionAudio()" class="text-lg bg-sky-100 hover:bg-sky-200 text-sky-700 py-3 px-6 rounded-full transition font-bold">YÃ¶nergeyi Dinle</button>
-                <button id="sound-toggle-btn" onclick="toggleSound()" class="text-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-700 py-3 px-6 rounded-full transition font-bold">Ses AÃ§Ä±k</button>
-                <button id="smartboard-toggle-btn" onclick="toggleSmartboardMode()" class="text-lg bg-violet-100 hover:bg-violet-200 text-violet-700 py-3 px-6 rounded-full transition font-bold">Tahta Modu KapalÄ±</button>
+                <button id="replay-btn-header" onclick="playQuestionAudio()" class="text-lg bg-sky-100 hover:bg-sky-200 text-sky-700 py-3 px-6 rounded-full transition font-bold" title="Yönergeyi yeniden dinle" aria-label="Yönergeyi yeniden dinle">&#128264;</button>
+                <button id="sound-toggle-btn" onclick="toggleSound()" class="text-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-700 py-3 px-6 rounded-full transition font-bold" title="Sesi aç veya kapat" aria-label="Sesi aç veya kapat">&#128266;</button>
+                <button id="smartboard-toggle-btn" onclick="toggleSmartboardMode()" class="text-lg bg-violet-100 hover:bg-violet-200 text-violet-700 py-3 px-6 rounded-full transition font-bold" title="Tahta modunu aç veya kapat" aria-label="Tahta modunu aç veya kapat">&#128187;</button>
             </div>
             <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
                 <div id="mode-badge" class="text-sm font-bold bg-slate-100 text-slate-600 py-2 px-4 rounded-full">Mod</div>
@@ -838,8 +871,9 @@
                     if (replayButton) {
                         replayButton.id = 'replay-btn-main';
                         replayButton.type = 'button';
-                        replayButton.textContent = 'Bir Daha Oku';
+                        replayButton.innerHTML = '&#128264;';
                         replayButton.title = 'Yonergeyi yeniden dinle';
+                        replayButton.setAttribute('aria-label', 'Yonergeyi yeniden dinle');
                     }
 
                     if (!document.getElementById('hint-text')) {
@@ -911,20 +945,23 @@
 
                 if (modeBadge) {
                     if (currentMode === 'karisik') {
-                        modeBadge.textContent = `Mod: Karisik / ${getModeMeta(activeMode || 'buyuk').badge}`;
+                        modeBadge.textContent = `Kar. / ${getModeMeta(activeMode || 'buyuk').badge}`;
                     } else {
-                        modeBadge.textContent = `Mod: ${getModeMeta(activeMode || currentMode || 'buyuk').badge}`;
+                        modeBadge.textContent = getModeMeta(activeMode || currentMode || 'buyuk').badge;
                     }
+                    modeBadge.title = 'Oyun modu';
                 }
 
                 if (difficultyBadge) {
-                    difficultyBadge.textContent = `Aralik: 1-${getQuestionLimit()} / hedef ${selectedMaxNum}`;
+                    difficultyBadge.textContent = `1-${getQuestionLimit()}`;
+                    difficultyBadge.title = `Soru araligi. Hedef ust sinir ${selectedMaxNum}`;
                 }
 
                 if (adaptiveBadge) {
-                    adaptiveBadge.textContent = selectedMaxNum === getBaseMinRange()
-                        ? 'Uyumlu Zorluk Sabit'
-                        : 'Uyumlu Zorluk Acik';
+                    adaptiveBadge.textContent = selectedMaxNum === getBaseMinRange() ? '=' : '↕';
+                    adaptiveBadge.title = selectedMaxNum === getBaseMinRange()
+                        ? 'Sabit zorluk'
+                        : 'Uyumlu zorluk acik';
                 }
 
                 if (streakBadge) {
@@ -938,11 +975,15 @@
                 }
 
                 if (soundButton) {
-                    soundButton.textContent = soundEnabled ? 'Ses Acik' : 'Ses Kapali';
+                    soundButton.innerHTML = soundEnabled ? '&#128266;' : '&#128263;';
+                    soundButton.title = soundEnabled ? 'Sesi kapat' : 'Sesi ac';
+                    soundButton.setAttribute('aria-label', soundButton.title);
                 }
 
                 if (smartboardButton) {
-                    smartboardButton.textContent = smartboardMode ? 'Tahta Modu Acik' : 'Tahta Modu Kapali';
+                    smartboardButton.innerHTML = smartboardMode ? '&#128204;' : '&#128187;';
+                    smartboardButton.title = smartboardMode ? 'Tahta modu acik' : 'Tahta modu kapali';
+                    smartboardButton.setAttribute('aria-label', smartboardButton.title);
                 }
 
                 replayButtons.forEach((button) => {
