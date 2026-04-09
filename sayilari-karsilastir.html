@@ -556,9 +556,11 @@
             
             setupUI();
             if (currentMode === 'esit') {
+                document.getElementById('equal-buttons').classList.remove('hidden');
                 document.getElementById('equal-buttons').style.display = 'grid';
                 setCardInteractivity(false);
             } else {
+                document.getElementById('equal-buttons').classList.add('hidden');
                 document.getElementById('equal-buttons').style.display = 'none';
                 setCardInteractivity(true);
             }
