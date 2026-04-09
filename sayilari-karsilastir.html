@@ -82,6 +82,60 @@
             transition: all 0.4s ease;
         }
 
+        .card-hint {
+            border-color: #f59e0b !important;
+            background-color: #fef3c7 !important;
+            color: #b45309 !important;
+            box-shadow: 0 0 0 10px rgba(250, 204, 21, 0.22), 0 0 45px rgba(245, 158, 11, 0.45) !important;
+            transform: scale(1.05) !important;
+        }
+
+        .streak-pop { animation: streak-pop 0.55s ease-out; }
+        @keyframes streak-pop {
+            0% { transform: scale(0.85); opacity: 0.3; }
+            60% { transform: scale(1.08); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        body.smartboard-mode .bg-white {
+            max-width: min(100%, 1320px);
+            padding: 2.8rem;
+        }
+
+        body.smartboard-mode #question-text {
+            font-size: clamp(3.3rem, 5.4vw, 5.7rem) !important;
+        }
+
+        body.smartboard-mode #num-box-1,
+        body.smartboard-mode #num-box-2 {
+            min-height: 23rem;
+            font-size: clamp(7rem, 12vw, 12rem) !important;
+        }
+
+        body.smartboard-mode #equal-buttons button {
+            min-height: 13rem;
+            font-size: clamp(2.4rem, 4vw, 3.6rem) !important;
+        }
+
+        #header-area > div:first-child > button[onclick="selectMode('karisik')"] {
+            display: none !important;
+        }
+
+        #game-screen > div:first-child > button {
+            min-width: 180px;
+            padding: 0.85rem 1.4rem;
+            border-radius: 999px;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 1.1rem;
+            font-weight: 800;
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.15);
+        }
+
+        #equal-buttons button {
+            min-height: 11rem;
+        }
+
         /* Sabit ve Sakin Arka Plan */
         .theme-sky { background: linear-gradient(135deg, #bae6fd, #e0f2fe); }
 
@@ -215,6 +269,18 @@
             <div class="flex justify-between items-center mb-4">
                 <button onclick="showMenu()" class="text-xl bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-8 rounded-full transition font-bold">Menü</button>
                 <span class="text-2xl font-bold text-gray-400">Soru: <span id="q-count">1</span>/10</span>
+                <button onclick="selectMode('karisik')" class="w-full text-3xl md:text-4xl font-bold text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-3xl py-12 shadow-lg transition active:scale-95">KarÄ±ÅŸÄ±k Mod</button>
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
+                <button id="replay-btn-header" onclick="playQuestionAudio()" class="text-lg bg-sky-100 hover:bg-sky-200 text-sky-700 py-3 px-6 rounded-full transition font-bold">YÃ¶nergeyi Dinle</button>
+                <button id="sound-toggle-btn" onclick="toggleSound()" class="text-lg bg-emerald-100 hover:bg-emerald-200 text-emerald-700 py-3 px-6 rounded-full transition font-bold">Ses AÃ§Ä±k</button>
+                <button id="smartboard-toggle-btn" onclick="toggleSmartboardMode()" class="text-lg bg-violet-100 hover:bg-violet-200 text-violet-700 py-3 px-6 rounded-full transition font-bold">Tahta Modu KapalÄ±</button>
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
+                <div id="mode-badge" class="text-sm font-bold bg-slate-100 text-slate-600 py-2 px-4 rounded-full">Mod</div>
+                <div id="difficulty-badge" class="text-sm font-bold bg-slate-100 text-slate-600 py-2 px-4 rounded-full">AralÄ±k</div>
+                <div id="adaptive-badge" class="text-sm font-bold bg-amber-100 text-amber-700 py-2 px-4 rounded-full">Uyumlu Zorluk AÃ§Ä±k</div>
+                <div id="streak-badge" class="hidden text-sm font-bold bg-rose-100 text-rose-700 py-2 px-4 rounded-full">Seri: 0</div>
             </div>
             <div class="w-full bg-gray-100 rounded-full h-6">
                 <div id="progress-bar" class="bg-green-500 h-6 rounded-full transition-all duration-500 ease-out" style="width: 10%"></div>
@@ -223,7 +289,7 @@
 
         <div id="menu-screen" class="space-y-8 py-8">
             <h1 class="text-5xl md:text-6xl font-extrabold text-sky-600 mb-12">Ne Oynamak İstersin?</h1>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <button onclick="selectMode('buyuk')" class="w-full text-3xl md:text-4xl font-bold text-white bg-green-500 hover:bg-green-400 rounded-3xl py-12 shadow-lg transition active:scale-95">Büyük Olanı Bul</button>
                 <button onclick="selectMode('kucuk')" class="w-full text-3xl md:text-4xl font-bold text-white bg-blue-500 hover:bg-blue-400 rounded-3xl py-12 shadow-lg transition active:scale-95">Küçük Olanı Bul</button>
                 <button onclick="selectMode('esit')" class="w-full text-3xl md:text-4xl font-bold text-white bg-purple-500 hover:bg-purple-400 rounded-3xl py-12 shadow-lg transition active:scale-95">Sayılar Eşit mi?</button>
@@ -241,7 +307,7 @@
         </div>
 
         <div id="game-screen" class="hidden py-4">
-            <div class="flex justify-center items-center gap-6 mb-12 h-16">
+            <div class="flex flex-col justify-center items-center gap-4 mb-10">
                 <h2 id="question-text" class="text-4xl md:text-5xl font-extrabold">...</h2>
                 <button onclick="playQuestionAudio()" class="text-5xl hover:scale-110 active:scale-90 transition-transform" title="Dinle">🔊</button>
             </div>
@@ -693,6 +759,595 @@
             celebrate({ particleCount: 300, spread: 150, origin: { y: 0.6 } });
             playNarration('game_complete');
         }
+    </script>
+    <script>
+        (() => {
+            const MODE_META = {
+                buyuk: {
+                    label: 'Hangisi daha BUYUK?',
+                    colorClass: 'text-green-600',
+                    badge: 'Buyuk',
+                    hint: 'Iki karti karsilastir ve daha buyuk sayiyi sec.'
+                },
+                kucuk: {
+                    label: 'Hangisi daha KUCUK?',
+                    colorClass: 'text-blue-600',
+                    badge: 'Kucuk',
+                    hint: 'Iki karti karsilastir ve daha kucuk sayiyi sec.'
+                },
+                esit: {
+                    label: 'Sayilar ESIT mi?',
+                    colorClass: 'text-purple-600',
+                    badge: 'Esit mi?',
+                    hint: 'Sayi ve nesne miktarlari ayniysa Evet, degilse Hayir.'
+                }
+            };
+
+            const basePlaySound = playSound;
+            const basePlayNarration = playNarration;
+            const baseResetCardStyles = resetCardStyles;
+            const ROUND_COUNT = 10;
+            const MIXED_MODES = ['buyuk', 'kucuk', 'esit'];
+            let activeMode = '';
+            let selectedMaxNum = 10;
+            let dynamicMaxNum = 10;
+            let soundEnabled = true;
+            let smartboardMode = false;
+            let correctStreak = 0;
+            let stats = createEmptyStats();
+
+            function createEmptyStats() {
+                return {
+                    correct: 0,
+                    incorrect: 0,
+                    highestStreak: 0,
+                    hintsShown: 0,
+                    mode: {
+                        buyuk: { correct: 0, incorrect: 0 },
+                        kucuk: { correct: 0, incorrect: 0 },
+                        esit: { correct: 0, incorrect: 0 }
+                    }
+                };
+            }
+
+            function ensureUiEnhancements() {
+                const menuGrid = document.querySelector('#menu-screen .grid');
+                if (menuGrid && !document.getElementById('mixed-mode-btn')) {
+                    const button = document.createElement('button');
+                    button.id = 'mixed-mode-btn';
+                    button.type = 'button';
+                    button.className = 'w-full text-3xl md:text-4xl font-bold text-white bg-fuchsia-500 hover:bg-fuchsia-400 rounded-3xl py-12 shadow-lg transition active:scale-95';
+                    button.textContent = 'Karisik Mod';
+                    button.addEventListener('click', () => selectMode('karisik'));
+                    menuGrid.appendChild(button);
+                }
+
+                const difficultyScreen = document.getElementById('difficulty-screen');
+                const backButton = difficultyScreen ? difficultyScreen.querySelector('button[onclick="showMenu()"]') : null;
+                if (difficultyScreen && backButton && !document.getElementById('adaptive-note')) {
+                    const note = document.createElement('p');
+                    note.id = 'adaptive-note';
+                    note.className = 'text-lg md:text-xl text-gray-500 font-semibold';
+                    note.textContent = 'Uyumlu zorluk acik. Oyun seni yormadan adim adim ilerler.';
+                    backButton.insertAdjacentElement('beforebegin', note);
+                }
+
+                const questionArea = document.querySelector('#game-screen > div:first-child');
+                if (questionArea) {
+                    const replayButton = questionArea.querySelector('button');
+                    if (replayButton) {
+                        replayButton.id = 'replay-btn-main';
+                        replayButton.type = 'button';
+                        replayButton.textContent = 'Bir Daha Oku';
+                        replayButton.title = 'Yonergeyi yeniden dinle';
+                    }
+
+                    if (!document.getElementById('hint-text')) {
+                        const hint = document.createElement('p');
+                        hint.id = 'hint-text';
+                        hint.className = 'text-lg md:text-xl text-slate-500 font-semibold';
+                        hint.textContent = 'Kartlara bak, sayilari karsilastir ve dogru cevabi sec.';
+                        questionArea.appendChild(hint);
+                    }
+                }
+
+                const resultScreen = document.getElementById('result-screen');
+                const buttonRow = resultScreen ? resultScreen.querySelector('.flex.justify-center.gap-8') : null;
+                if (resultScreen && buttonRow && !document.getElementById('teacher-summary')) {
+                    const summary = document.createElement('div');
+                    summary.id = 'teacher-summary';
+                    summary.className = 'max-w-3xl mx-auto text-left bg-slate-50 rounded-[2rem] p-6 md:p-8 shadow-inner text-xl text-slate-700 mb-12 pop-in';
+                    summary.style.animationDelay = '0.5s';
+                    buttonRow.insertAdjacentElement('beforebegin', summary);
+                }
+
+                const replayGameButton = document.querySelector('#result-screen button[onclick="startGame(maxNum)"]');
+                if (replayGameButton) {
+                    replayGameButton.onclick = () => startGame(selectedMaxNum || maxNum || 10);
+                }
+            }
+
+            function getBaseMinRange() {
+                return Math.min(10, selectedMaxNum || 10);
+            }
+
+            function getAdaptiveStep() {
+                if (selectedMaxNum <= 10) return 1;
+                if (selectedMaxNum <= 50) return 5;
+                return 10;
+            }
+
+            function getQuestionLimit() {
+                return dynamicMaxNum;
+            }
+
+            function pickMixedMode() {
+                return MIXED_MODES[Math.floor(Math.random() * MIXED_MODES.length)];
+            }
+
+            function getModeMeta(mode) {
+                return MODE_META[mode] || MODE_META.buyuk;
+            }
+
+            function updateHintText() {
+                const hint = document.getElementById('hint-text');
+                if (!hint) return;
+
+                const meta = getModeMeta(activeMode || currentMode || 'buyuk');
+                const supportText = getQuestionLimit() <= 10
+                    ? ' Somut nesneler de yardimci olacak.'
+                    : ' Onluk gruplar ve birler sana yardimci olacak.';
+                hint.textContent = `${meta.hint}${supportText}`;
+            }
+
+            function updateHeaderBadges() {
+                const modeBadge = document.getElementById('mode-badge');
+                const difficultyBadge = document.getElementById('difficulty-badge');
+                const adaptiveBadge = document.getElementById('adaptive-badge');
+                const streakBadge = document.getElementById('streak-badge');
+                const soundButton = document.getElementById('sound-toggle-btn');
+                const smartboardButton = document.getElementById('smartboard-toggle-btn');
+                const replayButtons = [document.getElementById('replay-btn-header'), document.getElementById('replay-btn-main')];
+
+                if (modeBadge) {
+                    if (currentMode === 'karisik') {
+                        modeBadge.textContent = `Mod: Karisik / ${getModeMeta(activeMode || 'buyuk').badge}`;
+                    } else {
+                        modeBadge.textContent = `Mod: ${getModeMeta(activeMode || currentMode || 'buyuk').badge}`;
+                    }
+                }
+
+                if (difficultyBadge) {
+                    difficultyBadge.textContent = `Aralik: 1-${getQuestionLimit()} / hedef ${selectedMaxNum}`;
+                }
+
+                if (adaptiveBadge) {
+                    adaptiveBadge.textContent = selectedMaxNum === getBaseMinRange()
+                        ? 'Uyumlu Zorluk Sabit'
+                        : 'Uyumlu Zorluk Acik';
+                }
+
+                if (streakBadge) {
+                    if (correctStreak >= 2) {
+                        streakBadge.classList.remove('hidden');
+                        streakBadge.textContent = `Seri: ${correctStreak}`;
+                    } else {
+                        streakBadge.classList.add('hidden');
+                        streakBadge.textContent = 'Seri: 0';
+                    }
+                }
+
+                if (soundButton) {
+                    soundButton.textContent = soundEnabled ? 'Ses Acik' : 'Ses Kapali';
+                }
+
+                if (smartboardButton) {
+                    smartboardButton.textContent = smartboardMode ? 'Tahta Modu Acik' : 'Tahta Modu Kapali';
+                }
+
+                replayButtons.forEach((button) => {
+                    if (!button) return;
+                    button.disabled = !soundEnabled;
+                    button.classList.toggle('opacity-50', !soundEnabled);
+                    button.classList.toggle('cursor-not-allowed', !soundEnabled);
+                });
+
+                document.body.classList.toggle('smartboard-mode', smartboardMode);
+                updateHintText();
+            }
+
+            function updateCardLabelsEnhanced() {
+                document.getElementById('card1').setAttribute('aria-label', `Birinci sayi karti: ${num1}`);
+                document.getElementById('card2').setAttribute('aria-label', `Ikinci sayi karti: ${num2}`);
+            }
+
+            function createVisualToken(text, className) {
+                const item = document.createElement('div');
+                item.textContent = text;
+                item.className = className;
+                return item;
+            }
+
+            function showConcreteQuantity(num, container) {
+                const tens = Math.floor(num / 10);
+                const ones = num % 10;
+
+                if (tens > 0) {
+                    const tensRow = document.createElement('div');
+                    tensRow.className = 'flex flex-wrap justify-center gap-2';
+                    for (let i = 0; i < tens; i++) {
+                        tensRow.appendChild(createVisualToken('10', 'w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-sky-200 text-sky-800 font-black flex items-center justify-center shadow-sm'));
+                    }
+                    container.appendChild(tensRow);
+                }
+
+                const onesRow = document.createElement('div');
+                onesRow.className = 'flex flex-wrap justify-center gap-2';
+                for (let i = 0; i < ones; i++) {
+                    onesRow.appendChild(createVisualToken('\u25CF', 'text-2xl md:text-3xl text-rose-500'));
+                }
+
+                if (ones > 0) {
+                    container.appendChild(onesRow);
+                }
+
+                if (tens === 0 && ones === 0) {
+                    container.appendChild(createVisualToken('0', 'text-2xl font-bold text-slate-400'));
+                }
+            }
+
+            function flashStreakBadge() {
+                const streakBadge = document.getElementById('streak-badge');
+                if (!streakBadge) return;
+                streakBadge.classList.remove('streak-pop');
+                void streakBadge.offsetWidth;
+                streakBadge.classList.add('streak-pop');
+            }
+
+            function getCorrectCardId() {
+                if (activeMode === 'buyuk') return num1 > num2 ? 'num-box-1' : 'num-box-2';
+                if (activeMode === 'kucuk') return num1 < num2 ? 'num-box-1' : 'num-box-2';
+                return '';
+            }
+
+            function showHelpfulHint(isFromEqualButton) {
+                stats.hintsShown += 1;
+                showOperatorFeedback();
+
+                if (isFromEqualButton || activeMode === 'esit') {
+                    const correctButton = document.getElementById(num1 === num2 ? 'btn-equal-true' : 'btn-equal-false');
+                    const otherButton = document.getElementById(num1 === num2 ? 'btn-equal-false' : 'btn-equal-true');
+                    if (correctButton) correctButton.classList.add('card-hint');
+                    if (otherButton) otherButton.style.opacity = '0.55';
+                    return;
+                }
+
+                const correctId = getCorrectCardId();
+                const wrongId = correctId === 'num-box-1' ? 'num-box-2' : 'num-box-1';
+                const correctCard = document.getElementById(correctId);
+                const wrongCard = document.getElementById(wrongId);
+                if (correctCard) correctCard.classList.add('card-hint');
+                if (wrongCard && wrongCard.parentElement) wrongCard.parentElement.classList.add('card-dimmed');
+            }
+
+            function adjustDifficulty(wasCorrect) {
+                const minRange = getBaseMinRange();
+                const step = getAdaptiveStep();
+
+                if (wasCorrect) {
+                    if (correctStreak > 0 && correctStreak % 2 === 0) {
+                        dynamicMaxNum = Math.min(selectedMaxNum, dynamicMaxNum + step);
+                    }
+                    return;
+                }
+
+                dynamicMaxNum = Math.max(minRange, dynamicMaxNum - step);
+            }
+
+            function syncQuestionMode() {
+                activeMode = currentMode === 'karisik' ? pickMixedMode() : currentMode;
+            }
+
+            function buildSummaryHtml() {
+                const totalAttempts = stats.correct + stats.incorrect;
+                const accuracy = totalAttempts === 0 ? 0 : Math.round((stats.correct / totalAttempts) * 100);
+                const summaryLines = [
+                    `<p class="font-bold text-2xl mb-4">Kisa Oyun Ozeti</p>`,
+                    `<p><strong>Dogru cevap:</strong> ${stats.correct} / ${ROUND_COUNT}</p>`,
+                    `<p><strong>Yanlis deneme:</strong> ${stats.incorrect}</p>`,
+                    `<p><strong>Basari orani:</strong> %${accuracy}</p>`,
+                    `<p><strong>En uzun dogru serisi:</strong> ${stats.highestStreak}</p>`,
+                    `<p><strong>Kullanilan aralik:</strong> 1-${selectedMaxNum}</p>`,
+                    `<p><strong>Ulasilan son soru araligi:</strong> 1-${dynamicMaxNum}</p>`,
+                    `<p><strong>Gosterilen ipucu sayisi:</strong> ${stats.hintsShown}</p>`
+                ];
+
+                if (currentMode === 'karisik') {
+                    summaryLines.push(`<p><strong>Karisik mod dagilimi:</strong> Buyuk ${stats.mode.buyuk.correct}/${stats.mode.buyuk.correct + stats.mode.buyuk.incorrect || 0}, Kucuk ${stats.mode.kucuk.correct}/${stats.mode.kucuk.correct + stats.mode.kucuk.incorrect || 0}, Esit ${stats.mode.esit.correct}/${stats.mode.esit.correct + stats.mode.esit.incorrect || 0}</p>`);
+                }
+
+                return summaryLines.join('');
+            }
+
+            getCurrentQuestionNarrationKey = function() {
+                if (activeMode === 'buyuk') return 'question_buyuk';
+                if (activeMode === 'kucuk') return 'question_kucuk';
+                if (activeMode === 'esit') return 'question_esit';
+                return null;
+            };
+
+            playSound = function(isCorrect) {
+                if (!soundEnabled) return;
+                basePlaySound(isCorrect);
+            };
+
+            playNarration = function(key) {
+                if (!soundEnabled) return;
+                basePlayNarration(key);
+            };
+
+            playQuestionAudio = function() {
+                if (!soundEnabled) return;
+                const key = getCurrentQuestionNarrationKey();
+                if (key) basePlayNarration(key);
+            };
+
+            resetCardStyles = function() {
+                baseResetCardStyles();
+                ['num-box-1', 'num-box-2', 'btn-equal-true', 'btn-equal-false'].forEach((id) => {
+                    const element = document.getElementById(id);
+                    if (!element) return;
+                    element.classList.remove('card-hint');
+                    element.style.opacity = '1';
+                });
+            };
+
+            showMenu = function() {
+                cancelSpeech();
+                isWaiting = false;
+                ensureUiEnhancements();
+                document.querySelectorAll('.bg-white > div').forEach((section) => section.classList.add('hidden'));
+                document.getElementById('menu-screen').classList.remove('hidden');
+                activeMode = '';
+                updateHeaderBadges();
+            };
+
+            selectMode = function(mode) {
+                ensureUiEnhancements();
+                currentMode = mode;
+                activeMode = mode === 'karisik' ? 'buyuk' : mode;
+                document.getElementById('menu-screen').classList.add('hidden');
+                document.getElementById('difficulty-screen').classList.remove('hidden');
+                updateHeaderBadges();
+            };
+
+            startGame = function(difficulty) {
+                cancelSpeech();
+                ensureUiEnhancements();
+                selectedMaxNum = difficulty;
+                dynamicMaxNum = getBaseMinRange();
+                maxNum = difficulty;
+                score = 0;
+                questionCount = 1;
+                correctStreak = 0;
+                stats = createEmptyStats();
+                document.querySelectorAll('.bg-white > div').forEach((section) => section.classList.add('hidden'));
+                document.getElementById('game-screen').classList.remove('hidden');
+                document.getElementById('header-area').classList.remove('hidden');
+                generateQuestion();
+            };
+
+            setupUI = function() {
+                const meta = getModeMeta(activeMode || currentMode || 'buyuk');
+                const questionText = document.getElementById('question-text');
+                if (questionText) {
+                    questionText.innerText = meta.label;
+                    questionText.className = `text-4xl md:text-5xl font-extrabold ${meta.colorClass}`;
+                }
+                updateHeaderBadges();
+            };
+
+            drawVisualItems = function(num, elementId) {
+                const container = document.getElementById(elementId);
+                if (!container) return;
+                container.innerHTML = '';
+
+                if (getQuestionLimit() <= 10) {
+                    container.style.gridTemplateColumns = 'repeat(5, minmax(0, max-content))';
+                    for (let i = 0; i < num; i++) {
+                        container.appendChild(createVisualToken('\ud83c\udf4e', 'text-3xl md:text-4xl'));
+                    }
+                    return;
+                }
+
+                container.style.gridTemplateColumns = '1fr';
+                showConcreteQuantity(num, container);
+            };
+
+            generateQuestion = function() {
+                if (questionCount > ROUND_COUNT) {
+                    endGame();
+                    return;
+                }
+
+                ensureUiEnhancements();
+                syncQuestionMode();
+                maxNum = getQuestionLimit();
+                resetCardStyles();
+
+                document.getElementById('q-count').innerText = questionCount;
+                document.getElementById('progress-bar').style.width = `${(questionCount / ROUND_COUNT) * 100}%`;
+
+                const message = document.getElementById('message');
+                message.innerText = 'Hadi sec bakalim!';
+                message.className = 'text-3xl font-bold text-gray-400 mt-6';
+
+                setupUI();
+
+                const equalButtons = document.getElementById('equal-buttons');
+                if (activeMode === 'esit') {
+                    equalButtons.classList.remove('hidden');
+                    equalButtons.style.display = 'grid';
+                    setCardInteractivity(false);
+                } else {
+                    equalButtons.classList.add('hidden');
+                    equalButtons.style.display = 'none';
+                    setCardInteractivity(true);
+                }
+
+                scoreAddedForQuestion = false;
+
+                if (activeMode === 'esit') {
+                    num1 = Math.floor(Math.random() * maxNum) + 1;
+                    num2 = Math.random() < 0.45 ? num1 : getDifferentRandomNumber(maxNum, num1);
+                } else {
+                    do {
+                        num1 = Math.floor(Math.random() * maxNum) + 1;
+                        num2 = Math.floor(Math.random() * maxNum) + 1;
+                    } while (num1 === num2);
+                }
+
+                document.getElementById('num-box-1').innerText = num1;
+                document.getElementById('num-box-2').innerText = num2;
+                updateCardLabelsEnhanced();
+                drawVisualItems(num1, 'items1');
+                drawVisualItems(num2, 'items2');
+                isWaiting = false;
+                updateHeaderBadges();
+                queueQuestionAudio(questionCount === 1 ? 500 : 280);
+            };
+
+            handleCardClick = function(id) {
+                if (isWaiting || activeMode === 'esit') return;
+                const isCorrect = activeMode === 'buyuk'
+                    ? (id === 1 ? num1 > num2 : num2 > num1)
+                    : (id === 1 ? num1 < num2 : num2 < num1);
+
+                const targetId = `num-box-${id}`;
+                const otherId = `num-box-${id === 1 ? 2 : 1}`;
+                processAnswer(isCorrect, document.getElementById(targetId), document.getElementById(otherId));
+            };
+
+            handleEqualClick = function(value) {
+                if (isWaiting || activeMode !== 'esit') return;
+                const isEqual = num1 === num2;
+                const isCorrect = value === isEqual;
+                const target = document.getElementById(value ? 'btn-equal-true' : 'btn-equal-false');
+                const other = document.getElementById(value ? 'btn-equal-false' : 'btn-equal-true');
+                processAnswer(isCorrect, target, other, true);
+            };
+
+            processAnswer = function(correct, targetElement, otherElement, isFromEqualButton = false) {
+                isWaiting = true;
+                const message = document.getElementById('message');
+
+                if (correct) {
+                    if (!isFromEqualButton) {
+                        targetElement.classList.add('card-correct');
+                        if (otherElement && otherElement.parentElement) otherElement.parentElement.classList.add('card-dimmed');
+                    } else {
+                        targetElement.classList.add('card-correct');
+                        if (otherElement) otherElement.style.opacity = '0.4';
+                    }
+
+                    showOperatorFeedback();
+                    if (!scoreAddedForQuestion) score += 10;
+                    scoreAddedForQuestion = true;
+                    stats.correct += 1;
+                    stats.mode[activeMode].correct += 1;
+                    correctStreak += 1;
+                    stats.highestStreak = Math.max(stats.highestStreak, correctStreak);
+                    playSound(true);
+
+                    const streakMilestone = correctStreak >= 3 && correctStreak % 3 === 0;
+                    message.innerText = streakMilestone ? 'Super! Seri yaptin!' : 'Harika! Dogru bildin!';
+                    message.className = 'text-4xl font-bold text-green-500 bounce-short mt-6';
+
+                    const rect = targetElement.getBoundingClientRect();
+                    const origin = {
+                        x: (rect.left + rect.width / 2) / window.innerWidth,
+                        y: (rect.top + rect.height / 2) / window.innerHeight
+                    };
+
+                    celebrate({ particleCount: streakMilestone ? 75 : 50, spread: 70, origin, zIndex: 100 });
+
+                    if (streakMilestone) {
+                        flashStreakBadge();
+                    }
+
+                    updateHeaderBadges();
+
+                    setTimeout(() => {
+                        if (isFromEqualButton && otherElement) otherElement.style.opacity = '1';
+                        adjustDifficulty(true);
+                        questionCount += 1;
+                        generateQuestion();
+                    }, 1800);
+
+                    return;
+                }
+
+                scoreAddedForQuestion = true;
+                stats.incorrect += 1;
+                stats.mode[activeMode].incorrect += 1;
+                correctStreak = 0;
+                playSound(false);
+                playNarration('feedback_look_carefully');
+                targetElement.classList.add('card-wrong', 'shake-hard');
+                message.innerText = 'Dikkatli bak!';
+                message.className = 'text-4xl font-bold text-red-500 mt-6';
+                updateHeaderBadges();
+
+                setTimeout(() => {
+                    showHelpfulHint(isFromEqualButton);
+                    message.innerText = activeMode === 'esit' ? 'Ipuclari incele. Evet mi, Hayir mi?' : 'Ipuclari incele ve tekrar dene!';
+                    message.className = 'text-3xl font-bold text-amber-500 mt-6';
+                }, 650);
+
+                setTimeout(() => {
+                    adjustDifficulty(false);
+                    resetCardStyles();
+                    message.innerText = 'Hadi tekrar dusun!';
+                    message.className = 'text-3xl font-bold text-gray-400 mt-6';
+                    isWaiting = false;
+                    updateHeaderBadges();
+                    playNarration('feedback_try_again');
+                    queueQuestionAudio(1000);
+                }, 1850);
+            };
+
+            endGame = function() {
+                maxNum = selectedMaxNum;
+                document.getElementById('game-screen').classList.add('hidden');
+                document.getElementById('header-area').classList.add('hidden');
+                document.getElementById('result-screen').classList.remove('hidden');
+
+                const stars = score >= 80 ? '★★★' : (score >= 50 ? '★★' : '★');
+                document.getElementById('star-rating').innerText = stars;
+
+                const teacherSummary = document.getElementById('teacher-summary');
+                if (teacherSummary) {
+                    teacherSummary.innerHTML = buildSummaryHtml();
+                }
+
+                celebrate({ particleCount: 300, spread: 150, origin: { y: 0.6 } });
+                playNarration('game_complete');
+            };
+
+            window.toggleSound = function() {
+                soundEnabled = !soundEnabled;
+                if (!soundEnabled) cancelSpeech();
+                updateHeaderBadges();
+            };
+
+            window.toggleSmartboardMode = function() {
+                smartboardMode = !smartboardMode;
+                updateHeaderBadges();
+            };
+
+            ensureUiEnhancements();
+            updateHeaderBadges();
+        })();
     </script>
 </body>
 </html>
