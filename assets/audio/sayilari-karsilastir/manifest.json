@@ -1,0 +1,44 @@
+{
+  "question_buyuk": {
+    "text": "Hangisi daha büyük?",
+    "file": "assets/audio/sayilari-karsilastir/hangisi-daha-buyuk.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "question_kucuk": {
+    "text": "Hangisi daha küçük?",
+    "file": "assets/audio/sayilari-karsilastir/hangisi-daha-kucuk.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "question_esit": {
+    "text": "Sayılar eşit mi?",
+    "file": "assets/audio/sayilari-karsilastir/sayilar-esit-mi.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "feedback_look_carefully": {
+    "text": "Dikkatli bak.",
+    "file": "assets/audio/sayilari-karsilastir/dikkatli-bak.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "feedback_try_again": {
+    "text": "Hadi tekrar düşün.",
+    "file": "assets/audio/sayilari-karsilastir/hadi-tekrar-dusun.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "game_complete": {
+    "text": "Tebrikler! Oyunu tamamladın.",
+    "file": "assets/audio/sayilari-karsilastir/tebrikler-oyunu-tamamladin.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  }
+}

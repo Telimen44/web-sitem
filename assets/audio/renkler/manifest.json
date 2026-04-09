@@ -1,0 +1,51 @@
+{
+  "kirmizi": {
+    "text": "Kırmızı olanı bul!",
+    "file": "assets/audio/renkler/kirmizi-olani-bul.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "mavi": {
+    "text": "Mavi olanı bul!",
+    "file": "assets/audio/renkler/mavi-olani-bul.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "yesil": {
+    "text": "Yeşil olanı bul!",
+    "file": "assets/audio/renkler/yesil-olani-bul.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "sari": {
+    "text": "Sarı olanı bul!",
+    "file": "assets/audio/renkler/sari-olani-bul.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "turuncu": {
+    "text": "Turuncu olanı bul!",
+    "file": "assets/audio/renkler/turuncu-olani-bul.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "mor": {
+    "text": "Mor olanı bul!",
+    "file": "assets/audio/renkler/mor-olani-bul.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  },
+  "pembe": {
+    "text": "Pembe olanı bul!",
+    "file": "assets/audio/renkler/pembe-olani-bul.wav",
+    "provider": "gemini-tts",
+    "model": "gemini-2.5-flash-preview-tts",
+    "voice": "Sulafat"
+  }
+}

@@ -4,10 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sayıları Karşılaştır - Özel Eğitim</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com" onerror="document.documentElement.classList.add('fallback-ui')"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         * { -webkit-tap-highlight-color: transparent; }
+        .hidden { display: none !important; }
+
+        .number-card {
+            -webkit-appearance: none;
+            appearance: none;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .number-card:focus-visible,
+        #equal-buttons button:focus-visible,
+        #menu-screen button:focus-visible,
+        #difficulty-screen button:focus-visible,
+        #result-screen button:focus-visible,
+        #header-area button:focus-visible {
+            outline: 6px solid #f59e0b;
+            outline-offset: 8px;
+        }
+
+        .fallback-confetti-piece {
+            position: fixed;
+            width: 12px;
+            height: 18px;
+            border-radius: 999px;
+            pointer-events: none;
+            opacity: 0.95;
+            animation: confetti-fall 0.9s ease-out forwards;
+            z-index: 120;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); opacity: 0.95; }
+            100% { transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--rot)) scale(0.7); opacity: 0; }
+        }
         
         .bounce-short { animation: bounce-short 0.5s ease-in-out; }
         @keyframes bounce-short { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
@@ -48,6 +84,127 @@
 
         /* Sabit ve Sakin Arka Plan */
         .theme-sky { background: linear-gradient(135deg, #bae6fd, #e0f2fe); }
+
+        html.fallback-ui body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            box-sizing: border-box;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #bae6fd, #e0f2fe);
+        }
+
+        html.fallback-ui .bg-white {
+            width: min(100%, 1100px);
+            padding: 32px;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 48px;
+            box-shadow: 0 30px 80px rgba(15, 23, 42, 0.18);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        html.fallback-ui #header-area { width: 100%; margin-bottom: 32px; }
+        html.fallback-ui #header-area > div:first-child {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        html.fallback-ui #menu-screen .grid,
+        html.fallback-ui #difficulty-screen .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        html.fallback-ui #game-screen > div:nth-child(2) {
+            display: flex;
+            align-items: stretch;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        html.fallback-ui #card1,
+        html.fallback-ui #card2 {
+            width: 42%;
+            cursor: pointer;
+        }
+
+        html.fallback-ui #num-box-1,
+        html.fallback-ui #num-box-2 {
+            width: 100%;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 16px;
+            border: 6px solid #bae6fd;
+            border-radius: 40px;
+            background: #eff6ff;
+            color: #0369a1;
+            font-size: clamp(4rem, 10vw, 9rem);
+            font-weight: 900;
+            box-shadow: 0 12px 30px rgba(14, 165, 233, 0.12);
+        }
+
+        html.fallback-ui #items1,
+        html.fallback-ui #items2 {
+            margin-top: 24px;
+            display: grid;
+            gap: 8px;
+            justify-content: center;
+            grid-template-columns: repeat(5, minmax(0, max-content));
+        }
+
+        html.fallback-ui #equal-buttons {
+            max-width: 900px;
+            margin: 0 auto 24px;
+            display: grid;
+            gap: 20px;
+        }
+
+        html.fallback-ui #operator {
+            width: 16%;
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+        }
+
+        @media (min-width: 768px) {
+            html.fallback-ui #menu-screen .grid,
+            html.fallback-ui #difficulty-screen .grid,
+            html.fallback-ui #equal-buttons {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            html.fallback-ui #equal-buttons {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 767px) {
+            html.fallback-ui .bg-white { padding: 24px; border-radius: 32px; }
+            html.fallback-ui #game-screen > div:nth-child(2) {
+                flex-direction: column;
+                gap: 18px;
+            }
+            html.fallback-ui #card1,
+            html.fallback-ui #card2,
+            html.fallback-ui #operator { width: 100%; }
+        }
     </style>
 </head>
 <body id="game-body" class="theme-sky min-h-screen flex flex-col items-center justify-center p-4 md:p-8 font-sans select-none">
@@ -90,21 +247,21 @@
             </div>
             
             <div class="flex justify-center items-stretch gap-8 md:gap-16 mb-12">
-                <div id="card1" onclick="handleCardClick(1)" class="cursor-pointer transition-transform outline-none flex flex-col items-center group relative w-5/12">
+                <button type="button" id="card1" onclick="handleCardClick(1)" class="number-card cursor-pointer transition-transform outline-none flex flex-col items-center group relative w-5/12" aria-label="Birinci sayı kartı">
                     <div id="num-box-1" class="text-8xl md:text-[10rem] font-black text-sky-700 bg-sky-50 border-[6px] border-sky-200 w-full py-16 flex items-center justify-center rounded-[2.5rem] shadow-md transition-all duration-300 group-active:scale-95">?</div>
                     <!-- Elmalar buraya gelecek -->
                     <div id="items1" class="mt-6 grid gap-2 w-full justify-center transition-all duration-300" style="grid-template-columns: repeat(5, minmax(0, max-content));"></div>
-                </div>
+                </button>
                 
                 <div class="flex items-center justify-center w-2/12">
                     <div id="operator" class="text-6xl md:text-7xl font-bold text-gray-300 transition-all duration-300">ve</div>
                 </div>
                 
-                <div id="card2" onclick="handleCardClick(2)" class="cursor-pointer transition-transform outline-none flex flex-col items-center group relative w-5/12">
+                <button type="button" id="card2" onclick="handleCardClick(2)" class="number-card cursor-pointer transition-transform outline-none flex flex-col items-center group relative w-5/12" aria-label="İkinci sayı kartı">
                     <div id="num-box-2" class="text-8xl md:text-[10rem] font-black text-sky-700 bg-sky-50 border-[6px] border-sky-200 w-full py-16 flex items-center justify-center rounded-[2.5rem] shadow-md transition-all duration-300 group-active:scale-95">?</div>
                     <!-- Elmalar buraya gelecek -->
                     <div id="items2" class="mt-6 grid gap-2 w-full justify-center transition-all duration-300" style="grid-template-columns: repeat(5, minmax(0, max-content));"></div>
-                </div>
+                </button>
             </div>
 
             <div id="equal-buttons" class="hidden grid-cols-2 gap-8 mb-8 max-w-4xl mx-auto">
@@ -118,7 +275,7 @@
                 </button>
             </div>
             
-            <div id="message" class="text-3xl font-bold text-gray-400 min-h-[3rem] mt-6">Hadi seç bakalım!</div>
+            <div id="message" aria-live="polite" class="text-3xl font-bold text-gray-400 min-h-[3rem] mt-6">Hadi seç bakalım!</div>
         </div>
 
         <div id="result-screen" class="hidden py-16">
@@ -134,44 +291,219 @@
     </div>
 
     <script>
+        window.addEventListener('load', () => {
+            if (!window.tailwind) {
+                document.documentElement.classList.add('fallback-ui');
+            }
+        });
+
         let currentMode = '', maxNum = 10, score = 0, questionCount = 0;
         let num1, num2, isWaiting = false, scoreAddedForQuestion = false;
-        
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let audioCtx = null;
+        const QUESTION_LABELS = {
+            buyuk: 'Hangisi daha BÜYÜK?',
+            kucuk: 'Hangisi daha KÜÇÜK?',
+            esit: 'Sayılar EŞİT mi?'
+        };
+        const NARRATION_BASE_PATH = 'assets/audio/sayilari-karsilastir';
+        const NARRATION_FILES = {
+            question_buyuk: 'hangisi-daha-buyuk.wav',
+            question_kucuk: 'hangisi-daha-kucuk.wav',
+            question_esit: 'sayilar-esit-mi.wav',
+            feedback_look_carefully: 'dikkatli-bak.wav',
+            feedback_try_again: 'hadi-tekrar-dusun.wav',
+            game_complete: 'tebrikler-oyunu-tamamladin.wav'
+        };
+        const narrationCache = new Map();
+        const missingNarrationKeys = new Set();
+        let narrationPlayer = null;
+        let questionAudioTimeout = null;
+
+        function getAudioContext() {
+            if (audioCtx) return audioCtx;
+            const ContextClass = window.AudioContext || window.webkitAudioContext;
+            if (!ContextClass) return null;
+
+            try {
+                audioCtx = new ContextClass();
+            } catch (error) {
+                console.warn('Ses motoru başlatılamadı:', error);
+                audioCtx = null;
+            }
+
+            return audioCtx;
+        }
+
         function playSound(isCorrect) {
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain); gain.connect(audioCtx.destination);
+            const ctx = getAudioContext();
+            if (!ctx) return;
+
+            if(ctx.state === 'suspended') ctx.resume().catch(() => {});
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain); gain.connect(ctx.destination);
             
             if(isCorrect) {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.1); 
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.4);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+                const notes = [523.25, 659.25, 783.99];
+                notes.forEach((frequency, index) => {
+                    const noteOsc = ctx.createOscillator();
+                    const noteGain = ctx.createGain();
+                    const startAt = ctx.currentTime + index * 0.08;
+                    const duration = 0.22;
+
+                    noteOsc.type = 'sine';
+                    noteOsc.frequency.setValueAtTime(frequency, startAt);
+                    noteOsc.connect(noteGain);
+                    noteGain.connect(ctx.destination);
+                    noteGain.gain.setValueAtTime(0.0001, startAt);
+                    noteGain.gain.exponentialRampToValueAtTime(0.12, startAt + 0.02);
+                    noteGain.gain.exponentialRampToValueAtTime(0.00001, startAt + duration);
+                    noteOsc.start(startAt);
+                    noteOsc.stop(startAt + duration);
+                });
             } else {
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.3);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+                osc.frequency.setValueAtTime(150, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.3);
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.00001, ctx.currentTime + 0.3);
+                osc.start(); osc.stop(ctx.currentTime + 0.3);
             }
         }
 
-        function playQuestionAudio(customText = null) {
+        function getCurrentQuestionNarrationKey() {
+            if (currentMode === 'buyuk') return 'question_buyuk';
+            if (currentMode === 'kucuk') return 'question_kucuk';
+            if (currentMode === 'esit') return 'question_esit';
+            return null;
+        }
+
+        function getNarrationAudio(key) {
+            const fileName = NARRATION_FILES[key];
+            if (!fileName || missingNarrationKeys.has(key)) return null;
+            if (narrationCache.has(key)) return narrationCache.get(key);
+
+            const audio = new Audio(`${NARRATION_BASE_PATH}/${fileName}`);
+            audio.preload = 'auto';
+            audio.addEventListener('ended', () => {
+                if (narrationPlayer === audio) narrationPlayer = null;
+            });
+            audio.addEventListener('error', () => {
+                missingNarrationKeys.add(key);
+                narrationCache.delete(key);
+                if (narrationPlayer === audio) narrationPlayer = null;
+                console.warn(`Ses dosyası yüklenemedi: ${fileName}`);
+            }, { once: true });
+
+            narrationCache.set(key, audio);
+            return audio;
+        }
+
+        function stopNarrationPlayback() {
+            if (questionAudioTimeout) {
+                window.clearTimeout(questionAudioTimeout);
+                questionAudioTimeout = null;
+            }
+
+            if (!narrationPlayer) return;
+            narrationPlayer.pause();
+            narrationPlayer.currentTime = 0;
+            narrationPlayer = null;
+        }
+
+        function cancelSpeech() {
+            stopNarrationPlayback();
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
-                const text = customText || document.getElementById('question-text').innerText;
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'tr-TR'; utterance.rate = 0.85; // Biraz daha yavaş ve anlaşılır
-                window.speechSynthesis.speak(utterance);
             }
+        }
+
+        function playNarration(key) {
+            const audio = getNarrationAudio(key);
+            stopNarrationPlayback();
+            if (!audio) return;
+
+            narrationPlayer = audio;
+            audio.currentTime = 0;
+            audio.play().catch((error) => {
+                missingNarrationKeys.add(key);
+                narrationCache.delete(key);
+                if (narrationPlayer === audio) narrationPlayer = null;
+                console.warn(`Ses dosyası oynatılamadı: ${NARRATION_FILES[key]}`, error);
+            });
+        }
+
+        function queueQuestionAudio(delay = 350) {
+            if (questionAudioTimeout) {
+                window.clearTimeout(questionAudioTimeout);
+            }
+
+            questionAudioTimeout = window.setTimeout(() => {
+                questionAudioTimeout = null;
+                playQuestionAudio();
+            }, delay);
+        }
+
+        function playQuestionAudio() {
+            const key = getCurrentQuestionNarrationKey();
+            if (!key) return;
+            playNarration(key);
+        }
+
+        function setCardInteractivity(isEnabled) {
+            ['card1', 'card2'].forEach((id) => {
+                const card = document.getElementById(id);
+                card.disabled = !isEnabled;
+                card.setAttribute('aria-disabled', String(!isEnabled));
+            });
+        }
+
+        function updateCardLabels() {
+            document.getElementById('card1').setAttribute('aria-label', `Birinci sayı kartı: ${num1}`);
+            document.getElementById('card2').setAttribute('aria-label', `İkinci sayı kartı: ${num2}`);
+        }
+
+        function getDifferentRandomNumber(limit, disallowed) {
+            let value;
+            do {
+                value = Math.floor(Math.random() * limit) + 1;
+            } while (value === disallowed);
+            return value;
+        }
+
+        function fireFallbackConfetti(x, y, particleCount = 18) {
+            const colors = ['#22c55e', '#f59e0b', '#3b82f6', '#ef4444', '#a855f7', '#14b8a6'];
+            const burstCount = Math.max(10, Math.min(40, particleCount));
+
+            for (let i = 0; i < burstCount; i++) {
+                const piece = document.createElement('span');
+                piece.className = 'fallback-confetti-piece';
+                piece.style.left = `${x * window.innerWidth}px`;
+                piece.style.top = `${y * window.innerHeight}px`;
+                piece.style.background = colors[i % colors.length];
+                piece.style.setProperty('--dx', `${(Math.random() - 0.5) * 220}px`);
+                piece.style.setProperty('--dy', `${140 + Math.random() * 180}px`);
+                piece.style.setProperty('--rot', `${(Math.random() - 0.5) * 720}deg`);
+                document.body.appendChild(piece);
+                piece.addEventListener('animationend', () => piece.remove(), { once: true });
+            }
+        }
+
+        function celebrate(options) {
+            if (typeof window.confetti === 'function') {
+                try {
+                    window.confetti(options);
+                    return;
+                } catch (error) {
+                    console.warn('Confetti yedeğe düştü:', error);
+                }
+            }
+
+            fireFallbackConfetti(options.origin?.x ?? 0.5, options.origin?.y ?? 0.45, options.particleCount);
         }
 
         function showMenu() {
+            cancelSpeech();
             document.querySelectorAll('.bg-white > div').forEach(d => d.classList.add('hidden'));
             document.getElementById('menu-screen').classList.remove('hidden');
         }
@@ -183,19 +515,18 @@
         }
 
         function startGame(difficulty) {
+            cancelSpeech();
             maxNum = difficulty; score = 0; questionCount = 1;
             document.querySelectorAll('.bg-white > div').forEach(d => d.classList.add('hidden'));
             document.getElementById('game-screen').classList.remove('hidden');
             document.getElementById('header-area').classList.remove('hidden');
             setupUI(); generateQuestion();
-            setTimeout(playQuestionAudio, 500);
         }
 
         function setupUI() {
-            const texts = { buyuk: 'Hangisi daha BÜYÜK?', kucuk: 'Hangisi daha KÜÇÜK?', esit: 'Sayılar EŞİT mi?' };
             const colors = { buyuk: 'text-green-600', kucuk: 'text-blue-600', esit: 'text-purple-600' };
             const qEl = document.getElementById('question-text');
-            qEl.innerText = texts[currentMode];
+            qEl.innerText = QUESTION_LABELS[currentMode];
             qEl.className = `text-4xl md:text-5xl font-extrabold ${colors[currentMode]}`;
         }
 
@@ -204,6 +535,7 @@
             elements.forEach(id => {
                 const el = document.getElementById(id);
                 el.classList.remove('card-correct', 'card-wrong', 'shake-hard');
+                el.style.opacity = '1';
                 if(id.startsWith('num-box')) el.parentElement.classList.remove('card-dimmed');
             });
             
@@ -225,28 +557,28 @@
             setupUI();
             if (currentMode === 'esit') {
                 document.getElementById('equal-buttons').style.display = 'grid';
-                document.getElementById('card1').style.pointerEvents = 'none';
-                document.getElementById('card2').style.pointerEvents = 'none';
+                setCardInteractivity(false);
             } else {
                 document.getElementById('equal-buttons').style.display = 'none';
-                document.getElementById('card1').style.pointerEvents = 'auto';
-                document.getElementById('card2').style.pointerEvents = 'auto';
+                setCardInteractivity(true);
             }
 
             scoreAddedForQuestion = false;
 
             if (currentMode === 'esit') {
                 num1 = Math.floor(Math.random() * maxNum) + 1;
-                num2 = Math.random() < 0.4 ? num1 : Math.floor(Math.random() * maxNum) + 1;
+                num2 = Math.random() < 0.4 ? num1 : getDifferentRandomNumber(maxNum, num1);
             } else {
                 do { num1 = Math.floor(Math.random() * maxNum) + 1; num2 = Math.floor(Math.random() * maxNum) + 1; } while (num1 === num2);
             }
             
             document.getElementById('num-box-1').innerText = num1;
             document.getElementById('num-box-2').innerText = num2;
+            updateCardLabels();
             
             drawVisualItems(num1, 'items1'); drawVisualItems(num2, 'items2');
             isWaiting = false;
+            queueQuestionAudio(questionCount === 1 ? 500 : 300);
         }
 
         function drawVisualItems(num, elementId) {
@@ -272,7 +604,7 @@
         }
 
         function handleCardClick(id) {
-            if (isWaiting) return;
+            if (isWaiting || currentMode === 'esit') return;
             const isCorrect = currentMode === 'buyuk' ? (id === 1 ? num1 > num2 : num2 > num1) : (id === 1 ? num1 < num2 : num2 < num1);
             const targetId = `num-box-${id}`;
             const otherId = `num-box-${id === 1 ? 2 : 1}`;
@@ -305,14 +637,13 @@
 
                 if (!scoreAddedForQuestion) score += 10;
                 playSound(true);
-                
                 msg.innerText = 'Harika! Doğru bildin 🌟'; 
                 msg.className = 'text-4xl font-bold text-green-500 bounce-short mt-6';
                 
                 const rect = targetElement.getBoundingClientRect();
                 const x = (rect.left + rect.width / 2) / window.innerWidth;
                 const y = (rect.top + rect.height / 2) / window.innerHeight;
-                confetti({ particleCount: 50, spread: 70, origin: { x: x, y: y }, zIndex: 100 });
+                celebrate({ particleCount: 50, spread: 70, origin: { x: x, y: y }, zIndex: 100 });
 
                 setTimeout(() => { 
                     if(isFromEqualButton) otherElement.style.opacity = '1';
@@ -323,6 +654,7 @@
             } else {
                 scoreAddedForQuestion = true; 
                 playSound(false);
+                playNarration('feedback_look_carefully');
                 targetElement.classList.add('card-wrong', 'shake-hard');
                 
                 showOperatorFeedback(); 
@@ -338,7 +670,9 @@
                     
                     msg.innerText = 'Hadi tekrar düşün!'; 
                     msg.className = 'text-3xl font-bold text-gray-400 mt-6';
-                    isWaiting = false; 
+                    isWaiting = false;
+                    playNarration('feedback_try_again');
+                    queueQuestionAudio(1100);
                 }, 1500);
             }
         }
@@ -354,8 +688,8 @@
             else stars = '⭐';
             
             document.getElementById('star-rating').innerText = stars;
-            confetti({ particleCount: 300, spread: 150, origin: { y: 0.6 } });
-            playQuestionAudio('Tebrikler! Oyunu tamamladın.');
+            celebrate({ particleCount: 300, spread: 150, origin: { y: 0.6 } });
+            playNarration('game_complete');
         }
     </script>
 </body>

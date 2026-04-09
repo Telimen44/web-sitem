@@ -303,9 +303,18 @@
             _loadTTSVoice();
         }
 
-        const AI_AUDIO_BASE = 'assets/audio/gor-ve-sec';
+        const AI_AUDIO_BASE = 'assets/audio/renkler';
+        const COLOR_PROMPT_AUDIO = {
+            kirmizi: 'kirmizi-olani-bul.wav',
+            mavi: 'mavi-olani-bul.wav',
+            yesil: 'yesil-olani-bul.wav',
+            sari: 'sari-olani-bul.wav',
+            turuncu: 'turuncu-olani-bul.wav',
+            mor: 'mor-olani-bul.wav',
+            pembe: 'pembe-olani-bul.wav'
+        };
         let _ttsAudioPlayer = null;
-        const _failedWordAudio = new Set();
+        const _failedPromptAudio = new Set();
 
         const normalizeAudioKey = (text) => String(text || '')
             .replace(/I/g, 'ı')
@@ -333,16 +342,47 @@
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'tr-TR';
             utterance.rate = 0.9;
+            if (_ttsVoice) utterance.voice = _ttsVoice;
             window.speechSynthesis.speak(utterance);
         };
 
-        const speakWithChildFriendlyVoice = (text) => {
-            speakFallbackTTS(text);
+        const speakWithChildFriendlyVoice = (text, fileName = null) => {
+            if (!fileName || _failedPromptAudio.has(fileName)) {
+                speakFallbackTTS(text);
+                return;
+            }
+
+            stopChildFriendlyAudio();
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+
+            const audio = new Audio(`${AI_AUDIO_BASE}/${fileName}`);
+            _ttsAudioPlayer = audio;
+
+            const fallbackToTTS = () => {
+                _failedPromptAudio.add(fileName);
+                if (_ttsAudioPlayer === audio) _ttsAudioPlayer = null;
+                speakFallbackTTS(text);
+            };
+
+            audio.addEventListener('ended', () => {
+                if (_ttsAudioPlayer === audio) _ttsAudioPlayer = null;
+            });
+            audio.addEventListener('error', fallbackToTTS, { once: true });
+            audio.play().catch(fallbackToTTS);
         };
 
-        const speakColor = (text, enabled) => {
-            if (!enabled) return;
-            speakWithChildFriendlyVoice(text);
+        const speakColor = (targetColorOrText, enabled) => {
+            if (!enabled || !targetColorOrText) return;
+
+            const prompt = typeof targetColorOrText === 'string'
+                ? targetColorOrText
+                : `${targetColorOrText.name} olanÄ± bul!`;
+
+            const colorId = typeof targetColorOrText === 'string'
+                ? COLORS.find((color) => prompt.toLowerCase().includes(color.name.toLowerCase()))?.id
+                : targetColorOrText.id;
+
+            speakWithChildFriendlyVoice(prompt, colorId ? COLOR_PROMPT_AUDIO[colorId] : null);
         };
 
         const createConfetti = () => {
