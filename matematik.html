@@ -175,11 +175,62 @@
         }
 
         .sub-options.open {
-            max-height: 500px;
+            max-height: 800px;
             opacity: 1;
             overflow: visible;
             margin-top: 10px;
             margin-bottom: 10px;
+        }
+
+        .mul-sub-block {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .table-pills-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            justify-content: center;
+            max-width: 480px;
+            width: 100%;
+        }
+
+        .table-pill {
+            padding: 7px 13px;
+            border-radius: 50px;
+            border: 1.5px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 0.82rem;
+            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            transition: all .2s cubic-bezier(.34, 1.56, .64, 1);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .table-pill:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.28);
+        }
+
+        .table-pill.selected {
+            background: #60a5fa;
+            border-color: #93c5fd;
+            color: #0f172a;
+            box-shadow: 0 0 16px rgba(96, 165, 250, .45);
+            font-weight: 800;
+            transform: scale(1.05);
+        }
+
+        .player-sub-options .table-pill {
+            padding: 5px 9px;
+            font-size: 0.72rem;
         }
 
         .entry-config-block.two-player-hidden {
@@ -265,7 +316,7 @@
         }
 
         .player-sub-options.open {
-            max-height: 340px;
+            max-height: 550px;
             opacity: 1
         }
 
@@ -888,7 +939,7 @@
 
                 <div class="sub-options" id="subOptions">
                     <div class="section-label">Onluk Bozma</div>
-                    <div class="cards-row">
+                    <div class="cards-row" id="subBorrowCards">
                         <div class="sel-card opt-card selected" data-val="noborrow" onclick="selectOpt('borrow',this)">
                             <div class="icon">✨</div>
                             <div class="label">Bozmasız</div>
@@ -899,10 +950,80 @@
                             <div class="label">Bozmalı</div>
                             <div class="desc">Onluk bozma var</div>
                         </div>
+                        <div class="sel-card opt-card" data-val="zero" onclick="selectOpt('borrow',this)">
+                            <div class="icon">0️⃣</div>
+                            <div class="label">Sıfırdan</div>
+                            <div class="desc">Komşuda sıfır var</div>
+                        </div>
                         <div class="sel-card opt-card" data-val="mixed" onclick="selectOpt('borrow',this)">
                             <div class="icon">🎲</div>
                             <div class="label">Karışık</div>
                             <div class="desc">Her ikisi de</div>
+                        </div>
+                    </div>
+                    <div class="mul-sub-block" id="subModeContainer" style="display:none">
+                        <div class="section-label">Çıkan Sayı Formatı</div>
+                        <div class="cards-row" id="subModeCards">
+                            <div class="sel-card opt-card selected" data-val="standard" onclick="selectOpt('subMode',this)">
+                                <div class="icon">🎯</div>
+                                <div class="label">Tam Basamak</div>
+                                <div class="desc">Örn: 54 – 28 (Standart)</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="stepdown" onclick="selectOpt('subMode',this)">
+                                <div class="icon">🔻</div>
+                                <div class="label">1 Basamak Az</div>
+                                <div class="desc">Örn: 54 – 8 (Geçiş)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-options" id="mulOptions">
+                    <div class="section-label">Elde Seçeneği</div>
+                    <div class="cards-row" id="mulCarryCards">
+                        <div class="sel-card opt-card" data-val="nocarry" onclick="selectOpt('mulCarry',this)">
+                            <div class="icon">✨</div>
+                            <div class="label">Eldesiz</div>
+                            <div class="desc">Elde yok</div>
+                        </div>
+                        <div class="sel-card opt-card" data-val="carry" onclick="selectOpt('mulCarry',this)">
+                            <div class="icon">🔢</div>
+                            <div class="label">Eldeli</div>
+                            <div class="desc">Elde var</div>
+                        </div>
+                        <div class="sel-card opt-card selected" data-val="mixed" onclick="selectOpt('mulCarry',this)">
+                            <div class="icon">🎲</div>
+                            <div class="label">Karışık</div>
+                            <div class="desc">Her ikisi de</div>
+                        </div>
+                    </div>
+                    <div class="mul-sub-block" id="mulTableContainer">
+                        <div class="section-label">Çarpım Tablosu Hedefi</div>
+                        <div class="cards-row table-pills-row" id="mulTableCards">
+                            <button type="button" class="table-pill selected" data-val="all" onclick="selectOpt('mulTable',this)">Tümü (1–9)</button>
+                            <button type="button" class="table-pill" data-val="2" onclick="selectOpt('mulTable',this)">2'ler</button>
+                            <button type="button" class="table-pill" data-val="3" onclick="selectOpt('mulTable',this)">3'ler</button>
+                            <button type="button" class="table-pill" data-val="4" onclick="selectOpt('mulTable',this)">4'ler</button>
+                            <button type="button" class="table-pill" data-val="5" onclick="selectOpt('mulTable',this)">5'ler</button>
+                            <button type="button" class="table-pill" data-val="6" onclick="selectOpt('mulTable',this)">6'lar</button>
+                            <button type="button" class="table-pill" data-val="7" onclick="selectOpt('mulTable',this)">7'ler</button>
+                            <button type="button" class="table-pill" data-val="8" onclick="selectOpt('mulTable',this)">8'ler</button>
+                            <button type="button" class="table-pill" data-val="9" onclick="selectOpt('mulTable',this)">9'lar</button>
+                        </div>
+                    </div>
+                    <div class="mul-sub-block" id="mulModeContainer" style="display:none">
+                        <div class="section-label">İkinci Çarpan Formatı</div>
+                        <div class="cards-row" id="mulModeCards">
+                            <div class="sel-card opt-card selected" data-val="standard" onclick="selectOpt('mulMode',this)">
+                                <div class="icon">🎯</div>
+                                <div class="label">Tek Basamak</div>
+                                <div class="desc">Örn: 43 × 6 (Standart)</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="advanced" onclick="selectOpt('mulMode',this)">
+                                <div class="icon">⚡</div>
+                                <div class="label">Çok Basamak</div>
+                                <div class="desc">Örn: 34 × 12 (İleri Düzey)</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -991,17 +1112,86 @@
                             <div class="sel-card opt-card" data-val="noborrow" onclick="selectPlayerOpt(0,'borrow',this)">
                                 <div class="icon">✨</div>
                                 <div class="label">Bozmasız</div>
-                                <div class="desc">Onluk bozma yok</div>
+                                <div class="desc">Bozma yok</div>
                             </div>
                             <div class="sel-card opt-card" data-val="borrow" onclick="selectPlayerOpt(0,'borrow',this)">
                                 <div class="icon">🔄</div>
                                 <div class="label">Bozmalı</div>
-                                <div class="desc">Onluk bozma var</div>
+                                <div class="desc">Bozma var</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="zero" onclick="selectPlayerOpt(0,'borrow',this)">
+                                <div class="icon">0️⃣</div>
+                                <div class="label">Sıfırdan</div>
+                                <div class="desc">Sıfırlı</div>
                             </div>
                             <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(0,'borrow',this)">
                                 <div class="icon">🎲</div>
                                 <div class="label">Karışık</div>
+                                <div class="desc">Her ikisi</div>
+                            </div>
+                        </div>
+                        <div class="player-sub-mode-block" data-role="subModeBlock" style="display:none">
+                            <div class="mini-label">Çıkan Sayı Formatı</div>
+                            <div class="cards-row">
+                                <div class="sel-card opt-card selected" data-val="standard" onclick="selectPlayerOpt(0,'subMode',this)">
+                                    <div class="icon">🎯</div>
+                                    <div class="label">Tam</div>
+                                    <div class="desc">Standart</div>
+                                </div>
+                                <div class="sel-card opt-card" data-val="stepdown" onclick="selectPlayerOpt(0,'subMode',this)">
+                                    <div class="icon">🔻</div>
+                                    <div class="label">1 Az</div>
+                                    <div class="desc">Geçiş</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-sub-options" data-role="mulOptions">
+                        <div class="mini-label">Elde Seçeneği</div>
+                        <div class="cards-row">
+                            <div class="sel-card opt-card" data-val="nocarry" onclick="selectPlayerOpt(0,'mulCarry',this)">
+                                <div class="icon">✨</div>
+                                <div class="label">Eldesiz</div>
+                                <div class="desc">Elde yok</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="carry" onclick="selectPlayerOpt(0,'mulCarry',this)">
+                                <div class="icon">🔢</div>
+                                <div class="label">Eldeli</div>
+                                <div class="desc">Elde var</div>
+                            </div>
+                            <div class="sel-card opt-card selected" data-val="mixed" onclick="selectPlayerOpt(0,'mulCarry',this)">
+                                <div class="icon">🎲</div>
+                                <div class="label">Karışık</div>
                                 <div class="desc">Her ikisi de</div>
+                            </div>
+                        </div>
+                        <div class="player-mul-table-block" data-role="mulTableBlock">
+                            <div class="mini-label">Çarpım Tablosu</div>
+                            <div class="cards-row table-pills-row">
+                                <button type="button" class="table-pill selected" data-val="all" onclick="selectPlayerOpt(0,'mulTable',this)">Tümü</button>
+                                <button type="button" class="table-pill" data-val="2" onclick="selectPlayerOpt(0,'mulTable',this)">2</button>
+                                <button type="button" class="table-pill" data-val="3" onclick="selectPlayerOpt(0,'mulTable',this)">3</button>
+                                <button type="button" class="table-pill" data-val="4" onclick="selectPlayerOpt(0,'mulTable',this)">4</button>
+                                <button type="button" class="table-pill" data-val="5" onclick="selectPlayerOpt(0,'mulTable',this)">5</button>
+                                <button type="button" class="table-pill" data-val="6" onclick="selectPlayerOpt(0,'mulTable',this)">6</button>
+                                <button type="button" class="table-pill" data-val="7" onclick="selectPlayerOpt(0,'mulTable',this)">7</button>
+                                <button type="button" class="table-pill" data-val="8" onclick="selectPlayerOpt(0,'mulTable',this)">8</button>
+                                <button type="button" class="table-pill" data-val="9" onclick="selectPlayerOpt(0,'mulTable',this)">9</button>
+                            </div>
+                        </div>
+                        <div class="player-mul-mode-block" data-role="mulModeBlock" style="display:none">
+                            <div class="mini-label">İkinci Çarpan</div>
+                            <div class="cards-row">
+                                <div class="sel-card opt-card selected" data-val="standard" onclick="selectPlayerOpt(0,'mulMode',this)">
+                                    <div class="icon">🎯</div>
+                                    <div class="label">Tek</div>
+                                    <div class="desc">Standart</div>
+                                </div>
+                                <div class="sel-card opt-card" data-val="advanced" onclick="selectPlayerOpt(0,'mulMode',this)">
+                                    <div class="icon">⚡</div>
+                                    <div class="label">Çok</div>
+                                    <div class="desc">İleri</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1073,17 +1263,86 @@
                             <div class="sel-card opt-card" data-val="noborrow" onclick="selectPlayerOpt(1,'borrow',this)">
                                 <div class="icon">✨</div>
                                 <div class="label">Bozmasız</div>
-                                <div class="desc">Onluk bozma yok</div>
+                                <div class="desc">Bozma yok</div>
                             </div>
                             <div class="sel-card opt-card" data-val="borrow" onclick="selectPlayerOpt(1,'borrow',this)">
                                 <div class="icon">🔄</div>
                                 <div class="label">Bozmalı</div>
-                                <div class="desc">Onluk bozma var</div>
+                                <div class="desc">Bozma var</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="zero" onclick="selectPlayerOpt(1,'borrow',this)">
+                                <div class="icon">0️⃣</div>
+                                <div class="label">Sıfırdan</div>
+                                <div class="desc">Sıfırlı</div>
                             </div>
                             <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(1,'borrow',this)">
                                 <div class="icon">🎲</div>
                                 <div class="label">Karışık</div>
+                                <div class="desc">Her ikisi</div>
+                            </div>
+                        </div>
+                        <div class="player-sub-mode-block" data-role="subModeBlock" style="display:none">
+                            <div class="mini-label">Çıkan Sayı Formatı</div>
+                            <div class="cards-row">
+                                <div class="sel-card opt-card selected" data-val="standard" onclick="selectPlayerOpt(1,'subMode',this)">
+                                    <div class="icon">🎯</div>
+                                    <div class="label">Tam</div>
+                                    <div class="desc">Standart</div>
+                                </div>
+                                <div class="sel-card opt-card" data-val="stepdown" onclick="selectPlayerOpt(1,'subMode',this)">
+                                    <div class="icon">🔻</div>
+                                    <div class="label">1 Az</div>
+                                    <div class="desc">Geçiş</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-sub-options" data-role="mulOptions">
+                        <div class="mini-label">Elde Seçeneği</div>
+                        <div class="cards-row">
+                            <div class="sel-card opt-card" data-val="nocarry" onclick="selectPlayerOpt(1,'mulCarry',this)">
+                                <div class="icon">✨</div>
+                                <div class="label">Eldesiz</div>
+                                <div class="desc">Elde yok</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="carry" onclick="selectPlayerOpt(1,'mulCarry',this)">
+                                <div class="icon">🔢</div>
+                                <div class="label">Eldeli</div>
+                                <div class="desc">Elde var</div>
+                            </div>
+                            <div class="sel-card opt-card selected" data-val="mixed" onclick="selectPlayerOpt(1,'mulCarry',this)">
+                                <div class="icon">🎲</div>
+                                <div class="label">Karışık</div>
                                 <div class="desc">Her ikisi de</div>
+                            </div>
+                        </div>
+                        <div class="player-mul-table-block" data-role="mulTableBlock">
+                            <div class="mini-label">Çarpım Tablosu</div>
+                            <div class="cards-row table-pills-row">
+                                <button type="button" class="table-pill selected" data-val="all" onclick="selectPlayerOpt(1,'mulTable',this)">Tümü</button>
+                                <button type="button" class="table-pill" data-val="2" onclick="selectPlayerOpt(1,'mulTable',this)">2</button>
+                                <button type="button" class="table-pill" data-val="3" onclick="selectPlayerOpt(1,'mulTable',this)">3</button>
+                                <button type="button" class="table-pill" data-val="4" onclick="selectPlayerOpt(1,'mulTable',this)">4</button>
+                                <button type="button" class="table-pill" data-val="5" onclick="selectPlayerOpt(1,'mulTable',this)">5</button>
+                                <button type="button" class="table-pill" data-val="6" onclick="selectPlayerOpt(1,'mulTable',this)">6</button>
+                                <button type="button" class="table-pill" data-val="7" onclick="selectPlayerOpt(1,'mulTable',this)">7</button>
+                                <button type="button" class="table-pill" data-val="8" onclick="selectPlayerOpt(1,'mulTable',this)">8</button>
+                                <button type="button" class="table-pill" data-val="9" onclick="selectPlayerOpt(1,'mulTable',this)">9</button>
+                            </div>
+                        </div>
+                        <div class="player-mul-mode-block" data-role="mulModeBlock" style="display:none">
+                            <div class="mini-label">İkinci Çarpan</div>
+                            <div class="cards-row">
+                                <div class="sel-card opt-card selected" data-val="standard" onclick="selectPlayerOpt(1,'mulMode',this)">
+                                    <div class="icon">🎯</div>
+                                    <div class="label">Tek</div>
+                                    <div class="desc">Standart</div>
+                                </div>
+                                <div class="sel-card opt-card" data-val="advanced" onclick="selectPlayerOpt(1,'mulMode',this)">
+                                    <div class="icon">⚡</div>
+                                    <div class="label">Çok</div>
+                                    <div class="desc">İleri</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1139,6 +1398,7 @@
                         <button class="check-btn" data-action="check">✓ Kontrol</button>
                         <div class="divider"></div>
                         <button class="action-btn" data-action="tool" title="Silgi">🧼</button>
+                        <button class="action-btn" data-action="undo" title="Geri Al (Ctrl+Z)">↩️</button>
                         <button class="action-btn erase-btn" data-action="clear" title="Temizle">🗑️</button>
                         <button class="action-btn next-btn" data-action="next" title="Sonraki Soru">➡️</button>
                     </div>
@@ -1162,6 +1422,7 @@
                         <button class="check-btn" data-action="check">✓ Kontrol</button>
                         <div class="divider"></div>
                         <button class="action-btn" data-action="tool" title="Silgi">🧼</button>
+                        <button class="action-btn" data-action="undo" title="Geri Al (Ctrl+Z)">↩️</button>
                         <button class="action-btn erase-btn" data-action="clear" title="Temizle">🗑️</button>
                         <button class="action-btn next-btn" data-action="next" title="Sonraki Soru">➡️</button>
                     </div>

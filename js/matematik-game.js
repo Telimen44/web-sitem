@@ -4,6 +4,10 @@ function makeQuestionConfig(overrides = {}) {
         digits: 1,
         carry: 'nocarry',
         borrow: 'noborrow',
+        subMode: 'standard',
+        mulCarry: 'mixed',
+        mulTable: 'all',
+        mulMode: 'standard',
         ...overrides
     };
 }
@@ -28,11 +32,39 @@ function renderSingleConfig() {
     document.querySelectorAll('#addOptions .sel-card').forEach(card => {
         card.classList.toggle('selected', card.dataset.val === config.carry);
     });
-    document.querySelectorAll('#subOptions .sel-card').forEach(card => {
-        card.classList.toggle('selected', card.dataset.val === config.borrow);
-    });
+    const subOptions = document.getElementById('subOptions');
+    if (subOptions) {
+        subOptions.querySelectorAll('#subBorrowCards .sel-card').forEach(card => {
+            card.classList.toggle('selected', card.dataset.val === config.borrow);
+        });
+        subOptions.querySelectorAll('#subModeCards .sel-card').forEach(card => {
+            card.classList.toggle('selected', card.dataset.val === config.subMode);
+        });
+        const subModeContainer = document.getElementById('subModeContainer');
+        if (subModeContainer) subModeContainer.style.display = config.digits > 1 ? 'flex' : 'none';
+    }
+
+    const mulOptions = document.getElementById('mulOptions');
+    if (mulOptions) {
+        mulOptions.querySelectorAll('#mulCarryCards .sel-card').forEach(card => {
+            card.classList.toggle('selected', card.dataset.val === config.mulCarry);
+        });
+        mulOptions.querySelectorAll('#mulTableCards .table-pill').forEach(pill => {
+            pill.classList.toggle('selected', pill.dataset.val === String(config.mulTable));
+        });
+        mulOptions.querySelectorAll('#mulModeCards .sel-card').forEach(card => {
+            card.classList.toggle('selected', card.dataset.val === config.mulMode);
+        });
+
+        const tableContainer = document.getElementById('mulTableContainer');
+        const modeContainer = document.getElementById('mulModeContainer');
+        if (tableContainer) tableContainer.style.display = config.digits === 1 ? 'flex' : 'none';
+        if (modeContainer) modeContainer.style.display = config.digits > 1 ? 'flex' : 'none';
+    }
+
     document.getElementById('addOptions').classList.toggle('open', config.op === '+');
     document.getElementById('subOptions').classList.toggle('open', config.op === '-');
+    if (mulOptions) mulOptions.classList.toggle('open', config.op === 'x');
 }
 
 function renderPlayerConfigCard(index) {
@@ -49,6 +81,8 @@ function renderPlayerConfigCard(index) {
 
     const addOptions = card.querySelector('[data-role="addOptions"]');
     const subOptions = card.querySelector('[data-role="subOptions"]');
+    const mulOptions = card.querySelector('[data-role="mulOptions"]');
+
     if (addOptions) {
         addOptions.classList.toggle('open', playerConfig.op === '+');
         addOptions.querySelectorAll('.sel-card[data-val]').forEach(item => {
@@ -58,8 +92,33 @@ function renderPlayerConfigCard(index) {
     if (subOptions) {
         subOptions.classList.toggle('open', playerConfig.op === '-');
         subOptions.querySelectorAll('.sel-card[data-val]').forEach(item => {
-            item.classList.toggle('selected', item.dataset.val === playerConfig.borrow);
+            const val = item.dataset.val;
+            if (val === 'noborrow' || val === 'borrow' || val === 'zero' || val === 'mixed') {
+                item.classList.toggle('selected', val === playerConfig.borrow);
+            } else if (val === 'standard' || val === 'stepdown') {
+                item.classList.toggle('selected', val === playerConfig.subMode);
+            }
         });
+        const subModeBlock = subOptions.querySelector('[data-role="subModeBlock"]');
+        if (subModeBlock) subModeBlock.style.display = playerConfig.digits > 1 ? 'block' : 'none';
+    }
+    if (mulOptions) {
+        mulOptions.classList.toggle('open', playerConfig.op === 'x');
+        mulOptions.querySelectorAll('.sel-card[data-val]').forEach(item => {
+            const val = item.dataset.val;
+            if (val === 'nocarry' || val === 'carry' || val === 'mixed') {
+                item.classList.toggle('selected', val === playerConfig.mulCarry);
+            } else if (val === 'standard' || val === 'advanced') {
+                item.classList.toggle('selected', val === playerConfig.mulMode);
+            }
+        });
+        mulOptions.querySelectorAll('.table-pill[data-val]').forEach(pill => {
+            pill.classList.toggle('selected', pill.dataset.val === String(playerConfig.mulTable));
+        });
+        const tableBlock = mulOptions.querySelector('[data-role="mulTableBlock"]');
+        const modeBlock = mulOptions.querySelector('[data-role="mulModeBlock"]');
+        if (tableBlock) tableBlock.style.display = playerConfig.digits === 1 ? 'block' : 'none';
+        if (modeBlock) modeBlock.style.display = playerConfig.digits > 1 ? 'block' : 'none';
     }
 }
 
@@ -124,13 +183,21 @@ function selectMode(el) {
                 op: config.op,
                 digits: config.digits,
                 carry: config.carry,
-                borrow: config.borrow
+                borrow: config.borrow,
+                subMode: config.subMode,
+                mulCarry: config.mulCarry,
+                mulTable: config.mulTable,
+                mulMode: config.mulMode
             }),
             makeQuestionConfig({
                 op: config.op,
                 digits: config.digits,
                 carry: config.carry,
-                borrow: config.borrow
+                borrow: config.borrow,
+                subMode: config.subMode,
+                mulCarry: config.mulCarry,
+                mulTable: config.mulTable,
+                mulMode: config.mulMode
             })
         ];
     }
@@ -139,8 +206,24 @@ function selectMode(el) {
 }
 
 function describeQuestionConfig(questionConfig) {
-    const opNames = { '+': 'Toplama', '-': 'Cikarma', 'x': 'Carpma' };
-    return `${opNames[questionConfig.op]} - ${questionConfig.digits} Basamak`;
+    const opNames = { '+': 'Toplama', '-': 'Çıkarma', 'x': 'Çarpma' };
+    let desc = `${opNames[questionConfig.op] || ''} - ${questionConfig.digits} Basamak`;
+    if (questionConfig.op === '-') {
+        if (questionConfig.borrow === 'noborrow') desc += ' (Bozmasız)';
+        else if (questionConfig.borrow === 'borrow') desc += ' (Bozmalı)';
+        else if (questionConfig.borrow === 'zero') desc += ' (Sıfırdan)';
+        if (questionConfig.subMode === 'stepdown' && questionConfig.digits > 1) desc += ' [1 Basamak Az]';
+    }
+    if (questionConfig.op === 'x') {
+        if (questionConfig.digits === 1 && questionConfig.mulTable && questionConfig.mulTable !== 'all') {
+            desc += ` (${questionConfig.mulTable}'ler)`;
+        } else if (questionConfig.mulCarry === 'nocarry') {
+            desc += ' (Eldesiz)';
+        } else if (questionConfig.mulCarry === 'carry') {
+            desc += ' (Eldeli)';
+        }
+    }
+    return desc;
 }
 
 function startGame() {
@@ -171,7 +254,8 @@ function applyQueryConfigFromUrl() {
         if (modeCard) selectMode(modeCard);
     }
 
-    const op = params.get('op');
+    let op = params.get('op');
+    if (op === ' ') op = '+';
     const digits = params.get('digits');
     const carry = params.get('carry');
     const borrow = params.get('borrow');
@@ -195,16 +279,35 @@ function applyQueryConfigFromUrl() {
 
     for (let i = 0; i < 2; i++) {
         const prefix = `p${i + 1}_`;
-        const playerOp = params.get(prefix + 'op');
+        let playerOp = params.get(prefix + 'op');
+        if (playerOp === ' ') playerOp = '+';
         const playerDigits = params.get(prefix + 'digits');
         const playerCarry = params.get(prefix + 'carry');
         const playerBorrow = params.get(prefix + 'borrow');
+        const playerSubMode = params.get(prefix + 'subMode');
+
+        const playerMulCarry = params.get(prefix + 'mulCarry');
+        const playerMulTable = params.get(prefix + 'mulTable');
+        const playerMulMode = params.get(prefix + 'mulMode');
 
         if (playerOp) config.playerConfigs[i].op = playerOp;
         if (playerDigits) config.playerConfigs[i].digits = parseInt(playerDigits, 10);
         if (playerCarry) config.playerConfigs[i].carry = playerCarry;
         if (playerBorrow) config.playerConfigs[i].borrow = playerBorrow;
+        if (playerSubMode) config.playerConfigs[i].subMode = playerSubMode;
+        if (playerMulCarry) config.playerConfigs[i].mulCarry = playerMulCarry;
+        if (playerMulTable) config.playerConfigs[i].mulTable = playerMulTable;
+        if (playerMulMode) config.playerConfigs[i].mulMode = playerMulMode;
     }
+
+    const subMode = params.get('subMode');
+    if (subMode) config.subMode = subMode;
+    const mulCarry = params.get('mulCarry');
+    const mulTable = params.get('mulTable');
+    const mulMode = params.get('mulMode');
+    if (mulCarry) config.mulCarry = mulCarry;
+    if (mulTable) config.mulTable = mulTable;
+    if (mulMode) config.mulMode = mulMode;
 
     renderModeState();
 }
@@ -318,6 +421,25 @@ const Game = (function () {
                 g.connect(c.destination);
                 o.start(n + i * .2);
                 o.stop(n + i * .2 + .35);
+            });
+        } catch (e) { }
+    }
+
+    function playFanfare() {
+        try {
+            const c = aCtx();
+            const n = c.currentTime;
+            [523.25, 659.25, 783.99, 1046.5, 1318.5].forEach((f, i) => {
+                const o = c.createOscillator();
+                const g = c.createGain();
+                o.type = 'triangle';
+                o.frequency.value = f;
+                g.gain.setValueAtTime(.28, n + i * .1);
+                g.gain.exponentialRampToValueAtTime(.001, n + i * .1 + .6);
+                o.connect(g);
+                g.connect(c.destination);
+                o.start(n + i * .1);
+                o.stop(n + i * .1 + .6);
             });
         } catch (e) { }
     }
@@ -495,6 +617,40 @@ const Game = (function () {
         ctx.lineTo(rightEdge + 16, lineY);
         ctx.stroke();
 
+        // Onluk bozmalı çıkarmada eksilen sayının üstüne kılavuz not kutuları
+        if (questionConfig.op === '-' && hasBorrow(player.num1, player.num2)) {
+            const charW = ctx.measureText('0').width;
+            const boxSize = Math.min(Math.round(fs * 0.44), 22);
+            const boxY = startY - boxSize - 6;
+            ctx.save();
+            ctx.strokeStyle = 'rgba(109, 40, 217, 0.35)';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([3, 3]);
+            for (let i = 0; i < s1.length; i++) {
+                const boxX = rightEdge - (s1.length - i) * charW + (charW - boxSize) / 2;
+                ctx.strokeRect(boxX, boxY, boxSize, boxSize);
+            }
+            ctx.restore();
+        }
+
+        // Basamak ayırma dikey kılavuz çizgileri
+        if (Math.max(s1.length, s2.length) > 1) {
+            const charW = ctx.measureText('0').width;
+            const maxL = Math.max(s1.length, s2.length);
+            ctx.save();
+            ctx.strokeStyle = 'rgba(76, 29, 149, 0.12)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            for (let i = 1; i <= maxL; i++) {
+                const colX = rightEdge - i * charW;
+                ctx.beginPath();
+                ctx.moveTo(colX, lineY);
+                ctx.lineTo(colX, lineY + lh + 8);
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+
         const hintY = lineY + 22;
         ctx.font = `600 ${compact ? (mob ? 11 : 13) : (window.innerWidth < 500 ? 13 : 15)}px 'Nunito', sans-serif`;
         ctx.textAlign = 'center';
@@ -578,6 +734,31 @@ const Game = (function () {
         return false;
     }
 
+    function hasZeroBorrow(a, b) {
+        if (!hasBorrow(a, b)) return false;
+        const s1 = String(a);
+        if (s1.length === 2 && s1[1] === '0') return true;
+        if (s1.length === 3 && s1[1] === '0') return true;
+        return false;
+    }
+
+    function hasCarryMul(a, b) {
+        const top = Math.max(a, b);
+        const bottom = Math.min(a, b);
+        const s = String(top);
+        if (bottom < 10) {
+            let carry = 0;
+            for (let i = s.length - 1; i >= 0; i--) {
+                const digit = parseInt(s[i], 10);
+                const prod = digit * bottom + carry;
+                if (prod >= 10) return true;
+                carry = Math.floor(prod / 10);
+            }
+            return false;
+        }
+        return true;
+    }
+
     function removePlayerPointers(index) {
         Array.from(activePointers.keys()).forEach(key => {
             const record = activePointers.get(key);
@@ -612,18 +793,86 @@ const Game = (function () {
                 if (questionConfig.carry === 'mixed') break;
             }
         } else if (questionConfig.op === '-') {
+            const isStepDown = questionConfig.subMode === 'stepdown';
             for (let tries = 0; tries < 200; tries++) {
-                player.num1 = randInt(lo, hi);
-                player.num2 = randInt(lo, player.num1);
+                if (d === 1) {
+                    player.num1 = randInt(1, 9);
+                    player.num2 = randInt(1, player.num1);
+                } else if (d === 2) {
+                    if (isStepDown) {
+                        player.num1 = randInt(10, 99);
+                        player.num2 = randInt(2, Math.min(9, player.num1));
+                    } else {
+                        player.num1 = randInt(10, 99);
+                        player.num2 = randInt(10, player.num1);
+                    }
+                } else {
+                    if (isStepDown) {
+                        player.num1 = randInt(100, 999);
+                        player.num2 = randInt(10, Math.min(99, player.num1));
+                    } else {
+                        player.num1 = randInt(100, 999);
+                        player.num2 = randInt(100, player.num1);
+                    }
+                }
                 player.ans = player.num1 - player.num2;
-                if (questionConfig.borrow === 'noborrow' && !hasBorrow(player.num1, player.num2)) break;
-                if (questionConfig.borrow === 'borrow' && hasBorrow(player.num1, player.num2)) break;
-                if (questionConfig.borrow === 'mixed') break;
+                if (questionConfig.borrow === 'noborrow' && hasBorrow(player.num1, player.num2)) continue;
+                if (questionConfig.borrow === 'borrow' && !hasBorrow(player.num1, player.num2)) continue;
+                if (questionConfig.borrow === 'zero' && !hasZeroBorrow(player.num1, player.num2)) continue;
+                break;
             }
         } else {
-            player.num1 = randInt(lo, hi);
-            player.num2 = randInt(lo, hi);
-            player.ans = player.num1 * player.num2;
+            const tableVal = questionConfig.mulTable && questionConfig.mulTable !== 'all'
+                ? parseInt(questionConfig.mulTable, 10)
+                : null;
+            const isAdv = questionConfig.mulMode === 'advanced';
+            const carryPref = questionConfig.mulCarry || 'mixed';
+
+            for (let tries = 0; tries < 200; tries++) {
+                if (d === 1) {
+                    if (tableVal != null) {
+                        const other = randInt(1, 9);
+                        if (Math.random() < 0.5) {
+                            player.num1 = tableVal;
+                            player.num2 = other;
+                        } else {
+                            player.num1 = other;
+                            player.num2 = tableVal;
+                        }
+                    } else {
+                        player.num1 = randInt(1, 9);
+                        player.num2 = randInt(1, 9);
+                    }
+                    player.ans = player.num1 * player.num2;
+                    if (carryPref === 'nocarry' && player.ans >= 10) continue;
+                    if (carryPref === 'carry' && player.ans < 10) continue;
+                    break;
+                } else if (d === 2) {
+                    if (isAdv) {
+                        player.num1 = randInt(10, 99);
+                        player.num2 = randInt(10, 99);
+                    } else {
+                        player.num1 = randInt(10, 99);
+                        player.num2 = randInt(2, 9);
+                    }
+                    player.ans = player.num1 * player.num2;
+                    if (carryPref === 'nocarry' && hasCarryMul(player.num1, player.num2)) continue;
+                    if (carryPref === 'carry' && !hasCarryMul(player.num1, player.num2)) continue;
+                    break;
+                } else {
+                    if (isAdv) {
+                        player.num1 = randInt(100, 999);
+                        player.num2 = randInt(10, 99);
+                    } else {
+                        player.num1 = randInt(100, 999);
+                        player.num2 = randInt(2, 9);
+                    }
+                    player.ans = player.num1 * player.num2;
+                    if (carryPref === 'nocarry' && hasCarryMul(player.num1, player.num2)) continue;
+                    if (carryPref === 'carry' && !hasCarryMul(player.num1, player.num2)) continue;
+                    break;
+                }
+            }
         }
 
         if (render) {
@@ -894,11 +1143,11 @@ const Game = (function () {
         if (badge) badge.classList.remove('show');
     }
 
-    function particles(player) {
+    function particles(player, count = 20) {
         const colors = ['#22c55e', '#facc15', '#3b82f6', '#ec4899', '#f97316', '#a855f7'];
         const cx = player.area.center;
         const cy = window.innerHeight / 3;
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < count; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.style.left = cx + 'px';
@@ -966,14 +1215,22 @@ const Game = (function () {
         player.busy = true;
         player.cntOk++;
         updateHud();
-        showFeedback(player.index, '✅', '#22c55e');
-        showStatus(player.index, 'Harika, doğru cevap!', 'info', 1200);
-        playOk();
-        particles(player);
+        const isMilestone = player.cntOk % 10 === 0 && player.cntOk > 0;
+        if (isMilestone) {
+            showFeedback(player.index, '🏆', '#f59e0b');
+            showStatus(player.index, '🎉 ' + player.cntOk + '. DOĞRU! TEBRİKLER!', 'info', 2400);
+            playFanfare();
+            particles(player, 40);
+        } else {
+            showFeedback(player.index, '✅', '#22c55e');
+            showStatus(player.index, 'Harika, doğru cevap!', 'info', 1200);
+            playOk();
+            particles(player, 20);
+        }
         player.feedbackTimer = setTimeout(() => {
             hideFeedback(player.index);
             genQ(player.index);
-        }, 1800);
+        }, isMilestone ? 2400 : 1800);
     }
 
     function onBad(player, value) {
@@ -991,6 +1248,16 @@ const Game = (function () {
             updateHud();
             scene();
         }, 1700);
+    }
+
+    function undoPlayer(index) {
+        const player = players[index];
+        if (!player || player.busy) return;
+        if (player.strokes.length > 0) {
+            player.strokes.pop();
+            hideStatus(index);
+            scene();
+        }
     }
 
     function clearPlayer(index) {
@@ -1025,6 +1292,7 @@ const Game = (function () {
 
         if (button.dataset.action === 'check') doCheck(index);
         if (button.dataset.action === 'clear') clearPlayer(index);
+        if (button.dataset.action === 'undo') undoPlayer(index);
         if (button.dataset.action === 'next') genQ(index);
         if (button.dataset.action === 'tool') toggleTool(index);
     }
@@ -1034,6 +1302,13 @@ const Game = (function () {
         listenersBound = true;
 
         window.addEventListener('resize', resize);
+        window.addEventListener('keydown', function (e) {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+                e.preventDefault();
+                undoPlayer(0);
+                if (getActivePlayerCount() === 2) undoPlayer(1);
+            }
+        });
 
         if (window.PointerEvent) {
             canvas.addEventListener('pointerdown', pDown);
@@ -1080,7 +1355,11 @@ const Game = (function () {
                     op: cfg.op,
                     digits: cfg.digits,
                     carry: cfg.carry,
-                    borrow: cfg.borrow
+                    borrow: cfg.borrow,
+                    subMode: cfg.subMode,
+                    mulCarry: cfg.mulCarry,
+                    mulTable: cfg.mulTable,
+                    mulMode: cfg.mulMode
                 } : null,
                 playerConfigs: cfg && cfg.playerConfigs ? cfg.playerConfigs : []
             },
