@@ -646,47 +646,48 @@ const Game = (function () {
     }
 
     const TOUCH_POINTS = {
-        '1': [{ x: 0.50, y: 0.18, d: false }],
-        '2': [{ x: 0.35, y: 0.22, d: false }, { x: 0.25, y: 0.85, d: false }],
-        '3': [{ x: 0.35, y: 0.20, d: false }, { x: 0.52, y: 0.50, d: false }, { x: 0.35, y: 0.82, d: false }],
-        '4': [{ x: 0.25, y: 0.22, d: false }, { x: 0.25, y: 0.65, d: false }, { x: 0.78, y: 0.65, d: false }, { x: 0.70, y: 0.86, d: false }],
-        '5': [{ x: 0.72, y: 0.18, d: false }, { x: 0.28, y: 0.18, d: false }, { x: 0.28, y: 0.48, d: false }, { x: 0.74, y: 0.66, d: false }, { x: 0.32, y: 0.86, d: false }],
-        '6': [{ x: 0.60, y: 0.22, d: true }, { x: 0.24, y: 0.60, d: true }, { x: 0.76, y: 0.74, d: true }],
-        '7': [{ x: 0.22, y: 0.18, d: false }, { x: 0.55, y: 0.18, d: true }, { x: 0.55, y: 0.54, d: true }, { x: 0.40, y: 0.86, d: true }],
-        '8': [{ x: 0.34, y: 0.24, d: true }, { x: 0.66, y: 0.24, d: true }, { x: 0.30, y: 0.76, d: true }, { x: 0.70, y: 0.76, d: true }],
-        '9': [{ x: 0.50, y: 0.18, d: true }, { x: 0.24, y: 0.36, d: true }, { x: 0.76, y: 0.36, d: true }, { x: 0.50, y: 0.54, d: true }, { x: 0.38, y: 0.86, d: false }]
+        '1': [{ x: 0.52, y: 0.18, d: false }],
+        '2': [{ x: 0.40, y: 0.22, d: false }, { x: 0.65, y: 0.86, d: false }],
+        '3': [{ x: 0.38, y: 0.22, d: false }, { x: 0.48, y: 0.52, d: false }, { x: 0.38, y: 0.84, d: false }],
+        '4': [{ x: 0.66, y: 0.20, d: false }, { x: 0.30, y: 0.22, d: false }, { x: 0.28, y: 0.62, d: false }, { x: 0.66, y: 0.86, d: false }],
+        '5': [{ x: 0.68, y: 0.18, d: false }, { x: 0.32, y: 0.18, d: false }, { x: 0.32, y: 0.48, d: false }, { x: 0.70, y: 0.66, d: false }, { x: 0.34, y: 0.86, d: false }],
+        '6': [{ x: 0.58, y: 0.20, d: true }, { x: 0.28, y: 0.68, d: true }, { x: 0.72, y: 0.68, d: true }],
+        '7': [{ x: 0.28, y: 0.18, d: false }, { x: 0.70, y: 0.18, d: true }, { x: 0.54, y: 0.52, d: true }, { x: 0.44, y: 0.86, d: true }],
+        '8': [{ x: 0.34, y: 0.30, d: true }, { x: 0.66, y: 0.30, d: true }, { x: 0.28, y: 0.72, d: true }, { x: 0.72, y: 0.72, d: true }],
+        '9': [{ x: 0.50, y: 0.18, d: true }, { x: 0.26, y: 0.35, d: true }, { x: 0.72, y: 0.48, d: true }, { x: 0.62, y: 0.70, d: true }, { x: 0.36, y: 0.86, d: false }]
     };
 
     function drawDigitTouchPoints(char, x, y, w, h) {
         const points = TOUCH_POINTS[char];
         if (!points) return;
-        const radius = Math.max(3.2, Math.round(h * 0.075));
+        const radius = Math.max(2.8, Math.min(4.2, Math.round(h * 0.055)));
         ctx.save();
         points.forEach(pt => {
             const px = x + pt.x * w;
             const py = y + pt.y * h;
             if (pt.d) {
-                // Double touch point (outer ring + inner dot)
+                // Double touch point (clean translucent lens with thin red ring + solid center dot)
+                const ringRadius = radius + 3.2;
                 ctx.beginPath();
-                ctx.arc(px, py, radius + 2.8, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(239, 68, 68, 0.25)';
+                ctx.arc(px, py, ringRadius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.88)';
                 ctx.fill();
                 ctx.strokeStyle = '#dc2626';
-                ctx.lineWidth = 1.8;
+                ctx.lineWidth = 1.5;
                 ctx.stroke();
 
                 ctx.beginPath();
-                ctx.arc(px, py, radius - 0.8, 0, Math.PI * 2);
+                ctx.arc(px, py, Math.max(2.0, radius - 1.2), 0, Math.PI * 2);
                 ctx.fillStyle = '#dc2626';
                 ctx.fill();
             } else {
-                // Single touch point
+                // Single touch point (solid red dot with crisp white border)
                 ctx.beginPath();
                 ctx.arc(px, py, radius, 0, Math.PI * 2);
                 ctx.fillStyle = '#ef4444';
                 ctx.fill();
                 ctx.strokeStyle = '#ffffff';
-                ctx.lineWidth = 1.5;
+                ctx.lineWidth = 1.8;
                 ctx.stroke();
             }
         });
@@ -712,37 +713,73 @@ const Game = (function () {
         ctx.font = `800 ${fs}px 'Nunito', sans-serif`;
         ctx.textBaseline = 'top';
 
-        const digitsWidth = ctx.measureText('0'.repeat(Math.max(s1.length, s2.length))).width;
-        const opWidth = ctx.measureText(op + ' ').width;
+        // Sabit basamak sütun genişliği: Rakamların birbirini sıkıştırmasını engeller
+        const zeroW = Math.round(ctx.measureText('0').width);
+        const colW = Math.max(Math.round(fs * 0.78), zeroW + 12);
+        const maxLen = Math.max(s1.length, s2.length);
+        const digitsWidth = maxLen * colW;
+        const opWidth = Math.max(Math.round(ctx.measureText(op + ' ').width), Math.round(colW * 0.85));
         const totalWidth = opWidth + digitsWidth;
         const rightEdge = player.area.center + totalWidth / 2;
 
-        ctx.textAlign = 'right';
-        ctx.fillStyle = '#2c3e7a';
-        ctx.fillText(s1, rightEdge, startY);
+        // Üst sayıyı basamaklarına göre ortalayarak ve net bir arka konturla çiz
+        ctx.textAlign = 'center';
+        for (let i = 0; i < s1.length; i++) {
+            const digitChar = s1[i];
+            const colIndex = s1.length - 1 - i;
+            const colCenterX = rightEdge - (colIndex + 0.5) * colW;
 
+            ctx.save();
+            ctx.strokeStyle = '#f5f0e8';
+            ctx.lineWidth = 5;
+            ctx.lineJoin = 'round';
+            ctx.strokeText(digitChar, colCenterX, startY);
+            ctx.fillStyle = '#1e3a5f';
+            ctx.fillText(digitChar, colCenterX, startY);
+            ctx.restore();
+        }
+
+        // İşlem işareti
         ctx.textAlign = 'left';
         ctx.fillStyle = '#c0392b';
         ctx.fillText(op, rightEdge - totalWidth, startY + lh);
 
-        ctx.textAlign = 'right';
-        ctx.fillStyle = '#2c3e7a';
-        ctx.fillText(s2, rightEdge, startY + lh);
+        // Alt sayıyı basamaklarına göre ortalayarak çiz
+        ctx.textAlign = 'center';
+        for (let j = 0; j < s2.length; j++) {
+            const digitChar = s2[j];
+            const colIndex = s2.length - 1 - j;
+            const colCenterX = rightEdge - (colIndex + 0.5) * colW;
+
+            ctx.save();
+            ctx.strokeStyle = '#f5f0e8';
+            ctx.lineWidth = 5;
+            ctx.lineJoin = 'round';
+            ctx.strokeText(digitChar, colCenterX, startY + lh);
+            ctx.fillStyle = '#1e3a5f';
+            ctx.fillText(digitChar, colCenterX, startY + lh);
+            ctx.restore();
+        }
 
         // Noktalı Sayma / TouchMath noktaları çizimi
-        if (player.touchPoints) {
-            const charW = ctx.measureText('0').width;
+        const tpMode = player.touchPoints;
+        const showTop = tpMode === true || tpMode === 'on' || tpMode === 'all';
+        const showBottom = tpMode === true || tpMode === 'on' || tpMode === 'all' || tpMode === 'bottom';
+
+        if (showTop) {
             for (let i = 0; i < s1.length; i++) {
                 const digitChar = s1[i];
-                const digitRight = rightEdge - (s1.length - 1 - i) * charW;
-                const digitLeft = digitRight - charW;
-                drawDigitTouchPoints(digitChar, digitLeft, startY, charW, fs);
+                const colIndex = s1.length - 1 - i;
+                const colLeft = rightEdge - (colIndex + 1) * colW;
+                drawDigitTouchPoints(digitChar, colLeft, startY, colW, fs);
             }
+        }
+        if (showBottom) {
             for (let j = 0; j < s2.length; j++) {
                 const digitChar = s2[j];
-                const digitRight = rightEdge - (s2.length - 1 - j) * charW;
-                const digitLeft = digitRight - charW;
-                drawDigitTouchPoints(digitChar, digitLeft, startY + lh, charW, fs);
+                const colIndex = s2.length - 1 - j;
+                const colLeft = rightEdge - (colIndex + 1) * colW;
+                drawDigitTouchPoints(digitChar, colLeft, startY + lh, colW, fs);
             }
         }
 
@@ -750,52 +787,50 @@ const Game = (function () {
         ctx.strokeStyle = '#4a4a4a';
         ctx.lineWidth = 3;
         ctx.beginPath();
-        ctx.moveTo(rightEdge - totalWidth - 16, lineY);
-        ctx.lineTo(rightEdge + 16, lineY);
+        ctx.moveTo(rightEdge - totalWidth - 14, lineY);
+        ctx.lineTo(rightEdge + 14, lineY);
         ctx.stroke();
 
         // Eldeli toplamada üstte yeşil kılavuz elde kutuları
         if (questionConfig.op === '+' && hasCarry(player.num1, player.num2)) {
-            const charW = ctx.measureText('0').width;
             const boxSize = Math.min(Math.round(fs * 0.44), 22);
             const boxY = startY - boxSize - 6;
             ctx.save();
-            ctx.strokeStyle = 'rgba(74, 222, 128, 0.45)';
+            ctx.strokeStyle = 'rgba(74, 222, 128, 0.6)';
             ctx.lineWidth = 1.5;
             ctx.setLineDash([3, 3]);
             for (let i = 0; i < s1.length; i++) {
-                const boxX = rightEdge - (s1.length - i) * charW + (charW - boxSize) / 2;
-                ctx.strokeRect(boxX, boxY, boxSize, boxSize);
+                const colIndex = s1.length - 1 - i;
+                const colCenterX = rightEdge - (colIndex + 0.5) * colW;
+                ctx.strokeRect(colCenterX - boxSize / 2, boxY, boxSize, boxSize);
             }
             ctx.restore();
         }
 
         // Onluk bozmalı çıkarmada eksilen sayının üstüne kılavuz not kutuları
         if (questionConfig.op === '-' && hasBorrow(player.num1, player.num2)) {
-            const charW = ctx.measureText('0').width;
             const boxSize = Math.min(Math.round(fs * 0.44), 22);
             const boxY = startY - boxSize - 6;
             ctx.save();
-            ctx.strokeStyle = 'rgba(109, 40, 217, 0.35)';
+            ctx.strokeStyle = 'rgba(109, 40, 217, 0.45)';
             ctx.lineWidth = 1.5;
             ctx.setLineDash([3, 3]);
             for (let i = 0; i < s1.length; i++) {
-                const boxX = rightEdge - (s1.length - i) * charW + (charW - boxSize) / 2;
-                ctx.strokeRect(boxX, boxY, boxSize, boxSize);
+                const colIndex = s1.length - 1 - i;
+                const colCenterX = rightEdge - (colIndex + 0.5) * colW;
+                ctx.strokeRect(colCenterX - boxSize / 2, boxY, boxSize, boxSize);
             }
             ctx.restore();
         }
 
         // Basamak ayırma dikey kılavuz çizgileri
-        if (Math.max(s1.length, s2.length) > 1) {
-            const charW = ctx.measureText('0').width;
-            const maxL = Math.max(s1.length, s2.length);
+        if (maxLen > 1) {
             ctx.save();
             ctx.strokeStyle = 'rgba(76, 29, 149, 0.12)';
             ctx.lineWidth = 1;
             ctx.setLineDash([4, 4]);
-            for (let i = 1; i <= maxL; i++) {
-                const colX = rightEdge - i * charW;
+            for (let i = 1; i <= maxLen; i++) {
+                const colX = rightEdge - i * colW;
                 ctx.beginPath();
                 ctx.moveTo(colX, lineY);
                 ctx.lineTo(colX, lineY + lh + 8);
