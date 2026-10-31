@@ -918,7 +918,7 @@
 
                 <div class="sub-options" id="addOptions">
                     <div class="section-label">Elde Seçeneği</div>
-                    <div class="cards-row">
+                    <div class="cards-row" id="addCarryCards">
                         <div class="sel-card opt-card selected" data-val="nocarry" onclick="selectOpt('carry',this)">
                             <div class="icon">✨</div>
                             <div class="label">Eldesiz</div>
@@ -933,6 +933,44 @@
                             <div class="icon">🎲</div>
                             <div class="label">Karışık</div>
                             <div class="desc">Her ikisi de</div>
+                        </div>
+                    </div>
+                    <div class="mul-sub-block" id="addTableContainer">
+                        <div class="section-label">Özel Toplama Hedefi</div>
+                        <div class="cards-row table-pills-row" id="addTableCards">
+                            <button type="button" class="table-pill selected" data-val="all" onclick="selectOpt('addTable',this)">Tümü (Karışık)</button>
+                            <button type="button" class="table-pill" data-val="ten" onclick="selectOpt('addTable',this)">Toplamı 10 (7+3)</button>
+                            <button type="button" class="table-pill" data-val="doubles" onclick="selectOpt('addTable',this)">İkizler (6+6)</button>
+                        </div>
+                    </div>
+                    <div class="mul-sub-block" id="addModeContainer" style="display:none">
+                        <div class="section-label">Eklenen Sayı Formatı</div>
+                        <div class="cards-row" id="addModeCards">
+                            <div class="sel-card opt-card selected" data-val="standard" onclick="selectOpt('addMode',this)">
+                                <div class="icon">🎯</div>
+                                <div class="label">Tam Basamak</div>
+                                <div class="desc">Örn: 45 + 38 (Standart)</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="stepdown" onclick="selectOpt('addMode',this)">
+                                <div class="icon">🔻</div>
+                                <div class="label">1 Basamak Az</div>
+                                <div class="desc">Örn: 45 + 8 (Geçiş)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mul-sub-block" id="touchMathContainer">
+                        <div class="section-label">Noktalı Sayma (TouchMath)</div>
+                        <div class="cards-row" id="touchMathCards">
+                            <div class="sel-card opt-card selected" data-val="off" onclick="selectOpt('touchPoints',this)">
+                                <div class="icon">🚫</div>
+                                <div class="label">Kapalı</div>
+                                <div class="desc">Standart rakamlar</div>
+                            </div>
+                            <div class="sel-card opt-card" data-val="on" onclick="selectOpt('touchPoints',this)">
+                                <div class="icon">🔘</div>
+                                <div class="label">TouchMath</div>
+                                <div class="desc">Sayma noktaları</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1102,7 +1140,45 @@
                             <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(0,'carry',this)">
                                 <div class="icon">🎲</div>
                                 <div class="label">Karışık</div>
-                                <div class="desc">Her ikisi de</div>
+                                <div class="desc">Her ikisi</div>
+                            </div>
+                        </div>
+                        <div class="player-add-table-block" data-role="addTableBlock">
+                            <div class="mini-label">Özel Hedef</div>
+                            <div class="cards-row table-pills-row">
+                                <button type="button" class="table-pill selected" data-val="all" onclick="selectPlayerOpt(0,'addTable',this)">Tümü</button>
+                                <button type="button" class="table-pill" data-val="ten" onclick="selectPlayerOpt(0,'addTable',this)">Toplamı 10</button>
+                                <button type="button" class="table-pill" data-val="doubles" onclick="selectPlayerOpt(0,'addTable',this)">İkizler</button>
+                            </div>
+                        </div>
+                        <div class="player-add-mode-block" data-role="addModeBlock" style="display:none">
+                            <div class="mini-label">Eklenen Formatı</div>
+                            <div class="cards-row">
+                                <div class="sel-card opt-card selected" data-val="standard" onclick="selectPlayerOpt(0,'addMode',this)">
+                                    <div class="icon">🎯</div>
+                                    <div class="label">Tam</div>
+                                    <div class="desc">Standart</div>
+                                </div>
+                                <div class="sel-card opt-card" data-val="stepdown" onclick="selectPlayerOpt(0,'addMode',this)">
+                                    <div class="icon">🔻</div>
+                                    <div class="label">1 Az</div>
+                                    <div class="desc">Geçiş</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="player-touch-math-block" data-role="touchMathBlock">
+                            <div class="mini-label">TouchMath</div>
+                            <div class="cards-row">
+                                <div class="sel-card opt-card selected" data-val="off" onclick="selectPlayerOpt(0,'touchPoints',this)">
+                                    <div class="icon">🚫</div>
+                                    <div class="label">Kapalı</div>
+                                    <div class="desc">Noktasız</div>
+                                </div>
+                                <div class="sel-card opt-card" data-val="on" onclick="selectPlayerOpt(0,'touchPoints',this)">
+                                    <div class="icon">🔘</div>
+                                    <div class="label">Açık</div>
+                                    <div class="desc">Noktalı</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1253,7 +1329,45 @@
                             <div class="sel-card opt-card" data-val="mixed" onclick="selectPlayerOpt(1,'carry',this)">
                                 <div class="icon">🎲</div>
                                 <div class="label">Karışık</div>
-                                <div class="desc">Her ikisi de</div>
+                                <div class="desc">Her ikisi</div>
+                            </div>
+                        </div>
+                        <div class="player-add-table-block" data-role="addTableBlock">
+                            <div class="mini-label">Özel Hedef</div>
+                            <div class="cards-row table-pills-row">
+                                <button type="button" class="table-pill selected" data-val="all" onclick="selectPlayerOpt(1,'addTable',this)">Tümü</button>
+                                <button type="button" class="table-pill" data-val="ten" onclick="selectPlayerOpt(1,'addTable',this)">Toplamı 10</button>
+                                <button type="button" class="table-pill" data-val="doubles" onclick="selectPlayerOpt(1,'addTable',this)">İkizler</button>
+                            </div>
+                        </div>
+                        <div class="player-add-mode-block" data-role="addModeBlock" style="display:none">
+                            <div class="mini-label">Eklenen Formatı</div>
+                            <div class="cards-row">
+                                <div class="sel-card opt-card selected" data-val="standard" onclick="selectPlayerOpt(1,'addMode',this)">
+                                    <div class="icon">🎯</div>
+                                    <div class="label">Tam</div>
+                                    <div class="desc">Standart</div>
+                                </div>
+                                <div class="sel-card opt-card" data-val="stepdown" onclick="selectPlayerOpt(1,'addMode',this)">
+                                    <div class="icon">🔻</div>
+                                    <div class="label">1 Az</div>
+                                    <div class="desc">Geçiş</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="player-touch-math-block" data-role="touchMathBlock">
+                            <div class="mini-label">TouchMath</div>
+                            <div class="cards-row">
+                                <div class="sel-card opt-card selected" data-val="off" onclick="selectPlayerOpt(1,'touchPoints',this)">
+                                    <div class="icon">🚫</div>
+                                    <div class="label">Kapalı</div>
+                                    <div class="desc">Noktasız</div>
+                                </div>
+                                <div class="sel-card opt-card" data-val="on" onclick="selectPlayerOpt(1,'touchPoints',this)">
+                                    <div class="icon">🔘</div>
+                                    <div class="label">Açık</div>
+                                    <div class="desc">Noktalı</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1398,6 +1512,7 @@
                         <button class="check-btn" data-action="check">✓ Kontrol</button>
                         <div class="divider"></div>
                         <button class="action-btn" data-action="tool" title="Silgi">🧼</button>
+                        <button class="action-btn" data-action="touchmath" title="Noktalı Sayma (TouchMath)">🔘</button>
                         <button class="action-btn" data-action="undo" title="Geri Al (Ctrl+Z)">↩️</button>
                         <button class="action-btn erase-btn" data-action="clear" title="Temizle">🗑️</button>
                         <button class="action-btn next-btn" data-action="next" title="Sonraki Soru">➡️</button>
@@ -1422,6 +1537,7 @@
                         <button class="check-btn" data-action="check">✓ Kontrol</button>
                         <div class="divider"></div>
                         <button class="action-btn" data-action="tool" title="Silgi">🧼</button>
+                        <button class="action-btn" data-action="touchmath" title="Noktalı Sayma (TouchMath)">🔘</button>
                         <button class="action-btn" data-action="undo" title="Geri Al (Ctrl+Z)">↩️</button>
                         <button class="action-btn erase-btn" data-action="clear" title="Temizle">🗑️</button>
                         <button class="action-btn next-btn" data-action="next" title="Sonraki Soru">➡️</button>

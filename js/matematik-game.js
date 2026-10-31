@@ -5,6 +5,9 @@ function makeQuestionConfig(overrides = {}) {
         carry: 'nocarry',
         borrow: 'noborrow',
         subMode: 'standard',
+        addMode: 'standard',
+        addTable: 'all',
+        touchPoints: false,
         mulCarry: 'mixed',
         mulTable: 'all',
         mulMode: 'standard',
@@ -29,9 +32,25 @@ function renderSingleConfig() {
     document.querySelectorAll('#digitCards .sel-card').forEach(card => {
         card.classList.toggle('selected', parseInt(card.dataset.val, 10) === config.digits);
     });
-    document.querySelectorAll('#addOptions .sel-card').forEach(card => {
-        card.classList.toggle('selected', card.dataset.val === config.carry);
-    });
+    const addOptions = document.getElementById('addOptions');
+    if (addOptions) {
+        addOptions.querySelectorAll('#addCarryCards .sel-card').forEach(card => {
+            card.classList.toggle('selected', card.dataset.val === config.carry);
+        });
+        addOptions.querySelectorAll('#addTableCards .table-pill').forEach(pill => {
+            pill.classList.toggle('selected', pill.dataset.val === String(config.addTable));
+        });
+        addOptions.querySelectorAll('#addModeCards .sel-card').forEach(card => {
+            card.classList.toggle('selected', card.dataset.val === config.addMode);
+        });
+        addOptions.querySelectorAll('#touchMathCards .sel-card').forEach(card => {
+            card.classList.toggle('selected', (card.dataset.val === 'on') === Boolean(config.touchPoints));
+        });
+        const addTableContainer = document.getElementById('addTableContainer');
+        const addModeContainer = document.getElementById('addModeContainer');
+        if (addTableContainer) addTableContainer.style.display = config.digits === 1 ? 'flex' : 'none';
+        if (addModeContainer) addModeContainer.style.display = config.digits > 1 ? 'flex' : 'none';
+    }
     const subOptions = document.getElementById('subOptions');
     if (subOptions) {
         subOptions.querySelectorAll('#subBorrowCards .sel-card').forEach(card => {
@@ -86,8 +105,22 @@ function renderPlayerConfigCard(index) {
     if (addOptions) {
         addOptions.classList.toggle('open', playerConfig.op === '+');
         addOptions.querySelectorAll('.sel-card[data-val]').forEach(item => {
-            item.classList.toggle('selected', item.dataset.val === playerConfig.carry);
+            const val = item.dataset.val;
+            if (val === 'nocarry' || val === 'carry' || val === 'mixed') {
+                item.classList.toggle('selected', val === playerConfig.carry);
+            } else if (val === 'standard' || val === 'stepdown') {
+                item.classList.toggle('selected', val === playerConfig.addMode);
+            } else if (val === 'on' || val === 'off') {
+                item.classList.toggle('selected', (val === 'on') === Boolean(playerConfig.touchPoints));
+            }
         });
+        addOptions.querySelectorAll('.table-pill[data-val]').forEach(pill => {
+            pill.classList.toggle('selected', pill.dataset.val === String(playerConfig.addTable));
+        });
+        const addTableBlock = addOptions.querySelector('[data-role="addTableBlock"]');
+        const addModeBlock = addOptions.querySelector('[data-role="addModeBlock"]');
+        if (addTableBlock) addTableBlock.style.display = playerConfig.digits === 1 ? 'block' : 'none';
+        if (addModeBlock) addModeBlock.style.display = playerConfig.digits > 1 ? 'block' : 'none';
     }
     if (subOptions) {
         subOptions.classList.toggle('open', playerConfig.op === '-');
@@ -185,6 +218,9 @@ function selectMode(el) {
                 carry: config.carry,
                 borrow: config.borrow,
                 subMode: config.subMode,
+                addMode: config.addMode,
+                addTable: config.addTable,
+                touchPoints: config.touchPoints,
                 mulCarry: config.mulCarry,
                 mulTable: config.mulTable,
                 mulMode: config.mulMode
@@ -195,6 +231,9 @@ function selectMode(el) {
                 carry: config.carry,
                 borrow: config.borrow,
                 subMode: config.subMode,
+                addMode: config.addMode,
+                addTable: config.addTable,
+                touchPoints: config.touchPoints,
                 mulCarry: config.mulCarry,
                 mulTable: config.mulTable,
                 mulMode: config.mulMode
@@ -208,6 +247,18 @@ function selectMode(el) {
 function describeQuestionConfig(questionConfig) {
     const opNames = { '+': 'Toplama', '-': 'Çıkarma', 'x': 'Çarpma' };
     let desc = `${opNames[questionConfig.op] || ''} - ${questionConfig.digits} Basamak`;
+    if (questionConfig.op === '+') {
+        if (questionConfig.digits === 1) {
+            if (questionConfig.addTable === 'ten') desc += ' (Toplamı 10)';
+            else if (questionConfig.addTable === 'doubles') desc += ' (İkizler)';
+            else if (questionConfig.carry === 'nocarry') desc += ' (Eldesiz)';
+            else if (questionConfig.carry === 'carry') desc += ' (Eldeli)';
+        } else {
+            if (questionConfig.carry === 'nocarry') desc += ' (Eldesiz)';
+            else if (questionConfig.carry === 'carry') desc += ' (Eldeli)';
+            if (questionConfig.addMode === 'stepdown') desc += ' [1 Basamak Az]';
+        }
+    }
     if (questionConfig.op === '-') {
         if (questionConfig.borrow === 'noborrow') desc += ' (Bozmasız)';
         else if (questionConfig.borrow === 'borrow') desc += ' (Bozmalı)';
@@ -222,6 +273,9 @@ function describeQuestionConfig(questionConfig) {
         } else if (questionConfig.mulCarry === 'carry') {
             desc += ' (Eldeli)';
         }
+    }
+    if (questionConfig.touchPoints) {
+        desc += ' • TouchMath';
     }
     return desc;
 }
@@ -285,6 +339,9 @@ function applyQueryConfigFromUrl() {
         const playerCarry = params.get(prefix + 'carry');
         const playerBorrow = params.get(prefix + 'borrow');
         const playerSubMode = params.get(prefix + 'subMode');
+        const playerAddMode = params.get(prefix + 'addMode');
+        const playerAddTable = params.get(prefix + 'addTable');
+        const playerTouch = params.get(prefix + 'touchPoints');
 
         const playerMulCarry = params.get(prefix + 'mulCarry');
         const playerMulTable = params.get(prefix + 'mulTable');
@@ -295,6 +352,9 @@ function applyQueryConfigFromUrl() {
         if (playerCarry) config.playerConfigs[i].carry = playerCarry;
         if (playerBorrow) config.playerConfigs[i].borrow = playerBorrow;
         if (playerSubMode) config.playerConfigs[i].subMode = playerSubMode;
+        if (playerAddMode) config.playerConfigs[i].addMode = playerAddMode;
+        if (playerAddTable) config.playerConfigs[i].addTable = playerAddTable;
+        if (playerTouch) config.playerConfigs[i].touchPoints = (playerTouch === '1' || playerTouch === 'on' || playerTouch === 'true');
         if (playerMulCarry) config.playerConfigs[i].mulCarry = playerMulCarry;
         if (playerMulTable) config.playerConfigs[i].mulTable = playerMulTable;
         if (playerMulMode) config.playerConfigs[i].mulMode = playerMulMode;
@@ -302,6 +362,12 @@ function applyQueryConfigFromUrl() {
 
     const subMode = params.get('subMode');
     if (subMode) config.subMode = subMode;
+    const addMode = params.get('addMode');
+    if (addMode) config.addMode = addMode;
+    const addTable = params.get('addTable');
+    if (addTable) config.addTable = addTable;
+    const touchParam = params.get('touchPoints');
+    if (touchParam) config.touchPoints = (touchParam === '1' || touchParam === 'on' || touchParam === 'true');
     const mulCarry = params.get('mulCarry');
     const mulTable = params.get('mulTable');
     const mulMode = params.get('mulMode');
@@ -343,6 +409,7 @@ const Game = (function () {
             busy: false,
             strokes: [],
             tool: 'pen',
+            touchPoints: false,
             qBottom: 0,
             statusTimer: null,
             feedbackTimer: null
@@ -510,6 +577,11 @@ const Game = (function () {
                 toolBtn.title = player.tool === 'eraser' ? 'Kalem moduna geç' : 'Silgi';
                 toolBtn.style.background = player.tool === 'eraser' ? '#eab308' : '';
             }
+            const tmBtn = panel.querySelector('[data-action="touchmath"]');
+            if (tmBtn) {
+                tmBtn.style.background = player.touchPoints ? '#38bdf8' : '';
+                tmBtn.title = player.touchPoints ? 'Noktalı Saymayı Kapat' : 'Noktalı Sayma (TouchMath)';
+            }
             actionButtons.forEach(btn => {
                 btn.disabled = player.busy;
             });
@@ -573,6 +645,54 @@ const Game = (function () {
         }
     }
 
+    const TOUCH_POINTS = {
+        '1': [{ x: 0.50, y: 0.18, d: false }],
+        '2': [{ x: 0.35, y: 0.22, d: false }, { x: 0.25, y: 0.85, d: false }],
+        '3': [{ x: 0.35, y: 0.20, d: false }, { x: 0.52, y: 0.50, d: false }, { x: 0.35, y: 0.82, d: false }],
+        '4': [{ x: 0.25, y: 0.22, d: false }, { x: 0.25, y: 0.65, d: false }, { x: 0.78, y: 0.65, d: false }, { x: 0.70, y: 0.86, d: false }],
+        '5': [{ x: 0.72, y: 0.18, d: false }, { x: 0.28, y: 0.18, d: false }, { x: 0.28, y: 0.48, d: false }, { x: 0.74, y: 0.66, d: false }, { x: 0.32, y: 0.86, d: false }],
+        '6': [{ x: 0.60, y: 0.22, d: true }, { x: 0.24, y: 0.60, d: true }, { x: 0.76, y: 0.74, d: true }],
+        '7': [{ x: 0.22, y: 0.18, d: false }, { x: 0.55, y: 0.18, d: true }, { x: 0.55, y: 0.54, d: true }, { x: 0.40, y: 0.86, d: true }],
+        '8': [{ x: 0.34, y: 0.24, d: true }, { x: 0.66, y: 0.24, d: true }, { x: 0.30, y: 0.76, d: true }, { x: 0.70, y: 0.76, d: true }],
+        '9': [{ x: 0.50, y: 0.18, d: true }, { x: 0.24, y: 0.36, d: true }, { x: 0.76, y: 0.36, d: true }, { x: 0.50, y: 0.54, d: true }, { x: 0.38, y: 0.86, d: false }]
+    };
+
+    function drawDigitTouchPoints(char, x, y, w, h) {
+        const points = TOUCH_POINTS[char];
+        if (!points) return;
+        const radius = Math.max(3.2, Math.round(h * 0.075));
+        ctx.save();
+        points.forEach(pt => {
+            const px = x + pt.x * w;
+            const py = y + pt.y * h;
+            if (pt.d) {
+                // Double touch point (outer ring + inner dot)
+                ctx.beginPath();
+                ctx.arc(px, py, radius + 2.8, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.25)';
+                ctx.fill();
+                ctx.strokeStyle = '#dc2626';
+                ctx.lineWidth = 1.8;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(px, py, radius - 0.8, 0, Math.PI * 2);
+                ctx.fillStyle = '#dc2626';
+                ctx.fill();
+            } else {
+                // Single touch point
+                ctx.beginPath();
+                ctx.arc(px, py, radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#ef4444';
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+        });
+        ctx.restore();
+    }
+
     function getOpSymbol(questionConfig) {
         return questionConfig.op === '+' ? '+' : questionConfig.op === '-' ? '-' : 'x';
     }
@@ -609,6 +729,23 @@ const Game = (function () {
         ctx.fillStyle = '#2c3e7a';
         ctx.fillText(s2, rightEdge, startY + lh);
 
+        // Noktalı Sayma / TouchMath noktaları çizimi
+        if (player.touchPoints) {
+            const charW = ctx.measureText('0').width;
+            for (let i = 0; i < s1.length; i++) {
+                const digitChar = s1[i];
+                const digitRight = rightEdge - (s1.length - 1 - i) * charW;
+                const digitLeft = digitRight - charW;
+                drawDigitTouchPoints(digitChar, digitLeft, startY, charW, fs);
+            }
+            for (let j = 0; j < s2.length; j++) {
+                const digitChar = s2[j];
+                const digitRight = rightEdge - (s2.length - 1 - j) * charW;
+                const digitLeft = digitRight - charW;
+                drawDigitTouchPoints(digitChar, digitLeft, startY + lh, charW, fs);
+            }
+        }
+
         const lineY = startY + lh * 2 + 8;
         ctx.strokeStyle = '#4a4a4a';
         ctx.lineWidth = 3;
@@ -616,6 +753,22 @@ const Game = (function () {
         ctx.moveTo(rightEdge - totalWidth - 16, lineY);
         ctx.lineTo(rightEdge + 16, lineY);
         ctx.stroke();
+
+        // Eldeli toplamada üstte yeşil kılavuz elde kutuları
+        if (questionConfig.op === '+' && hasCarry(player.num1, player.num2)) {
+            const charW = ctx.measureText('0').width;
+            const boxSize = Math.min(Math.round(fs * 0.44), 22);
+            const boxY = startY - boxSize - 6;
+            ctx.save();
+            ctx.strokeStyle = 'rgba(74, 222, 128, 0.45)';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([3, 3]);
+            for (let i = 0; i < s1.length; i++) {
+                const boxX = rightEdge - (s1.length - i) * charW + (charW - boxSize) / 2;
+                ctx.strokeRect(boxX, boxY, boxSize, boxSize);
+            }
+            ctx.restore();
+        }
 
         // Onluk bozmalı çıkarmada eksilen sayının üstüne kılavuz not kutuları
         if (questionConfig.op === '-' && hasBorrow(player.num1, player.num2)) {
@@ -778,19 +931,40 @@ const Game = (function () {
         player.busy = false;
         player.strokes = [];
         player.tool = 'pen';
+        if (player.touchPoints === undefined || (player.touchPoints === false && questionConfig.touchPoints)) {
+            player.touchPoints = Boolean(questionConfig.touchPoints);
+        }
 
         const d = questionConfig.digits;
         const lo = d === 1 ? 1 : d === 2 ? 10 : 100;
         const hi = d === 1 ? 9 : d === 2 ? 99 : 999;
 
         if (questionConfig.op === '+') {
+            const isStepDown = questionConfig.addMode === 'stepdown';
+            const targetTable = questionConfig.addTable || 'all';
             for (let tries = 0; tries < 200; tries++) {
-                player.num1 = randInt(lo, hi);
-                player.num2 = randInt(lo, hi);
+                if (d === 1) {
+                    if (targetTable === 'ten') {
+                        player.num1 = randInt(1, 9);
+                        player.num2 = 10 - player.num1;
+                    } else if (targetTable === 'doubles') {
+                        player.num1 = randInt(1, 9);
+                        player.num2 = player.num1;
+                    } else {
+                        player.num1 = randInt(1, 9);
+                        player.num2 = randInt(1, 9);
+                    }
+                } else if (d === 2) {
+                    player.num1 = randInt(10, 99);
+                    player.num2 = isStepDown ? randInt(2, 9) : randInt(10, 99);
+                } else {
+                    player.num1 = randInt(100, 999);
+                    player.num2 = isStepDown ? randInt(10, 99) : randInt(100, 999);
+                }
                 player.ans = player.num1 + player.num2;
-                if (questionConfig.carry === 'nocarry' && !hasCarry(player.num1, player.num2)) break;
-                if (questionConfig.carry === 'carry' && hasCarry(player.num1, player.num2)) break;
-                if (questionConfig.carry === 'mixed') break;
+                if (questionConfig.carry === 'nocarry' && hasCarry(player.num1, player.num2)) continue;
+                if (questionConfig.carry === 'carry' && !hasCarry(player.num1, player.num2)) continue;
+                break;
             }
         } else if (questionConfig.op === '-') {
             const isStepDown = questionConfig.subMode === 'stepdown';
@@ -1268,6 +1442,14 @@ const Game = (function () {
         scene();
     }
 
+    function toggleTouchMath(index) {
+        const player = players[index];
+        if (!player || player.busy) return;
+        player.touchPoints = !player.touchPoints;
+        updateHud();
+        scene();
+    }
+
     function toggleTool(index) {
         const player = players[index];
         if (!player || player.busy) return;
@@ -1295,6 +1477,7 @@ const Game = (function () {
         if (button.dataset.action === 'undo') undoPlayer(index);
         if (button.dataset.action === 'next') genQ(index);
         if (button.dataset.action === 'tool') toggleTool(index);
+        if (button.dataset.action === 'touchmath') toggleTouchMath(index);
     }
 
     function bindEvents() {
@@ -1357,6 +1540,9 @@ const Game = (function () {
                     carry: cfg.carry,
                     borrow: cfg.borrow,
                     subMode: cfg.subMode,
+                    addMode: cfg.addMode,
+                    addTable: cfg.addTable,
+                    touchPoints: cfg.touchPoints,
                     mulCarry: cfg.mulCarry,
                     mulTable: cfg.mulTable,
                     mulMode: cfg.mulMode
@@ -1373,6 +1559,7 @@ const Game = (function () {
                     score: { correct: player.cntOk, wrong: player.cntBad },
                     tool: player.tool,
                     busy: player.busy,
+                    touchPoints: Boolean(player.touchPoints),
                     strokeCount: getVisibleStrokes(player).length,
                     questionConfig: questionConfig,
                     area: player.area ? {
