@@ -44,7 +44,8 @@ function renderSingleConfig() {
             card.classList.toggle('selected', card.dataset.val === config.addMode);
         });
         addOptions.querySelectorAll('#touchMathCards .sel-card').forEach(card => {
-            card.classList.toggle('selected', (card.dataset.val === 'on') === Boolean(config.touchPoints));
+            const current = (!config.touchPoints || config.touchPoints === 'off') ? 'off' : config.touchPoints;
+            card.classList.toggle('selected', card.dataset.val === current);
         });
         const addTableContainer = document.getElementById('addTableContainer');
         const addModeContainer = document.getElementById('addModeContainer');
@@ -110,8 +111,9 @@ function renderPlayerConfigCard(index) {
                 item.classList.toggle('selected', val === playerConfig.carry);
             } else if (val === 'standard' || val === 'stepdown') {
                 item.classList.toggle('selected', val === playerConfig.addMode);
-            } else if (val === 'on' || val === 'off') {
-                item.classList.toggle('selected', (val === 'on') === Boolean(playerConfig.touchPoints));
+            } else if (val === 'on' || val === 'off' || val === 'bottom') {
+                const current = (!playerConfig.touchPoints || playerConfig.touchPoints === 'off') ? 'off' : playerConfig.touchPoints;
+                item.classList.toggle('selected', val === current);
             }
         });
         addOptions.querySelectorAll('.table-pill[data-val]').forEach(pill => {
@@ -182,7 +184,12 @@ function selectOp(el) {
 }
 
 function selectOpt(type, el) {
-    config[type] = el.dataset.val;
+    if (type === 'touchPoints') {
+        const val = el.dataset.val;
+        config.touchPoints = (val === 'off' || val === 'false') ? false : val;
+    } else {
+        config[type] = el.dataset.val;
+    }
     renderModeState();
 }
 
@@ -197,7 +204,12 @@ function selectPlayerOp(index, el) {
 }
 
 function selectPlayerOpt(index, type, el) {
-    config.playerConfigs[index][type] = el.dataset.val;
+    if (type === 'touchPoints') {
+        const val = el.dataset.val;
+        config.playerConfigs[index].touchPoints = (val === 'off' || val === 'false') ? false : val;
+    } else {
+        config.playerConfigs[index][type] = el.dataset.val;
+    }
     renderModeState();
 }
 
@@ -274,8 +286,8 @@ function describeQuestionConfig(questionConfig) {
             desc += ' (Eldeli)';
         }
     }
-    if (questionConfig.touchPoints) {
-        desc += ' • TouchMath';
+    if (questionConfig.touchPoints && questionConfig.touchPoints !== 'off') {
+        desc += questionConfig.touchPoints === 'bottom' ? ' • TouchMath (Alttaki)' : ' • TouchMath';
     }
     return desc;
 }
@@ -354,7 +366,7 @@ function applyQueryConfigFromUrl() {
         if (playerSubMode) config.playerConfigs[i].subMode = playerSubMode;
         if (playerAddMode) config.playerConfigs[i].addMode = playerAddMode;
         if (playerAddTable) config.playerConfigs[i].addTable = playerAddTable;
-        if (playerTouch) config.playerConfigs[i].touchPoints = (playerTouch === '1' || playerTouch === 'on' || playerTouch === 'true');
+        if (playerTouch) config.playerConfigs[i].touchPoints = (playerTouch === 'off' || playerTouch === '0' || playerTouch === 'false') ? false : (playerTouch === 'bottom' ? 'bottom' : 'on');
         if (playerMulCarry) config.playerConfigs[i].mulCarry = playerMulCarry;
         if (playerMulTable) config.playerConfigs[i].mulTable = playerMulTable;
         if (playerMulMode) config.playerConfigs[i].mulMode = playerMulMode;
@@ -367,7 +379,7 @@ function applyQueryConfigFromUrl() {
     const addTable = params.get('addTable');
     if (addTable) config.addTable = addTable;
     const touchParam = params.get('touchPoints');
-    if (touchParam) config.touchPoints = (touchParam === '1' || touchParam === 'on' || touchParam === 'true');
+    if (touchParam) config.touchPoints = (touchParam === 'off' || touchParam === '0' || touchParam === 'false') ? false : (touchParam === 'bottom' ? 'bottom' : 'on');
     const mulCarry = params.get('mulCarry');
     const mulTable = params.get('mulTable');
     const mulMode = params.get('mulMode');
@@ -445,6 +457,10 @@ const Game = (function () {
 
     function resetPlayers() {
         players = [createPlayer(0), createPlayer(1)];
+        players.forEach((p, idx) => {
+            const qc = getQuestionConfig(idx);
+            p.touchPoints = (!qc.touchPoints || qc.touchPoints === 'off') ? false : qc.touchPoints;
+        });
         activePointers = new Map();
     }
 
@@ -579,8 +595,17 @@ const Game = (function () {
             }
             const tmBtn = panel.querySelector('[data-action="touchmath"]');
             if (tmBtn) {
-                tmBtn.style.background = player.touchPoints ? '#38bdf8' : '';
-                tmBtn.title = player.touchPoints ? 'Noktalı Saymayı Kapat' : 'Noktalı Sayma (TouchMath)';
+                const cur = (!player.touchPoints || player.touchPoints === 'off') ? 'off' : player.touchPoints;
+                if (cur === 'bottom') {
+                    tmBtn.style.background = '#818cf8';
+                    tmBtn.title = 'TouchMath: Sadece Alttaki Sayı (Bir tıkla kapat)';
+                } else if (cur === 'on' || cur === 'all' || cur === true) {
+                    tmBtn.style.background = '#38bdf8';
+                    tmBtn.title = 'TouchMath: Tüm Rakamlar (Bir tıkla: Sadece Alttaki)';
+                } else {
+                    tmBtn.style.background = '';
+                    tmBtn.title = 'Noktalı Sayma (TouchMath)';
+                }
             }
             actionButtons.forEach(btn => {
                 btn.disabled = player.busy;
@@ -966,8 +991,9 @@ const Game = (function () {
         player.busy = false;
         player.strokes = [];
         player.tool = 'pen';
-        if (player.touchPoints === undefined || (player.touchPoints === false && questionConfig.touchPoints)) {
-            player.touchPoints = Boolean(questionConfig.touchPoints);
+        if (player.touchPoints === undefined) {
+            const qc = questionConfig.touchPoints;
+            player.touchPoints = (!qc || qc === 'off') ? false : qc;
         }
 
         const d = questionConfig.digits;
@@ -1480,7 +1506,14 @@ const Game = (function () {
     function toggleTouchMath(index) {
         const player = players[index];
         if (!player || player.busy) return;
-        player.touchPoints = !player.touchPoints;
+        const cur = (!player.touchPoints || player.touchPoints === 'off') ? 'off' : player.touchPoints;
+        if (cur === 'off') {
+            player.touchPoints = 'on';
+        } else if (cur === 'on' || cur === 'all' || cur === true) {
+            player.touchPoints = 'bottom';
+        } else {
+            player.touchPoints = false;
+        }
         updateHud();
         scene();
     }
