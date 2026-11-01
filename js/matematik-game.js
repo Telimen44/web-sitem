@@ -286,7 +286,7 @@ function describeQuestionConfig(questionConfig) {
             desc += ' (Eldeli)';
         }
     }
-    if (questionConfig.touchPoints && questionConfig.touchPoints !== 'off') {
+    if (questionConfig.op === '+' && questionConfig.touchPoints && questionConfig.touchPoints !== 'off') {
         desc += (questionConfig.touchPoints === 'bottom' || questionConfig.touchPoints === 'smaller') ? ' • TouchMath (Küçük Sayı)' : ' • TouchMath';
     }
     return desc;
@@ -433,10 +433,14 @@ const Game = (function () {
     }
 
     function getQuestionConfig(index) {
+        let current = cfg;
         if (getActivePlayerCount() === 2 && cfg.playerConfigs && cfg.playerConfigs[index]) {
-            return cfg.playerConfigs[index];
+            current = cfg.playerConfigs[index];
         }
-        return cfg;
+        if (current && current.op !== '+') {
+            return { ...current, touchPoints: false };
+        }
+        return current;
     }
 
     function getPlayerPanel(index) {
@@ -459,7 +463,7 @@ const Game = (function () {
         players = [createPlayer(0), createPlayer(1)];
         players.forEach((p, idx) => {
             const qc = getQuestionConfig(idx);
-            p.touchPoints = (!qc.touchPoints || qc.touchPoints === 'off') ? false : qc.touchPoints;
+            p.touchPoints = (qc.op === '+' && qc.touchPoints && qc.touchPoints !== 'off') ? qc.touchPoints : false;
         });
         activePointers = new Map();
     }
@@ -786,8 +790,9 @@ const Game = (function () {
             ctx.restore();
         }
 
-        // Noktalı Sayma / TouchMath noktaları çizimi
-        const tpMode = player.touchPoints;
+        // Noktalı Sayma / TouchMath noktaları çizimi (Yalnızca Toplama)
+        const isAddition = questionConfig.op === '+';
+        const tpMode = isAddition ? player.touchPoints : false;
         const isAll = tpMode === true || tpMode === 'on' || tpMode === 'all';
         const isSmallerOnly = tpMode === 'bottom' || tpMode === 'smaller';
 
@@ -1007,7 +1012,9 @@ const Game = (function () {
         player.busy = false;
         player.strokes = [];
         player.tool = 'pen';
-        if (player.touchPoints === undefined) {
+        if (questionConfig.op !== '+') {
+            player.touchPoints = false;
+        } else if (player.touchPoints === undefined) {
             const qc = questionConfig.touchPoints;
             player.touchPoints = (!qc || qc === 'off') ? false : qc;
         }
