@@ -287,7 +287,7 @@ function describeQuestionConfig(questionConfig) {
         }
     }
     if (questionConfig.touchPoints && questionConfig.touchPoints !== 'off') {
-        desc += questionConfig.touchPoints === 'bottom' ? ' • TouchMath (Alttaki)' : ' • TouchMath';
+        desc += (questionConfig.touchPoints === 'bottom' || questionConfig.touchPoints === 'smaller') ? ' • TouchMath (Küçük Sayı)' : ' • TouchMath';
     }
     return desc;
 }
@@ -366,7 +366,7 @@ function applyQueryConfigFromUrl() {
         if (playerSubMode) config.playerConfigs[i].subMode = playerSubMode;
         if (playerAddMode) config.playerConfigs[i].addMode = playerAddMode;
         if (playerAddTable) config.playerConfigs[i].addTable = playerAddTable;
-        if (playerTouch) config.playerConfigs[i].touchPoints = (playerTouch === 'off' || playerTouch === '0' || playerTouch === 'false') ? false : (playerTouch === 'bottom' ? 'bottom' : 'on');
+        if (playerTouch) config.playerConfigs[i].touchPoints = (playerTouch === 'off' || playerTouch === '0' || playerTouch === 'false') ? false : (playerTouch === 'bottom' || playerTouch === 'smaller' ? 'bottom' : 'on');
         if (playerMulCarry) config.playerConfigs[i].mulCarry = playerMulCarry;
         if (playerMulTable) config.playerConfigs[i].mulTable = playerMulTable;
         if (playerMulMode) config.playerConfigs[i].mulMode = playerMulMode;
@@ -379,7 +379,7 @@ function applyQueryConfigFromUrl() {
     const addTable = params.get('addTable');
     if (addTable) config.addTable = addTable;
     const touchParam = params.get('touchPoints');
-    if (touchParam) config.touchPoints = (touchParam === 'off' || touchParam === '0' || touchParam === 'false') ? false : (touchParam === 'bottom' ? 'bottom' : 'on');
+    if (touchParam) config.touchPoints = (touchParam === 'off' || touchParam === '0' || touchParam === 'false') ? false : (touchParam === 'bottom' || touchParam === 'smaller' ? 'bottom' : 'on');
     const mulCarry = params.get('mulCarry');
     const mulTable = params.get('mulTable');
     const mulMode = params.get('mulMode');
@@ -596,12 +596,12 @@ const Game = (function () {
             const tmBtn = panel.querySelector('[data-action="touchmath"]');
             if (tmBtn) {
                 const cur = (!player.touchPoints || player.touchPoints === 'off') ? 'off' : player.touchPoints;
-                if (cur === 'bottom') {
+                if (cur === 'bottom' || cur === 'smaller') {
                     tmBtn.style.background = '#818cf8';
-                    tmBtn.title = 'TouchMath: Sadece Alttaki Sayı (Bir tıkla kapat)';
+                    tmBtn.title = 'TouchMath: Küçük Sayı (Bir tıkla kapat)';
                 } else if (cur === 'on' || cur === 'all' || cur === true) {
                     tmBtn.style.background = '#38bdf8';
-                    tmBtn.title = 'TouchMath: Tüm Rakamlar (Bir tıkla: Sadece Alttaki)';
+                    tmBtn.title = 'TouchMath: Tüm Rakamlar (Bir tıkla: Küçük Sayı)';
                 } else {
                     tmBtn.style.background = '';
                     tmBtn.title = 'Noktalı Sayma (TouchMath)';
@@ -788,8 +788,24 @@ const Game = (function () {
 
         // Noktalı Sayma / TouchMath noktaları çizimi
         const tpMode = player.touchPoints;
-        const showTop = tpMode === true || tpMode === 'on' || tpMode === 'all';
-        const showBottom = tpMode === true || tpMode === 'on' || tpMode === 'all' || tpMode === 'bottom';
+        const isAll = tpMode === true || tpMode === 'on' || tpMode === 'all';
+        const isSmallerOnly = tpMode === 'bottom' || tpMode === 'smaller';
+
+        let showTop = isAll;
+        let showBottom = isAll;
+
+        if (isSmallerOnly) {
+            if (player.num1 < player.num2) {
+                showTop = true;
+                showBottom = false;
+            } else if (player.num2 < player.num1) {
+                showTop = false;
+                showBottom = true;
+            } else {
+                showTop = false;
+                showBottom = true;
+            }
+        }
 
         if (showTop) {
             for (let i = 0; i < s1.length; i++) {
