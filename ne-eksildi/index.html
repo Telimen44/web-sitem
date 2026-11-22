@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Nesnelere bak, kaybolan nesneyi bul. Üç seviyeli, sesli ve süre ayarlı görsel hafıza oyunu.">
+  <meta name="theme-color" content="#f6f3e9">
+  <title>Ne Eksildi? | Telimen Eğitim</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="game.css">
+  <script src="sound.js" defer></script>
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <header class="topbar shell">
+    <a class="back" id="back-site" href="../index.html"><span aria-hidden="true">←</span> Oyunlar</a>
+    <button class="back" id="back-game" type="button" hidden><span aria-hidden="true">←</span> Oyun girişi</button>
+    <div class="masthead" aria-hidden="true"><span class="brand-mark"></span> Telimen Eğitim</div>
+    <div class="utilities">
+      <button class="icon-button instruction-button" id="listen" type="button" aria-label="Sesli yönergeyi dinle">
+        <span class="speaker" aria-hidden="true"></span> Dinle
+      </button>
+      <button class="icon-button" id="mute" type="button" aria-label="Oyun sesi" aria-pressed="true" title="Oyun sesi">
+        <span class="speaker" aria-hidden="true"></span>
+      </button>
+      <button class="icon-button fullscreen-button" id="fullscreen" type="button" aria-label="Tam ekran" aria-pressed="false" title="Tam ekran (F)">
+        <span class="fullscreen-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="menu" class="welcome" aria-label="Oyun başlangıcı">
+      <div class="opening">
+        <div class="hero">
+          <div class="hero-copy">
+            <div class="bureau"><span aria-hidden="true"></span> Kayıp Eşya Bürosu</div>
+            <h1 id="menu-title" tabindex="-1">Ne<br>Eksildi?</h1>
+            <p>Nesnelere dikkatle bak.<br>Kaybolanı sen bul!</p>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="art-grid"></div>
+            <div class="photo photo-one"><img src="../assets/images/gor-ve-sec/defter.jpg" alt="" width="768" height="768"></div>
+            <div class="photo photo-two"><img src="../assets/images/gor-ve-sec/canta.jpg" alt="" width="768" height="768"></div>
+            <div class="photo photo-missing"><span>?</span></div>
+            <div class="photo photo-three"><img src="../assets/images/gor-ve-sec/elma.jpg" alt="" width="768" height="768"></div>
+          </div>
+        </div>
+
+        <div class="setup">
+          <fieldset class="levels">
+            <legend>Seviyeni seç</legend>
+            <label class="level">
+              <input type="radio" name="level" value="starter" checked>
+              <span class="level-bars bars-one" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span><strong>Başlangıç</strong><small>3 nesne · 9 saniye</small></span>
+              <span class="choice-dot" aria-hidden="true"></span>
+            </label>
+            <label class="level">
+              <input type="radio" name="level" value="steady">
+              <span class="level-bars bars-two" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span><strong>Orta</strong><small>4 nesne · 7 saniye</small></span>
+              <span class="choice-dot" aria-hidden="true"></span>
+            </label>
+            <label class="level">
+              <input type="radio" name="level" value="expert">
+              <span class="level-bars bars-three" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span><strong>Uzman</strong><small>6 nesne · 5 saniye</small></span>
+              <span class="choice-dot" aria-hidden="true"></span>
+            </label>
+          </fieldset>
+
+          <label class="pace">
+            <input id="untimed" type="checkbox" aria-describedby="pace-note">
+            <span class="switch" aria-hidden="true"></span>
+            <span><strong>Süresiz incele</strong><small id="pace-note">Hazır olduğunda nesneler kapanır.</small></span>
+          </label>
+          <div class="menu-actions">
+            <button class="quiet" id="practice" type="button">Deneme turu</button>
+            <button class="primary start" id="start" type="button">Oyuna başla <span aria-hidden="true">→</span></button>
+          </div>
+        </div>
+      </div>
+      <ol class="how-to" aria-label="Nasıl oynanır?">
+        <li><span aria-hidden="true">1</span><div><strong>Bak</strong><small>Nesneleri aklında tut.</small></div></li>
+        <li><span aria-hidden="true">2</span><div><strong>Hatırla</strong><small>Bir nesne kaybolacak.</small></div></li>
+        <li><span aria-hidden="true">3</span><div><strong>Bul</strong><small>Eksileni seçeneklerden seç.</small></div></li>
+      </ol>
+    </section>
+
+    <section id="game" class="game" hidden aria-labelledby="phase-title">
+      <div class="session-head">
+        <div>
+          <span class="eyebrow">Ne Eksildi?</span>
+          <div class="round-label" id="round-label"></div>
+        </div>
+        <div class="round-track" id="round-track" aria-hidden="true"></div>
+        <button class="quiet pause-button" id="pause" type="button"><span aria-hidden="true">Ⅱ</span> Duraklat</button>
+      </div>
+      <div class="board" id="board" data-phase="study">
+        <div class="board-head">
+          <div>
+            <p class="eyebrow theme-label" id="theme-label"></p>
+            <h2 id="phase-title" tabindex="-1"></h2>
+            <p id="instruction"></p>
+          </div>
+          <div class="timer" id="timer" hidden aria-hidden="true">
+            <span id="timer-text"></span>
+            <div class="timer-track"><div id="timer-fill"></div></div>
+          </div>
+        </div>
+        <div class="tray-wrap">
+          <div class="tray" id="tray" aria-label="Tepsideki nesneler"></div>
+          <div class="shutter" id="shutter" hidden>
+            <canvas id="shutter-pattern" width="0" height="0" aria-hidden="true"></canvas>
+            <span class="shutter-tag" aria-hidden="true">?</span>
+            <strong>Bir nesne kayboluyor…</strong>
+          </div>
+        </div>
+        <div class="answer-area">
+          <div id="answer-panel" class="answer-panel" hidden>
+            <h3 class="answer-heading" id="answer-label">Eksileni buradan seç</h3>
+            <div id="options" class="options" aria-labelledby="answer-label" role="group"></div>
+          </div>
+          <div class="board-footer">
+            <div id="hint-box" class="hint-box" hidden></div>
+            <p id="feedback" class="feedback" role="status" aria-atomic="true"></p>
+            <button class="quiet" id="hint" type="button" hidden>İpucu al</button>
+            <button class="quiet" id="show-answer" type="button" hidden>Cevabı göster</button>
+            <button class="primary" id="continue" type="button" hidden></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="results" hidden aria-labelledby="result-title">
+      <div class="result-emblem" aria-hidden="true">✓</div>
+      <p class="eyebrow" id="result-level"></p>
+      <h2 id="result-title" tabindex="-1">Dosya kapandı!</h2>
+      <p>Altı turu tamamladın. Şimdi nasıl ilerlediğine bakalım.</p>
+      <dl class="stats" id="stats"></dl>
+      <p class="result-tip" id="result-tip"></p>
+      <div class="result-actions">
+        <button class="quiet" id="levels" type="button">Seviye seç</button>
+        <button class="primary" id="replay" type="button">Yeniden oyna <span aria-hidden="true">↻</span></button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="pause-dialog" aria-labelledby="pause-title">
+    <h2 id="pause-title">Oyun duraklatıldı</h2>
+    <p>Hazır olduğunda kaldığın yerden devam edebilirsin.</p>
+    <div class="dialog-actions">
+      <button class="icon-button instruction-button" id="pause-listen" type="button" aria-label="Sesli yönergeyi dinle">
+        <span class="speaker" aria-hidden="true"></span> Dinle
+      </button>
+      <button class="quiet" id="end" type="button">Turu bırak</button>
+      <button class="primary" id="resume" type="button" autofocus>Devam et</button>
+    </div>
+  </dialog>
+</body>
+</html>
