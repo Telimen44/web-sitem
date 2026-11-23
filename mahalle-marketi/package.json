@@ -1,0 +1,20 @@
+{
+  "name": "mahalle-marketi",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.18.0" },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && node scripts/build.mjs",
+    "preview": "vite preview",
+    "test": "node --experimental-strip-types --test tests/rules.test.mjs",
+    "test:browser": "node tests/browser.mjs"
+  },
+  "devDependencies": {
+    "@fontsource/barlow": "5.3.0",
+    "playwright": "1.58.2",
+    "typescript": "5.9.3",
+    "vite": "7.3.8"
+  }
+}

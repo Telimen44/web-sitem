@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173e36">
+  <meta name="description" content="Mahalle Marketi – Paramı Sayıyorum! Telimen Eğitim'in Türkçe, etkileşimli alışveriş macerası.">
+  <link rel="icon" href="data:,">
+  <title>Mahalle Marketi – Paramı Sayıyorum! · Telimen Eğitim</title>
+</head>
+<body>
+  <main id="game" aria-label="Mahalle Marketi oyunu">
+    <header id="bar"></header>
+    <div id="cabinet">
+      <div id="stage">
+        <canvas id="world" width="800" height="320" aria-label="Oyunun piksel sanatı sahnesi" role="img"></canvas>
+        <div id="scene-ui"></div>
+      </div>
+      <section id="desk" aria-label="Oyun kontrolleri"></section>
+    </div>
+    <nav id="menu-links" aria-label="Menü seçenekleri"></nav>
+    <div id="notice" class="sr" role="status" aria-live="polite" aria-atomic="true"></div>
+    <dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+  </main>
+  <noscript>Oyunu oynamak için tarayıcınızda JavaScript'i etkinleştirin.</noscript>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
