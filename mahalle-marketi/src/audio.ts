@@ -1,5 +1,19 @@
 import type { Settings } from "./settings.ts";
 
+const recordings = import.meta.glob<string>("../art/voices/mother/*.mp3", {
+  eager: true, import: "default", query: "?url"
+});
+
+async function recordingBytes(url: string) {
+  if (url.startsWith("data:")) {
+    const encoded = url.slice(url.indexOf(",") + 1);
+    return Uint8Array.from(atob(encoded), character => character.charCodeAt(0)).buffer;
+  }
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("Voice clip unavailable");
+  return response.arrayBuffer();
+}
+
 const tracks: Record<string, { beat: number; root: number; notes: number[] }> = {
   menu: { beat: 290, root: 60, notes: [4,7,9,7,4,-1,2,4,0,4,7,-1,5,4,2,-1] },
   home: { beat: 370, root: 57, notes: [7,-1,4,2,0,-1,4,-1,5,4,2,-1,0,-1,-1,-1] },
@@ -27,6 +41,8 @@ export class Sound {
   utterance?: SpeechSynthesisUtterance;
   speechTimer?: number;
   speechGeneration = 0;
+  private samples = new Map<string, Promise<AudioBuffer>>();
+  private recordingSources: AudioBufferSourceNode[] = [];
   constructor(s: Settings) {
     this.settings = s;
     // Voice discovery is asynchronous on some tablets. Start it before the first dialogue.
@@ -94,9 +110,56 @@ export class Sound {
       try { window.speechSynthesis?.cancel(); } catch {}
       this.utterance = undefined;
     }
+    this.stopRecordings();
     this.talking = false;
   }
-  speak(text: string) {
+  private stopRecordings() {
+    for (const source of this.recordingSources) {
+      source.onended = null;
+      source.stop();
+      source.disconnect();
+    }
+    this.recordingSources = [];
+  }
+  private sample(context: AudioContext, clip: string) {
+    const cached = this.samples.get(clip);
+    if (cached) return cached;
+    const url = recordings[`../art/voices/mother/${clip}.mp3`];
+    if (!url) throw new Error(`Missing voice clip: ${clip}`);
+    const pending = recordingBytes(url).then(bytes => context.decodeAudioData(bytes)).catch(error => {
+      this.samples.delete(clip);
+      throw error;
+    });
+    this.samples.set(clip, pending);
+    return pending;
+  }
+  private async playRecordings(clips: readonly string[], generation: number, done: () => void) {
+    const context = this.ctx, output = this.master;
+    if (!context || !output) return;
+    try {
+      const buffers = await Promise.all(clips.map(clip => this.sample(context, clip)));
+      if (generation !== this.speechGeneration || context.state !== "running") return;
+      let at = context.currentTime + 0.015;
+      for (const [index, buffer] of buffers.entries()) {
+        const source = context.createBufferSource();
+        source.buffer = buffer;
+        source.connect(output);
+        source.start(at);
+        this.recordingSources.push(source);
+        at += buffer.duration + (clips[index] === "home" ? 0.19 : 0.07);
+      }
+      this.talking = true;
+      window.clearTimeout(this.speechTimer);
+      this.recordingSources.at(-1)!.onended = () => {
+        for (const source of this.recordingSources) source.disconnect();
+        this.recordingSources = [];
+        done();
+      };
+    } catch {
+      if (generation === this.speechGeneration) this.stopRecordings();
+    }
+  }
+  speak(text: string, clips?: readonly string[]) {
     this.stopVoice();
     if (this.paused || document.hidden || !text) return;
     const gen = this.speechGeneration;
@@ -104,7 +167,12 @@ export class Sound {
     const stop = () => { if (gen === this.speechGeneration) { this.talking = false; this.utterance = undefined; } };
     const fallback = Math.min(6500, Math.max(1200, text.length * 57));
     this.speechTimer = window.setTimeout(stop, fallback);
-    if (!this.settings.voice || this.settings.muted || !this.settings.volume || !("speechSynthesis" in window)) return;
+    if (!this.settings.voice || this.settings.muted || !this.settings.volume) return;
+    if (clips) {
+      void this.playRecordings(clips, gen, stop);
+      return;
+    }
+    if (!("speechSynthesis" in window)) return;
     try {
       const tr = speechSynthesis.getVoices().filter(v => /^tr(?:[-_]|$)/i.test(v.lang));
       const voice = tr.find(v => v.localService) || tr[0];

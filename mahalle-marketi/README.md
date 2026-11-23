@@ -38,7 +38,7 @@ Kullanılabilir ürün, adet, tutar ve kupürlerle çözülebilen bir görev bul
 
 Oyun altı özgün sahne müziğini ve kısa efektleri Web Audio ile üretir. Müzik ilk etkileşimle açılır. Konuşmalar sırasında ses seviyesi azalır. Duraklatıldığında veya sekme arka plana geçtiğinde müzik durur.
 
-Seslendirme cihazdaki Türkçe konuşma sentezini kullanır. Kullanılabilir Türkçe ses bulunmadığında konuşma balonları ve kısa ağız animasyonu akışı sürdürür. Ses kapalı olarak tüm oyun tamamlanabilir.
+Annenin replikleri ve ürün listesi, Türkçe kadın sesi Emel ile hazırlanmış kayıtlardan oynatılır. Kayıtlar tek HTML dosyasına dahildir ve çevrimdışı çalışır. Kasiyer ve sesli ipuçları cihazdaki Türkçe konuşma sentezini kullanır. Konuşma balonları ve kısa ağız animasyonu sesi destekler. Oyun sessiz de tamamlanabilir. [Microsoft Türkçe sesleri](https://learn.microsoft.com/tr-tr/azure/ai-services/speech-service/language-support#text-to-speech)
 
 Ayarlar ve karakter görünümü tarayıcının yerel depolamasında, tamamlanan görev sayısı, sonuçlar ve çıkartmalar aynı sekmenin oturum depolamasında tutulur. Çocuk adı istenmez. Oyun analiz veya öğrenci kaydı gönderen bir servis kullanmaz. Depolama kapalıysa açık sayfada oynamak mümkündür. Yeni bir sekme veya başka bir tarayıcı ayrı bir oturum açabilir.
 

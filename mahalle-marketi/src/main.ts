@@ -11,6 +11,7 @@ import { bar, desk, dialogue, listHTML, menu, stage, stageNames, type ViewState 
 import { btn } from "./ui.ts";
 import { World } from "./world.ts";
 import { fitEmbed } from "./embed.ts";
+import { motherDialogue } from "./mother-dialogue.ts";
 
 const el = <T extends HTMLElement = HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
 const root=el("#game"), toolbar=el("#bar"), overlay=el("#scene-ui"), controls=el("#desk"), links=el("#menu-links");
@@ -27,6 +28,9 @@ const active=()=>game?.s || settings;
 const musicFor=()=>!game?"menu":({home:"home",gift:"home",exit:"home",out:"street",shop:"shop",approach:"shop",scan:"till",
   pay:"till",change:"till",review:"till",bag:"shop",return:"street",deliver:"home",praise:"win",win:"win"}[game.phase]);
 function announce(text: string) { status.textContent=text; }
+function speakDialogue(g: Game, text=dialogue(g)) {
+  sound.speak(text,motherDialogue(g.phase,g.q.lines)?.clips);
+}
 function applyAppearance() {
   const s=active(); world.reduced=s.reduced||reducedQuery.matches;
   root.classList.toggle("reduced",world.reduced); root.classList.toggle("big-text",s.largeText);
@@ -72,7 +76,7 @@ function enter(feedback="") {
   if (!world.reduced && canvas.animate) canvas.animate([{opacity:.72},{opacity:1}],{duration:220,easing:"steps(5,end)"});
   const words=dialogue(game);
   announce([stageNames[game.phase],feedback,words].filter(Boolean).join(". "));
-  if (words) sound.speak(words);
+  if (words) speakDialogue(game,words);
 }
 function start() {
   try {
@@ -248,7 +252,7 @@ function action(act: string, id: string, target: HTMLElement) {
   if (!game) return;
   const g=game;
   if (act==="next") advance();
-  if (act==="replay") sound.speak(dialogue(g));
+  if (act==="replay") speakDialogue(g);
   if (act==="pin-list") { v.listOpen=!v.listOpen;render(); }
   if (act==="hint") tickHint();
   if (act==="item") {

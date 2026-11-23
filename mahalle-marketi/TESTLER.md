@@ -32,7 +32,8 @@ Bu yedi oynanışta öğretmen ayarları ekrandan kaydedildi ve sayfa yenilendik
 - 320 px genişlikte öğretmen paneli ve market, 740 × 360 yatay görünüm, tam ekran geçişi ve temel klavye işlemleri.
 - Azaltılmış hareket, yalnız dokunma, sade görünüm, üç basamaklı ipucu ve sessiz tam oynanış.
 - Web Audio'nun ses üretmeye başlaması, duraklatma ve sekme görünürlüğü olaylarında sesin durması ve geri dönmesi.
-- Türkçe ses bulunmayan ortam ve yazıyla zamanlanan ağız hareketi. Konuşma başlangıç, bitiş, gecikmiş bitiş ve hata olayları kontrollü bir konuşma sentezi ile ayrıca sınandı.
+- Türkçe ses bulunmayan ortam ve yazıyla zamanlanan ağız hareketi. Kasiyerin konuşma başlangıç, bitiş, gecikmiş bitiş ve hata olayları kontrollü bir konuşma sentezi ile ayrıca sınandı.
+- Chromium ve Firefox’ta cihazın tek Türkçe sesi erkek olarak tanımlıyken ve ağ kapalıyken anne, kayıtlı kadın sesiyle ürün listesini ve üç diğer repliğini okudu. Yeniden dinleme ve sessize alma da sınandı. Windows’taki Playwright WebKit derlemesi Web Audio sağlamadığı için bu ortamda yazılı replik ve sessiz çalışma doğrulandı.
 - Tarayıcı depolamaya izin vermediğinde ayarların açık sayfada uygulanması ve oyunun devam etmesi.
 - Üç tarayıcı motorunda doğrudan yerel HTML açılışı ve farklı kökenden gelen bir iframe'in yükseklik mesajıyla boyutlanması.
 

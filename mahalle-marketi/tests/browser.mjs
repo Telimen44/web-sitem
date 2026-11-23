@@ -3,7 +3,7 @@ import { createServer } from "node:http";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { chromium, firefox, webkit } from "playwright";
-import { platformChecks } from "./platform.mjs";
+import { motherVoiceChecks, platformChecks } from "./platform.mjs";
 
 const dist = new URL("../dist/index.html", import.meta.url);
 const html = await readFile(dist);
@@ -229,6 +229,7 @@ try {
     const browser=await engines[name].launch();
     try {
       await standalone(browser,name);
+      if(!process.env.GAME_CASE)await motherVoiceChecks(browser,dist.href);
       if(name==="chromium" && !process.env.GAME_CASE)await platformChecks(browser,base);
       const cases=[{label:name==="firefox"?"para-ustu-35":"tam-para",viewport:{width:1366,height:768},fixed:true,
         offline:name==="chromium",payment:name==="firefox"?"change":"exact"}];

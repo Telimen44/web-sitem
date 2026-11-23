@@ -1,6 +1,7 @@
 import { icon, titleURL, portraitURL, berryURL, noteArt } from "./art.ts";
-import { LEVELS, PRODUCT, lira, spokenProduct } from "./catalog.ts";
+import { LEVELS, PRODUCT, lira } from "./catalog.ts";
 import { countOf, type Game, type Phase } from "./game.ts";
+import { isMotherPhase, motherDialogue } from "./mother-dialogue.ts";
 import { amount, displayStacks } from "./money.ts";
 import type { Settings } from "./settings.ts";
 import { btn, iconButton, itemButton, mini, noteButton } from "./ui.ts";
@@ -13,19 +14,15 @@ export const stageNames: Record<Phase,string> = {
   return:"Eve doğru",deliver:"Evin mutfağı",praise:"Evde",win:"Görev tamamlandı"
 };
 export function dialogue(g: Game) {
-  const names=g.q.lines.map(l=>spokenProduct(l.id,l.qty));
-  const list=names.length<2?names[0]:names.slice(0,-1).join(", ")+" ve "+names.at(-1);
+  const mother=motherDialogue(g.phase,g.q.lines);
+  if (mother) return mother.text;
   switch (g.phase) {
-    case "home": return `Canım, marketten ${list} alır mısın?`;
-    case "gift": return "Al bakalım, alışveriş için paran burada!";
     case "shop": return "Listendeki ürünü bul. Önce ürüne, sonra sepete dokun.";
     case "scan": return "Hoş geldin! Ürünlerini tek tek kasaya koyabilirsin.";
     case "pay": return `Toplam ${lira(g.q.total)} tuttu. Ödeme yapabilir misin?`;
     case "change": return "Sana ne kadar para üstü vermeliyim?";
     case "review": return "İşte para üstün. Birlikte kontrol edelim mi?";
     case "bag": return "Alışverişini tamamladın. Şimdi ürünlerini poşete koyabilirsin!";
-    case "deliver": return "Hoş geldin canım! Alışverişi yaptın mı?";
-    case "praise": return "Harikasın! İstediğim her şeyi almışsın. Paranı da çok güzel kullandın. Seninle gurur duyuyorum!";
     default: return "";
   }
 }
@@ -53,7 +50,7 @@ function hintClass(g: Game, id: string, v: ViewState) {
   return g.hintStep>=2 && id===v.hintKey ? `hint-object ${g.hintStep>=3?"demonstrate":""}` : "";
 }
 function bubble(g: Game) {
-  const mother=["home","gift","deliver","praise"].includes(g.phase);
+  const mother=isMotherPhase(g.phase);
   const items=g.phase==="home"?`<div class="ask-list">${g.q.lines.map(l=>mini(l.id,` ×${l.qty}`)).join("")}</div>`:"";
   return `<div class="bubble ${mother?"":"cashier-bubble"}"><div class="speaker"><b>${mother?"Anne":"Kasiyer"}</b>${iconButton("replay","Konuşmayı yeniden dinle","sound")}</div><p>${dialogue(g)}</p>${items}</div>`;
 }
