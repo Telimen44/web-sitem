@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Codex Cloud Testi</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: system-ui, sans-serif;
+      background: #101222;
+      color: #f7f6ff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      display: grid;
+      min-height: 100vh;
+      min-height: 100svh;
+      margin: 0;
+      padding: clamp(16px, 5vw, 48px);
+      place-items: center;
+      background: radial-gradient(ellipse at 50% 10%, #2c2453, transparent 68%);
+    }
+
+    main {
+      --accent: #c9b8ff;
+      --panel-glow: #30274d;
+      width: min(100%, 44rem);
+      padding: clamp(24px, 7vw, 72px);
+      border: 1px solid #70668a;
+      border-radius: 28px;
+      background: linear-gradient(155deg, var(--panel-glow), #17192a 70%);
+      box-shadow: 0 24px 80px #09091280;
+      transition: border-color 180ms ease;
+    }
+
+    main[data-theme="mint"] {
+      --accent: #84efd0;
+      --panel-glow: #193f3f;
+      border-color: #4d867e;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 64px;
+      height: 64px;
+      border: 1px solid currentColor;
+      border-radius: 20px;
+      color: var(--accent);
+      font-size: 2rem;
+    }
+
+    h1 {
+      margin: 28px 0 16px;
+      max-width: 15ch;
+      font-size: clamp(1.85rem, 6vw, 3.75rem);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+    }
+
+    p {
+      margin: 0 0 28px;
+      color: #ded9ee;
+      line-height: 1.6;
+    }
+
+    button {
+      min-height: 48px;
+      padding: 12px 24px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #151528;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 180ms ease;
+    }
+
+    button:hover { filter: brightness(1.08); }
+    button:focus-visible { outline: 3px solid white; outline-offset: 5px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      main, button { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <main data-theme="lavender">
+    <span class="mark" aria-hidden="true">✓</span>
+    <h1>Codex Cloud başarıyla çalışıyor!</h1>
+    <p>Etkileşimi denemek için düğmeye dokunun.</p>
+    <button type="button" aria-pressed="false">Rengi değiştir</button>
+  </main>
+  <script>
+    const panel = document.querySelector("main");
+    const button = panel.querySelector("button");
+    const mark = panel.querySelector(".mark");
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    let pulse;
+
+    button.addEventListener("click", () => {
+      const mint = panel.dataset.theme !== "mint";
+      panel.dataset.theme = mint ? "mint" : "lavender";
+      button.setAttribute("aria-pressed", String(mint));
+
+      pulse?.cancel();
+      if (!reducedMotion.matches) {
+        pulse = mark.animate(
+          [{ transform: "scale(1)" }, { transform: "scale(1.15)" }, { transform: "scale(1)" }],
+          { duration: 320, easing: "ease-out" }
+        );
+      }
+    });
+  </script>
+</body>
+</html>
